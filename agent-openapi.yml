@@ -1,0 +1,138 @@
+openapi: 3.0.1
+info:
+  title: Agent API
+  description: API for interacting with Agent
+  version: 'v1'
+
+paths:
+  /state:
+    get:
+      summary: Get the state of the agent.
+      operationId: getAgentState
+      responses:
+        200:
+          description: Successfuly retrieved the state of the agent.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentState'
+        default:
+          description: Internal Server Error
+    put:
+      summary: Synchronously set the state of the agent.
+      operationId: setAgentState
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentState'
+      responses:
+        204:
+          description: The update was successful
+        default:
+          description: Internal Server Error
+
+# Maybe could be a "jobs", "tasks" instead of "actions"?
+  /actions:
+    post:
+      summary: Creates a new action for the agent to execute.
+      tags: [actions]
+      operationId: createAgentAction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentAction'
+      responses:
+        204:
+          description: The update was successful
+        default:
+          description: Internal Server Error
+    get:
+      summary: List all actions that have been created for the agent.
+      tags: [actions]
+      operationId: listAgentActions
+      responses:
+        200:
+          description: Successfuly listed agent actions
+          content:
+            application/json:
+              schema:
+                type: array
+                description: List of actions IDs
+                items:
+                  type: string
+                  description: Action ID
+        default:
+          description: Internal Server Error
+
+  /actions/{action_id}:
+    get:
+      summary: Get information about a specific action.
+      tags: [actions]
+      operationId: getAgentAction
+      responses:
+        200:
+          description: The update was successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentActionInfo'
+        default:
+          description: Internal Server Error
+
+components:
+  schemas:
+    AgentState:
+      type: object
+      description:
+        Variant wrapper containing the state.
+      required:
+        - state_type
+      properties:
+        state_type:
+          description: Enumeration indicating what state is contained in the payload
+          type: string
+          enum:
+            - AgentStart
+            - AgentStop
+
+    AgentAction:
+      type: object
+      description:
+        Variant wrapper containing the real action.
+      properties:
+        action_id:
+          description: The ID of the action you want to react to (optional)
+          type: string
+        type:
+          description: Type of the action you want to create
+          type: string 
+        input:
+          description: Input parameters for the action
+          type: object
+
+    AgentActionInfo:
+      allOf:
+        - $ref: '#/components/schemas/AgentAction'
+        - type: object
+          required:
+            - state
+          properties:
+            output:
+              description: Output of the action
+              type: object
+            deliverables:
+              description: List of deliverables that the action has produced
+              type: object
+            state:
+              description: The current state of the action
+              type: string
+              enum:
+                - Pending
+                - Running
+                - Completed
+                - Failed
+                - Cancelled
