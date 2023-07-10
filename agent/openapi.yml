@@ -73,6 +73,13 @@ paths:
       summary: Get information about a specific action.
       tags: [actions]
       operationId: getAgentAction
+      parameters:
+        - name: action_id
+          in: path
+          description: ID of the action
+          required: true
+          schema:
+            type: string
       responses:
         200:
           description: The update was successful
