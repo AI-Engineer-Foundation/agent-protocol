@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "e2b_agent"
+version = "0.0.1"
+description = "API for interacting with Agent"
+authors = ["e2b <hello@e2b.dev>"]
+license = "MIT"
+packages = [{ include = "e2b_agent" }]
+
+[tool.poetry.dependencies]
+python = ">=3.10,<4.0"
+uvicorn = {extras = ["standard"], version = "^0.22.0"}
+fastapi-code-generator = "^0.4.2"
+fastapi = "^0.100.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+src = "src.__main__:main"
+
+[project.urls]
+"Homepage" = "https://github.com/e2b/sdk"
+"Bug Tracker" = "https://github.com/e2b/sdk/issues"

@@ -12,15 +12,13 @@ const spec = path.join(__dirname, '../openapi.yml');
 
 app.use('/spec', express.static(spec));
 
-
 app.use(
   OpenApiValidator.middleware({
     apiSpec: '../openapi.yml',
     validateRequests: true, // (default)
     validateResponses: true, // false by default
     operationHandlers: {
-      resolver: (req, res) => {},
-      basePath
+      resolver
     }
   }),
 )

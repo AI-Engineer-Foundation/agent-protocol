@@ -9,6 +9,7 @@ paths:
     get:
       summary: Get the state of the agent.
       operationId: getAgentState
+      tags: [state]
       responses:
         200:
           description: Successfuly retrieved the state of the agent.
@@ -21,6 +22,7 @@ paths:
     put:
       summary: Synchronously set the state of the agent.
       operationId: setAgentState
+      tags: [state]
       requestBody:
         required: true
         content:
