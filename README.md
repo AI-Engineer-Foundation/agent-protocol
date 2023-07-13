@@ -6,7 +6,7 @@ The SDK is made of multiple separate packages
 - **Agent Communication Protocol**
   - An open interface that defines how to control an agent
 - **Debugging**
-  - Real-time agent debugging with time-stepping and reproducible environment
+  - Real-time agent debugging with time-stepping, share-able stacktraces, and reproducible environment for each agent run
 - **Testing & Evaluations**
   - More info soon
 - **Monitoring & Observability**
