@@ -1,5 +1,7 @@
-from e2b_agent import AgentServer
+from e2b_agent import Agent, AgentStep
 
-# AgentServer.handle_stop()
-# AgentServer.handle_start()
-# AgentServer.handle_action()
+async def task_step(task) -> AgentStep:
+  print("Handling step of task", task)
+  return AgentStep()
+
+Agent.handle_task_step(task_step).start()

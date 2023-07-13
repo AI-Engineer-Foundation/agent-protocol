@@ -1,20 +1,49 @@
-from typing import Callable
+import uvicorn
+
+from typing import Awaitable, Callable, List, Optional
+from pydantic import BaseModel
 
 from e2b_agent.server import app
+from e2b_agent.models import AgentTask, AgentStepResult, AgentStepOutput, AgentStepDeliverables
 
-class AgentServer:
+tasks: List[AgentTask] = []
+
+class AgentStep(BaseModel):
+  output: Optional[AgentStepOutput] = None
+  deliverables: Optional[AgentStepDeliverables] = None
+
+AgentStepHandler = Callable[[AgentTask], Awaitable[AgentStep]]
+
+class Agent:
     @staticmethod
-    def handle_action(handler: Callable):
-        app.add_api_route("/actions", handle_action, methods=["GET"])
+    def handle_task_step(handler: AgentStepHandler):
+        async def handler_wrapper(task_id: str) -> AgentStepResult:
+          task = next(filter(lambda t: t.task_id == task_id, tasks), None)
+          if not task:
+            raise Exception(f"Task with id {task_id} not found")
+          
+          result = await handler(task)
+          return AgentStepResult(
+             task_id=task_id,
+             input=task.input,
+             deliverables=result.deliverables,
+             output=result.output,
+          )
+
+        app.add_api_route(
+          "/tasks/{task_id}/step",
+          handler_wrapper,
+          methods=["POST"],
+          response_model=AgentStepResult,
+        )
+        return Agent
 
     @staticmethod
-    def handle_start():
-      app.add_api_route("/actions", handle_action, methods=["GET"])
-
-    @staticmethod
-    def handle_stop():
-      app.add_api_route("/actions", handle_action, methods=["GET"])
-
-    # @staticmethod
-    # def add_middleware():
-    #    pass
+    def start():
+      uvicorn.run("server:app", 
+                  host="0.0.0.0",
+                  port=8000,
+                  # reload=False,
+                  # debug=False,
+                  workers=1,
+              )
