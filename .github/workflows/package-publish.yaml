@@ -36,8 +36,7 @@ jobs:
       
       - name: Config Poetry
         run: |
-          poetry config repositories.test-pypi https://test.pypi.org/legacy/  # TODO: Remove this line when we are ready to publish to PyPI
-          poetry config pypi-token.test-pypi ${{ secrets.PYPI_TOKEN }}
+          poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
 
       - name: Publish Package
-        run: poetry publish --repository test-pypi  # TODO: Remove this line when we are ready to publish to PyPI
+        run: poetry publish
