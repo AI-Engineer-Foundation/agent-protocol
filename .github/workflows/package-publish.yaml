@@ -1,8 +1,8 @@
 name: Build and Publish Python SDK Package
 
 on:
-  release:
-    types: [published]
+  push:
+    tags: [v*]
 
 permissions:
   contents: read
