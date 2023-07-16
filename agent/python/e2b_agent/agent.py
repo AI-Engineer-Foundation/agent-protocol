@@ -11,14 +11,14 @@ from .models import (
     AgentTask,
     AgentStepResult,
     AgentStepOutput,
-    AgentStepDeliverables,
+    AgentStepArtifacts,
     AgentTaskRequestBody,
 )
 
 
 class AgentStep(BaseModel):
     output: Optional[AgentStepOutput] = None
-    deliverables: Optional[AgentStepDeliverables] = None
+    artifacts: Optional[AgentStepArtifacts] = None
 
 
 AgentStepHandler = Callable[[AgentTask], Awaitable[AgentStep]]
@@ -46,10 +46,26 @@ class Agent:
     @staticmethod
     def add_list_tasks_handler():
         async def handler():
-            return JSONResponse([t.dict() for t in Agent.tasks])
+            return JSONResponse([t.task_id for t in Agent.tasks])
 
         app.add_api_route(
             "/tasks",
+            handler,
+            methods=["GET"],
+            response_model=List[AgentTask],
+        )
+        return Agent
+
+    @staticmethod
+    def add_task_details_handler():
+        async def handler(task_id: str):
+            task = next(filter(lambda t: t.task_id == task_id, Agent.tasks), None)
+            if not task:
+                raise Exception(f"Task with id {task_id} not found")
+            return JSONResponse(content=task.dict())
+
+        app.add_api_route(
+            "/tasks/{task_id}",
             handler,
             methods=["GET"],
             response_model=List[AgentTask],
@@ -73,7 +89,7 @@ class Agent:
                 AgentStepResult(
                     task_id=task_id,
                     input=task.input,
-                    deliverables=result.deliverables,
+                    artifacts=result.artifacts,
                     output=result.output,
                 ).dict()
             )

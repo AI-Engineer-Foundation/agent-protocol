@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: Agent Communication Protocol
-  description: Specification of the API protocol for comm with an agent.
+  description: Specification of the API protocol for communication with an agent.
   version: 'v1'
 
 paths:
@@ -28,7 +28,7 @@ paths:
     get:
       summary: List all tasks that have been created for the agent.
       tags: [agent, tasks]
-      operationId: listAgentTasks
+      operationId: listAgentTasksIDs
       responses:
         200:
           description: Returned list of agent's task IDs.
@@ -42,10 +42,32 @@ paths:
         default:
           description: Internal Server Error
 
+  /agent/tasks/{task_id}:
+    get:
+      summary: Get details about a specified agent task.
+      tags: [agent, tasks]
+      operationId: getAgentTask
+      parameters:
+        - name: task_id
+          in: path
+          description: ID of the task
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Returned details about an agent task.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentTask'
+        default:
+          description: Internal Server Error
+
   /agent/tasks/{task_id}/step:
     post:
       summary: Execute a step in the specified agent task.
-      tags: [agent, tasks]
+      tags: [agent, tasks, step]
       operationId: executeAgentTaskStep
       parameters:
         - name: task_id
@@ -76,8 +98,8 @@ components:
       description: Input parameters for the task. This can be any JSON serializable object.
       type: object
 
-    AgentStepDeliverables:
-      description: Deliverables that the task has produced. This can be any JSON serializable object.
+    AgentStepArtifacts:
+      description: Artifacts that the task has produced. This can be any JSON serializable object.
       type: object
 
     AgentStepOutput:
@@ -116,5 +138,5 @@ components:
           properties:
             output:
               $ref: "#/components/schemas/AgentStepOutput"
-            deliverables:
-              $ref: "#/components/schemas/AgentStepDeliverables"
+            artifacts:
+              $ref: "#/components/schemas/AgentStepArtifacts"
