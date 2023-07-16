@@ -1,48 +1,52 @@
 openapi: 3.0.1
 info:
-  title: Agent API
-  description: API for interacting with Agent
+  title: Agent Communication Protocol
+  description: Specification of the API protocol for comm with an agent.
   version: 'v1'
 
 paths:
-  /tasks:
+  /agent/tasks:
     post:
       summary: Creates a new task for the agent to execute.
-      tags: [tasks]
+      tags: [agent, tasks]
       operationId: createAgentTask
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AgentTask'
+              $ref: '#/components/schemas/AgentTaskRequestBody'
       responses:
-        204:
-          description: The update was successful
+        200:
+          description: A new agent task was successfuly created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentTask'
         default:
           description: Internal Server Error
     get:
       summary: List all tasks that have been created for the agent.
-      tags: [tasks]
+      tags: [agent, tasks]
       operationId: listAgentTasks
       responses:
         200:
-          description: Successfuly listed agent tasks
+          description: Returned list of agent's task IDs.
           content:
             application/json:
               schema:
                 type: array
-                description: List of tasks IDs
+                description: A list of task IDs
                 items:
-                  $ref: '#/components/schemas/AgentTask'
+                  type: string
         default:
           description: Internal Server Error
 
-  /tasks/{task_id}/step:
+  /agent/tasks/{task_id}/step:
     post:
-      summary: Execute step in the specified task.
-      tags: [tasks]
-      operationId: postAgentTaskStep
+      summary: Execute a step in the specified agent task.
+      tags: [agent, tasks]
+      operationId: executeAgentTaskStep
       parameters:
         - name: task_id
           in: path
@@ -50,9 +54,15 @@ paths:
           required: true
           schema:
             type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentTaskRequestBody'
       responses:
         200:
-          description: The step was successful
+          description: Executed step for the agent task.
           content:
             application/json:
               schema:
@@ -66,6 +76,21 @@ components:
       description: Input parameters for the task. This can be any JSON serializable object.
       type: object
 
+    AgentStepDeliverables:
+      description: Deliverables that the task has produced. This can be any JSON serializable object.
+      type: object
+
+    AgentStepOutput:
+      description: Output of the task. This can be any JSON serializable object.
+      type: object
+
+    AgentTaskRequestBody:
+      type: object
+      description: Body of the task request.
+      properties:
+        input:
+          $ref: "#/components/schemas/AgentTaskInput"
+
     AgentTask:
       type: object
       description: Wrapper containing the task.
@@ -76,15 +101,15 @@ components:
         input:
           $ref: "#/components/schemas/AgentTaskInput"
 
-    AgentStepDeliverables:
-      description: Deliverables that the task has produced.
+    AgentStepRequestBody:
       type: object
-
-    AgentStepOutput:
-      description: Output of the task. This can be any JSON serializable object.
-      type: object
+      description: Body of the task request.
+      properties:
+        input:
+          $ref: "#/components/schemas/AgentTaskInput"
 
     AgentStepResult:
+      description: Wrapper containing the result of the step.
       allOf:
         - $ref: '#/components/schemas/AgentTask'
         - type: object

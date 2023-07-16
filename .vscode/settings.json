@@ -1,0 +1,81 @@
+{
+  "search.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "lib/**": true,
+    ".next/**": true,
+    "**/.next/**": true,
+    "**/.venv/**": true,
+    "**/.turbo/**": true,
+    "**/poetry.lock/**": true,
+    "**/__pycache__/**": true,
+    "**/.vercel/**": true,
+    ".vscode/**": true,
+    ".git/**": true,
+    "**/node_modules/**": true,
+    "**/package-lock.json": true,
+    "**/yarl.lock": true
+  },
+  "files.watcherExclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "lib/**": true,
+    "**/poetry.lock/**": true,
+    "**/.turbo/**": true,
+    "**/.vercel/**": true,
+    "**/.venv/**": true,
+    "**/__pycache__/**": true,
+    "**/.next/**": true,
+    ".next/**": true,
+    ".vscode/**": true,
+    ".git/**": true,
+    "**/node_modules/**": true,
+    "**/package-lock.json": true,
+    "**/yarl.lock": true
+  },
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "css.validate": false,
+  "tailwindCSS.validate": true,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "eslint.validate": [
+    "javascript",
+    "typescript"
+  ],
+  "debug.javascript.codelens.npmScripts": "never",
+  "editor.codeLens": true,
+  "editor.suggest.localityBonus": true,
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "python.formatting.provider": "black",
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
+  "python.autoComplete.extraPaths": [
+    "./**",
+    "./agent/python/**",
+    "./agent/python/.venv/bin/python",
+  ],
+  "python.defaultInterpreterPath": "./agent/python/.venv/bin/python",
+  "python.analysis.extraPaths": [
+    "./**",
+    "./agent/python/**",
+    "./agent/python/.venv/bin/python"
+  ],
+  // Disable Pylint and use just Pylance
+  "python.linting.enabled": false,
+  "python.analysis.typeCheckingMode": "basic",
+  // "python.analysis.pylanceLspClientEnabled": true,
+  // "python.analysis.inlayHints.functionReturnTypes": true,
+  // "python.analysis.inlayHints.pytestParameters": true,
+  // "python.analysis.inlayHints.variableTypes": true,
+  // "python.analysis.autoImportCompletions": true,
+  // "python.analysis.completeFunctionParens": true
+}

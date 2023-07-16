@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "ms-python.black-formatter",
+    "dbaeumer.vscode-eslint",
+    "ms-python.vscode-pylance",
+    "ms-python.python",
+    "bradlc.vscode-tailwindcss",
+  ]
+}

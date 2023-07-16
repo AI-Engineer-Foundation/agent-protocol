@@ -1,1 +1,1 @@
-from .agent import Agent, AgentStep, AgentStepDeliverables, AgentStepOutput
+from .agent import Agent, AgentStep, AgentStepDeliverables, AgentStepOutput, AgentTask
