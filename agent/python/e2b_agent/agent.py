@@ -9,34 +9,38 @@ from pydantic import BaseModel
 from .server import app
 from .models import (
     AgentTask,
-    AgentStepResult,
     AgentStepOutput,
-    AgentStepArtifacts,
     AgentTaskRequestBody,
+    AgentStep,
+    AgentStepInput,
+    AgentStepRequestBody,
+    AgentTaskArtifact,
+    AgentTaskInput,
 )
 
 
-class AgentStep(BaseModel):
+class AgentStepHandlerResult(BaseModel):
     output: Optional[AgentStepOutput] = None
-    artifacts: Optional[AgentStepArtifacts] = None
-
-
-AgentStepHandler = Callable[[AgentTask], Awaitable[AgentStep]]
+    artifacts: Optional[List[AgentTaskArtifact]] = None
 
 
 class Agent:
     tasks: List[AgentTask] = []
+    steps: List[AgentStep] = []
 
     @staticmethod
-    def add_create_task_handler():
-        async def handler(body: AgentTaskRequestBody):
-            task_id = str(uuid.uuid4())
-            task = AgentTask(task_id=task_id, input=body.input)
+    def _add_create_task_handler():
+        async def handler(body: AgentTaskRequestBody | None = None):
+            task = AgentTask(
+                task_id=str(uuid.uuid4()),
+                input=body.input if body else None,
+                artifacts=[],
+            )
             Agent.tasks.append(task)
             return JSONResponse(content=task.dict())
 
         app.add_api_route(
-            "/tasks",
+            "/agent/tasks",
             handler,
             methods=["POST"],
             response_class=JSONResponse,
@@ -44,12 +48,12 @@ class Agent:
         return Agent
 
     @staticmethod
-    def add_list_tasks_handler():
+    def _add_list_tasks_handler():
         async def handler():
             return JSONResponse([t.task_id for t in Agent.tasks])
 
         app.add_api_route(
-            "/tasks",
+            "/agent/tasks",
             handler,
             methods=["GET"],
             response_model=List[AgentTask],
@@ -57,7 +61,22 @@ class Agent:
         return Agent
 
     @staticmethod
-    def add_task_details_handler():
+    def _add_list_steps_handler():
+        async def handler(task_id: str):
+            return JSONResponse(
+                [t.step_id for t in Agent.steps if t.task_id == task_id]
+            )
+
+        app.add_api_route(
+            "/agent/tasks",
+            handler,
+            methods=["GET"],
+            response_model=List[AgentTask],
+        )
+        return Agent
+
+    @staticmethod
+    def _add_task_details_handler():
         async def handler(task_id: str):
             task = next(filter(lambda t: t.task_id == task_id, Agent.tasks), None)
             if not task:
@@ -65,7 +84,7 @@ class Agent:
             return JSONResponse(content=task.dict())
 
         app.add_api_route(
-            "/tasks/{task_id}",
+            "/agent/tasks/{task_id}",
             handler,
             methods=["GET"],
             response_model=List[AgentTask],
@@ -73,39 +92,72 @@ class Agent:
         return Agent
 
     @staticmethod
-    def handle_task_step(handler: AgentStepHandler):
+    def _add_step_details_handler():
+        async def handler(task_id: str, step_id: str):
+            task = next(
+                filter(
+                    lambda t: t.task_id == task_id and t.step_id == step_id,
+                    Agent.steps,
+                ),
+                None,
+            )
+            if not task:
+                raise Exception(f"Task with id {task_id} not found")
+            return JSONResponse(content=task.dict())
+
+        app.add_api_route(
+            "/agent/tasks/{task_id}",
+            handler,
+            methods=["GET"],
+            response_model=List[AgentTask],
+        )
+        return Agent
+
+    @staticmethod
+    def handle_task_step(
+        handler: Callable[
+            [AgentTaskInput | None, AgentStepInput | None],
+            Awaitable[AgentStepHandlerResult],
+        ]
+    ):
         async def handler_wrapper(
             task_id: str,
-            body: AgentTaskRequestBody = ...,
+            body: AgentStepRequestBody | None = None,
         ):
-            print("task ?")
             task = next(filter(lambda t: t.task_id == task_id, Agent.tasks), None)
             if not task:
                 raise Exception(f"Task with id {task_id} not found")
-            task.input = body.input
-            result = await handler(task)
+
+            result = await handler(task.input, body.input if body else None)
             print("result", result)
-            return JSONResponse(
-                AgentStepResult(
-                    task_id=task_id,
-                    input=task.input,
-                    artifacts=result.artifacts,
-                    output=result.output,
-                ).dict()
+
+            step = AgentStep(
+                task_id=task_id,
+                step_id=str(uuid.uuid4()),
+                **body.dict() if body else {},
+                output=result.output,
             )
 
+            task.artifacts.extend(result.artifacts or [])
+
+            Agent.steps.append(step)
+            return JSONResponse(content=step.dict())
+
         app.add_api_route(
-            "/tasks/{task_id}/step",
+            "/agent/tasks/{task_id}/step",
             handler_wrapper,
             methods=["POST"],
-            response_model=AgentStepResult,
+            response_model=JSONResponse,
         )
         return Agent
 
     @staticmethod
     def start():
-        Agent.add_create_task_handler()
-        Agent.add_list_tasks_handler()
+        Agent._add_create_task_handler()
+        Agent._add_list_tasks_handler()
+        Agent._add_task_details_handler()
+        Agent._add_step_details_handler()
+        Agent._add_list_steps_handler()
         uvicorn.run(
             "e2b_agent.server:app",
             host="0.0.0.0",

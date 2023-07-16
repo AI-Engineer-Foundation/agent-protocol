@@ -7,11 +7,10 @@ info:
 paths:
   /agent/tasks:
     post:
-      summary: Creates a new task for the agent to execute.
+      summary: Creates a task for the agent.
       tags: [agent, tasks]
       operationId: createAgentTask
       requestBody:
-        required: true
         content:
           application/json:
             schema:
@@ -64,10 +63,33 @@ paths:
         default:
           description: Internal Server Error
 
-  /agent/tasks/{task_id}/step:
+  /agent/tasks/{task_id}/steps:
+    get:
+      summary: List all steps for the specified task.
+      tags: [agent, tasks, steps]
+      operationId: listAgentTaskSteps
+      parameters:
+        - name: task_id
+          in: path
+          description: ID of the task
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Returned list of agent's step IDs for the specified task.
+          content:
+            application/json:
+              schema:
+                type: array
+                description: A list of step IDs for the task
+                items:
+                  type: string
+        default:
+          description: Internal Server Error
     post:
       summary: Execute a step in the specified agent task.
-      tags: [agent, tasks, step]
+      tags: [agent, tasks, steps]
       operationId: executeAgentTaskStep
       parameters:
         - name: task_id
@@ -77,18 +99,45 @@ paths:
           schema:
             type: string
       requestBody:
-        required: false
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AgentTaskRequestBody'
+              $ref: '#/components/schemas/AgentStepRequestBody'
       responses:
         200:
           description: Executed step for the agent task.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AgentStepResult'
+                $ref: '#/components/schemas/AgentStep'
+        default:
+          description: Internal Server Error
+
+  /agent/tasks/{task_id}/steps/{step_id}:
+    get:
+      summary: Get details about a specified task step.
+      tags: [agent, tasks, steps]
+      operationId: getAgentTaskStep
+      parameters:
+        - name: task_id
+          in: path
+          description: ID of the task
+          required: true
+          schema:
+            type: string
+        - name: step_id
+          in: path
+          description: ID of the step
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Returned details about an agent task step.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentStep'
         default:
           description: Internal Server Error
 
@@ -96,15 +145,15 @@ components:
   schemas:
     AgentTaskInput:
       description: Input parameters for the task. This can be any JSON serializable object.
-      type: object
 
-    AgentStepArtifacts:
-      description: Artifacts that the task has produced. This can be any JSON serializable object.
-      type: object
+    AgentTaskArtifact:
+      description: Artifact that the task has produced. This can be any JSON serializable object describing the artifact.
+
+    AgentStepInput:
+      description: Input parameters for the task step. This can be any JSON serializable object.
 
     AgentStepOutput:
-      description: Output of the task. This can be any JSON serializable object.
-      type: object
+      description: Output that the task step has produced. This can be any JSON serializable object.
 
     AgentTaskRequestBody:
       type: object
@@ -114,29 +163,43 @@ components:
           $ref: "#/components/schemas/AgentTaskInput"
 
     AgentTask:
-      type: object
-      description: Wrapper containing the task.
-      properties:
-        task_id:
-          description: The ID of the task.
-          type: string
-        input:
-          $ref: "#/components/schemas/AgentTaskInput"
+      allOf:
+        - $ref: "#/components/schemas/AgentTaskRequestBody"
+        - type: object
+          description: Definition of an agent task.
+          required:
+            - "task_id"
+            - "artifacts"
+          properties:
+            task_id:
+              description: The ID of the task.
+              type: string
+            artifacts:
+              type: array
+              description: A list of artifacts that the task has produced.
+              items:
+                $ref: "#/components/schemas/AgentTaskArtifact"
 
     AgentStepRequestBody:
       type: object
       description: Body of the task request.
       properties:
         input:
-          $ref: "#/components/schemas/AgentTaskInput"
+          $ref: "#/components/schemas/AgentStepInput"
 
-    AgentStepResult:
-      description: Wrapper containing the result of the step.
+    AgentStep:
       allOf:
-        - $ref: '#/components/schemas/AgentTask'
+        - $ref: "#/components/schemas/AgentStepRequestBody"
         - type: object
+          required:
+            - "step_id"
+            - "task_id"
           properties:
+            task_id:
+              description: The ID of the task this step belongs to.
+              type: string
+            step_id:
+              description: The ID of the task step.
+              type: string
             output:
-              $ref: "#/components/schemas/AgentStepOutput"
-            artifacts:
-              $ref: "#/components/schemas/AgentStepArtifacts"
+                $ref: "#/components/schemas/AgentStepOutput"
