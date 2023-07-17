@@ -68,7 +68,7 @@ class Agent:
             )
 
         app.add_api_route(
-            "/agent/tasks",
+            "/agent/tasks/{task_id}/steps",
             handler,
             methods=["GET"],
             response_model=List[AgentTask],
@@ -106,7 +106,7 @@ class Agent:
             return JSONResponse(content=task.dict())
 
         app.add_api_route(
-            "/agent/tasks/{task_id}",
+            "/agent/tasks/{task_id}/steps/{step_id}",
             handler,
             methods=["GET"],
             response_model=List[AgentTask],
@@ -123,8 +123,9 @@ class Agent:
         async def handler_wrapper(
             task_id: str,
             body: AgentStepRequestBody | None = None,
-        ):
+        ) -> JSONResponse:
             task = next(filter(lambda t: t.task_id == task_id, Agent.tasks), None)
+            print(task)
             if not task:
                 raise Exception(f"Task with id {task_id} not found")
 
@@ -144,10 +145,9 @@ class Agent:
             return JSONResponse(content=step.dict())
 
         app.add_api_route(
-            "/agent/tasks/{task_id}/step",
+            "/agent/tasks/{task_id}/steps",
             handler_wrapper,
             methods=["POST"],
-            response_model=JSONResponse,
         )
         return Agent
 
