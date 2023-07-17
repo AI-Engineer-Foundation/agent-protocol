@@ -59,19 +59,19 @@
     "editor.defaultFormatter": "ms-python.black-formatter"
   },
   "python.autoComplete.extraPaths": [
-    "./**",
-    "./agent/python/**",
-    "./agent/python/.venv/bin/python",
+    "agent/python/**",
+    "agent/python/.venv/bin/python",
+    "agent/python/.venv/bin",
   ],
-  "python.defaultInterpreterPath": "./agent/python/.venv/bin/python",
+  "python.defaultInterpreterPath": "agent/python/.venv/bin/python",
   "python.analysis.extraPaths": [
-    "./**",
-    "./agent/python/**",
-    "./agent/python/.venv/bin/python"
+    "agent/python/**",
+    "agent/python/.venv/bin/python",
+    "agent/python/.venv/bin",
   ],
   // Disable Pylint and use just Pylance
   "python.linting.enabled": false,
-  "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.typeCheckingMode": "basic"
   // "python.analysis.pylanceLspClientEnabled": true,
   // "python.analysis.inlayHints.functionReturnTypes": true,
   // "python.analysis.inlayHints.pytestParameters": true,
