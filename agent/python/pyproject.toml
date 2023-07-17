@@ -8,8 +8,8 @@ packages = [{ include = "e2b_agent" }]
 
 [tool.poetry.dependencies]
 python = ">=3.10,<4.0"
-uvicorn = {extras = ["standard"], version = "^0.22.0"}
 fastapi = "^0.100.0"
+hypercorn = {extras = ["trio"], version = "^0.14.4"}
 
 [tool.poetry.group.dev.dependencies]
 fastapi-code-generator = "^0.4.2"

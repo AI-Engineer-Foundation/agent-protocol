@@ -1,9 +1,14 @@
-import uvicorn
+import trio
 import uuid
 
+from hypercorn.trio import serve
+from hypercorn.config import Config
 from fastapi.responses import JSONResponse
 from typing import Awaitable, Callable, List, Optional
 from pydantic import BaseModel
+
+config = Config()
+config.bind = ["localhost:8000"]  # As an example configuration setting
 
 
 from .server import app
@@ -158,11 +163,4 @@ class Agent:
         Agent._add_task_details_handler()
         Agent._add_step_details_handler()
         Agent._add_list_steps_handler()
-        uvicorn.run(
-            "e2b_agent.server:app",
-            host="0.0.0.0",
-            port=8000,
-            # reload=False,
-            # debug=False,
-            workers=1,
-        )
+        trio.run(serve, app, config)
