@@ -12,3 +12,4 @@ venv/
 # Don't ignore .gitkeep files in the generated directory
 !/generated/.gitkeep
 .venv
+dist
