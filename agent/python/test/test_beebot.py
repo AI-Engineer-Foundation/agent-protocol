@@ -2,23 +2,20 @@ from beebot.body import Body
 
 from agent_protocol import (
     Agent,
-    AgentTaskInput,
-    AgentStepInput,
-    AgentStepResult,
-    AgentStepHandler,
-    Agent,
+    StepResult,
+    StepHandler,
 )
 
 
-async def task_handler(task: AgentTaskInput | None) -> AgentStepHandler:
-    print(f"task: {task}")
-    body = Body(initial_task=task)
+async def task_handler(task_input) -> StepHandler:
+    print(f"task: {task_input}")
+    body = Body(initial_task=task_input)
     body.setup()
 
-    async def step_handler(step: AgentStepInput | None):
-        print(f"step: {step}")
+    async def step_handler(step_input):
+        print(f"step: {step_input}")
         output = body.cycle()
-        return AgentStepResult(
+        return StepResult(
             output=output,
         )
 

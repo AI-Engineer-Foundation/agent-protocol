@@ -2,11 +2,8 @@ from smol_dev.prompts import plan, specify_file_paths, generate_code
 
 from agent_protocol import (
     Agent,
-    AgentTaskInput,
-    AgentStepInput,
-    AgentStepResult,
-    Agent,
-    AgentStepHandler,
+    StepResult,
+    StepHandler,
 )
 
 
@@ -22,15 +19,15 @@ async def smol(prompt: str):
         yield code
 
 
-async def task_handler(task: AgentTaskInput | None) -> AgentStepHandler:
-    if not task:
+async def task_handler(task_input) -> StepHandler:
+    if not task_input:
         raise Exception("No task prompt")
 
-    smol_developer_loop = smol(prompt=task)
+    smol_developer_loop = smol(prompt=task_input)
 
-    async def step_handler(step: AgentStepInput | None):
+    async def step_handler(step_input):
         result = await anext(smol_developer_loop)
-        return AgentStepResult(output=result)
+        return StepResult(output=result)
 
     return step_handler
 

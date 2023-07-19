@@ -5,7 +5,7 @@ from hypercorn.trio import serve
 from hypercorn.config import Config
 from typing import Awaitable, Callable, List, Optional, Tuple
 from .dependencies import *
-from .models import AgentStep, AgentTask, AgentTaskRequestBody
+from .models import Step, Task, TaskRequestBody
 
 config = Config()
 config.bind = ["localhost:8000"]  # As an example configuration setting
@@ -13,27 +13,35 @@ config.bind = ["localhost:8000"]  # As an example configuration setting
 
 from .server import app
 from .models import (
-    AgentTask,
-    AgentTaskRequestBody,
-    AgentStep,
-    AgentStepInput,
-    AgentStepRequestBody,
-    AgentTaskInput,
-    AgentStepResult,
+    Task,
+    TaskRequestBody,
+    Step,
+    StepInput,
+    StepRequestBody,
+    TaskInput,
+    StepResult,
+    StepOutput,
+    Artifact,
 )
 
 
-AgentStepHandler = Callable[[AgentStepInput | None], Awaitable[AgentStepResult]]
-AgentTaskHandler = Callable[[AgentTaskInput | None], Awaitable[AgentStepHandler]]
+StepHandler = Callable[[StepInput | None], Awaitable[StepResult]]
+TaskHandler = Callable[[TaskInput | None], Awaitable[StepHandler]]
 
-tasks: List[Tuple[AgentTask, AgentStepHandler]] = []
-steps: List[AgentStep] = []
+tasks: List[Tuple[Task, StepHandler]] = []
+steps: List[Step] = []
 
-task_handler: Optional[AgentTaskHandler]
+task_handler: Optional[TaskHandler]
 
 
-@app.post("/agent/tasks", response_model=AgentTask, tags=["agent", "tasks"])
-async def create_agent_task(body: AgentTaskRequestBody | None = None) -> AgentTask:
+class StepResultWithDefaults(StepResult):
+    output: StepOutput | None = None
+    artifacts: List[Artifact] = []
+    is_last: bool = False
+
+
+@app.post("/agent/tasks", response_model=Task, tags=["agent", "tasks"])
+async def create_agent_task(body: TaskRequestBody | None = None) -> Task:
     """
     Creates a task for the agent.
     """
@@ -41,7 +49,7 @@ async def create_agent_task(body: AgentTaskRequestBody | None = None) -> AgentTa
         raise Exception("Task handler not defined")
 
     step_handler = await task_handler(body.input if body else None)
-    task = AgentTask(
+    task = Task(
         task_id=str(uuid.uuid4()),
         input=body.input if body else None,
         artifacts=[],
@@ -58,8 +66,8 @@ async def list_agent_tasks_i_ds() -> List[str]:
     return [t[0].task_id for t in tasks]
 
 
-@app.get("/agent/tasks/{task_id}", response_model=AgentTask, tags=["agent", "tasks"])
-async def get_agent_task(task_id: str) -> AgentTask:
+@app.get("/agent/tasks/{task_id}", response_model=Task, tags=["agent", "tasks"])
+async def get_agent_task(task_id: str) -> Task:
     """
     Get details about a specified agent task.
     """
@@ -83,13 +91,13 @@ async def list_agent_task_steps(task_id: str) -> List[str]:
 
 @app.post(
     "/agent/tasks/{task_id}/steps",
-    response_model=AgentStep,
+    response_model=Step,
     tags=["agent", "tasks", "steps"],
 )
 async def execute_agent_task_step(
     task_id: str,
-    body: AgentStepRequestBody | None = None,
-) -> AgentStep:
+    body: StepRequestBody | None = None,
+) -> Step:
     """
     Execute a step in the specified agent task.
     """
@@ -100,27 +108,31 @@ async def execute_agent_task_step(
     handler = task[1]
     result = await handler(body.input if body else None)
 
-    step = AgentStep(
+    step = Step(
         task_id=task_id,
         step_id=str(uuid.uuid4()),
         input=body.input if body else None,
         output=result.output,
-        artifacts=result.artifacts or [],
+        artifacts=result.artifacts,
         is_last=result.is_last,
     )
 
-    task[0].artifacts.extend(result.artifacts or [])
-    steps.append(step)
+    if step.artifacts:
+        if task[0].artifacts is None:
+            task[0].artifacts = step.artifacts
+        else:
+            task[0].artifacts.extend(step.artifacts)
 
+    steps.append(step)
     return step
 
 
 @app.get(
     "/agent/tasks/{task_id}/steps/{step_id}",
-    response_model=AgentStep,
+    response_model=Step,
     tags=["agent", "tasks", "steps"],
 )
-async def get_agent_task_step(task_id: str, step_id: str = ...) -> AgentStep:
+async def get_agent_task_step(task_id: str, step_id: str = ...) -> Step:
     """
     Get details about a specified task step.
     """
@@ -138,9 +150,7 @@ async def get_agent_task_step(task_id: str, step_id: str = ...) -> AgentStep:
 
 class Agent:
     @staticmethod
-    def handle_task(
-        handler: Callable[[AgentTaskInput | None], Awaitable[AgentStepHandler]]
-    ):
+    def handle_task(handler: Callable[[TaskInput | None], Awaitable[StepHandler]]):
         global task_handler
         task_handler = handler
 

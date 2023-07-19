@@ -1,22 +1,17 @@
 from agent_protocol import (
     Agent,
-    AgentTaskInput,
-    AgentStepInput,
-    AgentStepResult,
-    Agent,
-    AgentStepHandler,
+    StepResult,
+    StepHandler,
 )
 
 
-async def task_handler(task: AgentTaskInput | None) -> AgentStepHandler:
-    print(f"task: {task}")
+async def task_handler(task_input) -> StepHandler:
+    print(f"task: {task_input}")
 
-    async def step_handler(step: AgentStepInput | None):
-        print(f"step: {step}")
-        # TODO: Handle "final" step - how to indicate the step was the last one?
-        return AgentStepResult(
-            output="",
-            artifacts=[],
+    async def step_handler(step_input) -> StepResult:
+        print(f"step: {step_input}")
+        return StepResult(
+            output=step_input,
         )
 
     return step_handler

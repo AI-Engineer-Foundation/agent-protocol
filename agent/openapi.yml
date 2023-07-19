@@ -14,14 +14,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AgentTaskRequestBody'
+              $ref: '#/components/schemas/TaskRequestBody'
       responses:
         200:
           description: A new agent task was successfuly created.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AgentTask'
+                $ref: '#/components/schemas/Task'
         default:
           description: Internal Server Error
     get:
@@ -60,7 +60,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AgentTask'
+                $ref: '#/components/schemas/Task'
         default:
           description: Internal Server Error
 
@@ -104,14 +104,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AgentStepRequestBody'
+              $ref: '#/components/schemas/StepRequestBody'
       responses:
         200:
           description: Executed step for the agent task.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AgentStep'
+                $ref: '#/components/schemas/Step'
         default:
           description: Internal Server Error
 
@@ -139,39 +139,38 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AgentStep'
+                $ref: '#/components/schemas/Step'
         default:
           description: Internal Server Error
 
 components:
   schemas:
-    AgentTaskInput:
+    TaskInput:
       description: Input parameters for the task. Any value is allowed.
 
-    AgentArtifact:
+    Artifact:
       description: Artifact that the task has produced. Any value is allowed.
 
-    AgentStepInput:
+    StepInput:
       description: Input parameters for the task step. Any value is allowed.
 
-    AgentStepOutput:
+    StepOutput:
       description: Output that the task step has produced. Any value is allowed.
 
-    AgentTaskRequestBody:
+    TaskRequestBody:
       type: object
       description: Body of the task request.
       properties:
-        input: 
-          $ref: "#/components/schemas/AgentTaskInput"
+        input:
+          $ref: "#/components/schemas/TaskInput"
 
-    AgentTask:
+    Task:
       allOf:
-        - $ref: "#/components/schemas/AgentTaskRequestBody"
+        - $ref: "#/components/schemas/TaskRequestBody"
         - type: object
           description: Definition of an agent task.
           required:
             - "task_id"
-            - "artifacts"
           properties:
             task_id:
               description: The ID of the task.
@@ -181,38 +180,38 @@ components:
               default: []
               description: A list of artifacts that the task has produced.
               items:
-                $ref: "#/components/schemas/AgentArtifact"
+                $ref: "#/components/schemas/Artifact"
 
-    AgentStepRequestBody:
+    StepRequestBody:
       type: object
       description: Body of the task request.
       properties:
         input:
-          $ref: "#/components/schemas/AgentStepInput"
+          $ref: "#/components/schemas/StepInput"
 
-    AgentStepResult:
+    StepResult:
       description: Result of the task step.
       type: object
       required:
         - "artifacts"
       properties:
         output:
-          $ref: "#/components/schemas/AgentStepOutput"
+          $ref: "#/components/schemas/StepOutput"
         artifacts:
           type: array
           default: []
           description: A list of artifacts that the step has produced.
           items:
-            $ref: "#/components/schemas/AgentArtifact"
+            $ref: "#/components/schemas/Artifact"
         is_last:
           description: Whether this is the last step in the task.
           type: boolean
           default: false
 
-    AgentStep:
+    Step:
       allOf:
-        - $ref: "#/components/schemas/AgentStepRequestBody"
-        - $ref: "#/components/schemas/AgentStepResult"
+        - $ref: "#/components/schemas/StepRequestBody"
+        - $ref: "#/components/schemas/StepResult"
         - type: object
           required:
             - "step_id"
