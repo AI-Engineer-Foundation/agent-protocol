@@ -7,9 +7,6 @@ from typing import Awaitable, Callable, List, Optional, Tuple, Any
 from .dependencies import *
 from .models import Step, Task, TaskRequestBody
 
-config = Config()
-config.bind = ["localhost:8000"]  # As an example configuration setting
-
 
 from .server import app
 from .models import (
@@ -156,5 +153,7 @@ class Agent:
         return Agent
 
     @staticmethod
-    def start():
+    def start(port: int = 8000):
+        config = Config()
+        config.bind = [f"localhost:{port}"]  # As an example configuration setting
         trio.run(serve, app, config)
