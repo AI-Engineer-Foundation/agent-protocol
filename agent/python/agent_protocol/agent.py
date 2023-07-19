@@ -103,8 +103,10 @@ async def execute_agent_task_step(
     step = AgentStep(
         task_id=task_id,
         step_id=str(uuid.uuid4()),
-        **body.dict() if body else {},
+        input=body.input if body else None,
         output=result.output,
+        artifacts=result.artifacts or [],
+        is_last=result.is_last,
     )
 
     task[0].artifacts.extend(result.artifacts or [])
