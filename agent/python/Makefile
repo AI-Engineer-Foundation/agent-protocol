@@ -1,5 +1,5 @@
 .PHONY: generate
 generate:
-	poetry run fastapi-codegen --generate-routers --input ../openapi.yml --output e2b_agent
-	mv e2b_agent/main.py e2b_agent/server.py
-	rm -rf e2b_agent/routers
+	poetry run fastapi-codegen --generate-routers --input ../openapi.yml --output agent_protocol
+	mv agent_protocol/main.py agent_protocol/server.py
+	rm -rf agent_protocol/routers

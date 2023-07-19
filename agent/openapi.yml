@@ -35,6 +35,7 @@ paths:
             application/json:
               schema:
                 type: array
+                default: []
                 description: A list of task IDs
                 items:
                   type: string
@@ -82,6 +83,7 @@ paths:
             application/json:
               schema:
                 type: array
+                default: []
                 description: A list of step IDs for the task
                 items:
                   type: string
@@ -144,22 +146,22 @@ paths:
 components:
   schemas:
     AgentTaskInput:
-      description: Input parameters for the task. This can be any JSON serializable object.
+      description: Input parameters for the task. Any value is allowed.
 
-    AgentTaskArtifact:
-      description: Artifact that the task has produced. This can be any JSON serializable object describing the artifact.
+    AgentArtifact:
+      description: Artifact that the task has produced. Any value is allowed.
 
     AgentStepInput:
-      description: Input parameters for the task step. This can be any JSON serializable object.
+      description: Input parameters for the task step. Any value is allowed.
 
     AgentStepOutput:
-      description: Output that the task step has produced. This can be any JSON serializable object.
+      description: Output that the task step has produced. Any value is allowed.
 
     AgentTaskRequestBody:
       type: object
       description: Body of the task request.
       properties:
-        input:
+        input: 
           $ref: "#/components/schemas/AgentTaskInput"
 
     AgentTask:
@@ -176,9 +178,10 @@ components:
               type: string
             artifacts:
               type: array
+              default: []
               description: A list of artifacts that the task has produced.
               items:
-                $ref: "#/components/schemas/AgentTaskArtifact"
+                $ref: "#/components/schemas/AgentArtifact"
 
     AgentStepRequestBody:
       type: object
@@ -187,9 +190,29 @@ components:
         input:
           $ref: "#/components/schemas/AgentStepInput"
 
+    AgentStepResult:
+      description: Result of the task step.
+      type: object
+      required:
+        - "artifacts"
+      properties:
+        output:
+          $ref: "#/components/schemas/AgentStepOutput"
+        artifacts:
+          type: array
+          default: []
+          description: A list of artifacts that the step has produced.
+          items:
+            $ref: "#/components/schemas/AgentArtifact"
+        is_last:
+          description: Whether this is the last step in the task.
+          type: boolean
+          default: false
+
     AgentStep:
       allOf:
         - $ref: "#/components/schemas/AgentStepRequestBody"
+        - $ref: "#/components/schemas/AgentStepResult"
         - type: object
           required:
             - "step_id"
@@ -201,5 +224,3 @@ components:
             step_id:
               description: The ID of the task step.
               type: string
-            output:
-                $ref: "#/components/schemas/AgentStepOutput"

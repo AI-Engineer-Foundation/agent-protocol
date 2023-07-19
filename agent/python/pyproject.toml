@@ -1,10 +1,10 @@
 [tool.poetry]
-name = "e2b-agent-protocol"
-version = "0.0.1"
+name = "agent-protocol"
+version = "0.0.2"
 description = "API for interacting with Agent"
 authors = ["e2b <hello@e2b.dev>"]
 license = "MIT"
-packages = [{ include = "e2b_agent" }]
+packages = [{ include = "agent_protocol" }]
 
 [tool.poetry.dependencies]
 python = ">=3.7, <4.0.0"

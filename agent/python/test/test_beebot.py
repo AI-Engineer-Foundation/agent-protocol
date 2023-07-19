@@ -1,22 +1,25 @@
+from beebot.body import Body
+
 from agent_protocol import (
     Agent,
     AgentTaskInput,
     AgentStepInput,
     AgentStepResult,
-    Agent,
     AgentStepHandler,
+    Agent,
 )
 
 
 async def task_handler(task: AgentTaskInput | None) -> AgentStepHandler:
     print(f"task: {task}")
+    body = Body(initial_task=task)
+    body.setup()
 
     async def step_handler(step: AgentStepInput | None):
         print(f"step: {step}")
-        # TODO: Handle "final" step - how to indicate the step was the last one?
+        output = body.cycle()
         return AgentStepResult(
-            output="",
-            artifacts=[],
+            output=output,
         )
 
     return step_handler
