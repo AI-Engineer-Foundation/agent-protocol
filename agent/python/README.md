@@ -69,3 +69,7 @@ To get response like this:
 ```json
 {"output":"output-from-the-agent","artifacts":[],"is_last":false,"input":null,"task_id":"94b36d67-7e3d-4031-80ac-cb0ac1c3c242","step_id":"8ff8ba39-2c3e-4246-8086-fbd2a897240b"}
 ```
+
+## Examples
+- [Smol Developer integration](./examples/smol_developer.py)
+- [Beebot integration](https://github.com/AutoPackAI/beebot/pull/3)
