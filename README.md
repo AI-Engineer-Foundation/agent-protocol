@@ -1,12 +1,15 @@
 # Official e2b SDK
 
-The e2b SDK is a set of libraries, tools, and services made to help developers debug, monitor, test, and deploy their AI Agents.
+The e2b SDK is a set of libraries, tools, and services made to help developers
+debug, monitor, test, and deploy their AI Agents.
 
 The SDK is made of multiple separate packages
+
 - **Agent Communication Protocol**
   - An open interface that defines how to control an agent
 - **Debugging**
-  - Real-time agent debugging with time-stepping, share-able stacktraces, and reproducible environment for each agent run
+  - Real-time agent debugging with time-stepping, share-able stacktraces, and
+    reproducible environment for each agent run
 - **Testing & Evaluations**
   - More info soon
 - **Monitoring & Observability**
