@@ -11,25 +11,25 @@ from pydantic import BaseModel, Field
 
 class TaskInput(BaseModel):
     __root__: Any = Field(
-        ..., description='Input parameters for the task. Any value is allowed.'
+        ..., description="Input parameters for the task. Any value is allowed."
     )
 
 
 class Artifact(BaseModel):
     __root__: Any = Field(
-        ..., description='Artifact that the task has produced. Any value is allowed.'
+        ..., description="Artifact that the task has produced. Any value is allowed."
     )
 
 
 class StepInput(BaseModel):
     __root__: Any = Field(
-        ..., description='Input parameters for the task step. Any value is allowed.'
+        ..., description="Input parameters for the task step. Any value is allowed."
     )
 
 
 class StepOutput(BaseModel):
     __root__: Any = Field(
-        ..., description='Output that the task step has produced. Any value is allowed.'
+        ..., description="Output that the task step has produced. Any value is allowed."
     )
 
 
@@ -38,26 +38,26 @@ class TaskRequestBody(BaseModel):
 
 
 class Task(TaskRequestBody):
-    task_id: str = Field(..., description='The ID of the task.')
+    task_id: str = Field(..., description="The ID of the task.")
     artifacts: Optional[List[Artifact]] = Field(
-        [], description='A list of artifacts that the task has produced.'
+        [], description="A list of artifacts that the task has produced."
     )
 
 
 class StepRequestBody(BaseModel):
-    input: Optional[StepInput] = None
+    input: Optional[StepInput]
 
 
 class StepResult(BaseModel):
-    output: Optional[StepOutput] = None
+    output: Optional[StepOutput]
     artifacts: Optional[List[Artifact]] = Field(
-        [], description='A list of artifacts that the step has produced.'
+        [], description="A list of artifacts that the step has produced."
     )
     is_last: Optional[bool] = Field(
-        False, description='Whether this is the last step in the task.'
+        False, description="Whether this is the last step in the task."
     )
 
 
 class Step(StepRequestBody, StepResult):
-    task_id: str = Field(..., description='The ID of the task this step belongs to.')
-    step_id: str = Field(..., description='The ID of the task step.')
+    task_id: str = Field(..., description="The ID of the task this step belongs to.")
+    step_id: str = Field(..., description="The ID of the task step.")

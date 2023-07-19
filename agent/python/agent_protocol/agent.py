@@ -3,7 +3,7 @@ import uuid
 
 from hypercorn.trio import serve
 from hypercorn.config import Config
-from typing import Awaitable, Callable, List, Optional, Tuple
+from typing import Awaitable, Callable, List, Optional, Tuple, Any
 from .dependencies import *
 from .models import Step, Task, TaskRequestBody
 
@@ -20,7 +20,6 @@ from .models import (
     StepRequestBody,
     TaskInput,
     StepResult,
-    StepOutput,
     Artifact,
 )
 
@@ -35,7 +34,7 @@ task_handler: Optional[TaskHandler]
 
 
 class StepResultWithDefaults(StepResult):
-    output: StepOutput | None = None
+    output: Any
     artifacts: List[Artifact] = []
     is_last: bool = False
 

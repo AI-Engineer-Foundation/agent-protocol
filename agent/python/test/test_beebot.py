@@ -1,4 +1,5 @@
 from beebot.body import Body
+from typing import Any
 
 from agent_protocol import (
     Agent,
@@ -15,9 +16,7 @@ async def task_handler(task_input) -> StepHandler:
     async def step_handler(step_input):
         print(f"step: {step_input}")
         output = body.cycle()
-        return StepResult(
-            output=output,
-        )
+        return StepResult(output=output)
 
     return step_handler
 
