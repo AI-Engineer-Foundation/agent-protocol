@@ -22,14 +22,13 @@ from typing import Any, Optional
 from pydantic import BaseModel, Field
 
 
-class AgentStepRequestBody(BaseModel):
+class StepRequestBody(BaseModel):
     """
     Body of the task request.
     """
 
     input: Optional[Any] = Field(
-        None,
-        description="Input parameters for the task step. This can be any JSON serializable object.",
+        None, description="Input parameters for the task step. Any value is allowed."
     )
     __properties = ["input"]
 
@@ -48,8 +47,8 @@ class AgentStepRequestBody(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> AgentStepRequestBody:
-        """Create an instance of AgentStepRequestBody from a JSON string"""
+    def from_json(cls, json_str: str) -> StepRequestBody:
+        """Create an instance of StepRequestBody from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -63,13 +62,13 @@ class AgentStepRequestBody(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> AgentStepRequestBody:
-        """Create an instance of AgentStepRequestBody from a dict"""
+    def from_dict(cls, obj: dict) -> StepRequestBody:
+        """Create an instance of StepRequestBody from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return AgentStepRequestBody.parse_obj(obj)
+            return StepRequestBody.parse_obj(obj)
 
-        _obj = AgentStepRequestBody.parse_obj({"input": obj.get("input")})
+        _obj = StepRequestBody.parse_obj({"input": obj.get("input")})
         return _obj

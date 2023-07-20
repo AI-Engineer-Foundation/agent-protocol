@@ -18,28 +18,26 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Optional
-from pydantic import BaseModel, Field, StrictStr
+from typing import Any, List, Optional
+from pydantic import BaseModel, Field, StrictBool, conlist
 
 
-class AgentStep(BaseModel):
+class StepResult(BaseModel):
     """
-    AgentStep
+    Result of the task step.
     """
 
-    input: Optional[Any] = Field(
-        None,
-        description="Input parameters for the task step. This can be any JSON serializable object.",
-    )
-    task_id: StrictStr = Field(
-        ..., description="The ID of the task this step belongs to."
-    )
-    step_id: StrictStr = Field(..., description="The ID of the task step.")
     output: Optional[Any] = Field(
         None,
-        description="Output that the task step has produced. This can be any JSON serializable object.",
+        description="Output that the task step has produced. Any value is allowed.",
     )
-    __properties = ["input", "task_id", "step_id", "output"]
+    artifacts: conlist(Any) = Field(
+        ..., description="A list of artifacts that the step has produced."
+    )
+    is_last: Optional[StrictBool] = Field(
+        False, description="Whether this is the last step in the task."
+    )
+    __properties = ["output", "artifacts", "is_last"]
 
     class Config:
         """Pydantic configuration"""
@@ -56,18 +54,13 @@ class AgentStep(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> AgentStep:
-        """Create an instance of AgentStep from a JSON string"""
+    def from_json(cls, json_str: str) -> StepResult:
+        """Create an instance of StepResult from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
         _dict = self.dict(by_alias=True, exclude={}, exclude_none=True)
-        # set to None if input (nullable) is None
-        # and __fields_set__ contains the field
-        if self.input is None and "input" in self.__fields_set__:
-            _dict["input"] = None
-
         # set to None if output (nullable) is None
         # and __fields_set__ contains the field
         if self.output is None and "output" in self.__fields_set__:
@@ -76,20 +69,21 @@ class AgentStep(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> AgentStep:
-        """Create an instance of AgentStep from a dict"""
+    def from_dict(cls, obj: dict) -> StepResult:
+        """Create an instance of StepResult from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return AgentStep.parse_obj(obj)
+            return StepResult.parse_obj(obj)
 
-        _obj = AgentStep.parse_obj(
+        _obj = StepResult.parse_obj(
             {
-                "input": obj.get("input"),
-                "task_id": obj.get("task_id"),
-                "step_id": obj.get("step_id"),
                 "output": obj.get("output"),
+                "artifacts": obj.get("artifacts"),
+                "is_last": obj.get("is_last")
+                if obj.get("is_last") is not None
+                else False,
             }
         )
         return _obj

@@ -19,23 +19,32 @@ import json
 
 
 from typing import Any, List, Optional
-from pydantic import BaseModel, Field, StrictStr, conlist
+from pydantic import BaseModel, Field, StrictBool, StrictStr, conlist
 
 
-class AgentTask(BaseModel):
+class Step(BaseModel):
     """
-    AgentTask
+    Step
     """
 
     input: Optional[Any] = Field(
+        None, description="Input parameters for the task step. Any value is allowed."
+    )
+    output: Optional[Any] = Field(
         None,
-        description="Input parameters for the task. This can be any JSON serializable object.",
+        description="Output that the task step has produced. Any value is allowed.",
     )
-    task_id: StrictStr = Field(..., description="The ID of the task.")
     artifacts: conlist(Any) = Field(
-        ..., description="A list of artifacts that the task has produced."
+        ..., description="A list of artifacts that the step has produced."
     )
-    __properties = ["input", "task_id", "artifacts"]
+    is_last: Optional[StrictBool] = Field(
+        False, description="Whether this is the last step in the task."
+    )
+    task_id: StrictStr = Field(
+        ..., description="The ID of the task this step belongs to."
+    )
+    step_id: StrictStr = Field(..., description="The ID of the task step.")
+    __properties = ["input", "output", "artifacts", "is_last", "task_id", "step_id"]
 
     class Config:
         """Pydantic configuration"""
@@ -52,8 +61,8 @@ class AgentTask(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> AgentTask:
-        """Create an instance of AgentTask from a JSON string"""
+    def from_json(cls, json_str: str) -> Step:
+        """Create an instance of Step from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -64,22 +73,32 @@ class AgentTask(BaseModel):
         if self.input is None and "input" in self.__fields_set__:
             _dict["input"] = None
 
+        # set to None if output (nullable) is None
+        # and __fields_set__ contains the field
+        if self.output is None and "output" in self.__fields_set__:
+            _dict["output"] = None
+
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> AgentTask:
-        """Create an instance of AgentTask from a dict"""
+    def from_dict(cls, obj: dict) -> Step:
+        """Create an instance of Step from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return AgentTask.parse_obj(obj)
+            return Step.parse_obj(obj)
 
-        _obj = AgentTask.parse_obj(
+        _obj = Step.parse_obj(
             {
                 "input": obj.get("input"),
-                "task_id": obj.get("task_id"),
+                "output": obj.get("output"),
                 "artifacts": obj.get("artifacts"),
+                "is_last": obj.get("is_last")
+                if obj.get("is_last") is not None
+                else False,
+                "task_id": obj.get("task_id"),
+                "step_id": obj.get("step_id"),
             }
         )
         return _obj

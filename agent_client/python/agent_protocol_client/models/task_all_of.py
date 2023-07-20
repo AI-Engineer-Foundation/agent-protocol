@@ -18,20 +18,20 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Optional
-from pydantic import BaseModel, Field
+from typing import Any, List, Optional
+from pydantic import BaseModel, Field, StrictStr, conlist
 
 
-class AgentTaskRequestBody(BaseModel):
+class TaskAllOf(BaseModel):
     """
-    Body of the task request.
+    Definition of an agent task.
     """
 
-    input: Optional[Any] = Field(
-        None,
-        description="Input parameters for the task. This can be any JSON serializable object.",
+    task_id: StrictStr = Field(..., description="The ID of the task.")
+    artifacts: Optional[conlist(Any)] = Field(
+        None, description="A list of artifacts that the task has produced."
     )
-    __properties = ["input"]
+    __properties = ["task_id", "artifacts"]
 
     class Config:
         """Pydantic configuration"""
@@ -48,28 +48,25 @@ class AgentTaskRequestBody(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> AgentTaskRequestBody:
-        """Create an instance of AgentTaskRequestBody from a JSON string"""
+    def from_json(cls, json_str: str) -> TaskAllOf:
+        """Create an instance of TaskAllOf from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
         _dict = self.dict(by_alias=True, exclude={}, exclude_none=True)
-        # set to None if input (nullable) is None
-        # and __fields_set__ contains the field
-        if self.input is None and "input" in self.__fields_set__:
-            _dict["input"] = None
-
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> AgentTaskRequestBody:
-        """Create an instance of AgentTaskRequestBody from a dict"""
+    def from_dict(cls, obj: dict) -> TaskAllOf:
+        """Create an instance of TaskAllOf from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return AgentTaskRequestBody.parse_obj(obj)
+            return TaskAllOf.parse_obj(obj)
 
-        _obj = AgentTaskRequestBody.parse_obj({"input": obj.get("input")})
+        _obj = TaskAllOf.parse_obj(
+            {"task_id": obj.get("task_id"), "artifacts": obj.get("artifacts")}
+        )
         return _obj

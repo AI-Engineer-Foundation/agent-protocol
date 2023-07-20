@@ -18,24 +18,23 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Optional
-from pydantic import BaseModel, Field, StrictStr
+from typing import Any, List, Optional
+from pydantic import BaseModel, Field, StrictStr, conlist
 
 
-class AgentStepAllOf(BaseModel):
+class Task(BaseModel):
     """
-    AgentStepAllOf
+    Task
     """
 
-    task_id: StrictStr = Field(
-        ..., description="The ID of the task this step belongs to."
+    input: Optional[Any] = Field(
+        None, description="Input parameters for the task. Any value is allowed."
     )
-    step_id: StrictStr = Field(..., description="The ID of the task step.")
-    output: Optional[Any] = Field(
-        None,
-        description="Output that the task step has produced. This can be any JSON serializable object.",
+    task_id: StrictStr = Field(..., description="The ID of the task.")
+    artifacts: Optional[conlist(Any)] = Field(
+        None, description="A list of artifacts that the task has produced."
     )
-    __properties = ["task_id", "step_id", "output"]
+    __properties = ["input", "task_id", "artifacts"]
 
     class Config:
         """Pydantic configuration"""
@@ -52,34 +51,34 @@ class AgentStepAllOf(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> AgentStepAllOf:
-        """Create an instance of AgentStepAllOf from a JSON string"""
+    def from_json(cls, json_str: str) -> Task:
+        """Create an instance of Task from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
         _dict = self.dict(by_alias=True, exclude={}, exclude_none=True)
-        # set to None if output (nullable) is None
+        # set to None if input (nullable) is None
         # and __fields_set__ contains the field
-        if self.output is None and "output" in self.__fields_set__:
-            _dict["output"] = None
+        if self.input is None and "input" in self.__fields_set__:
+            _dict["input"] = None
 
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> AgentStepAllOf:
-        """Create an instance of AgentStepAllOf from a dict"""
+    def from_dict(cls, obj: dict) -> Task:
+        """Create an instance of Task from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return AgentStepAllOf.parse_obj(obj)
+            return Task.parse_obj(obj)
 
-        _obj = AgentStepAllOf.parse_obj(
+        _obj = Task.parse_obj(
             {
+                "input": obj.get("input"),
                 "task_id": obj.get("task_id"),
-                "step_id": obj.get("step_id"),
-                "output": obj.get("output"),
+                "artifacts": obj.get("artifacts"),
             }
         )
         return _obj
