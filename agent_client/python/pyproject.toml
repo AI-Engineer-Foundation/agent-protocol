@@ -5,6 +5,7 @@ description = "Agent Communication Protocol Client"
 authors = ["e2b <hello@e2b.dev>"]
 license = "MIT"
 readme = "README.md"
+packages = [{ include = "agent_protocol_client" }]
 
 [tool.poetry.dependencies]
 python = "^3.10"
