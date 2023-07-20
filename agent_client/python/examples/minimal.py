@@ -38,7 +38,7 @@ async def main():
             print(step)
             print("\n\n")
 
-        print("BeeBot has finished its work! 🐝🤖")
+        print("Agent finished its work!")
 
 
 asyncio.run(main())
