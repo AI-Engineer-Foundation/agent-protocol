@@ -1,24 +1,44 @@
-import * as OpenApiValidator from 'express-openapi-validator'
-import express from 'express'
-import path from 'path'
+import {
+  TaskInput,
+  Artifact,
+  StepInput,
+  StepOutput,
+  Step,
+  StepRequestBody,
+  Task,
+  TaskRequestBody,
+} from "./models";
+import {
+  StepHandler,
+  TaskHandler,
+  StepResultWithDefaults,
+  createAgentTask,
+  listAgentTaskIDs,
+  getAgentTask,
+  listAgentTaskSteps,
+  executeAgentTaskStep,
+  getAgentTaskStep,
+  Agent,
+} from "./agent";
 
-const app = express()
+export {
+  TaskInput,
+  Artifact,
+  StepInput,
+  StepOutput,
+  Step,
+  StepRequestBody,
+  Task,
+  TaskRequestBody,
+  StepHandler,
+  TaskHandler,
+  StepResultWithDefaults as StepResult,
+  createAgentTask,
+  listAgentTaskIDs,
+  getAgentTask,
+  listAgentTaskSteps,
+  executeAgentTaskStep,
+  getAgentTaskStep,
+}
 
-app.use(express.json())
-app.use(express.text())
-app.use(express.urlencoded({ extended: false }))
-
-const spec = path.join(__dirname, '../openapi.yml');
-
-app.use('/spec', express.static(spec));
-
-app.use(
-  OpenApiValidator.middleware({
-    apiSpec: '../openapi.yml',
-    validateRequests: true, // (default)
-    validateResponses: true, // false by default
-    operationHandlers: {
-      resolver
-    }
-  }),
-)
+export default Agent;
