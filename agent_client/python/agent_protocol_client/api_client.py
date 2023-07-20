@@ -52,7 +52,7 @@ class ApiClient(object):
     PRIMITIVE_TYPES = (float, bool, bytes, str, int)
     NATIVE_TYPES_MAPPING = {
         "int": int,
-        "long": int,
+        "long": int,  # TODO remove as only py3 is supported?
         "float": float,
         "str": str,
         "bool": bool,

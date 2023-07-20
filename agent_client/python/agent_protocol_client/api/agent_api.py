@@ -24,10 +24,10 @@ from pydantic import Field, StrictStr
 
 from typing import List, Optional
 
-from agent_protocol_client.models.agent_step import AgentStep
-from agent_protocol_client.models.agent_step_request_body import AgentStepRequestBody
-from agent_protocol_client.models.agent_task import AgentTask
-from agent_protocol_client.models.agent_task_request_body import AgentTaskRequestBody
+from agent_protocol_client.models.step import Step
+from agent_protocol_client.models.step_request_body import StepRequestBody
+from agent_protocol_client.models.task import Task
+from agent_protocol_client.models.task_request_body import TaskRequestBody
 
 from agent_protocol_client.api_client import ApiClient
 from agent_protocol_client.api_response import ApiResponse
@@ -48,36 +48,36 @@ class AgentApi(object):
 
     @overload
     async def create_agent_task(
-        self, agent_task_request_body: Optional[AgentTaskRequestBody] = None, **kwargs
-    ) -> AgentTask:  # noqa: E501
+        self, task_request_body: Optional[TaskRequestBody] = None, **kwargs
+    ) -> Task:  # noqa: E501
         ...
 
     @overload
     def create_agent_task(
         self,
-        agent_task_request_body: Optional[AgentTaskRequestBody] = None,
+        task_request_body: Optional[TaskRequestBody] = None,
         async_req: Optional[bool] = True,
         **kwargs
-    ) -> AgentTask:  # noqa: E501
+    ) -> Task:  # noqa: E501
         ...
 
     @validate_arguments
     def create_agent_task(
         self,
-        agent_task_request_body: Optional[AgentTaskRequestBody] = None,
+        task_request_body: Optional[TaskRequestBody] = None,
         async_req: Optional[bool] = None,
         **kwargs
-    ) -> Union[AgentTask, Awaitable[AgentTask]]:  # noqa: E501
+    ) -> Union[Task, Awaitable[Task]]:  # noqa: E501
         """Creates a task for the agent.  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.create_agent_task(agent_task_request_body, async_req=True)
+        >>> thread = api.create_agent_task(task_request_body, async_req=True)
         >>> result = thread.get()
 
-        :param agent_task_request_body:
-        :type agent_task_request_body: AgentTaskRequestBody
+        :param task_request_body:
+        :type task_request_body: TaskRequestBody
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _request_timeout: timeout setting for this request. If one
@@ -87,7 +87,7 @@ class AgentApi(object):
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: AgentTask
+        :rtype: Task
         """
         kwargs["_return_http_data_only"] = True
         if "_preload_content" in kwargs:
@@ -97,23 +97,23 @@ class AgentApi(object):
         if async_req is not None:
             kwargs["async_req"] = async_req
         return self.create_agent_task_with_http_info(
-            agent_task_request_body, **kwargs
+            task_request_body, **kwargs
         )  # noqa: E501
 
     @validate_arguments
     def create_agent_task_with_http_info(
-        self, agent_task_request_body: Optional[AgentTaskRequestBody] = None, **kwargs
+        self, task_request_body: Optional[TaskRequestBody] = None, **kwargs
     ) -> ApiResponse:  # noqa: E501
         """Creates a task for the agent.  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.create_agent_task_with_http_info(agent_task_request_body, async_req=True)
+        >>> thread = api.create_agent_task_with_http_info(task_request_body, async_req=True)
         >>> result = thread.get()
 
-        :param agent_task_request_body:
-        :type agent_task_request_body: AgentTaskRequestBody
+        :param task_request_body:
+        :type task_request_body: TaskRequestBody
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _preload_content: if False, the ApiResponse.data will
@@ -136,12 +136,12 @@ class AgentApi(object):
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(AgentTask, status_code(int), headers(HTTPHeaderDict))
+        :rtype: tuple(Task, status_code(int), headers(HTTPHeaderDict))
         """
 
         _params = locals()
 
-        _all_params = ["agent_task_request_body"]
+        _all_params = ["task_request_body"]
         _all_params.extend(
             [
                 "async_req",
@@ -178,8 +178,8 @@ class AgentApi(object):
         _files = {}
         # process the body parameter
         _body_params = None
-        if _params["agent_task_request_body"] is not None:
-            _body_params = _params["agent_task_request_body"]
+        if _params["task_request_body"] is not None:
+            _body_params = _params["task_request_body"]
 
         # set the HTTP header `Accept`
         _header_params["Accept"] = self.api_client.select_header_accept(
@@ -198,7 +198,7 @@ class AgentApi(object):
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {
-            "200": "AgentTask",
+            "200": "Task",
         }
 
         return self.api_client.call_api(
@@ -224,41 +224,41 @@ class AgentApi(object):
     async def execute_agent_task_step(
         self,
         task_id: Annotated[StrictStr, Field(..., description="ID of the task")],
-        agent_step_request_body: Optional[AgentStepRequestBody] = None,
+        step_request_body: Optional[StepRequestBody] = None,
         **kwargs
-    ) -> AgentStep:  # noqa: E501
+    ) -> Step:  # noqa: E501
         ...
 
     @overload
     def execute_agent_task_step(
         self,
         task_id: Annotated[StrictStr, Field(..., description="ID of the task")],
-        agent_step_request_body: Optional[AgentStepRequestBody] = None,
+        step_request_body: Optional[StepRequestBody] = None,
         async_req: Optional[bool] = True,
         **kwargs
-    ) -> AgentStep:  # noqa: E501
+    ) -> Step:  # noqa: E501
         ...
 
     @validate_arguments
     def execute_agent_task_step(
         self,
         task_id: Annotated[StrictStr, Field(..., description="ID of the task")],
-        agent_step_request_body: Optional[AgentStepRequestBody] = None,
+        step_request_body: Optional[StepRequestBody] = None,
         async_req: Optional[bool] = None,
         **kwargs
-    ) -> Union[AgentStep, Awaitable[AgentStep]]:  # noqa: E501
+    ) -> Union[Step, Awaitable[Step]]:  # noqa: E501
         """Execute a step in the specified agent task.  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.execute_agent_task_step(task_id, agent_step_request_body, async_req=True)
+        >>> thread = api.execute_agent_task_step(task_id, step_request_body, async_req=True)
         >>> result = thread.get()
 
         :param task_id: ID of the task (required)
         :type task_id: str
-        :param agent_step_request_body:
-        :type agent_step_request_body: AgentStepRequestBody
+        :param step_request_body:
+        :type step_request_body: StepRequestBody
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _request_timeout: timeout setting for this request. If one
@@ -268,7 +268,7 @@ class AgentApi(object):
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: AgentStep
+        :rtype: Step
         """
         kwargs["_return_http_data_only"] = True
         if "_preload_content" in kwargs:
@@ -278,14 +278,14 @@ class AgentApi(object):
         if async_req is not None:
             kwargs["async_req"] = async_req
         return self.execute_agent_task_step_with_http_info(
-            task_id, agent_step_request_body, **kwargs
+            task_id, step_request_body, **kwargs
         )  # noqa: E501
 
     @validate_arguments
     def execute_agent_task_step_with_http_info(
         self,
         task_id: Annotated[StrictStr, Field(..., description="ID of the task")],
-        agent_step_request_body: Optional[AgentStepRequestBody] = None,
+        step_request_body: Optional[StepRequestBody] = None,
         **kwargs
     ) -> ApiResponse:  # noqa: E501
         """Execute a step in the specified agent task.  # noqa: E501
@@ -293,13 +293,13 @@ class AgentApi(object):
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.execute_agent_task_step_with_http_info(task_id, agent_step_request_body, async_req=True)
+        >>> thread = api.execute_agent_task_step_with_http_info(task_id, step_request_body, async_req=True)
         >>> result = thread.get()
 
         :param task_id: ID of the task (required)
         :type task_id: str
-        :param agent_step_request_body:
-        :type agent_step_request_body: AgentStepRequestBody
+        :param step_request_body:
+        :type step_request_body: StepRequestBody
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _preload_content: if False, the ApiResponse.data will
@@ -322,12 +322,12 @@ class AgentApi(object):
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(AgentStep, status_code(int), headers(HTTPHeaderDict))
+        :rtype: tuple(Step, status_code(int), headers(HTTPHeaderDict))
         """
 
         _params = locals()
 
-        _all_params = ["task_id", "agent_step_request_body"]
+        _all_params = ["task_id", "step_request_body"]
         _all_params.extend(
             [
                 "async_req",
@@ -366,8 +366,8 @@ class AgentApi(object):
         _files = {}
         # process the body parameter
         _body_params = None
-        if _params["agent_step_request_body"] is not None:
-            _body_params = _params["agent_step_request_body"]
+        if _params["step_request_body"] is not None:
+            _body_params = _params["step_request_body"]
 
         # set the HTTP header `Accept`
         _header_params["Accept"] = self.api_client.select_header_accept(
@@ -386,7 +386,7 @@ class AgentApi(object):
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {
-            "200": "AgentStep",
+            "200": "Step",
         }
 
         return self.api_client.call_api(
@@ -413,7 +413,7 @@ class AgentApi(object):
         self,
         task_id: Annotated[StrictStr, Field(..., description="ID of the task")],
         **kwargs
-    ) -> AgentTask:  # noqa: E501
+    ) -> Task:  # noqa: E501
         ...
 
     @overload
@@ -422,7 +422,7 @@ class AgentApi(object):
         task_id: Annotated[StrictStr, Field(..., description="ID of the task")],
         async_req: Optional[bool] = True,
         **kwargs
-    ) -> AgentTask:  # noqa: E501
+    ) -> Task:  # noqa: E501
         ...
 
     @validate_arguments
@@ -431,7 +431,7 @@ class AgentApi(object):
         task_id: Annotated[StrictStr, Field(..., description="ID of the task")],
         async_req: Optional[bool] = None,
         **kwargs
-    ) -> Union[AgentTask, Awaitable[AgentTask]]:  # noqa: E501
+    ) -> Union[Task, Awaitable[Task]]:  # noqa: E501
         """Get details about a specified agent task.  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -451,7 +451,7 @@ class AgentApi(object):
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: AgentTask
+        :rtype: Task
         """
         kwargs["_return_http_data_only"] = True
         if "_preload_content" in kwargs:
@@ -500,7 +500,7 @@ class AgentApi(object):
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(AgentTask, status_code(int), headers(HTTPHeaderDict))
+        :rtype: tuple(Task, status_code(int), headers(HTTPHeaderDict))
         """
 
         _params = locals()
@@ -553,7 +553,7 @@ class AgentApi(object):
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {
-            "200": "AgentTask",
+            "200": "Task",
         }
 
         return self.api_client.call_api(
@@ -581,7 +581,7 @@ class AgentApi(object):
         task_id: Annotated[StrictStr, Field(..., description="ID of the task")],
         step_id: Annotated[StrictStr, Field(..., description="ID of the step")],
         **kwargs
-    ) -> AgentStep:  # noqa: E501
+    ) -> Step:  # noqa: E501
         ...
 
     @overload
@@ -591,7 +591,7 @@ class AgentApi(object):
         step_id: Annotated[StrictStr, Field(..., description="ID of the step")],
         async_req: Optional[bool] = True,
         **kwargs
-    ) -> AgentStep:  # noqa: E501
+    ) -> Step:  # noqa: E501
         ...
 
     @validate_arguments
@@ -601,7 +601,7 @@ class AgentApi(object):
         step_id: Annotated[StrictStr, Field(..., description="ID of the step")],
         async_req: Optional[bool] = None,
         **kwargs
-    ) -> Union[AgentStep, Awaitable[AgentStep]]:  # noqa: E501
+    ) -> Union[Step, Awaitable[Step]]:  # noqa: E501
         """Get details about a specified task step.  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -623,7 +623,7 @@ class AgentApi(object):
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: AgentStep
+        :rtype: Step
         """
         kwargs["_return_http_data_only"] = True
         if "_preload_content" in kwargs:
@@ -677,7 +677,7 @@ class AgentApi(object):
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(AgentStep, status_code(int), headers(HTTPHeaderDict))
+        :rtype: tuple(Step, status_code(int), headers(HTTPHeaderDict))
         """
 
         _params = locals()
@@ -733,7 +733,7 @@ class AgentApi(object):
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {
-            "200": "AgentStep",
+            "200": "Step",
         }
 
         return self.api_client.call_api(

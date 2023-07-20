@@ -13,7 +13,7 @@ import asyncio
 from agent_protocol_client import (
     Configuration,
     ApiClient,
-    AgentTaskRequestBody,
+    TaskRequestBody,
     AgentApi,
 )
 from pprint import pprint
@@ -29,12 +29,12 @@ async def create_agent_task():
     async with ApiClient(configuration) as api_client:
         # Create an instance of the API class
         api_instance = AgentApi(api_client)
-        agent_task_request_body = AgentTaskRequestBody(input='Say "Hello world!"')
+        task_request_body = TaskRequestBody(input='Say "Hello world!"')
 
         try:
             # Creates a task for the agent.
             api_response = await api_instance.create_agent_task(
-                agent_task_request_body=agent_task_request_body
+                task_request_body=task_request_body
             )
             print("The response of AgentApi->create_agent_task:\n")
             pprint(api_response)

@@ -31,9 +31,10 @@ from agent_protocol_client.exceptions import ApiAttributeError
 from agent_protocol_client.exceptions import ApiException
 
 # import models into sdk package
-from agent_protocol_client.models.agent_step import AgentStep
-from agent_protocol_client.models.agent_step_all_of import AgentStepAllOf
-from agent_protocol_client.models.agent_step_request_body import AgentStepRequestBody
-from agent_protocol_client.models.agent_task import AgentTask
-from agent_protocol_client.models.agent_task_all_of import AgentTaskAllOf
-from agent_protocol_client.models.agent_task_request_body import AgentTaskRequestBody
+from agent_protocol_client.models.step import Step
+from agent_protocol_client.models.step_all_of import StepAllOf
+from agent_protocol_client.models.step_request_body import StepRequestBody
+from agent_protocol_client.models.step_result import StepResult
+from agent_protocol_client.models.task import Task
+from agent_protocol_client.models.task_all_of import TaskAllOf
+from agent_protocol_client.models.task_request_body import TaskRequestBody
