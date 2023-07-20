@@ -2,7 +2,7 @@ name: Build and Publish Python Agent Client Package
 
 on:
   push:
-    tags: [v*]
+    tags: [python-client-v*]
 
 permissions:
   contents: read

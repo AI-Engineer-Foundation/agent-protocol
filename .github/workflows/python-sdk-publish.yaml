@@ -2,7 +2,7 @@ name: Build and Publish Python SDK Package
 
 on:
   push:
-    tags: [v*]
+    tags: [python-sdk-v*]
 
 permissions:
   contents: read
