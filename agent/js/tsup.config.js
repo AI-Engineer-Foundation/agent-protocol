@@ -5,7 +5,7 @@ import * as packageJSON from './package.json'
 const excludedPackages = []
 
 export default defineConfig({
-  entry: ['src/index.ts'],
+  entry: ['examples/minimal.ts'],
   target: 'node16',
   platform: 'node',
   format: 'cjs',
