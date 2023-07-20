@@ -8,7 +8,7 @@ paths:
   /agent/tasks:
     post:
       summary: Creates a task for the agent.
-      tags: [agent, tasks]
+      tags: [agent]
       operationId: createAgentTask
       requestBody:
         content:
@@ -26,7 +26,7 @@ paths:
           description: Internal Server Error
     get:
       summary: List all tasks that have been created for the agent.
-      tags: [agent, tasks]
+      tags: [agent]
       operationId: listAgentTasksIDs
       responses:
         200:
@@ -45,7 +45,7 @@ paths:
   /agent/tasks/{task_id}:
     get:
       summary: Get details about a specified agent task.
-      tags: [agent, tasks]
+      tags: [agent]
       operationId: getAgentTask
       parameters:
         - name: task_id
@@ -67,7 +67,7 @@ paths:
   /agent/tasks/{task_id}/steps:
     get:
       summary: List all steps for the specified task.
-      tags: [agent, tasks, steps]
+      tags: [agent]
       operationId: listAgentTaskSteps
       parameters:
         - name: task_id
@@ -91,7 +91,7 @@ paths:
           description: Internal Server Error
     post:
       summary: Execute a step in the specified agent task.
-      tags: [agent, tasks, steps]
+      tags: [agent]
       operationId: executeAgentTaskStep
       parameters:
         - name: task_id
@@ -118,7 +118,7 @@ paths:
   /agent/tasks/{task_id}/steps/{step_id}:
     get:
       summary: Get details about a specified task step.
-      tags: [agent, tasks, steps]
+      tags: [agent]
       operationId: getAgentTaskStep
       parameters:
         - name: task_id
