@@ -5,6 +5,8 @@ description = "Agent Communication Protocol Client"
 authors = ["e2b <hello@e2b.dev>"]
 license = "MIT"
 readme = "README.md"
+homepage = "https://e2b.dev/"
+repository = "https://github.com/e2b-dev/sdk/tree/main/agent_client/python/"
 packages = [{ include = "agent_protocol_client" }]
 
 [tool.poetry.dependencies]
@@ -20,6 +22,5 @@ aenum = ">=3.1.11"
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
-[project.urls]
-"Homepage" = "https://github.com/e2b/sdk"
+[tool.poetry.urls]
 "Bug Tracker" = "https://github.com/e2b/sdk/issues"
