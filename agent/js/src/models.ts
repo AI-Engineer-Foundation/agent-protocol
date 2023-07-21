@@ -27,16 +27,16 @@ export interface Step {
   /**
    * Whether this is the last step in the task.
    */
-  isLast?: boolean;
+  is_last?: boolean;
   input?: StepInput;
   /**
    * The ID of the task this step belongs to.
    */
-  taskId: string;
+  task_id: string;
   /**
    * The ID of the task step.
    */
-  stepId: string;
+  step_id: string;
 }
 
 export interface StepRequestBody {
@@ -52,7 +52,7 @@ export interface StepResult {
   /**
    * Whether this is the last step in the task.
    */
-  isLast?: boolean;
+  is_last?: boolean;
 }
 
 export interface Task {
@@ -60,7 +60,7 @@ export interface Task {
   /**
    * The ID of the task.
    */
-  taskId: string;
+  task_id: string;
   /**
    * A list of artifacts that the task has produced.
    */
