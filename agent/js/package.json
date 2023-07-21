@@ -1,14 +1,15 @@
 {
-  "name": "agent-sdk",
+  "name": "@e2b/agent-sdk",
   "version": "0.1.0",
   "description": "API for interacting with Agent",
-  "main": "./dist/index.mjs",
-  "module": "./dist/index.mjs",
+  "main": "./dist/index.js",
+  "module": "./dist/index.m.js",
+  "unpkg": "dist/index.umd.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "prepublishOnly": "pnpm build",
     "clean": "rm -rf ./dist",
-    "build": "rm -rf ./dist && tsup src/index.ts",
-    "dev": "tsup --watch --onSuccess 'ts-node examples/minimal.ts'",
+    "build": "rm -rf ./dist && microbundle --tsconfig tsconfig.json --no-sourcemap",
     "fix": "npx eslint \"**/src/**/*.{ts,js}\" --fix",
     "format": "prettier --check --ignore-path .gitignore .",
     "format:fix": "prettier --write --ignore-path .gitignore ."
@@ -24,19 +25,20 @@
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-n": "^16.0.1",
     "eslint-plugin-promise": "^6.1.1",
-    "tsup": "^7.1.0",
+    "microbundle": "^0.15.1",
     "typescript": "^5.1.6"
   },
   "exports": {
-    "default": "./dist/index.cjs",
-    "require": "./dist/index.cjs",
-    "import": "./dist/index.mjs",
-    "node": "./dist/index.cjs"
+    "require": "./dist/index.js",
+    "default": "./dist/index.modern.js"
   },
-  "type": "module",
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "express": "^4.18.2",
     "express-openapi-validator": "^5.0.4",
+    "jzanecook-e2b-sdk-test": "^0.1.0",
     "uuid": "^9.0.0"
   }
 }

@@ -1,5 +1,5 @@
-import Agent from "agent-sdk";
-import { StepResult, StepHandler } from "agent-sdk";
+import Agent from "@e2b/agent-sdk";
+import { StepResult, StepHandler } from "@e2b/agent-sdk";
 
 const taskHandler = async (taskInput: any | null): Promise<StepHandler> => {
   console.log(`task: ${taskInput}`);
