@@ -27,7 +27,6 @@ This was developed with the following dependencies:
 
 - _node v18.16.0_
 - _ts-node v10.9.1_
-- _prettier 3.0.0_
 - _pnpm 8.6.9_
 
 During development, you should be able to simply import the Agent from `src/index.ts` and run using `ts-node`.
@@ -37,23 +36,31 @@ During development, you should be able to simply import the Agent from `src/inde
 The minimal example is below. This creates a simple agent which performs no tasks itself, but does create the agent API.
 
 ```typescript
-import Agent from "@e2b/agent-sdk";
-import { StepResult, StepHandler } from "@e2b/agent-sdk";
+import Agent, {
+  type StepResult,
+  type StepHandler,
+  type TaskInput,
+  type StepInput
+} from 'agent-protocol'
 
-const taskHandler = async (taskInput: any | null): Promise<StepHandler> => {
-  console.log(`task: ${taskInput}`);
+const taskHandler = async (
+  taskInput: TaskInput | null
+): Promise<StepHandler> => {
+  console.log(`task: ${taskInput}`)
 
-  const stepHandler = async (stepInput: any | null): Promise<StepResult> => {
-    console.log(`step: ${stepInput}`);
+  const stepHandler = async (
+    stepInput: StepInput | null
+  ): Promise<StepResult> => {
+    console.log(`step: ${stepInput}`)
     return {
-      output: stepInput,
-    };
-  };
+      output: stepInput
+    }
+  }
 
-  return stepHandler;
-};
+  return stepHandler
+}
 
-const agent = new Agent(taskHandler).start();
+Agent.handleTask(taskHandler).start()
 ```
 
 Run `ts-node` on the example above and you should see the following:
