@@ -3,15 +3,15 @@ import express from "express";
 import path from "path";
 import { v4 as uuid } from "uuid";
 import {
-  TaskInput,
-  Artifact,
-  StepInput,
-  StepOutput,
-  Step,
-  StepRequestBody,
-  StepResult,
-  Task,
-  TaskRequestBody,
+  type TaskInput,
+  type Artifact,
+  type StepInput,
+  type StepOutput,
+  type Step,
+  type StepRequestBody,
+  type StepResult,
+  type Task,
+  type TaskRequestBody,
 } from "./models";
 
 const app = express();
@@ -20,7 +20,7 @@ app.use(express.json());
 app.use(express.text());
 app.use(express.urlencoded({ extended: false }));
 
-const spec = path.join(__dirname, "../openapi.yml");
+const spec = path.join(__dirname, "../../openapi.yml");
 
 app.use("/spec", express.static(spec));
 
@@ -29,13 +29,7 @@ app.use(
     apiSpec: "../openapi.yml",
     validateRequests: true, // (default)
     validateResponses: true, // false by default
-    operationHandlers: {
-      basePath: path.join(__dirname, "./handlers"),
-      resolver: (req: any, res: any) => {
-        console.log("operationHandlers resolver", req, res);
-      }
-    },
-  })
+  }),
 );
 
 /**
@@ -49,8 +43,8 @@ export type StepHandler = (input: StepInput | null) => Promise<StepResult>;
  */
 export type TaskHandler = (input: TaskInput | null) => Promise<StepHandler>;
 
-let tasks: Array<[Task, StepHandler]> = [];
-let steps: Step[] = [];
+const tasks: Array<[Task, StepHandler]> = [];
+const steps: Step[] = [];
 
 let taskHandler: TaskHandler | null = null;
 
@@ -61,7 +55,7 @@ let taskHandler: TaskHandler | null = null;
 export class StepResultWithDefaults implements StepResult {
   output?: StepOutput = null;
   artifacts?: Artifact[] = [];
-  isLast?: boolean = false;
+  is_last?: boolean = false;
 }
 
 /**
@@ -69,27 +63,31 @@ export class StepResultWithDefaults implements StepResult {
  * @param body TaskRequestBody | null
  * @returns Promise<Task>
  */
-export const createAgentTask = async (body: TaskRequestBody | null): Promise<Task> => {
-  if (!taskHandler) {
+export const createAgentTask = async (
+  body: TaskRequestBody | null,
+): Promise<Task> => {
+  if (taskHandler == null) {
     throw new Error("Task handler not defined");
   }
-  let stepHandler = await taskHandler(body?.input ?? null);
-  let task: Task = {
-    taskId: uuid(),
+  const stepHandler = await taskHandler(body?.input ?? null);
+  const task: Task = {
+    task_id: uuid(),
     input: body?.input ?? null,
     artifacts: [],
-  }
+  };
   tasks.push([task, stepHandler]);
   return task;
-}
-app.post("/agent/task", async (req, res) => {
-  try {
-    let task = await createAgentTask(req.body);
-    res.status(200).json(task);
-  } catch (err: Error | any) {
-    console.error(err);
-    res.status(500).json({ error: err.message });
-  }
+};
+app.post("/agent/tasks", (req, res) => {
+  void (async () => {
+    try {
+      const task = await createAgentTask(req.body);
+      res.status(200).json(task);
+    } catch (err: Error | any) {
+      console.error(err);
+      res.status(500).json({ error: err.message });
+    }
+  })();
 });
 
 /**
@@ -97,38 +95,42 @@ app.post("/agent/task", async (req, res) => {
  * @returns Promise<string[]>
  */
 export const listAgentTaskIDs = async (): Promise<string[]> => {
-  return tasks.map(([task, _]) => task.taskId);
-}
-app.get("/agent/tasks", async (req, res) => {
-  try {
-    let ids = await listAgentTaskIDs();
-    res.status(200).json(ids);
-  } catch (err: Error | any) {
-    console.error(err);
-    res.status(500).json({ error: err.message });
-  }
+  return tasks.map(([task, _]) => task.task_id);
+};
+app.get("/agent/tasks", (req, res) => {
+  void (async () => {
+    try {
+      const ids = await listAgentTaskIDs();
+      res.status(200).json(ids);
+    } catch (err: Error | any) {
+      console.error(err);
+      res.status(500).json({ error: err.message });
+    }
+  })();
 });
 
 /**
  * Get details about a specified agent task.
  * @param taskId string
- * @returns 
+ * @returns
  */
 export const getAgentTask = async (taskId: string): Promise<Task> => {
-  let task = tasks.find(([task, _]) => task.taskId === taskId);
-  if (!task) {
+  const task = tasks.find(([task, _]) => task.task_id === taskId);
+  if (task == null) {
     throw new Error(`Task with id ${taskId} not found`);
   }
   return task[0];
-}
-app.get("/agent/task/:task_id", async (req, res) => {
-  try {
-    let task = await getAgentTask(req.params.task_id);
-    res.status(200).json(task);
-  } catch (err: Error | any) {
-    console.error(err);
-    res.status(500).json({ error: err.message });
-  }
+};
+app.get("/agent/tasks/:task_id", (req, res) => {
+  void (async () => {
+    try {
+      const task = await getAgentTask(req.params.task_id);
+      res.status(200).json(task);
+    } catch (err: Error | any) {
+      console.error(err);
+      res.status(500).json({ error: err.message });
+    }
+  })();
 });
 
 /**
@@ -137,20 +139,24 @@ app.get("/agent/task/:task_id", async (req, res) => {
  * @returns Promise<string[]>
  */
 export const listAgentTaskSteps = async (taskId: string): Promise<string[]> => {
-  let task = tasks.find(([task, _]) => task.taskId === taskId);
-  if (!task) {
+  const task = tasks.find(([task, _]) => task.task_id === taskId);
+  if (task == null) {
     throw new Error(`Task with id ${taskId} not found`);
   }
-  return steps.filter(step => step.taskId === taskId).map(step => step.stepId);
-}
-app.get("/agent/task/:task_id/steps", async (req, res) => {
-  try {
-    let ids = await listAgentTaskSteps(req.params.task_id);
-    res.status(200).json(ids);
-  } catch (err: Error | any) {
-    console.error(err);
-    res.status(500).json({ error: err.message });
-  }
+  return steps
+    .filter((step) => step.task_id === taskId)
+    .map((step) => step.step_id);
+};
+app.get("/agent/tasks/:task_id/steps", (req, res) => {
+  void (async () => {
+    try {
+      const ids = await listAgentTaskSteps(req.params.task_id);
+      res.status(200).json(ids);
+    } catch (err: Error | any) {
+      console.error(err);
+      res.status(500).json({ error: err.message });
+    }
+  })();
 });
 
 /**
@@ -159,23 +165,26 @@ app.get("/agent/task/:task_id/steps", async (req, res) => {
  * @param body StepRequestBody | null
  * @returns Promise<Step>
  */
-export const executeAgentTaskStep = async (taskId: string, body: StepRequestBody | null): Promise<Step> => {
-  let task = tasks.find(([task, _]) => task.taskId === taskId);
-  if (!task) {
+export const executeAgentTaskStep = async (
+  taskId: string,
+  body: StepRequestBody | null,
+): Promise<Step> => {
+  const task = tasks.find(([task, _]) => task.task_id === taskId);
+  if (task == null) {
     throw new Error(`Task with id ${taskId} not found`);
   }
-  let handler = task[1]
-  let stepResult = await handler(body?.input ?? null);
-  let step: Step = {
-    taskId: taskId,
-    stepId: uuid(),
+  const handler = task[1];
+  const stepResult = await handler(body?.input ?? null);
+  const step: Step = {
+    task_id: taskId,
+    step_id: uuid(),
     input: body?.input ?? null,
     output: stepResult.output ?? null,
     artifacts: stepResult.artifacts ?? [],
-    isLast: stepResult.isLast ?? false,
-  }
-  if (step.artifacts) {
-    if (!task[0].artifacts || task[0].artifacts.length === 0) {
+    is_last: stepResult.is_last ?? false,
+  };
+  if (step.artifacts != null) {
+    if (task[0].artifacts == null || task[0].artifacts.length === 0) {
       task[0].artifacts = step.artifacts;
     } else {
       task[0].artifacts.push(...step.artifacts);
@@ -183,15 +192,17 @@ export const executeAgentTaskStep = async (taskId: string, body: StepRequestBody
   }
   steps.push(step);
   return step;
-}
-app.post("/agent/task/:task_id/steps", async (req, res) => {
-  try {
-    let step = await executeAgentTaskStep(req.params.task_id, req.body);
-    res.status(200).json(step);
-  } catch (err: Error | any) {
-    console.error(err);
-    res.status(500).json({ error: err.message });
-  }
+};
+app.post("/agent/tasks/:task_id/steps", (req, res) => {
+  void (async () => {
+    try {
+      const step = await executeAgentTaskStep(req.params.task_id, req.body);
+      res.status(200).json(step);
+    } catch (err: Error | any) {
+      console.error(err);
+      res.status(500).json({ error: err.message });
+    }
+  })();
 });
 
 /**
@@ -200,21 +211,33 @@ app.post("/agent/task/:task_id/steps", async (req, res) => {
  * @param stepId string
  * @returns Promise<Step>
  */
-export const getAgentTaskStep = async (taskId: string, stepId: string): Promise<Step> => {
-  let step = steps.find(step => step.taskId === taskId && step.stepId === stepId);
-  if (!step) {
-    throw new Error(`Step with task id ${taskId} and step id ${stepId} not found`);
+export const getAgentTaskStep = async (
+  taskId: string,
+  stepId: string,
+): Promise<Step> => {
+  const step = steps.find(
+    (step) => step.task_id === taskId && step.step_id === stepId,
+  );
+  if (step == null) {
+    throw new Error(
+      `Step with task id ${taskId} and step id ${stepId} not found`,
+    );
   }
   return step;
-}
-app.get("/agent/task/:task_id/step/:step_id", async (req, res) => {
-  try {
-    let step = await getAgentTaskStep(req.params.task_id, req.params.step_id);
-    res.status(200).json(step);
-  } catch (err: Error | any) {
-    console.error(err);
-    res.status(500).json({ error: err.message });
-  }
+};
+app.get("/agent/tasks/:task_id/steps/:step_id", (req, res) => {
+  void (async () => {
+    try {
+      const step = await getAgentTaskStep(
+        req.params.task_id,
+        req.params.step_id,
+      );
+      res.status(200).json(step);
+    } catch (err: Error | any) {
+      console.error(err);
+      res.status(500).json({ error: err.message });
+    }
+  })();
 });
 
 export class Agent {
@@ -222,7 +245,7 @@ export class Agent {
     taskHandler = handler;
   }
 
-  start(port: number = 8000) {
+  start(port: number = 8000): void {
     app.listen(port, () => {
       console.log(`Agent listening at http://localhost:${port}`);
     });

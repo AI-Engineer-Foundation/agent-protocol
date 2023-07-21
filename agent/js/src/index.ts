@@ -1,16 +1,16 @@
 import {
-  TaskInput,
-  Artifact,
-  StepInput,
-  StepOutput,
-  Step,
-  StepRequestBody,
-  Task,
-  TaskRequestBody,
+  type TaskInput,
+  type Artifact,
+  type StepInput,
+  type StepOutput,
+  type Step,
+  type StepRequestBody,
+  type Task,
+  type TaskRequestBody,
 } from "./models";
 import {
-  StepHandler,
-  TaskHandler,
+  type StepHandler,
+  type TaskHandler,
   StepResultWithDefaults,
   createAgentTask,
   listAgentTaskIDs,
@@ -22,16 +22,16 @@ import {
 } from "./agent";
 
 export {
-  TaskInput,
-  Artifact,
-  StepInput,
-  StepOutput,
-  Step,
-  StepRequestBody,
-  Task,
-  TaskRequestBody,
-  StepHandler,
-  TaskHandler,
+  type TaskInput,
+  type Artifact,
+  type StepInput,
+  type StepOutput,
+  type Step,
+  type StepRequestBody,
+  type Task,
+  type TaskRequestBody,
+  type StepHandler,
+  type TaskHandler,
   StepResultWithDefaults as StepResult,
   createAgentTask,
   listAgentTaskIDs,
@@ -39,6 +39,6 @@ export {
   listAgentTaskSteps,
   executeAgentTaskStep,
   getAgentTaskStep,
-}
+};
 
 export default Agent;
