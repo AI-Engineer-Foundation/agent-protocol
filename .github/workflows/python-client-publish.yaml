@@ -1,8 +1,8 @@
-name: Build and Publish Python SDK Package
+name: Build and Publish Python Agent Client Package
 
 on:
   push:
-    tags: [v*]
+    tags: [python-client-v*]
 
 permissions:
   contents: read
@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-20.04
     defaults:
       run:
-        working-directory: ./agent/python/
+        working-directory: ./agent_client/python/
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
