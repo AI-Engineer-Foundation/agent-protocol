@@ -11,5 +11,4 @@ pip install agent-protocol-client
 
 You can find simple usage in the example [here](./examples/minimal.py). 
 
-For more functionalities look at the (API docs)[./docs/AgentApi.md].
-
+For more functionalities look at the [API docs](./docs/AgentApi.md).
