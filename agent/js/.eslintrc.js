@@ -3,6 +3,7 @@ module.exports = {
     browser: true,
     es2021: true,
   },
+  ignorePatterns: ["dist"],
   extends: "standard-with-typescript",
   overrides: [
     {
@@ -20,5 +21,9 @@ module.exports = {
     sourceType: "module",
     project: "tsconfig.json",
   },
-  rules: {},
+  rules: {
+    quotes: [2, "single", { avoidEscape: true }],
+    "@typescript-eslint/restrict-template-expressions": "off",
+    "@typescript-eslint/no-extraneous-class": "off",
+  },
 };

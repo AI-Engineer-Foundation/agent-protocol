@@ -1,5 +1,5 @@
 {
-  "name": "@e2b/agent-sdk",
+  "name": "agent-protocol",
   "version": "0.1.0",
   "description": "API for interacting with Agent",
   "main": "./dist/index.js",
@@ -9,8 +9,8 @@
   "scripts": {
     "prepublishOnly": "pnpm build",
     "clean": "rm -rf ./dist",
-    "build": "rm -rf ./dist && microbundle --tsconfig tsconfig.json --no-sourcemap",
-    "fix": "npx eslint \"**/src/**/*.{ts,js}\" --fix",
+    "build": "rm -rf ./dist && microbundle --tsconfig tsconfig.json --no-sourcemap -f cjs,umd src/index.cjs.ts && microbundle --tsconfig tsconfig.json --no-sourcemap -f modern,esm src/index.ts && mv dist/src/* dist/ && rm -rf dist/{examples,src}",
+    "fix": "npx eslint \"**/{examples,src}/**/*.{ts,js}\" --fix",
     "format": "prettier --check --ignore-path .gitignore .",
     "format:fix": "prettier --write --ignore-path .gitignore ."
   },
@@ -26,11 +26,13 @@
     "eslint-plugin-n": "^16.0.1",
     "eslint-plugin-promise": "^6.1.1",
     "microbundle": "^0.15.1",
+    "prettier": "^3.0.0",
     "typescript": "^5.1.6"
   },
   "exports": {
     "require": "./dist/index.js",
-    "default": "./dist/index.modern.js"
+    "default": "./dist/index.modern.js",
+    "types": "./dist/index.d.ts"
   },
   "files": [
     "dist"
@@ -38,7 +40,6 @@
   "dependencies": {
     "express": "^4.18.2",
     "express-openapi-validator": "^5.0.4",
-    "jzanecook-e2b-sdk-test": "^0.1.0",
     "uuid": "^9.0.0"
   }
 }

@@ -24,14 +24,16 @@
 ## Development
 
 This was developed with the following dependencies:
-- *node v18.16.0*
-- *ts-node v10.9.1*
-- *prettier 3.0.0*
-- *pnpm 8.6.9*
+
+- _node v18.16.0_
+- _ts-node v10.9.1_
+- _prettier 3.0.0_
+- _pnpm 8.6.9_
 
 During development, you should be able to simply import the Agent from `src/index.ts` and run using `ts-node`.
 
 ## Example
+
 The minimal example is below. This creates a simple agent which performs no tasks itself, but does create the agent API.
 
 ```typescript
@@ -55,6 +57,7 @@ const agent = new Agent(taskHandler).start();
 ```
 
 Run `ts-node` on the example above and you should see the following:
+
 ```
 Agent listening at http://localhost:8000
 ```

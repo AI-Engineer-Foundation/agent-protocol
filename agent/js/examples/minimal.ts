@@ -1,10 +1,18 @@
-import Agent from "@e2b/agent-sdk";
-import { StepResult, StepHandler } from "@e2b/agent-sdk";
+import Agent, {
+  type StepResult,
+  type StepHandler,
+  type TaskInput,
+  type StepInput,
+} from "agent-protocol";
 
-const taskHandler = async (taskInput: any | null): Promise<StepHandler> => {
+const taskHandler = async (
+  taskInput: TaskInput | null,
+): Promise<StepHandler> => {
   console.log(`task: ${taskInput}`);
 
-  const stepHandler = async (stepInput: any | null): Promise<StepResult> => {
+  const stepHandler = async (
+    stepInput: StepInput | null,
+  ): Promise<StepResult> => {
     console.log(`step: ${stepInput}`);
     return {
       output: stepInput,
@@ -14,4 +22,4 @@ const taskHandler = async (taskInput: any | null): Promise<StepHandler> => {
   return stepHandler;
 };
 
-const agent = new Agent(taskHandler).start();
+Agent.handleTask(taskHandler).start();
