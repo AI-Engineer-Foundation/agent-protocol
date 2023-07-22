@@ -1,15 +1,26 @@
-# Agent Communication Protocol
+# Agent Protocol
 
-This protocol defines an interface for interacting with your agent.
+This protocol defines an interface for interacting with your agent (and more in the future). 
 
-When you use this protocol, your agent becomes automatically deployable to the [e2b platform](https://e2b.dev).
+**The Agent Protocol is tech stack agnostic**. An agent can adopt this protocol no matter what framework they're using (or not using).
 
-Because this protocol is open-source, any other service can adopt it and your agent then becomes automatically compatible with it.
+Because this protocol is open-source, any platform can adopt it and your agent then becomes automatically compatible with it.
+
+### Open-source agents that have adopted Agent Protocol
+- 🚧 [Auto-GPT](https://github.com/Significant-Gravitas/Auto-GPT)
+- 🚧 [babyagi](https://github.com/yoheinakajima/babyagi)
+- 🚧 [smol developer](https://github.com/smol-ai/developer)
+- ✅ [beebot](https://github.com/AutoPackAI/beebot)
+
+### Platforms supporting Agent Protocol
+- [e2b](https://e2b.dev)
 
 ## Installation
-Supported languages:
+
+### Supported languages:
 - Python
 - *JavaScript/TypeScript*
+
 
 ### Python
 ```sh
