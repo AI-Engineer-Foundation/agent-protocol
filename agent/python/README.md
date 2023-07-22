@@ -4,7 +4,7 @@ This SDK implements the Agent Communication Protocol in Python and allows you to
 
 
 ## Installation
-```bash
+```sh
 pip install agent-protocol
 ```
 
@@ -37,14 +37,14 @@ if __name__ == "__main__":
 
 ## Usage
 To start the server run the file where you added the code above:
-```bash
+```sh
 python file/where/you/added/code.py
 ```
 
 and then you can call the API using the following terminal commands:
 
 To **create a task** run:
-```bash
+```sh
 curl --request POST \
   --url http://localhost:8000/agent/tasks \
   --header 'Content-Type: application/json' \
@@ -60,7 +60,7 @@ You will get a response like this:
 
 Then to **execute one step of the task** copy the `task_id` you got from the previous request and run:
 
-```bash
+```sh
 curl --request POST \
   --url http://localhost:8000/agent/tasks/<task-id>/steps
 ```
