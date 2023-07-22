@@ -67,7 +67,13 @@ curl --request POST \
 
 To get response like this:
 ```json
-{"output":"output-from-the-agent","artifacts":[],"is_last":false,"input":null,"task_id":"e6d768bb-4c50-4007-9853-aeffb46c77be","step_id":"8ff8ba39-2c3e-4246-8086-fbd2a897240b"}
+{
+	"output":"output-from-the-agent",
+	"artifacts":[],"is_last":false,
+	"input":null,
+	"task_id":"e6d768bb-4c50-4007-9853-aeffb46c77be",
+	"step_id":"8ff8ba39-2c3e-4246-8086-fbd2a897240b"
+}
 ```
 
 ## Examples
