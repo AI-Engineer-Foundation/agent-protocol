@@ -1,26 +1,33 @@
-# Official e2b SDK
+# Agent Protocol
 
-The e2b SDK is a set of libraries, tools, and services made to help developers
-debug, monitor, test, and deploy their AI Agents.
+This protocol defines an interface for interacting with your agent (and more in the future). 
 
-The SDK is made of multiple separate packages
+**The Agent Protocol is tech stack agnostic**. An agent can adopt this protocol no matter what framework they're using (or not using).
 
-- **Agent Communication Protocol**
-  - An open interface that defines how to control an agent
-- **Debugging**
-  - Real-time agent debugging with time-stepping, share-able stacktraces, and
-    reproducible environment for each agent run
-- **Testing & Evaluations**
-  - More info soon
-- **Monitoring & Observability**
-  - More info soon
-- **Authentication**
-  - More info soon
-- **I/O Connectors**
-  - More info soon
-- **Deployment**
-  - More info soon
+Because this protocol is open-source, any platform can adopt it and your agent then becomes automatically compatible with it.
 
-All packages forming the SDK are part of the [e2b platform](https://e2b.dev).
+### Open-source agents that have adopted Agent Protocol
+- 🚧 [Auto-GPT](https://github.com/Significant-Gravitas/Auto-GPT)
+- 🚧 [babyagi](https://github.com/yoheinakajima/babyagi)
+- 🚧 [smol developer](https://github.com/smol-ai/developer)
+- ✅ [beebot](https://github.com/AutoPackAI/beebot)
 
-Each package is installable separately. You can use only the packages you need.
+### Platforms supporting Agent Protocol
+- [e2b](https://e2b.dev)
+
+## Installation
+
+### Supported languages:
+- Python
+- *JavaScript/TypeScript*
+
+
+### Python
+```sh
+pip install agent-protocol
+```
+
+### 🚧 JavaScript/TypeScript 
+```sh
+npm i agent-protocol
+```
