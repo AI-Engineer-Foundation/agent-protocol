@@ -9,7 +9,7 @@
   "scripts": {
     "prepublishOnly": "pnpm build",
     "clean": "rm -rf ./dist",
-    "build": "rm -rf ./dist && microbundle --tsconfig tsconfig.json --no-sourcemap -f cjs,umd src/index.cjs.ts && microbundle --tsconfig tsconfig.json --no-sourcemap -f modern,esm src/index.ts && mv dist/src/* dist/ && rm -rf dist/{examples,src}",
+    "build": "rm -rf ./dist && tsup",
     "fix": "npx eslint \"**/{examples,src}/**/*.{ts,js}\" --fix",
     "format": "prettier --check --ignore-path .gitignore .",
     "format:fix": "prettier --write --ignore-path .gitignore ."
