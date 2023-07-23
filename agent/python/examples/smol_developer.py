@@ -26,7 +26,9 @@ async def task_handler(task_input) -> StepHandler:
     smol_developer_loop = smol(prompt=task_input)
 
     async def step_handler(step_input):
-        result = await anext(smol_developer_loop)
+        result = await anext(smol_developer_loop, None)
+        if result is None:
+            return StepResult(is_last=True)
         return StepResult(output=result)
 
     return step_handler
