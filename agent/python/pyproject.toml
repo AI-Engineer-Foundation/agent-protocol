@@ -25,4 +25,4 @@ build-backend = "poetry.core.masonry.api"
 src = "src.__main__:main"
 
 [tool.poetry.urls]
-"Bug Tracker" = "https://github.com/e2b/sdk/issues"
+"Bug Tracker" = "https://github.com/e2b-dev/agent-protocol/issues"
