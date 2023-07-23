@@ -243,7 +243,7 @@ app.get("/agent/tasks/:task_id/steps/:step_id", (req, res) => {
 export class Agent {
   static handleTask(handler: TaskHandler): Agent {
     taskHandler = handler;
-    return new Agent();
+    return this;
   }
 
   start(port: number = 8000): void {
