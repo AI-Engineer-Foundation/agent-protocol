@@ -246,7 +246,7 @@ export class Agent {
     return this;
   }
 
-  start(port: number = 8000): void {
+  static start(port: number = 8000): void {
     app.listen(port, () => {
       console.log(`Agent listening at http://localhost:${port}`);
     });
