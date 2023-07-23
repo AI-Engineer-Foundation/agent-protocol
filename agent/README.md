@@ -35,7 +35,7 @@ npm i agent-protocol
 ## Usage
 
 ### Python
-See Python package
+[See the Python package](./python)
 
 ### JavaScript/TypeScript
 Work in progress. Track [this PR](https://github.com/e2b-dev/agent-protocol/pull/7).
