@@ -8,7 +8,6 @@
     "sourceMap": false,
     "outDir": "./dist",
     "baseUrl": "./",
-    "incremental": true,
     "strictNullChecks": true
   },
   "include": ["src/**/*", "examples/**/*"],

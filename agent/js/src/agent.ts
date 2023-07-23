@@ -241,7 +241,7 @@ app.get("/agent/tasks/:task_id/steps/:step_id", (req, res) => {
 });
 
 export class Agent {
-  static handleTask(handler: TaskHandler) {
+  static handleTask(handler: TaskHandler): typeof Agent {
     taskHandler = handler;
     return this;
   }
