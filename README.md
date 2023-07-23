@@ -6,6 +6,10 @@ This protocol defines an interface for interacting with your agent (and more in 
 
 Because this protocol is open-source, any platform can adopt it and your agent then becomes automatically compatible with it.
 
+### 💬 Public discourse & development
+- PRs and issues are welcome!
+- Join our [Discord](https://discord.gg/U7KEcGErtQ) and the [agent-protocol channel](https://discord.com/channels/1092455714431180995/1132296350894133379)
+
 ### Open-source agents that have adopted Agent Protocol
 - 🚧 [Auto-GPT](https://github.com/Significant-Gravitas/Auto-GPT)
 - 🚧 [babyagi](https://github.com/yoheinakajima/babyagi)
@@ -20,7 +24,6 @@ Because this protocol is open-source, any platform can adopt it and your agent t
 ### Supported languages:
 - Python
 - *JavaScript/TypeScript*
-
 
 ### Python
 ```sh
