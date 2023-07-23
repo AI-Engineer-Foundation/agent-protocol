@@ -31,3 +31,14 @@ pip install agent-protocol
 ```sh
 npm i agent-protocol
 ```
+
+## Usage
+
+### Python
+See Python package
+
+### JavaScript/TypeScript
+Work in progress. Track [this PR](https://github.com/e2b-dev/agent-protocol/pull/7).
+
+## Additional languages
+Please make a PR. We're currently prioritizing Python and JS/TS but we'd love to support more languages.
