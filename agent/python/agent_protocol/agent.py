@@ -1,11 +1,10 @@
-import trio
+import asyncio
+
 import uuid
 
-from hypercorn.trio import serve
+from hypercorn.asyncio import serve
 from hypercorn.config import Config
 from typing import Awaitable, Callable, List, Optional, Tuple, Any
-from .dependencies import *
-from .models import Step, Task, TaskRequestBody
 
 
 from .server import app
@@ -156,4 +155,4 @@ class Agent:
     def start(port: int = 8000):
         config = Config()
         config.bind = [f"localhost:{port}"]  # As an example configuration setting
-        trio.run(serve, app, config)
+        asyncio.run(serve(app, config))
