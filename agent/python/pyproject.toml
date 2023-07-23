@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "agent-protocol"
-version = "0.1.0"
+version = "0.2.0"
 description = "API for interacting with Agent"
 authors = ["e2b <hello@e2b.dev>"]
 license = "MIT"
@@ -12,7 +12,7 @@ packages = [{ include = "agent_protocol" }]
 [tool.poetry.dependencies]
 python = ">=3.7, <4.0.0"
 fastapi = "^0.100.0"
-hypercorn = {extras = ["trio"], version = "^0.14.4"}
+hypercorn = "^0.14.4"
 
 [tool.poetry.group.dev.dependencies]
 fastapi-code-generator = "^0.4.2"

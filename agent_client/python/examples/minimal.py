@@ -1,4 +1,6 @@
 import asyncio
+
+from agent_protocol.models import StepRequestBody
 from agent_protocol_client import (
     Configuration,
     ApiClient,
@@ -31,8 +33,11 @@ async def main():
         print(response)
         print("\n\n")
 
+        i = 1
         while (
-            step := await api_instance.execute_agent_task_step(task_id=task_id)
+            step := await api_instance.execute_agent_task_step(
+                task_id=task_id, step_request_body=StepRequestBody(input=i)
+            )
         ) and step.is_last is False:
             print("The response of AgentApi->execute_agent_task_step:\n")
             print(step)
