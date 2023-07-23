@@ -8,7 +8,7 @@ Because this protocol is open-source, any platform can adopt it and your agent t
 
 ### 💬 Public discourse & development
 - PRs and issues are welcome!
-- Join our [Discord](https://discord.gg/U7KEcGErtQ) and the [agent-protocol channel](https://discord.com/channels/1092455714431180995/1132296350894133379)
+- Join our [Discord](https://discord.gg/U7KEcGErtQ) and the [`agent-protocol` channel](https://discord.com/channels/1092455714431180995/1132296350894133379)
 
 ### Open-source agents that have adopted Agent Protocol
 - 🚧 [Auto-GPT](https://github.com/Significant-Gravitas/Auto-GPT)
