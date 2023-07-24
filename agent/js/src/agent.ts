@@ -1,7 +1,7 @@
-import * as OpenApiValidator from "express-openapi-validator";
-import express from "express";
-import path from "path";
-import { v4 as uuid } from "uuid";
+import * as OpenApiValidator from 'express-openapi-validator';
+import express from 'express';
+import path from 'path';
+import { v4 as uuid } from 'uuid';
 import {
   type TaskInput,
   type Artifact,
@@ -12,7 +12,7 @@ import {
   type StepResult,
   type Task,
   type TaskRequestBody,
-} from "./models";
+} from './models';
 
 const app = express();
 
@@ -20,13 +20,13 @@ app.use(express.json());
 app.use(express.text());
 app.use(express.urlencoded({ extended: false }));
 
-const spec = path.join(__dirname, "../../openapi.yml");
+const spec = path.join(__dirname, '../../openapi.yml');
 
-app.use("/spec", express.static(spec));
+app.use('/spec', express.static(spec));
 
 app.use(
   OpenApiValidator.middleware({
-    apiSpec: "../openapi.yml",
+    apiSpec: '../openapi.yml',
     validateRequests: true, // (default)
     validateResponses: true, // false by default
   }),
@@ -67,7 +67,7 @@ export const createAgentTask = async (
   body: TaskRequestBody | null,
 ): Promise<Task> => {
   if (taskHandler == null) {
-    throw new Error("Task handler not defined");
+    throw new Error('Task handler not defined');
   }
   const stepHandler = await taskHandler(body?.input ?? null);
   const task: Task = {
@@ -78,7 +78,7 @@ export const createAgentTask = async (
   tasks.push([task, stepHandler]);
   return task;
 };
-app.post("/agent/tasks", (req, res) => {
+app.post('/agent/tasks', (req, res) => {
   void (async () => {
     try {
       const task = await createAgentTask(req.body);
@@ -97,7 +97,7 @@ app.post("/agent/tasks", (req, res) => {
 export const listAgentTaskIDs = async (): Promise<string[]> => {
   return tasks.map(([task, _]) => task.task_id);
 };
-app.get("/agent/tasks", (req, res) => {
+app.get('/agent/tasks', (req, res) => {
   void (async () => {
     try {
       const ids = await listAgentTaskIDs();
@@ -121,7 +121,7 @@ export const getAgentTask = async (taskId: string): Promise<Task> => {
   }
   return task[0];
 };
-app.get("/agent/tasks/:task_id", (req, res) => {
+app.get('/agent/tasks/:task_id', (req, res) => {
   void (async () => {
     try {
       const task = await getAgentTask(req.params.task_id);
@@ -147,7 +147,7 @@ export const listAgentTaskSteps = async (taskId: string): Promise<string[]> => {
     .filter((step) => step.task_id === taskId)
     .map((step) => step.step_id);
 };
-app.get("/agent/tasks/:task_id/steps", (req, res) => {
+app.get('/agent/tasks/:task_id/steps', (req, res) => {
   void (async () => {
     try {
       const ids = await listAgentTaskSteps(req.params.task_id);
@@ -193,7 +193,7 @@ export const executeAgentTaskStep = async (
   steps.push(step);
   return step;
 };
-app.post("/agent/tasks/:task_id/steps", (req, res) => {
+app.post('/agent/tasks/:task_id/steps', (req, res) => {
   void (async () => {
     try {
       const step = await executeAgentTaskStep(req.params.task_id, req.body);
@@ -225,7 +225,7 @@ export const getAgentTaskStep = async (
   }
   return step;
 };
-app.get("/agent/tasks/:task_id/steps/:step_id", (req, res) => {
+app.get('/agent/tasks/:task_id/steps/:step_id', (req, res) => {
   void (async () => {
     try {
       const step = await getAgentTaskStep(

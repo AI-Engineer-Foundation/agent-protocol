@@ -22,7 +22,7 @@ module.exports = {
     project: "tsconfig.json",
   },
   rules: {
-    quotes: [2, "double", { avoidEscape: true }],
+    quotes: ["error", "single", { avoidEscape: true }],
     "@typescript-eslint/restrict-template-expressions": "off",
     "@typescript-eslint/no-extraneous-class": "off",
   },

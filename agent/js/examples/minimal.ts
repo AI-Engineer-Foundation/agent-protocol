@@ -3,7 +3,7 @@ import Agent, {
   type StepHandler,
   type TaskInput,
   type StepInput,
-} from "agent-protocol";
+} from 'agent-protocol';
 
 const taskHandler = async (
   taskInput: TaskInput | null,
