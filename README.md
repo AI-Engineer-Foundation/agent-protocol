@@ -29,7 +29,7 @@ Because this protocol is open-source, any platform can adopt it and your agent t
 
 ### Supported languages:
 - Python
-- *JavaScript/TypeScript*
+- JavaScript/TypeScript
 
 ### Python
 ```sh
