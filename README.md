@@ -24,7 +24,8 @@ We found out that a lot of agents are structured into “steps” – usually th
 
 ### 💬 Public discourse & development
 - PRs and issues are welcome!
-- Join our [Discord](https://discord.gg/U7KEcGErtQ) and the [`agent-protocol` channel](https://discord.com/channels/1092455714431180995/1132296350894133379)
+- Join [Auto-GPT Discord](https://discord.gg/autogpt) and their dedicated `agent-protocol` channel
+- Join [e2b Discord](https://discord.gg/U7KEcGErtQ)
 
 ### Open-source agents and projects that have adopted Agent Protocol
 - ✅ [Auto-GPT](https://github.com/Significant-Gravitas/Auto-GPT)
