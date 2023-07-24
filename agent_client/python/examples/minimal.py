@@ -28,12 +28,8 @@ async def main():
         print("\n\n")
 
         task_id = response.task_id
-        response = await api_instance.execute_agent_task_step(task_id=task_id)
-        print("The response of AgentApi->execute_agent_task_step:\n")
-        print(response)
-        print("\n\n")
-
         i = 1
+
         while (
             step := await api_instance.execute_agent_task_step(
                 task_id=task_id, step_request_body=StepRequestBody(input=i)
@@ -42,6 +38,7 @@ async def main():
             print("The response of AgentApi->execute_agent_task_step:\n")
             print(step)
             print("\n\n")
+            i += 1
 
         print("Agent finished its work!")
 
