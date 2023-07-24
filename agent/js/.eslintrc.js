@@ -4,7 +4,7 @@ module.exports = {
     es2021: true,
   },
   ignorePatterns: ["dist"],
-  extends: "standard-with-typescript",
+  extends: ["standard-with-typescript", "prettier"],
   overrides: [
     {
       env: {
@@ -22,7 +22,7 @@ module.exports = {
     project: "tsconfig.json",
   },
   rules: {
-    quotes: [2, "single", { avoidEscape: true }],
+    quotes: [2, "double", { avoidEscape: true }],
     "@typescript-eslint/restrict-template-expressions": "off",
     "@typescript-eslint/no-extraneous-class": "off",
   },

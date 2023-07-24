@@ -1,7 +1,7 @@
 <h1 align="center">
   <img width="200" src="https://raw.githubusercontent.com/e2b-dev/e2b/main/docs-assets/logoname-black.svg#gh-light-mode-only" alt="e2b">
   <img width="200" src="https://raw.githubusercontent.com/e2b-dev/e2b/main/docs-assets/logoname-white.svg#gh-dark-mode-only" alt="e2b">
-  SDK
+  Agent Protocol
 </h1>
 
 <h2 align="center">Developer-first platform for deploying, testing, and monitoring AI agents</h2>
