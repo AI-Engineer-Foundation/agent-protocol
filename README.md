@@ -12,8 +12,10 @@ Because this protocol is open-source, any platform can adopt it and your agent t
 
 ### Open-source agents that have adopted Agent Protocol
 - 🚧 [Auto-GPT](https://github.com/Significant-Gravitas/Auto-GPT)
+  - Track [PR here](https://github.com/Significant-Gravitas/Auto-GPT/pull/5044)
 - 🚧 [babyagi](https://github.com/yoheinakajima/babyagi)
 - 🚧 [smol developer](https://github.com/smol-ai/developer)
+  - Track [PR here](https://github.com/smol-ai/developer/pull/123)
 - ✅ [beebot](https://github.com/AutoPackAI/beebot)
 
 ### Platforms supporting Agent Protocol
