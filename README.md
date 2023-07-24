@@ -5,20 +5,20 @@ The protocol is **tech stack agnostic**. Any agent can adopt this protocol no ma
 
 Because this protocol is open-source, any platform can adopt it and your agent then becomes automatically compatible with it.
 
-We are starting with a minimal protocol and we want to build upon that iteratively by learning from agent developers about what they actually need - the agent space is young and we don’t want to build on wrong assumptions by defining a complex protocol from the start.
+We are starting with a minimal protocol and we want to build upon that iteratively by learning from agent developers about what they need - the agent space is young and we don’t want to build on wrong assumptions by defining a complex protocol from the start.
 
-## Why to adopt this protocol?
+## Why adopt this protocol?
 - The protocol will allow people to immediately start using benchmarks with their agents
-- We can have general devtools (for development, deployment, monitoring) that can be build on top of this protocol
+- We can have general devtools (for development, deployment and monitoring) that can be built on top of this protocol
 - You won’t need to write boilerplate API and you can focus on developing your agent
 - Other people can more easily use and integrate with your agent
 
-## How the protocol works?
+## How does the protocol work?
 Right now the protocol is defined as a REST API (via the [OpenAPI spec](./openapi.yml)) with two essential routes for interaction with your agent:
 - `POST /agent/tasks` for creating a new task for the agent (for example giving AutoGPT an objective that you want to accomplish)
 - `POST /agent/tasks/{task_id}/steps` for executing one step of the defined task
 
-We found out that a lot of agents are structured into “steps” – usually these steps are either iterations of the core agent loop or just parts of the code with a call to the LLM. These steps are non-deterministic and you want to have control over them when developing, testing and controlling your agent.
+We found out that a lot of agents are structured into “steps” – usually these steps are either iterations of the core agent loop or just parts of the code with a call to the LLM. These steps are non-deterministic and you want to have control over them when developing, testing, and controlling your agent.
 
 > We plan to add a GraphQL support in the future.
 
