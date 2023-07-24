@@ -1,32 +1,15 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "lib": [
-      "ES2020"
-    ],
-    "module": "CommonJS",
-    "allowJs": true,
+    "module": "commonjs",
     "declaration": true,
-    "declarationMap": true,
-    "moduleResolution": "node",
-    "sourceMap": true,
-    "strict": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "strictBindCallApply": true,
-    "strictPropertyInitialization": true,
-    "noImplicitThis": true,
-    "alwaysStrict": true,
-    "esModuleInterop": true,
-    "preserveSymlinks": true,
-    "downlevelIteration": true,
-    "resolveJsonModule": true,
-    "forceConsistentCasingInFileNames": true,
+    "removeComments": true,
     "allowSyntheticDefaultImports": true,
-    "outDir": "dist",
-    "baseUrl": ".",
-    "rootDirs": [
-      "src",
-    ],
-  }
+    "target": "es2017",
+    "sourceMap": false,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "strictNullChecks": true
+  },
+  "include": ["src/**/*", "examples/**/*"],
+  "exclude": ["node_modules", "test", "lib", "**/*spec.ts", "dist"]
 }

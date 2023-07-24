@@ -19,7 +19,7 @@ Because this protocol is open-source, any platform can adopt it and your agent t
 
 ### Supported languages:
 - Python
-- *JavaScript/TypeScript*
+- JavaScript/TypeScript
 
 
 ### Python
@@ -38,7 +38,7 @@ npm i agent-protocol
 [See the Python package](./python)
 
 ### JavaScript/TypeScript
-Work in progress. Track [this PR](https://github.com/e2b-dev/agent-protocol/pull/7).
+[See the JavaScript/Typescript package](./js)
 
 ## Additional languages
 Please make a PR. We're currently prioritizing Python and JS/TS but we'd love to support more languages.
