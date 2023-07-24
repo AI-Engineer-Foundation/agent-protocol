@@ -16,9 +16,9 @@ Because this protocol is open-source, any platform can adopt it and your agent t
 - 🚧 [Auto-GPT-Forge](https://github.com/Significant-Gravitas/Auto-GPT-Forge)
 - 🚧 [Auto-GPT-Benchmarks](https://github.com/Significant-Gravitas/Auto-GPT-Benchmarks)
 - 🚧 [babyagi](https://github.com/yoheinakajima/babyagi)
-  - Track [PR here](https://github.com/yoheinakajima/babyagi/pull/356)
+  - Track [PR here](https://github.com/yoheinakajima/babyagi/pull/356). Waiting for merge.
 - 🚧 [smol developer](https://github.com/smol-ai/developer)
-  - Track [PR here](https://github.com/smol-ai/developer/pull/123)
+  - Track [PR here](https://github.com/smol-ai/developer/pull/123). Waiting for merge.
 - 🚧 [beebot](https://github.com/AutoPackAI/beebot)
   - Might require GraphQL and more features. See [issue here](https://github.com/e2b-dev/agent-protocol/issues/9).
 
