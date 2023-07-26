@@ -7,25 +7,36 @@ Because this protocol is open-source, any platform can adopt it and your agent t
 
 We are starting with a minimal protocol and we want to build upon that iteratively by learning from agent developers about what they need - the agent space is young and we don’t want to build on wrong assumptions by defining a complex protocol from the start.
 
-## Why adopt this protocol?
-- The protocol will allow people to immediately start using benchmarks with their agents
-- We can have general devtools (for development, deployment and monitoring) that can be built on top of this protocol
-- You won’t need to write boilerplate API and you can focus on developing your agent
-- Other people can more easily use and integrate with your agent
+## Installation
+Install one of the official libraries or implement the protocol spec on your own by following the [OpenAPI file](https://github.com/e2b-dev/agent-protocol/blob/main/openapi.yml).
 
-## How does the protocol work?
-Right now the protocol is defined as a REST API (via the [OpenAPI spec](./openapi.yml)) with two essential routes for interaction with your agent:
-- `POST /agent/tasks` for creating a new task for the agent (for example giving AutoGPT an objective that you want to accomplish)
-- `POST /agent/tasks/{task_id}/steps` for executing one step of the defined task
+### Currently supported languages:
+- Python
+- 🚧 *JavaScript/TypeScript*
 
-We found out that a lot of agents are structured into “steps” – usually these steps are either iterations of the core agent loop or just parts of the code with a call to the LLM. These steps are non-deterministic and you want to have control over them when developing, testing, and controlling your agent.
+**Please open an issue for a request to support your favorite language.**
 
-> We plan to add a GraphQL support in the future.
+### Python SDK
 
-### 💬 Public discourse & development
-- PRs and issues are welcome!
-- Join [Auto-GPT Discord](https://discord.gg/autogpt) and their dedicated `agent-protocol` channel
-- Join [e2b Discord](https://discord.gg/U7KEcGErtQ)
+```sh
+pip install agent-protocol
+```
+_You can find the full example [in the Python SDK directory](./agent/python/README.md)_
+
+### 🚧 JavaScript/TypeScript SDK
+```sh
+npm i agent-protocol
+```
+
+## Usage
+
+### Python SDK
+You can find the full example [in the Python SDK directory](./agent/python/README.md)
+
+### 🚧 JavaScript/TypeScript SDK
+_Currently work in progress._
+
+## Adoption
 
 ### Open-source agents and projects that have adopted Agent Protocol
 - ✅ [Auto-GPT](https://github.com/Significant-Gravitas/Auto-GPT)
@@ -42,19 +53,28 @@ We found out that a lot of agents are structured into “steps” – usually th
 ### Platforms supporting Agent Protocol
 - [e2b](https://e2b.dev)
 
-## How to use this protocol?
-### Supported languages:
-- Python
-- 🚧 *JavaScript/TypeScript*
+### Creating your own SDK that implements the protocol
+The protocol is described in the OpenAPI spec in [this file](https://github.com/e2b-dev/agent-protocol/blob/main/openapi.yml). 
+You can create your own SDK that implements this protocol just by implementing the spec.
 
-### Python
+We tried for the current implementations to be fairly simple (please let us know if you think this isn't true). You can get inspired by looking in a source code of the official [Python SDK](https://github.com/e2b-dev/agent-protocol/tree/main/agent/python/agent_protocol).
 
-```sh
-pip install agent-protocol
-```
-_You can find the full example [in the Python SDK directory](./agent/python/README.md)_
+## Why adopt this protocol?
+- The protocol will allow people to immediately start using benchmarks with their agents
+- We can have general devtools (for development, deployment and monitoring) that can be built on top of this protocol
+- You won’t need to write boilerplate API and you can focus on developing your agent
+- Other people can more easily use and integrate with your agent
 
-### 🚧 JavaScript/TypeScript 
-```sh
-npm i agent-protocol
-```
+## How does the protocol work?
+Right now the protocol is defined as a REST API (via the [OpenAPI spec](./openapi.yml)) with two essential routes for interaction with your agent:
+- `POST /agent/tasks` for creating a new task for the agent (for example giving AutoGPT an objective that you want to accomplish)
+- `POST /agent/tasks/{task_id}/steps` for executing one step of the defined task
+
+We found out that a lot of agents are structured into “steps” – usually these steps are either iterations of the core agent loop or just parts of the code with a call to the LLM. These steps are non-deterministic and you want to have control over them when developing, testing, and controlling your agent.
+
+> We plan to add a GraphQL support in the future.
+
+## 💬 Public discourse & development
+- PRs and issues are welcome!
+- Join [Auto-GPT Discord](https://discord.gg/autogpt) and their dedicated `agent-protocol` channel
+- Join [e2b Discord](https://discord.gg/U7KEcGErtQ)
