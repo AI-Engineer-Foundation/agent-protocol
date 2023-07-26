@@ -93,8 +93,8 @@ You will get a response like this:
 ```json
 {
   "input": "task-input-to-your-agent",
-  "task_id": e6d768bb-4c50-4007-9853-aeffb46c77be",
-  "artifacts":[]
+  "task_id": "e6d768bb-4c50-4007-9853-aeffb46c77be",
+  "artifacts": []
 }
 ```
 
