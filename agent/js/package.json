@@ -17,7 +17,7 @@
   "main": "./dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "prepublishOnly": "pnpm build",
+    "prepublishOnly": "npm run build",
     "clean": "rm -rf ./dist",
     "build": "rm -rf ./dist && tsup",
     "fix": "npx eslint \"**/{examples,src}/**/*.{ts,js}\" --fix",
