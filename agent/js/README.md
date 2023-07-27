@@ -20,22 +20,18 @@ import Agent, {
   type StepInput,
 } from "agent-protocol";
 
-const taskHandler = async (
-  taskInput: TaskInput | null
-): Promise<StepHandler> => {
+async function taskHandler(taskInput: TaskInput | null): Promise<StepHandler> {
   console.log(`task: ${taskInput}`);
 
-  const stepHandler = async (
-    stepInput: StepInput | null
-  ): Promise<StepResult> => {
+  async function stepHandler(stepInput: StepInput | null): Promise<StepResult> {
     console.log(`step: ${stepInput}`);
     return {
       output: stepInput,
     };
-  };
+  }
 
   return stepHandler;
-};
+}
 
 Agent.handleTask(taskHandler).start();
 ```
@@ -45,18 +41,18 @@ Agent.handleTask(taskHandler).start();
 ```javascript
 import Agent from "agent-protocol";
 
-const taskHandler = async (taskInput) => {
+async function taskHandler(taskInput) {
   console.log(`task: ${taskInput}`);
 
-  const stepHandler = async (stepInput) => {
+  async function stepHandler(stepInput) {
     console.log(`step: ${stepInput}`);
     return {
       output: stepInput,
     };
-  };
+  }
 
   return stepHandler;
-};
+}
 
 Agent.handleTask(taskHandler).start();
 ```

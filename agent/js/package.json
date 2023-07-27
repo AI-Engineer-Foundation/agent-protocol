@@ -12,7 +12,7 @@
   "bugs": "https://github.com/e2b-dev/agent-protocol/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/e2b-dev/agent-protocol"
+    "url": "https://github.com/e2b-dev/agent-protocol/tree/main/agent/js"
   },
   "main": "./dist/index.js",
   "types": "dist/index.d.ts",
@@ -44,22 +44,19 @@
   "files": [
     "dist",
     "README.md",
-    "package.json",
-    "package-lock.json"
+    "package.json"
   ],
   "keywords": [
     "agent",
     "communication",
     "protocol",
+    "agent-protocol",
+    "agent-api",
+    "nodejs",
     "javascript",
     "typescript",
     "sdk",
-    "webserver",
-    "task",
-    "handler",
     "api",
-    "implementation",
-    "interaction",
     "wrapper"
   ],
   "dependencies": {
