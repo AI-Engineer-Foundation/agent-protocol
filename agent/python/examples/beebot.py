@@ -1,5 +1,4 @@
 from beebot.body import Body
-from typing import Any
 
 from agent_protocol import (
     Agent,

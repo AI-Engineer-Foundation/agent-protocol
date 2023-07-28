@@ -13,12 +13,10 @@
 
 
 import re  # noqa: F401
-import io
-import warnings
 
-from pydantic import validate_arguments, ValidationError
+from pydantic import validate_arguments
 from typing_extensions import Annotated
-from typing import overload, Optional, Union, Awaitable
+from typing import overload, Union, Awaitable
 
 from pydantic import Field, StrictStr
 
@@ -92,7 +90,8 @@ class AgentApi(object):
         kwargs["_return_http_data_only"] = True
         if "_preload_content" in kwargs:
             raise ValueError(
-                "Error! Please call the create_agent_task_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"
+                "Error! Please call the create_agent_task_with_http_info method with `_preload_content` "
+                "instead and obtain raw data from ApiResponse.raw_data"
             )
         if async_req is not None:
             kwargs["async_req"] = async_req
@@ -273,7 +272,8 @@ class AgentApi(object):
         kwargs["_return_http_data_only"] = True
         if "_preload_content" in kwargs:
             raise ValueError(
-                "Error! Please call the execute_agent_task_step_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"
+                "Error! Please call the execute_agent_task_step_with_http_info method with `_preload_content` "
+                "instead and obtain raw data from ApiResponse.raw_data"
             )
         if async_req is not None:
             kwargs["async_req"] = async_req
@@ -456,7 +456,8 @@ class AgentApi(object):
         kwargs["_return_http_data_only"] = True
         if "_preload_content" in kwargs:
             raise ValueError(
-                "Error! Please call the get_agent_task_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"
+                "Error! Please call the get_agent_task_with_http_info method with `_preload_content` "
+                "instead and obtain raw data from ApiResponse.raw_data"
             )
         if async_req is not None:
             kwargs["async_req"] = async_req
@@ -628,7 +629,8 @@ class AgentApi(object):
         kwargs["_return_http_data_only"] = True
         if "_preload_content" in kwargs:
             raise ValueError(
-                "Error! Please call the get_agent_task_step_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"
+                "Error! Please call the get_agent_task_step_with_http_info method with `_preload_content`"
+                " instead and obtain raw data from ApiResponse.raw_data"
             )
         if async_req is not None:
             kwargs["async_req"] = async_req
@@ -803,7 +805,8 @@ class AgentApi(object):
         kwargs["_return_http_data_only"] = True
         if "_preload_content" in kwargs:
             raise ValueError(
-                "Error! Please call the list_agent_task_steps_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"
+                "Error! Please call the list_agent_task_steps_with_http_info method with `_preload_content` "
+                "instead and obtain raw data from ApiResponse.raw_data"
             )
         if async_req is not None:
             kwargs["async_req"] = async_req
@@ -960,7 +963,8 @@ class AgentApi(object):
         kwargs["_return_http_data_only"] = True
         if "_preload_content" in kwargs:
             raise ValueError(
-                "Error! Please call the list_agent_tasks_ids_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"
+                "Error! Please call the list_agent_tasks_ids_with_http_info method with `_preload_content` "
+                "instead and obtain raw data from ApiResponse.raw_data"
             )
         if async_req is not None:
             kwargs["async_req"] = async_req

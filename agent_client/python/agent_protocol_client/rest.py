@@ -19,7 +19,7 @@ import re
 import ssl
 
 import aiohttp
-from urllib.parse import urlencode, quote_plus
+from urllib.parse import urlencode
 
 from agent_protocol_client.exceptions import ApiException, ApiValueError
 
