@@ -1,0 +1,27 @@
+on:
+  push:
+    paths:
+      - '**.js?(x)'
+      - '**.ts?(x)'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    name: Run eslint
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '13.x'
+      - run: npm i
+      - run: npm run lint
+  tsc:
+    runs-on: ubuntu-latest
+    name: Check typescript
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '13.x'
+      - run: yarn
+      - run: yarn tsc

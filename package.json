@@ -1,0 +1,31 @@
+{
+  "name": "agent-protocol",
+  "scripts": {
+    "ci": "prettier . -c && eslint . --ext .ts,.tsx",
+    "prettier": "prettier . -c",
+    "lint": "eslint .  --ext .ts,.tsx --fix",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "**/*.{ts?(x),js?(x),json,md}": [
+      "prettier --write"
+    ],
+    "**/*.ts": [
+      "eslint --fix"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn format && eslint --fix ."
+    }
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "eslint": "^8.45.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-config-standard-with-typescript": "^36.1.0",
+    "husky": "^7.0.0",
+    "lint-staged": "^13.2.3",
+    "prettier": "^3.0.0"
+  }
+}

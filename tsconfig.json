@@ -10,6 +10,5 @@
     "baseUrl": "./",
     "strictNullChecks": true
   },
-  "include": ["src/**/*", "examples/**/*"],
   "exclude": ["node_modules", "test", "lib", "**/*spec.ts", "dist"]
 }

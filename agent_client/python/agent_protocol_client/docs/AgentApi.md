@@ -1,18 +1,18 @@
 # agent_protocol_client.AgentApi
 
-All URIs are relative to *http://localhost*
+All URIs are relative to _http://localhost_
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**create_agent_task**](AgentApi.md#create_agent_task) | **POST** /agent/tasks | Creates a task for the agent.
-[**execute_agent_task_step**](AgentApi.md#execute_agent_task_step) | **POST** /agent/tasks/{task_id}/steps | Execute a step in the specified agent task.
-[**get_agent_task**](AgentApi.md#get_agent_task) | **GET** /agent/tasks/{task_id} | Get details about a specified agent task.
-[**get_agent_task_step**](AgentApi.md#get_agent_task_step) | **GET** /agent/tasks/{task_id}/steps/{step_id} | Get details about a specified task step.
-[**list_agent_task_steps**](AgentApi.md#list_agent_task_steps) | **GET** /agent/tasks/{task_id}/steps | List all steps for the specified task.
-[**list_agent_tasks_ids**](AgentApi.md#list_agent_tasks_ids) | **GET** /agent/tasks | List all tasks that have been created for the agent.
-
+| Method                                                             | HTTP request                                   | Description                                          |
+| ------------------------------------------------------------------ | ---------------------------------------------- | ---------------------------------------------------- |
+| [**create_agent_task**](AgentApi.md#create_agent_task)             | **POST** /agent/tasks                          | Creates a task for the agent.                        |
+| [**execute_agent_task_step**](AgentApi.md#execute_agent_task_step) | **POST** /agent/tasks/{task_id}/steps          | Execute a step in the specified agent task.          |
+| [**get_agent_task**](AgentApi.md#get_agent_task)                   | **GET** /agent/tasks/{task_id}                 | Get details about a specified agent task.            |
+| [**get_agent_task_step**](AgentApi.md#get_agent_task_step)         | **GET** /agent/tasks/{task_id}/steps/{step_id} | Get details about a specified task step.             |
+| [**list_agent_task_steps**](AgentApi.md#list_agent_task_steps)     | **GET** /agent/tasks/{task_id}/steps           | List all steps for the specified task.               |
+| [**list_agent_tasks_ids**](AgentApi.md#list_agent_tasks_ids)       | **GET** /agent/tasks                           | List all tasks that have been created for the agent. |
 
 # **create_agent_task**
+
 > Task create_agent_task(task_request_body=task_request_body)
 
 Creates a task for the agent.
@@ -50,12 +50,11 @@ async with agent_protocol_client.ApiClient(configuration) as api_client:
         print("Exception when calling AgentApi->create_agent_task: %s\n" % e)
 ```
 
-
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **task_request_body** | [**TaskRequestBody**](TaskRequestBody.md)|  | [optional] 
+| Name                  | Type                                      | Description | Notes      |
+| --------------------- | ----------------------------------------- | ----------- | ---------- |
+| **task_request_body** | [**TaskRequestBody**](TaskRequestBody.md) |             | [optional] |
 
 ### Return type
 
@@ -67,18 +66,20 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+- **Content-Type**: application/json
+- **Accept**: application/json
 
 ### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | A new agent task was successfuly created. |  -  |
-**0** | Internal Server Error |  -  |
+
+| Status code | Description                               | Response headers |
+| ----------- | ----------------------------------------- | ---------------- |
+| **200**     | A new agent task was successfuly created. | -                |
+| **0**       | Internal Server Error                     | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **execute_agent_task_step**
+
 > Step execute_agent_task_step(task_id, step_request_body=step_request_body)
 
 Execute a step in the specified agent task.
@@ -117,13 +118,12 @@ async with agent_protocol_client.ApiClient(configuration) as api_client:
         print("Exception when calling AgentApi->execute_agent_task_step: %s\n" % e)
 ```
 
-
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **task_id** | **str**| ID of the task | 
- **step_request_body** | [**StepRequestBody**](StepRequestBody.md)|  | [optional] 
+| Name                  | Type                                      | Description    | Notes      |
+| --------------------- | ----------------------------------------- | -------------- | ---------- |
+| **task_id**           | **str**                                   | ID of the task |
+| **step_request_body** | [**StepRequestBody**](StepRequestBody.md) |                | [optional] |
 
 ### Return type
 
@@ -135,18 +135,20 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+- **Content-Type**: application/json
+- **Accept**: application/json
 
 ### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | Executed step for the agent task. |  -  |
-**0** | Internal Server Error |  -  |
+
+| Status code | Description                       | Response headers |
+| ----------- | --------------------------------- | ---------------- |
+| **200**     | Executed step for the agent task. | -                |
+| **0**       | Internal Server Error             | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_agent_task**
+
 > Task get_agent_task(task_id)
 
 Get details about a specified agent task.
@@ -183,12 +185,11 @@ async with agent_protocol_client.ApiClient(configuration) as api_client:
         print("Exception when calling AgentApi->get_agent_task: %s\n" % e)
 ```
 
-
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **task_id** | **str**| ID of the task | 
+| Name        | Type    | Description    | Notes |
+| ----------- | ------- | -------------- | ----- |
+| **task_id** | **str** | ID of the task |
 
 ### Return type
 
@@ -200,18 +201,20 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/json
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
 ### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | Returned details about an agent task. |  -  |
-**0** | Internal Server Error |  -  |
+
+| Status code | Description                           | Response headers |
+| ----------- | ------------------------------------- | ---------------- |
+| **200**     | Returned details about an agent task. | -                |
+| **0**       | Internal Server Error                 | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_agent_task_step**
+
 > Step get_agent_task_step(task_id, step_id)
 
 Get details about a specified task step.
@@ -249,13 +252,12 @@ async with agent_protocol_client.ApiClient(configuration) as api_client:
         print("Exception when calling AgentApi->get_agent_task_step: %s\n" % e)
 ```
 
-
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **task_id** | **str**| ID of the task | 
- **step_id** | **str**| ID of the step | 
+| Name        | Type    | Description    | Notes |
+| ----------- | ------- | -------------- | ----- |
+| **task_id** | **str** | ID of the task |
+| **step_id** | **str** | ID of the step |
 
 ### Return type
 
@@ -267,18 +269,20 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/json
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
 ### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | Returned details about an agent task step. |  -  |
-**0** | Internal Server Error |  -  |
+
+| Status code | Description                                | Response headers |
+| ----------- | ------------------------------------------ | ---------------- |
+| **200**     | Returned details about an agent task step. | -                |
+| **0**       | Internal Server Error                      | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_agent_task_steps**
+
 > List[str] list_agent_task_steps(task_id)
 
 List all steps for the specified task.
@@ -314,12 +318,11 @@ async with agent_protocol_client.ApiClient(configuration) as api_client:
         print("Exception when calling AgentApi->list_agent_task_steps: %s\n" % e)
 ```
 
-
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **task_id** | **str**| ID of the task | 
+| Name        | Type    | Description    | Notes |
+| ----------- | ------- | -------------- | ----- |
+| **task_id** | **str** | ID of the task |
 
 ### Return type
 
@@ -331,18 +334,20 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/json
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
 ### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | Returned list of agent&#39;s step IDs for the specified task. |  -  |
-**0** | Internal Server Error |  -  |
+
+| Status code | Description                                                   | Response headers |
+| ----------- | ------------------------------------------------------------- | ---------------- |
+| **200**     | Returned list of agent&#39;s step IDs for the specified task. | -                |
+| **0**       | Internal Server Error                                         | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_agent_tasks_ids**
+
 > List[str] list_agent_tasks_ids()
 
 List all tasks that have been created for the agent.
@@ -377,8 +382,8 @@ async with agent_protocol_client.ApiClient(configuration) as api_client:
         print("Exception when calling AgentApi->list_agent_tasks_ids: %s\n" % e)
 ```
 
-
 ### Parameters
+
 This endpoint does not need any parameter.
 
 ### Return type
@@ -391,14 +396,14 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/json
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
 ### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | Returned list of agent&#39;s task IDs. |  -  |
-**0** | Internal Server Error |  -  |
+
+| Status code | Description                            | Response headers |
+| ----------- | -------------------------------------- | ---------------- |
+| **200**     | Returned list of agent&#39;s task IDs. | -                |
+| **0**       | Internal Server Error                  | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-

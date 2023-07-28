@@ -3,6 +3,7 @@
 Python client for Agent Communication Protocol. This client simplifies the communication with the agent.
 
 ## Installation
+
 ```bash
 pip install agent-protocol-client
 ```

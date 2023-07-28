@@ -162,15 +162,15 @@ components:
       description: Body of the task request.
       properties:
         input:
-          $ref: "#/components/schemas/TaskInput"
+          $ref: '#/components/schemas/TaskInput'
 
     Task:
       allOf:
-        - $ref: "#/components/schemas/TaskRequestBody"
+        - $ref: '#/components/schemas/TaskRequestBody'
         - type: object
           description: Definition of an agent task.
           required:
-            - "task_id"
+            - 'task_id'
           properties:
             task_id:
               description: The ID of the task.
@@ -180,29 +180,29 @@ components:
               default: []
               description: A list of artifacts that the task has produced.
               items:
-                $ref: "#/components/schemas/Artifact"
+                $ref: '#/components/schemas/Artifact'
 
     StepRequestBody:
       type: object
       description: Body of the task request.
       properties:
         input:
-          $ref: "#/components/schemas/StepInput"
+          $ref: '#/components/schemas/StepInput'
 
     StepResult:
       description: Result of the task step.
       type: object
       required:
-        - "artifacts"
+        - 'artifacts'
       properties:
         output:
-          $ref: "#/components/schemas/StepOutput"
+          $ref: '#/components/schemas/StepOutput'
         artifacts:
           type: array
           default: []
           description: A list of artifacts that the step has produced.
           items:
-            $ref: "#/components/schemas/Artifact"
+            $ref: '#/components/schemas/Artifact'
         is_last:
           description: Whether this is the last step in the task.
           type: boolean
@@ -210,12 +210,12 @@ components:
 
     Step:
       allOf:
-        - $ref: "#/components/schemas/StepRequestBody"
-        - $ref: "#/components/schemas/StepResult"
+        - $ref: '#/components/schemas/StepRequestBody'
+        - $ref: '#/components/schemas/StepResult'
         - type: object
           required:
-            - "step_id"
-            - "task_id"
+            - 'step_id'
+            - 'task_id'
           properties:
             task_id:
               description: The ID of the task this step belongs to.

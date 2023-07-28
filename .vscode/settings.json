@@ -46,10 +46,7 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
-  "eslint.validate": [
-    "javascript",
-    "typescript"
-  ],
+  "eslint.validate": ["javascript", "typescript"],
   "debug.javascript.codelens.npmScripts": "never",
   "editor.codeLens": true,
   "editor.suggest.localityBonus": true,
@@ -61,13 +58,13 @@
   "python.autoComplete.extraPaths": [
     "agent/python/**",
     "agent/python/.venv/bin/python",
-    "agent/python/.venv/bin",
+    "agent/python/.venv/bin"
   ],
   "python.defaultInterpreterPath": "agent/python/.venv/bin/python",
   "python.analysis.extraPaths": [
     "agent/python/**",
     "agent/python/.venv/bin/python",
-    "agent/python/.venv/bin",
+    "agent/python/.venv/bin"
   ],
   // Disable Pylint and use just Pylance
   "python.linting.enabled": false,

@@ -1,72 +1,72 @@
 /**
  * Input parameters for the task. Any value is allowed.
  */
-export type TaskInput = any;
+export type TaskInput = any
 
 /**
  * Artifact that the task has produced. Any value is allowed.
  */
-export type Artifact = any;
+export type Artifact = any
 
 /**
  * Input parameters for the task step. Any value is allowed.
  */
-export type StepInput = any;
+export type StepInput = any
 
 /**
  * Output that the task step has produced. Any value is allowed.
  */
-export type StepOutput = any;
+export type StepOutput = any
 
 export interface Step {
-  output?: StepOutput;
+  output?: StepOutput
   /**
    * A list of artifacts that the step has produced.
    */
-  artifacts?: Artifact[];
+  artifacts?: Artifact[]
   /**
    * Whether this is the last step in the task.
    */
-  is_last?: boolean;
-  input?: StepInput;
+  is_last?: boolean
+  input?: StepInput
   /**
    * The ID of the task this step belongs to.
    */
-  task_id: string;
+  task_id: string
   /**
    * The ID of the task step.
    */
-  step_id: string;
+  step_id: string
 }
 
 export interface StepRequestBody {
-  input?: StepInput;
+  input?: StepInput
 }
 
 export interface StepResult {
-  output?: StepOutput;
+  output?: StepOutput
   /**
    * A list of artifacts that the step has produced.
    */
-  artifacts?: Artifact[];
+  artifacts?: Artifact[]
   /**
    * Whether this is the last step in the task.
    */
-  is_last?: boolean;
+  is_last?: boolean
 }
 
 export interface Task {
-  input?: TaskInput;
+  input?: TaskInput
   /**
    * The ID of the task.
    */
-  task_id: string;
+  task_id: string
   /**
    * A list of artifacts that the task has produced.
    */
-  artifacts?: Artifact[];
+  artifacts?: Artifact[]
 }
 
 export interface TaskRequestBody {
-  input?: TaskInput;
+  input?: TaskInput
 }

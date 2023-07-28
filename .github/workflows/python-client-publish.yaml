@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   publish:
-    name: Build and publish the Python package 
+    name: Build and publish the Python package
     runs-on: ubuntu-20.04
     defaults:
       run:
@@ -21,7 +21,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.10"
+          python-version: '3.10'
 
       - name: Install and configure Poetry
         uses: snok/install-poetry@v1
@@ -33,7 +33,7 @@ jobs:
 
       - name: Build Package
         run: poetry build
-      
+
       - name: Config Poetry
         run: |
           poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
