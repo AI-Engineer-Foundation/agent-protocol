@@ -63,6 +63,7 @@ You can find the full example [in the JS/TS SDK directory](./agent/js/README.md)
 - 🚧 [Auto-GPT-Forge](https://github.com/Significant-Gravitas/Auto-GPT-Forge)
 - 🚧
   [Auto-GPT-Benchmarks](https://github.com/Significant-Gravitas/Auto-GPT-Benchmarks)
+    - Track [PR here](https://github.com/Significant-Gravitas/Auto-GPT-Benchmarks/pull/209). Waiting for merge.
 - 🚧 [babyagi](https://github.com/yoheinakajima/babyagi)
   - Track [PR here](https://github.com/yoheinakajima/babyagi/pull/356). Waiting
     for merge.
