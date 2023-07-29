@@ -54,7 +54,7 @@ async def create_agent_task(body: TaskRequestBody | None = None) -> Task:
 
 
 @app.get("/agent/tasks", response_model=List[str], tags=["agent", "tasks"])
-async def list_agent_tasks_i_ds() -> List[str]:
+async def list_agent_tasks_ids() -> List[str]:
     """
     List all tasks that have been created for the agent.
     """
