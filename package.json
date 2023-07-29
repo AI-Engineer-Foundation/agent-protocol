@@ -16,7 +16,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn format && eslint --fix ."
+      "pre-commit": "eslint --fix ."
     }
   },
   "devDependencies": {
