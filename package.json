@@ -2,7 +2,7 @@
   "name": "agent-protocol",
   "scripts": {
     "ci": "prettier . -c && eslint . --ext .ts,.tsx",
-    "prettier": "prettier . -c",
+    "prettier": "prettier . -w",
     "lint": "eslint .  --ext .ts,.tsx --fix",
     "prepare": "husky install"
   },
@@ -16,7 +16,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "eslint --fix ."
+      "pre-commit": "npx lint-staged"
     }
   },
   "devDependencies": {
@@ -26,6 +26,7 @@
     "eslint-config-standard-with-typescript": "^36.1.0",
     "husky": "^7.0.0",
     "lint-staged": "^13.2.3",
-    "prettier": "^3.0.0"
+    "prettier": "^3.0.0",
+    "typescript": "^5.1.6"
   }
 }
