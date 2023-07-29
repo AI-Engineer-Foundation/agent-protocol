@@ -2,12 +2,22 @@
   "name": "agent-protocol",
   "version": "0.1.0",
   "description": "API for interacting with Agent",
+  "homepage": "https://e2b.dev",
+  "license": "MIT",
+  "author": {
+    "name": "e2b",
+    "email": "hello@e2b.dev",
+    "url": "https://e2b.dev"
+  },
+  "bugs": "https://github.com/e2b-dev/agent-protocol/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/e2b-dev/agent-protocol/tree/main/agent/js"
+  },
   "main": "./dist/index.js",
-  "module": "./dist/index.m.js",
-  "unpkg": "dist/index.umd.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "prepublishOnly": "pnpm build",
+    "prepublishOnly": "npm run build",
     "clean": "rm -rf ./dist",
     "build": "rm -rf ./dist && tsup"
   },
@@ -20,13 +30,23 @@
     "tsup": "^7.1.0",
     "typescript": "^5.1.6"
   },
-  "exports": {
-    "require": "./dist/index.js",
-    "default": "./dist/index.modern.js",
-    "types": "./dist/index.d.ts"
-  },
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "package.json"
+  ],
+  "keywords": [
+    "agent",
+    "communication",
+    "protocol",
+    "agent-protocol",
+    "agent-api",
+    "nodejs",
+    "javascript",
+    "typescript",
+    "sdk",
+    "api",
+    "wrapper"
   ],
   "dependencies": {
     "express": "^4.18.2",
