@@ -13,6 +13,7 @@ packages = [{ include = "agent_protocol" }]
 python = ">=3.7, <4.0.0"
 fastapi = "^0.100.0"
 hypercorn = "^0.14.4"
+pytest = "^7.4.0"
 
 [tool.poetry.group.dev.dependencies]
 fastapi-code-generator = "^0.4.2"
@@ -22,7 +23,7 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-src = "src.__main__:main"
+agent-protocol = "agent_protocol.tests.compliance:main"
 
 [tool.poetry.urls]
 "Bug Tracker" = "https://github.com/e2b-dev/agent-protocol/issues"
