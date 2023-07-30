@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "agent-protocol"
-version = "0.1.1"
+version = "0.1.2"
 description = "API for interacting with Agent"
 authors = ["e2b <hello@e2b.dev>"]
 license = "MIT"
@@ -23,7 +23,7 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-agent-protocol = "agent_protocol.tests.compliance:main"
+agent-protocol = "agent_protocol.cli:cli"
 
 [tool.poetry.urls]
 "Bug Tracker" = "https://github.com/e2b-dev/agent-protocol/issues"
