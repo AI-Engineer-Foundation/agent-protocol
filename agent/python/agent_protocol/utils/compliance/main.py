@@ -83,7 +83,7 @@ def provide_url_scheme(url: str, default_scheme: str = "https") -> str:
     return default_scheme + "://" + url
 
 
-def check_compliance(url):
+def check_compliance(url, additional_pytest_args):
     url = provide_url_scheme(url)
     pytest.main(
         [
@@ -94,4 +94,5 @@ def check_compliance(url):
             "-W",
             "ignore:Module already imported:pytest.PytestWarning",
         ]
+        + list(additional_pytest_args)
     )
