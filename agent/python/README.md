@@ -86,6 +86,15 @@ To get response like this:
 }
 ```
 
+## Test compliance
+Part of the package is also a test suite that can be used to test compliance with the protocol. To run the tests, run the following command:
+
+```sh
+agent-protocol test --url <url>
+```
+
+In the background it uses pytest, you can pass any pytest arguments to the command above.
+
 ## Examples
 
 - [Smol Developer integration](./examples/smol_developer.py)
