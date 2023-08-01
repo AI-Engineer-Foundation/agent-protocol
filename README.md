@@ -54,6 +54,21 @@ You can find the full example
 
 You can find the full example [in the JS/TS SDK directory](./agent/js/README.md)
 
+### Test compliance with the protocol
+
+You can test your agent's compliance with the protocol by installing the python package:
+
+```sh
+pip install agent-protocol
+```
+
+and then running the following command:
+
+```sh
+agent-protocol test --url <your-agent-url>
+```
+
+
 ## Adoption
 
 ### Open-source agents and projects that have adopted Agent Protocol
