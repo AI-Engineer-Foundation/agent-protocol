@@ -68,7 +68,6 @@ and then running the following command:
 agent-protocol test --url <your-agent-url>
 ```
 
-
 ## Adoption
 
 ### Open-source agents and projects that have adopted Agent Protocol
