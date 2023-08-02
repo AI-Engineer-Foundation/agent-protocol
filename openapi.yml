@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Agent Communication Protocol
   description: Specification of the API protocol for communication with an agent.
-  version: 'v1'
+  version: 'v0.2'
 
 paths:
   /agent/tasks:
@@ -149,7 +149,15 @@ components:
       description: Input parameters for the task. Any value is allowed.
 
     Artifact:
-      description: Artifact that the task has produced. Any value is allowed.
+      type: object
+      description: Artifact that the task has produced.
+      properties:
+        filename:
+          description: Filename of the artifact.
+          type: string
+        url:
+          description: Link to the artifact.
+          type: string
 
     StepInput:
       description: Input parameters for the task step. Any value is allowed.
@@ -192,8 +200,6 @@ components:
     StepResult:
       description: Result of the task step.
       type: object
-      required:
-        - 'artifacts'
       properties:
         output:
           $ref: '#/components/schemas/StepOutput'
