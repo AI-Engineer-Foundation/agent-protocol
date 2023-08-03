@@ -252,8 +252,7 @@ To get response like this:
   - Track [PR here](https://github.com/yoheinakajima/babyagi/pull/356). Waiting
     for merge.
 - ✅ [smol developer](https://github.com/smol-ai/developer)
-  - Track [PR here](https://github.com/smol-ai/developer/pull/123). Waiting for
-    merge.
+  - Track [PR here](https://github.com/smol-ai/developer/pull/123). 
 - 🚧 [beebot](https://github.com/AutoPackAI/beebot)
   - Might require more features. See
     [issue here](https://github.com/e2b-dev/agent-protocol/issues/9).
