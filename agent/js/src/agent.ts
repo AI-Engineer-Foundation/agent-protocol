@@ -1,6 +1,6 @@
 import * as OpenApiValidator from 'express-openapi-validator'
 import express from 'express'
-import path from 'path'
+import spec from '../../../openapi.yml'
 
 import { v4 as uuid } from 'uuid'
 import {
@@ -20,8 +20,6 @@ const app = express()
 app.use(express.json())
 app.use(express.text())
 app.use(express.urlencoded({ extended: false }))
-
-const spec = path.join(__dirname, process.env.NODE_ENV === 'production' ? 'openapi.yml' : '../../../openapi.yml')
 
 app.use('/spec', express.static(spec))
 

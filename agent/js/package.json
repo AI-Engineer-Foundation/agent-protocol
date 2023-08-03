@@ -19,7 +19,7 @@
   "scripts": {
     "prepublishOnly": "npm run build",
     "clean": "rm -rf ./dist",
-    "build": "rm -rf ./dist && tsup && cp ../../openapi.yml ./dist/openapi.yml"
+    "build": "rm -rf ./dist && tsup"
   },
   "private": false,
   "devDependencies": {
