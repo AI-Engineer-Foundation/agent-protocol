@@ -1,6 +1,6 @@
 {
   "name": "agent-protocol",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "API for interacting with Agent",
   "homepage": "https://e2b.dev",
   "license": "MIT",
@@ -19,7 +19,7 @@
   "scripts": {
     "prepublishOnly": "npm run build",
     "clean": "rm -rf ./dist",
-    "build": "rm -rf ./dist && tsup"
+    "build": "rm -rf ./dist && tsup && cp ../../openapi.yml ./dist/openapi.yml"
   },
   "private": false,
   "devDependencies": {

@@ -6,4 +6,7 @@ export default defineConfig({
   platform: 'node',
   format: 'cjs',
   dts: true,
+  env: {
+    NODE_ENV: 'production',
+  }
 })

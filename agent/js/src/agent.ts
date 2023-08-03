@@ -21,13 +21,13 @@ app.use(express.json())
 app.use(express.text())
 app.use(express.urlencoded({ extended: false }))
 
-const spec = path.join(__dirname, '../../openapi.yml')
+const spec = path.join(__dirname, process.env.NODE_ENV === 'production' ? 'openapi.yml' : '../../../openapi.yml')
 
 app.use('/spec', express.static(spec))
 
 app.use(
   OpenApiValidator.middleware({
-    apiSpec: '../openapi.yml',
+    apiSpec: spec,
     validateRequests: true, // (default)
     validateResponses: true, // false by default
   })
