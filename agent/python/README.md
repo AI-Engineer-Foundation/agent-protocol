@@ -87,6 +87,7 @@ To get response like this:
 ```
 
 ## Test compliance
+
 Part of the package is also a test suite that can be used to test compliance with the protocol. To run the tests, run the following command:
 
 ```sh
