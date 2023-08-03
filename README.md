@@ -29,7 +29,7 @@ matter what framework they're using (or not using).
 Because this protocol is open-source, any platform can adopt it and your agent
 then becomes automatically compatible with it.
 
-### [👉 Skip to installation 👈](#installation)
+### [👉 Skip to installation 👈](#-installation)
 
 ## The incentives to adopt the protocol
 
