@@ -1,12 +1,27 @@
-# Agent Protocol
+<h1 align="center">
+  <img height="420px" src="./assets/cover.png" alt="agent protocol">
+</h1>
+<p align="center">
+  <a href="https://discord.gg/U7KEcGErtQ" target="_blank">
+    <img src="https://img.shields.io/static/v1?label=Join&message=%20discord!&color=mediumslateblue">
+  </a>
+  <a href="https://twitter.com/e2b_dev" target="_blank">
+    <img src="https://img.shields.io/twitter/follow/e2b.svg?logo=twitter">
+  </a>
+</p>
 
-The agent space is young and the need for standard protocol should be evident. It will help the ecosystem grow faster and simplify the integrations. For some applications it’s even crucial. We don’t want to build on wrong assumptions by defining a complex protocol.
+The agent space is young and the need for standard protocol should be evident.
+It will help the ecosystem grow faster and simplify the integrations. For some
+applications it’s even crucial. We don’t want to build on wrong assumptions by
+defining a complex protocol.
 
-We are starting with a minimal core and we want to build upon that iteratively by learning from agent developers about what they actually need.
+We are starting with a minimal core and we want to build upon that iteratively
+by learning from agent developers about what they actually need.
 
-The Agent Protocol is a API specification - list of endpoints, which the agent should expose with predefined response models.
+The Agent Protocol is a API specification - list of endpoints, which the agent
+should expose with predefined response models.
 
-This protocol defines an interface for interacting with your agent.
+**This protocol defines an interface for interacting with your agent.**
 
 The protocol is **tech stack agnostic**. Any agent can adopt this protocol no
 matter what framework they're using (or not using).
@@ -14,46 +29,71 @@ matter what framework they're using (or not using).
 Because this protocol is open-source, any platform can adopt it and your agent
 then becomes automatically compatible with it.
 
-## Components
-
-### [Protocol](./openapi.yml)
-
-The most important part. It specifies which endpoints should the agent expose. The protocol is defined in [OpenAPI specification](./openapi.yml).
-
-#### How does the protocol work?
-
-Right now the protocol is defined as a REST API (via the [OpenAPI spec](./openapi.yml)) with two essential routes for interaction with your agent:
-
-- `POST /agent/tasks` for creating a new task for the agent (for example giving the agent an objective that you want to accomplish)
-- `POST /agent/tasks/{task_id}/steps` for executing one step of the defined task
-
-We found out that a lot of agents are structured into “steps” – usually these steps are either iterations of the core agent loop or just parts of the code with a call to the LLM. These steps are non-deterministic and you want to have control over them when developing, testing, and controlling your agent.
-
-### [SDK](./agent)
-
-It should simplify the implementation of the protocol to the bare minimumbut at the same time it shouldn’t tie your hands. The goal should be to allow agent builders to build their agents and the SDK should solve the rest.
-
-Basically it wraps your agent in a web server that allows for communication with your agent (and in between agents in the future).
-
-### [Client SDK](./agent_client)
-
-Allows users to interact with the agent easily. Thanks to the standard the users can try multiple agents without the need for any additional adjustments (or very minimal) in their code.
+### [👉 Skip to installation 👈](#installation)
 
 ## The incentives to adopt the protocol
 
 - Ease with which you can use the benchmarks.
 - Other people can more easily use and integrate your agent
-- Enable building general devtools (for development, deployment and monitoring) that
-  can be built on top of this protocol
-- You don’t need to write boilerplate API and you can focus on developing your agent
+- Enable building general devtools (for development, deployment and monitoring)
+  that can be built on top of this protocol
+- You don’t need to write boilerplate API and you can focus on developing your
+  agent
 
-## Immediate goals of the protocol
+## 🎯 Immediate goals of the protocol
 
-Set a general simple standard that would allow for easy to use benchmarking of agents. One of the primary goals of the protocol is great developer experience, and simple implementation on the end of agent developers. You just start your agent and that’s all you have to do.
+Set a general simple standard that would allow for easy to use benchmarking of
+agents. One of the primary goals of the protocol is great developer experience,
+and simple implementation on the end of agent developers. You just start your
+agent and that’s all you have to do.
 
-## Installation
+## 🗣️ Request for Comments
 
-Install one of the official libraries or implement the protocol spec on your own by following the [OpenAPI file](https://github.com/e2b-dev/agent-protocol/blob/main/openapi.yml).
+If you'd like to propose a change or an improvement to the protocol. Please
+follow the [RFC template](./rfcs/template.md).
+
+## ⚙️ Components
+
+### [Protocol](./openapi.yml)
+
+The most important part. It specifies which endpoints should the agent expose.
+The protocol is defined in [OpenAPI specification](./openapi.yml).
+
+#### How does the protocol work?
+
+Right now the protocol is defined as a REST API (via the
+[OpenAPI spec](./openapi.yml)) with two essential routes for interaction with
+your agent:
+
+- `POST /agent/tasks` for creating a new task for the agent (for example giving
+  the agent an objective that you want to accomplish)
+- `POST /agent/tasks/{task_id}/steps` for executing one step of the defined task
+
+We found out that a lot of agents are structured into “steps” – usually these
+steps are either iterations of the core agent loop or just parts of the code
+with a call to the LLM. These steps are non-deterministic and you want to have
+control over them when developing, testing, and controlling your agent.
+
+### [SDK](./agent)
+
+It should simplify the implementation of the protocol to the bare minimumbut at
+the same time it shouldn’t tie your hands. The goal should be to allow agent
+builders to build their agents and the SDK should solve the rest.
+
+Basically it wraps your agent in a web server that allows for communication with
+your agent (and in between agents in the future).
+
+### [Client SDK](./agent_client)
+
+Allows users to interact with the agent easily. Thanks to the standard the users
+can try multiple agents without the need for any additional adjustments (or very
+minimal) in their code.
+
+## 💿 Installation
+
+Install one of the official libraries or implement the protocol spec on your own
+by following the
+[OpenAPI file](https://github.com/e2b-dev/agent-protocol/blob/main/openapi.yml).
 
 ### Currently supported languages (SDKs):
 
@@ -79,7 +119,7 @@ npm i agent-protocol
 
 You can find the full example [in the JS/TS SDK directory](./agent/js/README.md)
 
-## Usage (builders)
+## 👩‍💻 Usage (builders)
 
 ### Python SDK
 
@@ -92,7 +132,8 @@ You can find the full example [in the JS/TS SDK directory](./agent/js/README.md)
 
 ### Test compliance with the protocol
 
-You can test your agent's compliance with the protocol by installing the python package:
+You can test your agent's compliance with the protocol by installing the python
+package:
 
 ```sh
 pip install agent-protocol
@@ -106,7 +147,8 @@ agent-protocol test --url <your-agent-url>
 
 #### Validator as a part of CI Pipeline
 
-We advise you to add the validator as a part of your CI pipeline. It’s very minimal and the setup is simple.
+We advise you to add the validator as a part of your CI pipeline. It’s very
+minimal and the setup is simple.
 
 ```yaml
 jobs:
@@ -138,11 +180,17 @@ You can then add a badge to your agent to show it’s agent protocol compliant.
 ![Agent protocol](https://github.com/<OWNER>/<REPOSITORY>/actions/workflows/<WORKFLOW_FILENAME>/badge.svg)
 ```
 
-## Usage (Clients)
+## 👩‍💻 Usage (Clients)
 
-This section shows how you can easily interact with the agent compliant with the agent protocol.
+This section shows how you can easily interact with the agent compliant with the
+agent protocol.
 
-### Python
+### Client SDK
+
+- [Python](./agent_client/python/README.md#getting-started)
+- JavaScript SDK is not done yet.
+
+### Python without SDK
 
 ```python
 import requests
@@ -161,34 +209,31 @@ while (step := requests.post(f"{url}/agent/tasks/{task_id}/steps")) and not step
 print("Done!", step.json()["output"])
 ```
 
-### JS
+### JS without SDK
 
 ```JavaScript
-const url = 'http://localhost:8000'
-const body = JSON.stringify({input: "task-input-to-your-agent"})
+const url = "http://localhost:8000";
+const body = JSON.stringify({ input: "task-input-to-your-agent" });
 
 // Create task
-let response = await fetch(`${url}/agent/tasks`, {method: 'POST'}, {body})
-let data = await response.json()
+let response = await fetch(`${url}/agent/tasks`, { method: "POST" }, { body });
+let data = await response.json();
 
-const taskId = data.task_id
-let isLast = false
+const taskId = data.task_id;
+let isLast = false;
 
 // Execute steps until the completion
 while (!isLast) {
-  response = await fetch(`${url}/agent/tasks/${taskId}/steps`, {method: 'POST'})
-  data = await response.json()
-  isLast = data.is_last
+  response = await fetch(`${url}/agent/tasks/${taskId}/steps`, {
+    method: "POST",
+  });
+  data = await response.json();
+  isLast = data.is_last;
 }
 
 // Print output
-console.log('Done!', data.output)
-
+console.log("Done!", data.output);
 ```
-
-### Client SDK
-
-- [Python](./agent_client/python/README.md#getting-started)
 
 ### cURL
 
@@ -213,7 +258,8 @@ You will get a response like this:
 }
 ```
 
-Then to **execute one step of the task** copy the `task_id` you got from the previous request and run:
+Then to **execute one step of the task** copy the `task_id` you got from the
+previous request and run:
 
 ```sh
 curl --request POST \
@@ -233,7 +279,7 @@ To get response like this:
 }
 ```
 
-## Adoption
+## 🤗 Adoption
 
 ### Engaged projects in development of agent protocol
 
@@ -247,17 +293,19 @@ To get response like this:
 - 🚧 [Auto-GPT-Forge](https://github.com/Significant-Gravitas/Auto-GPT-Forge)
 - 🚧
   [Auto-GPT-Benchmarks](https://github.com/Significant-Gravitas/Auto-GPT-Benchmarks)
-  - Track [PR here](https://github.com/Significant-Gravitas/Auto-GPT-Benchmarks/pull/209). Waiting for merge.
+  - Track
+    [PR here](https://github.com/Significant-Gravitas/Auto-GPT-Benchmarks/pull/209).
+    Waiting for merge.
 - 🚧 [babyagi](https://github.com/yoheinakajima/babyagi)
   - Track [PR here](https://github.com/yoheinakajima/babyagi/pull/356). Waiting
     for merge.
 - ✅ [smol developer](https://github.com/smol-ai/developer)
-  - Track [PR here](https://github.com/smol-ai/developer/pull/123). 
+  - Track [PR here](https://github.com/smol-ai/developer/pull/123).
 - 🚧 [beebot](https://github.com/AutoPackAI/beebot)
   - Might require more features. See
     [issue here](https://github.com/e2b-dev/agent-protocol/issues/9).
 
-## High-level future roadmap
+## 📃 High-level future roadmap
 
 - Agent-to-agent communication
 - Connection to the outside world:
