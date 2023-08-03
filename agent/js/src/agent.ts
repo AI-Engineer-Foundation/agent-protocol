@@ -1,8 +1,8 @@
 import * as OpenApiValidator from 'express-openapi-validator'
 import express from 'express'
-import spec from '../../../openapi.yml'
-
 import { v4 as uuid } from 'uuid'
+import yaml from 'js-yaml'
+
 import {
   type TaskInput,
   type Artifact,
@@ -15,17 +15,29 @@ import {
   type TaskRequestBody,
 } from './models'
 
+import spec from '../../../openapi.yml'
+
 const app = express()
 
 app.use(express.json())
 app.use(express.text())
 app.use(express.urlencoded({ extended: false }))
 
-app.use('/spec', express.static(spec))
+app.get(
+  '/openapi.yaml',
+  (_, res) => {
+    res
+      .setHeader('Content-Type', 'text/yaml')
+      .status(200)
+      .send(spec)
+  }
+)
+
+const parsedSpec = yaml.load(spec)
 
 app.use(
   OpenApiValidator.middleware({
-    apiSpec: spec,
+    apiSpec: parsedSpec as any,
     validateRequests: true, // (default)
     validateResponses: true, // false by default
   })
