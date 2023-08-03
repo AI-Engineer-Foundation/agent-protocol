@@ -8,9 +8,6 @@ export default defineConfig({
   minify: true,
   sourcemap: true,
   dts: true,
-  env: {
-    NODE_ENV: 'production',
-  },
   loader: {
     '.yml': 'text',
   },
