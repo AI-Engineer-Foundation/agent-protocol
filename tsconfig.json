@@ -11,5 +11,5 @@
     "strictNullChecks": true,
     "esModuleInterop": true
   },
-  "exclude": ["node_modules", "test", "lib", "**/*spec.ts", "dist", "**/examples"]
+  "exclude": ["node_modules", "test", "lib", "**/*spec.ts", "dist"]
 }

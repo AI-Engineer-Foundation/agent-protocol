@@ -4,20 +4,11 @@
     "ci": "prettier . -c && eslint . --ext .ts,.tsx",
     "prettier": "prettier . -w",
     "lint": "eslint .  --ext .ts,.tsx --fix",
-    "prepare": "husky install",
-    "tsc": "tsc"
-  },
-  "lint-staged": {
-    "**/*.{ts?(x),js?(x),json,md}": [
-      "prettier --write"
-    ],
-    "**/*.ts": [
-      "eslint --fix"
-    ]
+    "prepare": "husky install"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npx lint-staged"
+      "pre-commit": "npm run ci"
     }
   },
   "devDependencies": {
@@ -26,7 +17,6 @@
     "eslint-config-prettier": "^8.8.0",
     "eslint-config-standard-with-typescript": "^36.1.0",
     "husky": "^7.0.0",
-    "lint-staged": "^13.2.3",
     "prettier": "^3.0.0",
     "typescript": "^5.1.6"
   }
