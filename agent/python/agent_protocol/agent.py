@@ -129,7 +129,7 @@ async def list_agent_task_artifacts(task_id: str) -> List[Artifact]:
 
 
 @base_router.get(
-    "/agent/tasks/{task_id}/artifacts/{artifact_id}/download",
+    "/agent/tasks/{task_id}/artifacts/{artifact_id}",
     tags=["agent"],
 )
 async def get_agent_task_artifacts(task_id: str, artifact_id: str) -> FileResponse:

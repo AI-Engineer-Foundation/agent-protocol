@@ -172,11 +172,11 @@ paths:
         default:
           description: Internal Server Error
 
-  /agent/tasks/{task_id}/artifacts/{artifact_id}/download:
+  /agent/tasks/{task_id}/artifacts/{artifact_id}:
     get:
       summary: Download a specified artifact.
       tags: [agent]
-      operationId: getAgentArtifact
+      operationId: downloadAgentTaskArtifact
       parameters:
         - name: task_id
           in: path
