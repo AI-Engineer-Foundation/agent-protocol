@@ -16,6 +16,7 @@ class TaskDB(ABC):
     async def create_task(
         self,
         input: Optional[str],
+        additional_input: Optional[str] = None,
         artifacts: List[Artifact] = None,
         steps: List[Step] = None,
     ) -> Task:
@@ -52,6 +53,7 @@ class InMemoryTaskDB(TaskDB):
     async def create_task(
         self,
         input: Optional[str],
+        additional_input: Optional[str] = None,
         artifacts: List[Artifact] = None,
         steps: List[Step] = None,
     ) -> Task:
@@ -65,6 +67,7 @@ class InMemoryTaskDB(TaskDB):
             input=input,
             steps=steps,
             artifacts=artifacts,
+            additional_input=additional_input,
         )
         self._tasks[task_id] = task
         return task

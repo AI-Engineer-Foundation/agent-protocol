@@ -19,7 +19,7 @@ from .models import (
 )
 
 
-StepHandler = Callable[[Step | None], Awaitable[Step]]
+StepHandler = Callable[[Step], Awaitable[Step]]
 TaskHandler = Callable[[Task], Awaitable[None]]
 
 
@@ -38,7 +38,10 @@ async def create_agent_task(body: TaskRequestBody | None = None) -> Task:
     if not _task_handler:
         raise Exception("Task handler not defined")
 
-    task = await Agent.db.create_task(input=body.input if body else None)
+    task = await Agent.db.create_task(
+        input=body.input if body else None,
+        additional_input=body.additional_input if body else None,
+    )
     await _task_handler(task)
 
     return task
@@ -92,6 +95,7 @@ async def execute_agent_task_step(
         raise Exception("No steps to execute")
 
     step.input = body.input if body else None
+    step.additional_input = body.additional_input if body else None
 
     step = await _step_handler(step)
 

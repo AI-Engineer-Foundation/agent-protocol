@@ -6,7 +6,7 @@ from pathlib import Path
 from smol_dev.prompts import plan, specify_file_paths, generate_code
 from smol_dev.utils import write_file
 
-from agent_protocol import Agent, Artifact, Step, StepHandler, Task
+from agent_protocol import Agent, Artifact, Step, Task
 
 
 class StepTypes(str, enum.Enum):
@@ -74,7 +74,7 @@ async def _generate_code(task: Task, step: Step) -> Step:
     return step
 
 
-async def task_handler(task: Task) -> StepHandler:
+async def task_handler(task: Task) -> None:
     if not task.input:
         raise Exception("No task prompt")
     await Agent.db.create_step(task.task_id, StepTypes.PLAN)

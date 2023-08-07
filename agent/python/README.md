@@ -52,13 +52,19 @@ You can also add your own routes to the server. For example:
 
 ```python
 from agent_protocol import Agent, router
+from fastapi import APIRouter
 
 my_router = APIRouter()
+
+
 @my_router.get("/hello")
 async def hello():
     return {"hello": "world"}
 
 my_router.include_router(router)
+
+task_handler = ...
+step_handler = ...
 Agent.setup_agent(task_handler, step_handler).start(router=my_router)
 ```
 
