@@ -6,3 +6,4 @@ generate:
 		--output agent_protocol
 	mv agent_protocol/main.py agent_protocol/server.py
 	rm -rf agent_protocol/routers
+	rm agent_protocol/dependencies.py
