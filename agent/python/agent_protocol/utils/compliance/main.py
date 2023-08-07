@@ -45,6 +45,13 @@ class TestCompliance:
         )
         assert response.status_code == 200
 
+    def test_list_artifacts(self, url):
+        response = requests.post(f"{url}/agent/tasks", json=self.task_data)
+        task_id = response.json()["task_id"]
+        response = requests.get(f"{url}/agent/tasks/{task_id}/artifacts")
+        assert response.status_code == 200
+        assert isinstance(response.json(), list)
+
     @pytest.mark.skip("There is no way to be sure any step exists")
     def test_get_agent_task_step(self, url):
         # Create task

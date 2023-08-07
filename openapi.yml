@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Agent Communication Protocol
   description: Specification of the API protocol for communication with an agent.
-  version: 'v1'
+  version: 'v0.2'
 
 paths:
   /agent/tasks:
@@ -17,7 +17,7 @@ paths:
               $ref: '#/components/schemas/TaskRequestBody'
       responses:
         200:
-          description: A new agent task was successfuly created.
+          description: A new agent task was successfully created.
           content:
             application/json:
               schema:
@@ -143,13 +143,85 @@ paths:
         default:
           description: Internal Server Error
 
+  /agent/tasks/{task_id}/artifacts:
+    get:
+      summary: List all artifacts that have been created for the given task.
+      tags: [agent]
+      operationId: getAgentTaskArtifact
+      parameters:
+        - name: task_id
+          in: path
+          description: ID of the task
+          required: true
+          schema:
+            type: string
+        - name: artifact_id
+          in: path
+          description: ID of the artifact
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Returned the content of the artifact.
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        default:
+          description: Internal Server Error
+
+  /agent/tasks/{task_id}/artifacts/{artifact_id}:
+    get:
+      summary: Download a specified artifact.
+      tags: [agent]
+      operationId: downloadAgentTaskArtifact
+      parameters:
+        - name: task_id
+          in: path
+          description: ID of the task
+          required: true
+          schema:
+            type: string
+        - name: artifact_id
+          in: path
+          description: ID of the artifact
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Returned the content of the artifact.
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        default:
+          description: Internal Server Error
+
 components:
   schemas:
     TaskInput:
       description: Input parameters for the task. Any value is allowed.
 
     Artifact:
-      description: Artifact that the task has produced. Any value is allowed.
+      type: object
+      required:
+        - 'artifact_id'
+        - 'file_name'
+      description: Artifact that the task has produced.
+      properties:
+        artifact_id:
+          description: ID of the artifact.
+          type: string
+        file_name:
+          description: Filename of the artifact.
+          type: string
+        relative_path:
+          description: Relative path of the artifact in the agent's workspace.
+          type: string
 
     StepInput:
       description: Input parameters for the task step. Any value is allowed.
@@ -162,6 +234,9 @@ components:
       description: Body of the task request.
       properties:
         input:
+          description: Input prompt for the task.
+          type: string
+        additional_input:
           $ref: '#/components/schemas/TaskInput'
 
     Task:
@@ -171,6 +246,7 @@ components:
           description: Definition of an agent task.
           required:
             - 'task_id'
+            - 'artifacts'
           properties:
             task_id:
               description: The ID of the task.
@@ -187,35 +263,20 @@ components:
       description: Body of the task request.
       properties:
         input:
+          description: Input prompt for the step.
+          type: string
+        additional_input:
           $ref: '#/components/schemas/StepInput'
-
-    StepResult:
-      description: Result of the task step.
-      type: object
-      required:
-        - 'artifacts'
-      properties:
-        output:
-          $ref: '#/components/schemas/StepOutput'
-        artifacts:
-          type: array
-          default: []
-          description: A list of artifacts that the step has produced.
-          items:
-            $ref: '#/components/schemas/Artifact'
-        is_last:
-          description: Whether this is the last step in the task.
-          type: boolean
-          default: false
 
     Step:
       allOf:
         - $ref: '#/components/schemas/StepRequestBody'
-        - $ref: '#/components/schemas/StepResult'
         - type: object
           required:
             - 'step_id'
             - 'task_id'
+            - 'status'
+            - 'artifacts'
           properties:
             task_id:
               description: The ID of the task this step belongs to.
@@ -223,3 +284,27 @@ components:
             step_id:
               description: The ID of the task step.
               type: string
+            name:
+              description: The name of the task step.
+              type: string
+            status:
+              description: The status of the task step.
+              type: string
+              enum:
+                - 'created'
+                - 'completed'
+            output:
+              type: string
+              description: Output of the task step.
+            additional_output:
+              $ref: '#/components/schemas/StepOutput'
+            artifacts:
+              type: array
+              default: []
+              description: A list of artifacts that the step has produced.
+              items:
+                $ref: '#/components/schemas/Artifact'
+            is_last:
+              description: Whether this is the last step in the task.
+              type: boolean
+              default: false
