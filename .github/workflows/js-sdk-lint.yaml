@@ -23,5 +23,5 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '16.x'
-      - run: yarn
-      - run: yarn tsc
+      - run: npm i
+      - run: npm run tsc

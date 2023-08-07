@@ -4,7 +4,8 @@
     "ci": "prettier . -c && eslint . --ext .ts,.tsx",
     "prettier": "prettier . -w",
     "lint": "eslint .  --ext .ts,.tsx --fix",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "tsc": "tsc"
   },
   "lint-staged": {
     "**/*.{ts?(x),js?(x),json,md}": [
