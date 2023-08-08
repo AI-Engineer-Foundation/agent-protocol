@@ -52,18 +52,16 @@ class TestCompliance:
         assert response.status_code == 200
         assert isinstance(response.json(), list)
 
-    @pytest.mark.skip("There is no way to be sure any step exists")
     def test_get_agent_task_step(self, url):
         # Create task
-        response = requests.post(f"{url}agent/tasks", json=self.task_data)
+        response = requests.post(f"{url}/agent/tasks", json=self.task_data)
         task_id = response.json()["task_id"]
         # Get steps
         response = requests.get(f"{url}/agent/tasks/{task_id}/steps")
-        step_id = response.json()["step_id"]
+        step_id = response.json()[0]
         response = requests.get(f"{url}/agent/tasks/{task_id}/steps/{step_id}")
         assert response.status_code == 200
-        assert response.json()["step_id"] == step_id
-        Step(**response.json())
+        assert Step(**response.json()).step_id == step_id
 
 
 def provide_url_scheme(url: str, default_scheme: str = "https") -> str:
