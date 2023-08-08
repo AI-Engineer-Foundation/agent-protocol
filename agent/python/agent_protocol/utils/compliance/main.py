@@ -92,7 +92,7 @@ def provide_url_scheme(url: str, default_scheme: str = "https") -> str:
 
 def check_compliance(url, additional_pytest_args):
     url = provide_url_scheme(url)
-    pytest.main(
+    exit_code = pytest.main(
         [
             "-v",
             __file__,
@@ -103,3 +103,4 @@ def check_compliance(url, additional_pytest_args):
         ]
         + list(additional_pytest_args)
     )
+    assert exit_code == 0, "Your Agent API isn't compliant with the agent protocol"
