@@ -159,10 +159,13 @@ paths:
         200:
           description: Returned the content of the artifact.
           content:
-            application/octet-stream:
+            application/json:
               schema:
-                type: string
-                format: binary
+                type: array
+                default: []
+                description: A list of artifacts for the task
+                items:
+                  $ref: '#/components/schemas/Artifact'
         default:
           description: Internal Server Error
 
