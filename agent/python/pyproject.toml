@@ -18,6 +18,7 @@ pydantic = "^1.10.5, <2"
 click = "^8.1.6"
 requests = "^2.31.0"
 python-multipart = "^0.0.6"
+aiofiles = "^23.1.0"
 
 [tool.poetry.group.dev.dependencies]
 fastapi-code-generator = "^0.4.2"

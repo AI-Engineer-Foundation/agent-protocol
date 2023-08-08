@@ -1,6 +1,7 @@
 import asyncio
 import os
 
+import aiofiles
 from fastapi import APIRouter, UploadFile
 from fastapi.responses import FileResponse
 from hypercorn.asyncio import serve
@@ -146,8 +147,9 @@ async def upload_agent_task_artifacts(
     if not os.path.exists(path):
         os.makedirs(path)
 
-    with open(os.path.join(path, file.filename), "wb") as f:
-        f.write(await file.read())
+    async with aiofiles.open(os.path.join(path, file.filename), "wb") as f:
+        while content := await file.read(1024 * 1024):  # async read chunk ~1MiB
+            await f.write(content)
 
     return artifact
 
