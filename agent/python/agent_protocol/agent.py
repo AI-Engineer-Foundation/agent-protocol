@@ -136,7 +136,7 @@ async def list_agent_task_artifacts(task_id: str) -> List[Artifact]:
     "/agent/tasks/{task_id}/artifacts/{artifact_id}",
     tags=["agent"],
 )
-async def get_agent_task_artifacts(task_id: str, artifact_id: str) -> FileResponse:
+async def download_agent_task_artifacts(task_id: str, artifact_id: str) -> FileResponse:
     """
     Download the specified artifact.
     """

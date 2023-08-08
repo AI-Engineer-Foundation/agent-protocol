@@ -147,17 +147,11 @@ paths:
     get:
       summary: List all artifacts that have been created for the given task.
       tags: [agent]
-      operationId: getAgentTaskArtifact
+      operationId: listAgentTaskArtifacts
       parameters:
         - name: task_id
           in: path
           description: ID of the task
-          required: true
-          schema:
-            type: string
-        - name: artifact_id
-          in: path
-          description: ID of the artifact
           required: true
           schema:
             type: string
