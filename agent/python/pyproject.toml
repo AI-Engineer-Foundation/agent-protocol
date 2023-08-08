@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "agent-protocol"
-version = "0.2.2"
+version = "0.2.3"
 description = "API for interacting with Agent"
 authors = ["e2b <hello@e2b.dev>"]
 license = "MIT"
@@ -17,6 +17,7 @@ pytest = "^7.0.0"
 pydantic = "^1.10.5, <2"
 click = "^8.1.6"
 requests = "^2.31.0"
+python-multipart = "^0.0.6"
 
 [tool.poetry.group.dev.dependencies]
 fastapi-code-generator = "^0.4.2"

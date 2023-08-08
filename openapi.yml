@@ -168,6 +168,31 @@ paths:
                   $ref: '#/components/schemas/Artifact'
         default:
           description: Internal Server Error
+    post:
+      summary: Upload an artifact for the specified task.
+      tags: [agent]
+      operationId: uploadAgentTaskArtifacts
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ArtifactUpload'
+      parameters:
+        - name: task_id
+          in: path
+          description: ID of the task
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Returned the content of the artifact.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Artifact'
+        default:
+          description: Internal Server Error
 
   /agent/tasks/{task_id}/artifacts/{artifact_id}:
     get:
@@ -216,6 +241,20 @@ components:
         file_name:
           description: Filename of the artifact.
           type: string
+        relative_path:
+          description: Relative path of the artifact in the agent's workspace.
+          type: string
+
+    ArtifactUpload:
+      type: object
+      required:
+        - 'file'
+      description: Artifact to upload to the agent.
+      properties:
+        file:
+          description: File to upload.
+          type: string
+          format: binary
         relative_path:
           description: Relative path of the artifact in the agent's workspace.
           type: string

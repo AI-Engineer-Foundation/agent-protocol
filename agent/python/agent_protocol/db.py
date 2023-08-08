@@ -31,6 +31,15 @@ class TaskDB(ABC):
     ) -> Step:
         raise NotImplementedError
 
+    async def create_artifact(
+        self,
+        task_id: str,
+        file_name: str,
+        relative_path: Optional[str] = None,
+        step_id: Optional[str] = None,
+    ) -> Artifact:
+        raise NotImplementedError
+
     async def get_task(self, task_id: str) -> Task:
         raise NotImplementedError
 
@@ -112,6 +121,26 @@ class InMemoryTaskDB(TaskDB):
         )
         if not artifact:
             raise Exception(f"Artifact with id {artifact_id} not found")
+        return artifact
+
+    async def create_artifact(
+        self,
+        task_id: str,
+        file_name: str,
+        relative_path: Optional[str] = None,
+        step_id: Optional[str] = None,
+    ) -> Artifact:
+        artifact_id = str(uuid.uuid4())
+        artifact = Artifact(
+            artifact_id=artifact_id, file_name=file_name, relative_path=relative_path
+        )
+        task = await self.get_task(task_id)
+        task.artifacts.append(artifact)
+
+        if step_id:
+            step = await self.get_step(task_id, step_id)
+            step.artifacts.append(artifact)
+
         return artifact
 
     async def list_tasks(self) -> List[Task]:

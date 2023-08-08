@@ -24,6 +24,13 @@ class Artifact(BaseModel):
     )
 
 
+class ArtifactUpload(BaseModel):
+    file: bytes = Field(..., description="File to upload.")
+    relative_path: Optional[str] = Field(
+        None, description="Relative path of the artifact in the agent's workspace."
+    )
+
+
 class StepInput(BaseModel):
     __root__: Any = Field(
         ..., description="Input parameters for the task step. Any value is allowed."

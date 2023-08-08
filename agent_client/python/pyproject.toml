@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "agent-protocol-client"
-version = "0.2.0"
+version = "0.2.1"
 description = "Agent Communication Protocol Client"
 authors = ["e2b <hello@e2b.dev>"]
 license = "MIT"
