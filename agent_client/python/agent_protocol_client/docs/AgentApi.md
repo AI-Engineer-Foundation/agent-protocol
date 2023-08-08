@@ -12,6 +12,7 @@ All URIs are relative to _http://localhost_
 | [**list_agent_task_artifacts**](AgentApi.md#list_agent_task_artifacts)       | **GET** /agent/tasks/{task_id}/artifacts               | List all artifacts that have been created for the given task. |
 | [**list_agent_task_steps**](AgentApi.md#list_agent_task_steps)               | **GET** /agent/tasks/{task_id}/steps                   | List all steps for the specified task.                        |
 | [**list_agent_tasks_ids**](AgentApi.md#list_agent_tasks_ids)                 | **GET** /agent/tasks                                   | List all tasks that have been created for the agent.          |
+| [**upload_agent_task_artifacts**](AgentApi.md#upload_agent_task_artifacts)   | **POST** /agent/tasks/{task_id}/artifacts              | Upload an artifact for the specified task.                    |
 
 # **create_agent_task**
 
@@ -540,5 +541,75 @@ No authorization required
 | ----------- | -------------------------------------- | ---------------- |
 | **200**     | Returned list of agent&#39;s task IDs. | -                |
 | **0**       | Internal Server Error                  | -                |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **upload_agent_task_artifacts**
+
+> Artifact upload_agent_task_artifacts(task_id, file, relative_path=relative_path)
+
+Upload an artifact for the specified task.
+
+### Example
+
+```python
+import time
+import os
+import agent_protocol_client
+from agent_protocol_client.models.artifact import Artifact
+from agent_protocol_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = agent_protocol_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+async with agent_protocol_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = agent_protocol_client.AgentApi(api_client)
+    task_id = 'task_id_example' # str | ID of the task
+    file = None # bytearray | File to upload.
+    relative_path = 'relative_path_example' # str | Relative path of the artifact in the agent's workspace. (optional)
+
+    try:
+        # Upload an artifact for the specified task.
+        api_response = await api_instance.upload_agent_task_artifacts(task_id, file, relative_path=relative_path)
+        print("The response of AgentApi->upload_agent_task_artifacts:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling AgentApi->upload_agent_task_artifacts: %s\n" % e)
+```
+
+### Parameters
+
+| Name              | Type          | Description                                                 | Notes      |
+| ----------------- | ------------- | ----------------------------------------------------------- | ---------- |
+| **task_id**       | **str**       | ID of the task                                              |
+| **file**          | **bytearray** | File to upload.                                             |
+| **relative_path** | **str**       | Relative path of the artifact in the agent&#39;s workspace. | [optional] |
+
+### Return type
+
+[**Artifact**](Artifact.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: multipart/form-data
+- **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description                           | Response headers |
+| ----------- | ------------------------------------- | ---------------- |
+| **200**     | Returned the content of the artifact. | -                |
+| **0**       | Internal Server Error                 | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

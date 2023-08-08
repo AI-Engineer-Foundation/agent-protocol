@@ -1,7 +1,8 @@
 import asyncio
 import os
 
-from fastapi import APIRouter
+import aiofiles
+from fastapi import APIRouter, UploadFile
 from fastapi.responses import FileResponse
 from hypercorn.asyncio import serve
 from hypercorn.config import Config
@@ -100,10 +101,6 @@ async def execute_agent_task_step(
     step = await _step_handler(step)
 
     step.status = Status.completed
-
-    if step.artifacts:
-        task.artifacts.extend(step.artifacts)
-
     return step
 
 
@@ -130,6 +127,31 @@ async def list_agent_task_artifacts(task_id: str) -> List[Artifact]:
     """
     task = await Agent.db.get_task(task_id)
     return task.artifacts
+
+
+@base_router.post(
+    "/agent/tasks/{task_id}/artifacts",
+    response_model=Artifact,
+    tags=["agent"],
+)
+async def upload_agent_task_artifacts(
+    task_id: str, file: UploadFile, relative_path: Optional[str] = None
+) -> Artifact:
+    """
+    Upload an artifact for the specified task.
+    """
+    await Agent.db.get_task(task_id)
+    artifact = await Agent.db.create_artifact(task_id, file.filename, relative_path)
+
+    path = Agent.get_artifact_folder(task_id, artifact)
+    if not os.path.exists(path):
+        os.makedirs(path)
+
+    async with aiofiles.open(os.path.join(path, file.filename), "wb") as f:
+        while content := await file.read(1024 * 1024):  # async read chunk ~1MiB
+            await f.write(content)
+
+    return artifact
 
 
 @base_router.get(
@@ -172,13 +194,20 @@ class Agent:
         return os.path.join(os.getcwd(), Agent.workspace, task_id)
 
     @staticmethod
-    def get_artifact_path(task_id: str, artifact: Artifact) -> str:
+    def get_artifact_folder(task_id: str, artifact: Artifact) -> str:
         """
         Get the artifact path for the specified task and artifact.
         """
         workspace_path = Agent.get_workspace(task_id)
         relative_path = artifact.relative_path or ""
-        return os.path.join(workspace_path, relative_path, artifact.file_name)
+        return os.path.join(workspace_path, relative_path)
+
+    @staticmethod
+    def get_artifact_path(task_id: str, artifact: Artifact) -> str:
+        """
+        Get the artifact path for the specified task and artifact.
+        """
+        return os.path.join(Agent.get_artifact_folder(task_id, artifact), artifact.file_name)
 
     @staticmethod
     def start(port: int = 8000, router: APIRouter = base_router):
