@@ -69,66 +69,41 @@ your agent:
   the agent an objective that you want to accomplish)
 - `POST /agent/tasks/{task_id}/steps` for executing one step of the defined task
 
-We found out that a lot of agents are structured into “steps” – usually these
-steps are either iterations of the core agent loop or just parts of the code
-with a call to the LLM. These steps are non-deterministic and you want to have
-control over them when developing, testing, and controlling your agent.
+It has also a few additional routes for listing the tasks, steps and downloading / uploading artifacts.
 
-### [SDK](./agent)
+### [SDK](./sdk)
 
-It should simplify the implementation of the protocol to the bare minimumbut at
-the same time it shouldn’t tie your hands. The goal should be to allow agent
+This is our implementation of the protocol. It’s a library that you can use to build your agent. You can use it or you can implement it on your own. It’s up to you.
+
+Using the SDK should simplify the implementation of the protocol to the bare minimum, but at
+the same time it shouldn't tie your hands. The goal should be to allow agent
 builders to build their agents and the SDK should solve the rest.
 
 Basically it wraps your agent in a web server that allows for communication with
 your agent (and in between agents in the future).
 
-### [Client SDK](./agent_client)
+### [Client](./client)
 
-Allows users to interact with the agent easily. Thanks to the standard the users
+This library should be used by the users of the agents. Your agent is deployed somewhere and the users of your agent can use this library to interact with your agent.
+
+Thanks to the standard the users
 can try multiple agents without the need for any additional adjustments (or very
 minimal) in their code.
 
-## 💿 Installation
+## 📦 Usage (protocol)
 
-Install one of the official libraries or implement the protocol spec on your own
-by following the
-[OpenAPI file](https://github.com/e2b-dev/agent-protocol/blob/main/openapi.yml).
-
-### Currently supported languages (SDKs):
-
-- [Python](#python-sdk)
-- [JavaScript/TypeScript](#javascripttypescript-sdk)
-
-**Please open an issue for a request to support your favorite language.**
-
-### Python SDK
-
-```sh
-pip install agent-protocol
-```
-
-You can find the full example
-[in the Python SDK directory](./agent/python/README.md)
-
-### JavaScript/TypeScript SDK
-
-```sh
-npm i agent-protocol
-```
-
-You can find the full example [in the JS/TS SDK directory](./agent/js/README.md)
+If you want to use the protocol in your project, you can use the SDK or you can implement it on your own. You should follow the [OpenAPI specification](./openapi.yml) and implement the endpoints defined there. You can add additional endpoints if you need to.
 
 ## 👩‍💻 Usage (builders)
 
 ### Python SDK
 
 You can find the full example
-[in the Python SDK directory](./agent/python/README.md)
+[in the Python SDK directory](sdk/python/README.md)
 
 ### JavaScript/TypeScript SDK
 
-You can find the full example [in the JS/TS SDK directory](./agent/js/README.md)
+You can find the full example [in the JS/TS SDK directory](sdk/js/README.md)
 
 ### Test compliance with the protocol
 
@@ -187,7 +162,7 @@ agent protocol.
 
 ### Client SDK
 
-- [Python](./agent_client/python/README.md#getting-started)
+- [Python](client/python/README.md#getting-started)
 - JavaScript SDK is not done yet.
 
 ### Python without SDK

@@ -1,12 +1,11 @@
 import enum
 import os
-import uuid
 from pathlib import Path
 
 from smol_dev.prompts import plan, specify_file_paths, generate_code
 from smol_dev.utils import write_file
 
-from agent_protocol import Agent, Artifact, Step, Task
+from agent_protocol import Agent, Step, Task
 
 
 class StepTypes(str, enum.Enum):
