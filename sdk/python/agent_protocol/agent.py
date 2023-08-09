@@ -3,7 +3,7 @@ import os
 
 import aiofiles
 from fastapi import APIRouter, UploadFile
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, Response
 from hypercorn.asyncio import serve
 from hypercorn.config import Config
 from typing import Awaitable, Callable, List, Optional
@@ -29,6 +29,14 @@ _step_handler: Optional[StepHandler]
 
 
 base_router = APIRouter()
+
+
+@base_router.get("/heartbeat")
+async def heartbeat() -> Response:
+    """
+    Heartbeat endpoint to check if the serv
+    """
+    return Response(status_code=200)
 
 
 @base_router.post("/agent/tasks", response_model=Task, tags=["agent"])
