@@ -6,7 +6,7 @@ from uuid import uuid4
 
 import aiofiles
 from fastapi import APIRouter, File, Form, Request, Response, UploadFile
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, Response
 from hypercorn.asyncio import serve
 from hypercorn.config import Config
 
@@ -16,6 +16,14 @@ from .models import Artifact, Status, StepRequestBody, TaskRequestBody
 from .server import app
 
 base_router = APIRouter()
+
+
+@base_router.get("/heartbeat")
+async def heartbeat() -> Response:
+    """
+    Heartbeat endpoint to check if the serv
+    """
+    return Response(status_code=200)
 
 
 @base_router.post("/agent/tasks", response_model=Task, tags=["agent"])
