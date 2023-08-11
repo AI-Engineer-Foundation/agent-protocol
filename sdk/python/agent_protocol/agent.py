@@ -2,11 +2,11 @@ import asyncio
 import os
 
 import aiofiles
-from fastapi import APIRouter, UploadFile
+from fastapi import APIRouter, UploadFile, Form, File
 from fastapi.responses import FileResponse
 from hypercorn.asyncio import serve
 from hypercorn.config import Config
-from typing import Awaitable, Callable, List, Optional
+from typing import Awaitable, Callable, List, Optional, Annotated
 
 from .db import InMemoryTaskDB, TaskDB
 from .server import app
@@ -135,7 +135,9 @@ async def list_agent_task_artifacts(task_id: str) -> List[Artifact]:
     tags=["agent"],
 )
 async def upload_agent_task_artifacts(
-    task_id: str, file: UploadFile, relative_path: Optional[str] = None
+    task_id: str,
+    file: Annotated[UploadFile, File()],
+    relative_path: Annotated[Optional[str], Form()] = None,
 ) -> Artifact:
     """
     Upload an artifact for the specified task.
@@ -207,7 +209,9 @@ class Agent:
         """
         Get the artifact path for the specified task and artifact.
         """
-        return os.path.join(Agent.get_artifact_folder(task_id, artifact), artifact.file_name)
+        return os.path.join(
+            Agent.get_artifact_folder(task_id, artifact), artifact.file_name
+        )
 
     @staticmethod
     def start(port: int = 8000, router: APIRouter = base_router):
