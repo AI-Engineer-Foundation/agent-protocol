@@ -4,6 +4,7 @@ from agent_protocol.models import StepRequestBody
 from agent_protocol_client import (
     Configuration,
     ApiClient,
+    StepRequestBody,
     TaskRequestBody,
     AgentApi,
 )
