@@ -10,7 +10,9 @@
   </a>
 </p>
 
-The agent space is young and the need for standard protocol should be evident.
+The agent space is very young and every agent builder is implementing agents
+in their own way. This is a problem because it makes it hard to compare agents
+and to build tools that would work with multiple agents.
 It will help the ecosystem grow faster and simplify the integrations. For some
 applications it’s even crucial. We don’t want to build on wrong assumptions by
 defining a complex protocol.
