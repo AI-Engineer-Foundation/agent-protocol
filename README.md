@@ -29,9 +29,6 @@ We believe, this will help the ecosystem grow faster and simplify the integratio
 We're starting with a minimal core and we want to build upon that iteratively
 by learning from agent developers about what they actually need.
 
-
-### [👉 Skip to installation 👈](#-installation)
-
 ## The incentives to adopt the protocol
 
 - Ease with which you can use the benchmarks.
