@@ -10,26 +10,25 @@
   </a>
 </p>
 
-The agent space is very young and every agent builder is implementing agents
-in their own way. This is a problem because it makes it hard to compare agents
-and to build tools that would work with multiple agents.
-It will help the ecosystem grow faster and simplify the integrations. For some
-applications it’s even crucial. We don’t want to build on wrong assumptions by
-defining a complex protocol.
+The AI agent space is young. Most developers are building agents in their own way. 
+This creates a challenge - it's hard to communicate with different agents since the interface is often different every time.
+Because we struggle with communicating with different agents, it's also hard to compare them easily.
+Additionally, the benefit of having a single communication interface makes it easier to develop devtools that works with agents out of the boex.
 
-We are starting with a minimal core and we want to build upon that iteratively
-by learning from agent developers about what they actually need.
 
+We present the **Agent Protocol** - a single common interface for communcating with agents. 
+Any agent developer can implement this protocol.
 The Agent Protocol is a API specification - list of endpoints, which the agent
 should expose with predefined response models.
-
-**This protocol defines an interface for interacting with your agent.**
-
 The protocol is **tech stack agnostic**. Any agent can adopt this protocol no
 matter what framework they're using (or not using).
 
-Because this protocol is open-source, any platform can adopt it and your agent
-then becomes automatically compatible with it.
+We believe, this will help the ecosystem grow faster and simplify the integrations.
+
+
+We're starting with a minimal core and we want to build upon that iteratively
+by learning from agent developers about what they actually need.
+
 
 ### [👉 Skip to installation 👈](#-installation)
 
