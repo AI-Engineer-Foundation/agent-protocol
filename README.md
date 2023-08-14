@@ -282,7 +282,7 @@ To get response like this:
 - Connection to the outside world:
   - 3rd party services (= “Agent I/O”)
   - Authentication on behalf of users
-- Is there anything missing? Please submit an RPC with a proposed feature!
+- Is there anything missing? Please submit an RFC with a proposed feature!
 
 ### Creating your own SDK that implements the protocol
 
