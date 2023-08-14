@@ -10,10 +10,10 @@
   </a>
 </p>
 
-The AI agent space is young. Most developers are building agents in their own way.
-This creates a challenge - it's hard to communicate with different agents since the interface is often different every time.
+The AI agent space is young. Most developers are building agents in their own way. This creates a challenge:
+It's hard to communicate with different agents since the interface is often different every time.
 Because we struggle with communicating with different agents, it's also hard to compare them easily.
-Additionally, the benefit of having a single communication interface makes it easier to develop devtools that works with agents out of the box.
+Additionally, if we had a single communication interface with agents, it'd also make it easier developing devtools that works with agents out of the box.
 
 We present the **Agent Protocol** - a single common interface for communicating with agents.
 Any agent developer can implement this protocol.
