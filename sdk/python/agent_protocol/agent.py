@@ -34,7 +34,7 @@ base_router = APIRouter()
 @base_router.get("/heartbeat")
 async def heartbeat() -> Response:
     """
-    Heartbeat endpoint to check if the serv
+    Heartbeat endpoint to check if the server is running.
     """
     return Response(status_code=200)
 
