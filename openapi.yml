@@ -1,6 +1,6 @@
 openapi: 3.0.1
 info:
-  title: Agent Communication Protocol
+  title: Agent Protocol
   description: Specification of the API protocol for communication with an agent.
   version: 'v0.3'
 
