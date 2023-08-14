@@ -23,6 +23,11 @@ app.use(express.json())
 app.use(express.text())
 app.use(express.urlencoded({ extended: false }))
 
+// Heartbeat endpoint to check if the server is running.
+app.get('/heartbeat', (req, res) => {
+  res.status(200).send('OK');
+});
+
 app.get('/openapi.yaml', (_, res) => {
   res.setHeader('Content-Type', 'text/yaml').status(200).send(spec)
 })
