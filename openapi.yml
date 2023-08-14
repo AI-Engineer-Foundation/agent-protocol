@@ -241,6 +241,7 @@ components:
   schemas:
     TaskInput:
       description: Input parameters for the task. Any value is allowed.
+      example: "{\n\"debug\": false,\n\"mode\": \"benchmarks\"\n}"
 
     Artifact:
       type: object
@@ -252,12 +253,15 @@ components:
         artifact_id:
           description: ID of the artifact.
           type: string
+          example: 'b225e278-8b4c-4f99-a696-8facf19f0e56'
         file_name:
           description: Filename of the artifact.
           type: string
+          example: 'main.py'
         relative_path:
           description: Relative path of the artifact in the agent's workspace.
           type: string
+          example: 'python/code/'
 
     ArtifactUpload:
       type: object
@@ -272,12 +276,15 @@ components:
         relative_path:
           description: Relative path of the artifact in the agent's workspace.
           type: string
+          example: 'python/code'
 
     StepInput:
       description: Input parameters for the task step. Any value is allowed.
+      example: "{\n\"file_to_refactor\": \"models.py\"\n}"
 
     StepOutput:
       description: Output that the task step has produced. Any value is allowed.
+      example: "{\n\"tokens\": 7894,\n\"estimated_cost\": \"0,24$\"\n}"
 
     TaskRequestBody:
       type: object
@@ -286,6 +293,7 @@ components:
         input:
           description: Input prompt for the task.
           type: string
+          example: "Write the words you receive to the file 'output.txt'."
         additional_input:
           $ref: '#/components/schemas/TaskInput'
 
@@ -301,8 +309,14 @@ components:
             task_id:
               description: The ID of the task.
               type: string
+              example: '50da533e-3904-4401-8a07-c49adf88b5eb'
             artifacts:
               type: array
+              example:
+                [
+                  '7a49f31c-f9c6-4346-a22c-e32bc5af4d8e',
+                  'ab7b4091-2560-4692-a4fe-d831ea3ca7d6',
+                ]
               default: []
               description: A list of artifacts that the task has produced.
               items:
@@ -314,6 +328,7 @@ components:
       properties:
         input:
           description: Input prompt for the step.
+          example: 'Washington'
           type: string
         additional_input:
           $ref: '#/components/schemas/StepInput'
@@ -331,12 +346,15 @@ components:
             task_id:
               description: The ID of the task this step belongs to.
               type: string
+              example: '50da533e-3904-4401-8a07-c49adf88b5eb'
             step_id:
               description: The ID of the task step.
               type: string
+              example: '6bb1801a-fd80-45e8-899a-4dd723cc602e'
             name:
               description: The name of the task step.
               type: string
+              example: 'Write to file'
             status:
               description: The status of the task step.
               type: string
@@ -347,6 +365,7 @@ components:
             output:
               type: string
               description: Output of the task step.
+              example: "I am going to use the write_to_file command and write Washington to a file called output.txt <write_to_file('output.txt', 'Washington')"
             additional_output:
               $ref: '#/components/schemas/StepOutput'
             artifacts:
