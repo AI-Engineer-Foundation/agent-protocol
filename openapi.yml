@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Agent Communication Protocol
   description: Specification of the API protocol for communication with an agent.
-  version: 'v0.2'
+  version: 'v0.3'
 
 paths:
   /agent/tasks:
@@ -61,6 +61,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Task'
+        404:
+          description: Task not found.
         default:
           description: Internal Server Error
 
@@ -87,6 +89,8 @@ paths:
                 description: A list of step IDs for the task
                 items:
                   type: string
+        404:
+          description: Task not found.
         default:
           description: Internal Server Error
     post:
@@ -112,6 +116,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Step'
+        404:
+          description: Task not found.
         default:
           description: Internal Server Error
 
@@ -140,6 +146,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Step'
+        404:
+          description: Task or step not found.
         default:
           description: Internal Server Error
 
@@ -166,6 +174,8 @@ paths:
                 description: A list of artifacts for the task
                 items:
                   $ref: '#/components/schemas/Artifact'
+        404:
+          description: Task not found.
         default:
           description: Internal Server Error
     post:
@@ -191,6 +201,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Artifact'
+        404:
+          description: Task not found.
         default:
           description: Internal Server Error
 
@@ -220,6 +232,8 @@ paths:
               schema:
                 type: string
                 format: binary
+        404:
+          description: Task or artifact not found.
         default:
           description: Internal Server Error
 
@@ -328,6 +342,7 @@ components:
               type: string
               enum:
                 - 'created'
+                - 'running'
                 - 'completed'
             output:
               type: string

@@ -1,11 +1,11 @@
 # Title of RFC
 
-| Feature name  | Example name                                 |
-| :------------ | :------------------------------------------- |
-| **Author(s)** | Name (name@domain.com)                       |
-| **RFC PR:**   | Leave blank                                  |
-| **Updated**   | YYYY-MM-DD                                   |
-| **Obsoletes** | E2B-RFC it replaces, else remove this header |
+| Feature name  | Example name                                |
+| :------------ | :------------------------------------------ |
+| **Author(s)** | Name (name@domain.com)                      |
+| **RFC PR:**   | Leave blank                                 |
+| **Updated**   | YYYY-MM-DD                                  |
+| **Obsoletes** | AP-RFC it replaces, else remove this header |
 
 ## Summary
 
