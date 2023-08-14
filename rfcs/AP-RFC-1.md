@@ -73,7 +73,7 @@ If the resource is not found, the agent should return `404` status code.
 
 ### Alternatives Considered
 
-- We considered using async communication for Executing the steps. We decided to go with sync communication for now, because it’s simpler. The disadvantage is that the response can take a long time. We will probably revisit this decision in the future.
+- We considered using async communication for executing the steps. We decided to go with sync communication for now, because it’s simpler. The disadvantage is that the response can take a long time. We will probably revisit this decision in the future.
 - There are other possibilities as **GraphQL** or **Websockets**
 
 ## Detailed Design (Optional)
