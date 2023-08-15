@@ -1,27 +1,26 @@
 import asyncio
 import os
+from uuid import uuid4
 
 import aiofiles
-from fastapi import APIRouter, UploadFile
+from fastapi import APIRouter, UploadFile, Form, File
 from fastapi.responses import FileResponse, Response
 from hypercorn.asyncio import serve
 from hypercorn.config import Config
-from typing import Awaitable, Callable, List, Optional
+from typing import Callable, List, Optional, Annotated, Coroutine, Any
 
-from .db import InMemoryTaskDB, TaskDB
+from .db import InMemoryTaskDB, Task, TaskDB, Step
 from .server import app
 from .models import (
     TaskRequestBody,
-    Step,
     StepRequestBody,
     Artifact,
-    Task,
     Status,
 )
 
 
-StepHandler = Callable[[Step], Awaitable[Step]]
-TaskHandler = Callable[[Task], Awaitable[None]]
+StepHandler = Callable[[Step], Coroutine[Any, Any, Step]]
+TaskHandler = Callable[[Task], Coroutine[Any, Any, None]]
 
 
 _task_handler: Optional[TaskHandler]
@@ -97,11 +96,16 @@ async def execute_agent_task_step(
     """
     Execute a step in the specified agent task.
     """
+    if not _step_handler:
+        raise Exception("Step handler not defined")
+
     task = await Agent.db.get_task(task_id)
     step = next(filter(lambda x: x.status == Status.created, task.steps), None)
 
     if not step:
         raise Exception("No steps to execute")
+
+    step.status = Status.running
 
     step.input = body.input if body else None
     step.additional_input = body.additional_input if body else None
@@ -117,7 +121,7 @@ async def execute_agent_task_step(
     response_model=Step,
     tags=["agent"],
 )
-async def get_agent_task_step(task_id: str, step_id: str = ...) -> Step:
+async def get_agent_task_step(task_id: str, step_id: str) -> Step:
     """
     Get details about a specified task step.
     """
@@ -143,19 +147,22 @@ async def list_agent_task_artifacts(task_id: str) -> List[Artifact]:
     tags=["agent"],
 )
 async def upload_agent_task_artifacts(
-    task_id: str, file: UploadFile, relative_path: Optional[str] = None
+    task_id: str,
+    file: Annotated[UploadFile, File()],
+    relative_path: Annotated[Optional[str], Form()] = None,
 ) -> Artifact:
     """
     Upload an artifact for the specified task.
     """
+    file_name = file.filename or str(uuid4())
     await Agent.db.get_task(task_id)
-    artifact = await Agent.db.create_artifact(task_id, file.filename, relative_path)
+    artifact = await Agent.db.create_artifact(task_id, file_name, relative_path)
 
     path = Agent.get_artifact_folder(task_id, artifact)
     if not os.path.exists(path):
         os.makedirs(path)
 
-    async with aiofiles.open(os.path.join(path, file.filename), "wb") as f:
+    async with aiofiles.open(os.path.join(path, file_name), "wb") as f:
         while content := await file.read(1024 * 1024):  # async read chunk ~1MiB
             await f.write(content)
 
@@ -215,7 +222,9 @@ class Agent:
         """
         Get the artifact path for the specified task and artifact.
         """
-        return os.path.join(Agent.get_artifact_folder(task_id, artifact), artifact.file_name)
+        return os.path.join(
+            Agent.get_artifact_folder(task_id, artifact), artifact.file_name
+        )
 
     @staticmethod
     def start(port: int = 8000, router: APIRouter = base_router):

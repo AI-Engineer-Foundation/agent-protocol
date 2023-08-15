@@ -6,8 +6,13 @@ from __future__ import annotations
 
 from fastapi import FastAPI
 
+from agent_protocol.db import NotFoundException
+from agent_protocol.middlewares import not_found_exception_handler
+
 app = FastAPI(
     title="Agent Communication Protocol",
     description="Specification of the API protocol for communication with an agent.",
-    version="v0.2",
+    version="v0.3",
 )
+
+app.add_exception_handler(NotFoundException, not_found_exception_handler)

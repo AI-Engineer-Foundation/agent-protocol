@@ -10,26 +10,22 @@
   </a>
 </p>
 
-The agent space is young and the need for standard protocol should be evident.
-It will help the ecosystem grow faster and simplify the integrations. For some
-applications it’s even crucial. We don’t want to build on wrong assumptions by
-defining a complex protocol.
+The AI agent space is young. Most developers are building agents in their own way. This creates a challenge:
+It's hard to communicate with different agents since the interface is often different every time.
+Because we struggle with communicating with different agents, it's also hard to compare them easily.
+Additionally, if we had a single communication interface with agents, it'd also make it easier developing devtools that works with agents out of the box.
 
-We are starting with a minimal core and we want to build upon that iteratively
-by learning from agent developers about what they actually need.
-
-The Agent Protocol is a API specification - list of endpoints, which the agent
+We present the **Agent Protocol** - a single common interface for communicating with agents.
+Any agent developer can implement this protocol.
+The Agent Protocol is an API specification - list of endpoints, which the agent
 should expose with predefined response models.
-
-**This protocol defines an interface for interacting with your agent.**
-
 The protocol is **tech stack agnostic**. Any agent can adopt this protocol no
 matter what framework they're using (or not using).
 
-Because this protocol is open-source, any platform can adopt it and your agent
-then becomes automatically compatible with it.
+We believe, this will help the ecosystem grow faster and simplify the integrations.
 
-### [👉 Skip to installation 👈](#-installation)
+We're starting with a minimal core. We want to build upon that iteratively
+by learning from agent developers about what they actually need.
 
 ## The incentives to adopt the protocol
 
@@ -73,7 +69,7 @@ It has also a few additional routes for listing the tasks, steps and downloading
 
 ### [SDK](./sdk)
 
-This is our implementation of the protocol. It’s a library that you can use to build your agent. You can use it or you can implement it on your own. It’s up to you.
+This is our implementation of the protocol. It’s a library that you can use to build your agent. You can use it, or you can implement it on your own. It’s up to you.
 
 Using the SDK should simplify the implementation of the protocol to the bare minimum, but at
 the same time it shouldn't tie your hands. The goal should be to allow agent
@@ -149,7 +145,7 @@ jobs:
         run: agent-protocol test --url <your-agent-url>
 ```
 
-You can then add a badge to your agent to show it’s agent protocol compliant.
+You can then add a badge to your agent to show it is agent protocol compliant.
 
 ```markdown
 ![Agent protocol](https://github.com/<OWNER>/<REPOSITORY>/actions/workflows/<WORKFLOW_FILENAME>/badge.svg)
@@ -286,7 +282,7 @@ To get response like this:
 - Connection to the outside world:
   - 3rd party services (= “Agent I/O”)
   - Authentication on behalf of users
-- Is there anything missing? Please submit a RPC with a proposed feature!
+- Is there anything missing? Please submit an RFC with a proposed feature!
 
 ### Creating your own SDK that implements the protocol
 

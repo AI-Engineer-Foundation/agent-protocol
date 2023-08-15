@@ -12,13 +12,24 @@ class Task(APITask):
     steps: List[Step] = []
 
 
+class NotFoundException(Exception):
+    """
+    Exception raised when a resource is not found.
+    """
+
+    def __init__(self, item_name: str, item_id: str):
+        self.item_name = item_name
+        self.item_id = item_id
+        super().__init__(f"{item_name} with {item_id} not found.")
+
+
 class TaskDB(ABC):
     async def create_task(
         self,
         input: Optional[str],
-        additional_input: Optional[str] = None,
-        artifacts: List[Artifact] = None,
-        steps: List[Step] = None,
+        additional_input: Any = None,
+        artifacts: Optional[List[Artifact]] = None,
+        steps: Optional[List[Step]] = None,
     ) -> Task:
         raise NotImplementedError
 
@@ -26,6 +37,7 @@ class TaskDB(ABC):
         self,
         task_id: str,
         name: Optional[str] = None,
+        input: Optional[str] = None,
         is_last: bool = False,
         additional_properties: Optional[Dict[str, str]] = None,
     ) -> Step:
@@ -52,7 +64,9 @@ class TaskDB(ABC):
     async def list_tasks(self) -> List[Task]:
         raise NotImplementedError
 
-    async def list_steps(self, task_id: str) -> List[Step]:
+    async def list_steps(
+        self, task_id: str, status: Optional[Status] = None
+    ) -> List[Step]:
         raise NotImplementedError
 
 
@@ -62,9 +76,9 @@ class InMemoryTaskDB(TaskDB):
     async def create_task(
         self,
         input: Optional[str],
-        additional_input: Optional[str] = None,
-        artifacts: List[Artifact] = None,
-        steps: List[Step] = None,
+        additional_input: Any = None,
+        artifacts: Optional[List[Artifact]] = None,
+        steps: Optional[List[Step]] = None,
     ) -> Task:
         if not steps:
             steps = []
@@ -85,14 +99,16 @@ class InMemoryTaskDB(TaskDB):
         self,
         task_id: str,
         name: Optional[str] = None,
+        input: Optional[str] = None,
         is_last=False,
-        additional_properties: Dict[str, Any] = None,
+        additional_properties: Optional[Dict[str, Any]] = None,
     ) -> Step:
         step_id = str(uuid.uuid4())
         step = Step(
             task_id=task_id,
             step_id=step_id,
             name=name,
+            input=input,
             status=Status.created,
             is_last=is_last,
             additional_properties=additional_properties,
@@ -104,14 +120,14 @@ class InMemoryTaskDB(TaskDB):
     async def get_task(self, task_id: str) -> Task:
         task = self._tasks.get(task_id, None)
         if not task:
-            raise Exception(f"Task with id {task_id} not found")
+            raise NotFoundException("Task", task_id)
         return task
 
     async def get_step(self, task_id: str, step_id: str) -> Step:
         task = await self.get_task(task_id)
         step = next(filter(lambda s: s.task_id == task_id, task.steps), None)
         if not step:
-            raise Exception(f"Step with id {step_id} not found")
+            raise NotFoundException("Step", step_id)
         return step
 
     async def get_artifact(self, task_id: str, artifact_id: str) -> Artifact:
@@ -120,7 +136,7 @@ class InMemoryTaskDB(TaskDB):
             filter(lambda a: a.artifact_id == artifact_id, task.artifacts), None
         )
         if not artifact:
-            raise Exception(f"Artifact with id {artifact_id} not found")
+            raise NotFoundException("Artifact", artifact_id)
         return artifact
 
     async def create_artifact(
@@ -146,6 +162,11 @@ class InMemoryTaskDB(TaskDB):
     async def list_tasks(self) -> List[Task]:
         return [task for task in self._tasks.values()]
 
-    async def list_steps(self, task_id: str) -> List[Step]:
+    async def list_steps(
+        self, task_id: str, status: Optional[Status] = None
+    ) -> List[Step]:
         task = await self.get_task(task_id)
-        return [step for step in task.steps]
+        steps = task.steps
+        if status:
+            steps = list(filter(lambda s: s.status == status, steps))
+        return steps

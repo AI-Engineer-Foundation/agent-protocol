@@ -80,7 +80,7 @@ async def task_handler(task: Task) -> None:
     await Agent.db.create_step(task.task_id, StepTypes.PLAN)
 
 
-async def step_handler(step: Step):
+async def step_handler(step: Step) -> Step:
     task = await Agent.db.get_task(step.task_id)
     if step.name == StepTypes.PLAN:
         return await _generate_shared_deps(step)
