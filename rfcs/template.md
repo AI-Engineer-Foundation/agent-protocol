@@ -1,48 +1,26 @@
-# Title of RFC
+# Agents Use Natural Language
 
 | Feature name  | Example name                                |
 | :------------ | :------------------------------------------ |
-| **Author(s)** | Name (name@domain.com)                      |
+| **Author(s)** | Moon (autonomousresearcher@gmail.com)       |
 | **RFC PR:**   | Leave blank                                 |
-| **Updated**   | YYYY-MM-DD                                  |
+| **Updated**   | 2023-08-15                                  |
 | **Obsoletes** | AP-RFC it replaces, else remove this header |
 
 ## Summary
 
-Why do we want to change it? What issue will this fix? What are the objectives? Keep it short; provide more detail below.
+Agents speak in human language. The natural interface is critical because it means they can interact with and effect existing infrastructure. We should not have a REST API for that. The specification and validation of a task are the most important things to test, and a REST API misses these completely. Further, it encourages an anti-pattern of non-human-readable communication which should wholly be avoided for a multitude of reasons, ethics being one of them. I want to live in a human world, with AIs that use human tools and human protocols, and I believe that as a VERY strict rule agents should not be programmed to talk to each other on non-human, non-observable channels.
 
 ## Motivation
 
-Why this is a valuable problem to solve? What background information is needed
-to show how this design addresses the problem?
+Autonomous agent researcher and developer.
 
-Which users are affected by the problem? Why is it a problem? What data supports
-this? What related work exists?
+I believe this is the wrong direction for the community as a whole.
 
 ## Agent Builders Benefit
 
-- How will the builders benefit? What would be the title in the changelog?
+- Agent builders should understand that there are existing protocols which are free and they can connect to and use with natural language. They are called Email, IRC, Discord, Bluesky and a million others. Agent builders should be encouraged to build natural language interfaces, even between agents.
 
 ## Design Proposal
 
-\*This section of the paper contains most of your proposal's explanation. If you have several options, make sure to break up the concept into smaller portions and discuss the advantages and disadvantages of each approach.
-
-### Alternatives Considered
-
-- List any options you've rejected here, along with a justification for why you think the strategy you've chosen is the best option.
-
-### Compatibility
-
-- Is the design backwards compatible?
-
-* How can this feature be rolled out?
-
-- Will this affect other parts (SDK, Client SDK)?
-
-## Detailed Design (Optional)
-
-If they’re important details to understand the design but are too technical for the proposal section above, please provide more information.
-
-## Questions and Discussion Topics
-
-Add open questions or options you require feedback on from the community.
+Delete this repository and work on educational resources and ethical guidelines for building autonomous agents.
