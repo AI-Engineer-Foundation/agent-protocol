@@ -35,10 +35,8 @@ paths:
             application/json:
               schema:
                 type: array
-                default: []
-                description: A list of task IDs
                 items:
-                  type: string
+                  $ref: '#/components/schemas/Task'
         default:
           description: Internal Server Error
 

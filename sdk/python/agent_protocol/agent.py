@@ -47,13 +47,12 @@ async def create_agent_task(body: TaskRequestBody | None = None) -> Task:
     return task
 
 
-@base_router.get("/agent/tasks", response_model=List[str], tags=["agent"])
-async def list_agent_tasks_ids() -> List[str]:
+@base_router.get("/agent/tasks", response_model=List[Task], tags=["agent"])
+async def list_agent_tasks() -> List[str]:
     """
     List all tasks that have been created for the agent.
     """
-    return [task.task_id for task in await Agent.db.list_tasks()]
-
+    return  await Agent.db.list_tasks()
 
 @base_router.get("/agent/tasks/{task_id}", response_model=Task, tags=["agent"])
 async def get_agent_task(task_id: str) -> Task:
@@ -65,15 +64,15 @@ async def get_agent_task(task_id: str) -> Task:
 
 @base_router.get(
     "/agent/tasks/{task_id}/steps",
-    response_model=List[str],
+    response_model=List[Step],
     tags=["agent"],
 )
-async def list_agent_task_steps(task_id: str) -> List[str]:
+async def list_agent_task_steps(task_id: str) -> List[Step]:
     """
     List all steps for the specified task.
     """
     task = await Agent.db.get_task(task_id)
-    return [s.step_id for s in task.steps]
+    return task.steps
 
 
 @base_router.post(
