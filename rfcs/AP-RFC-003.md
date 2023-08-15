@@ -2,7 +2,7 @@
 
 | Feature name  | Artifact Management Enhancement              |
 | :------------ | :------------------------------------------ |
-| **Author(s)** | Craig Swift [(@TechySwift)](https://twitter.com/TechySwift) |
+| **Author(s)** | Craig Swift [(@TechySwift)](https://twitter.com/TechySwift) & Nicholas Tindle [(@NickTindle)](https://twitter.com/nicktindle)|
 | **RFC PR:**   |                                            |
 | **Updated**   | 2023-08-15                                 |
 | **Obsoletes** | Previous Artifact Management AP-RFC         |
