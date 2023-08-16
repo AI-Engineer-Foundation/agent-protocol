@@ -191,11 +191,11 @@ export const navigation = [
     links: [
       { title: 'Introduction', href: '/' },
       { title: 'Protocol', href: '/protocol' },
+      { title: 'Why to adopt', href: '/incentives' },
       { title: 'Endpoints', href: '/endpoints' },
-      { title: 'Incentives', href: '/incentives' },
-      { title: 'Test Compliance', href: '/compliance' },
+      { title: 'Test your agent', href: '/compliance' },
+      { title: 'Feature requests', href: '/rfc' },
       { title: 'Projects and tools', href: '/projects-tools' },
-      { title: 'RFC', href: '/rfc' },
     ],
   },
   {
@@ -210,6 +210,7 @@ export const navigation = [
   {
     title: 'Client Libraries',
     links: [
+      { title: 'Overview', href: '/clients' },
       { title: 'Python', href: '/clients/python' },
       { title: 'Other possibilities', href: '/clients/others' },
     ],
