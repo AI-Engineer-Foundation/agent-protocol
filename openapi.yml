@@ -248,20 +248,28 @@ components:
       required:
         - 'artifact_id'
         - 'file_name'
-      description: Artifact that the task has produced.
+      description: An Artifact either created by or submitted to the agent.
       properties:
         artifact_id:
+          type: string
           description: ID of the artifact.
-          type: string
-          example: 'b225e278-8b4c-4f99-a696-8facf19f0e56'
+          example: b225e278-8b4c-4f99-a696-8facf19f0e56
         file_name:
+          type: string
           description: Filename of the artifact.
+          example: main.py
+        saved:
+          type: boolean
+          description: Whether the artifact has been saved to the agent's workspace.
+          example: false
+        uri:
           type: string
-          example: 'main.py'
-        relative_path:
-          description: Relative path of the artifact in the agent's workspace.
+          description: URI of the artifact.
+          example: file://home/bob/workspace/bucket/main.py
+        data:
           type: string
-          example: 'python/code/'
+          format: byte
+          description: Data of the artifact.
 
     ArtifactUpload:
       type: object

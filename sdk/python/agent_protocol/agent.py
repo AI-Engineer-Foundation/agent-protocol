@@ -1,66 +1,57 @@
 import asyncio
 import os
+import tempfile
+from typing import Annotated, List, Optional
 from uuid import uuid4
 
 import aiofiles
-from fastapi import APIRouter, UploadFile, Form, File
+from fastapi import APIRouter, File, Form, Request, Response, UploadFile
 from fastapi.responses import FileResponse
 from hypercorn.asyncio import serve
 from hypercorn.config import Config
-from typing import Callable, List, Optional, Annotated, Coroutine, Any
 
-from .db import InMemoryTaskDB, Task, TaskDB, Step
+from .db import Step, Task, TaskDB
+from .middlewares import AgentMiddleware
+from .models import Artifact, Status, StepRequestBody, TaskRequestBody
 from .server import app
-from .models import (
-    TaskRequestBody,
-    StepRequestBody,
-    Artifact,
-    Status,
-)
-
-
-StepHandler = Callable[[Step], Coroutine[Any, Any, Step]]
-TaskHandler = Callable[[Task], Coroutine[Any, Any, None]]
-
-
-_task_handler: Optional[TaskHandler]
-_step_handler: Optional[StepHandler]
-
 
 base_router = APIRouter()
 
 
 @base_router.post("/agent/tasks", response_model=Task, tags=["agent"])
-async def create_agent_task(body: TaskRequestBody | None = None) -> Task:
+async def create_agent_task(
+    request: Request, body: TaskRequestBody | None = None
+) -> Task:
     """
     Creates a task for the agent.
     """
-    if not _task_handler:
-        raise Exception("Task handler not defined")
+    agent: Agent = request["agent"]
 
-    task = await Agent.db.create_task(
+    task = await agent.db.create_task(
         input=body.input if body else None,
         additional_input=body.additional_input if body else None,
     )
-    await _task_handler(task)
+    await agent.task_handler(task)
 
     return task
 
 
 @base_router.get("/agent/tasks", response_model=List[str], tags=["agent"])
-async def list_agent_tasks_ids() -> List[str]:
+async def list_agent_tasks_ids(request: Request) -> List[str]:
     """
     List all tasks that have been created for the agent.
     """
-    return [task.task_id for task in await Agent.db.list_tasks()]
+    agent: Agent = request["agent"]
+    return [task.task_id for task in await agent.db.list_tasks()]
 
 
 @base_router.get("/agent/tasks/{task_id}", response_model=Task, tags=["agent"])
-async def get_agent_task(task_id: str) -> Task:
+async def get_agent_task(request: Request, task_id: str) -> Task:
     """
     Get details about a specified agent task.
     """
-    return await Agent.db.get_task(task_id)
+    agent: Agent = request["agent"]
+    return await agent.db.get_task(task_id)
 
 
 @base_router.get(
@@ -68,11 +59,12 @@ async def get_agent_task(task_id: str) -> Task:
     response_model=List[str],
     tags=["agent"],
 )
-async def list_agent_task_steps(task_id: str) -> List[str]:
+async def list_agent_task_steps(request: Request, task_id: str) -> List[str]:
     """
     List all steps for the specified task.
     """
-    task = await Agent.db.get_task(task_id)
+    agent: Agent = request["agent"]
+    task = await agent.db.get_task(task_id)
     return [s.step_id for s in task.steps]
 
 
@@ -82,16 +74,16 @@ async def list_agent_task_steps(task_id: str) -> List[str]:
     tags=["agent"],
 )
 async def execute_agent_task_step(
+    request: Request,
     task_id: str,
     body: StepRequestBody | None = None,
 ) -> Step:
     """
     Execute a step in the specified agent task.
     """
-    if not _step_handler:
-        raise Exception("Step handler not defined")
+    agent: Agent = request["agent"]
 
-    task = await Agent.db.get_task(task_id)
+    task = await agent.db.get_task(task_id)
     step = next(filter(lambda x: x.status == Status.created, task.steps), None)
 
     if not step:
@@ -102,7 +94,7 @@ async def execute_agent_task_step(
     step.input = body.input if body else None
     step.additional_input = body.additional_input if body else None
 
-    step = await _step_handler(step)
+    step = await agent.step_handler(step)
 
     step.status = Status.completed
     return step
@@ -113,11 +105,12 @@ async def execute_agent_task_step(
     response_model=Step,
     tags=["agent"],
 )
-async def get_agent_task_step(task_id: str, step_id: str) -> Step:
+async def get_agent_task_step(request: Request, task_id: str, step_id: str) -> Step:
     """
     Get details about a specified task step.
     """
-    return await Agent.db.get_step(task_id, step_id)
+    agent: Agent = request["agent"]
+    return await agent.db.get_step(task_id, step_id)
 
 
 @base_router.get(
@@ -125,11 +118,12 @@ async def get_agent_task_step(task_id: str, step_id: str) -> Step:
     response_model=List[Artifact],
     tags=["agent"],
 )
-async def list_agent_task_artifacts(task_id: str) -> List[Artifact]:
+async def list_agent_task_artifacts(request: Request, task_id: str) -> List[Artifact]:
     """
     List all artifacts for the specified task.
     """
-    task = await Agent.db.get_task(task_id)
+    agent: Agent = request["agent"]
+    task = await agent.db.get_task(task_id)
     return task.artifacts
 
 
@@ -139,24 +133,40 @@ async def list_agent_task_artifacts(task_id: str) -> List[Artifact]:
     tags=["agent"],
 )
 async def upload_agent_task_artifacts(
+    request: Request,
     task_id: str,
-    file: Annotated[UploadFile, File()],
-    relative_path: Annotated[Optional[str], Form()] = None,
+    file: UploadFile | None = None,
+    uri: str | None = None,
 ) -> Artifact:
     """
     Upload an artifact for the specified task.
     """
-    file_name = file.filename or str(uuid4())
-    await Agent.db.get_task(task_id)
-    artifact = await Agent.db.create_artifact(task_id, file_name, relative_path)
+    agent: Agent = request["agent"]
+    if not file and not uri:
+        return Response(status_code=400, content="No file or uri provided")
 
-    path = Agent.get_artifact_folder(task_id, artifact)
-    if not os.path.exists(path):
-        os.makedirs(path)
+    if uri:
+        artifact = Artifact(
+            task_id=task_id,
+            file_name=uri.spit("/")[-1],
+            uri=uri,
+        )
+    else:
+        file_name = file.filename or str(uuid4())
+        try:
+            data = b""
+            while contents := file.file.read(1024 * 1024):
+                data += contents
+        except Exception as e:
+            return Response(status_code=500, content=str(e))
+        artifact = Artifact(
+            task_id=task_id,
+            file_name=file_name,
+            data=contents,
+        )
 
-    async with aiofiles.open(os.path.join(path, file_name), "wb") as f:
-        while content := await file.read(1024 * 1024):  # async read chunk ~1MiB
-            await f.write(content)
+    artifact = await agent.save_artifact(task_id, artifact)
+    agent.db.add_artifact(task_id, artifact)
 
     return artifact
 
@@ -165,65 +175,59 @@ async def upload_agent_task_artifacts(
     "/agent/tasks/{task_id}/artifacts/{artifact_id}",
     tags=["agent"],
 )
-async def download_agent_task_artifacts(task_id: str, artifact_id: str) -> FileResponse:
+async def download_agent_task_artifacts(
+    request: Request, task_id: str, artifact_id: str
+) -> FileResponse:
     """
     Download the specified artifact.
     """
-    artifact = await Agent.db.get_artifact(task_id, artifact_id)
-    path = Agent.get_artifact_path(task_id, artifact)
-    return FileResponse(
-        path=path, media_type="application/octet-stream", filename=artifact.file_name
-    )
+    agent: Agent = request["agent"]
+    artifact = await agent.db.get_artifact(task_id, artifact_id)
+    retrieved_artifact: Artifact = agent.retrieve_artifact(task_id, artifact)
+    with tempfile.TemporaryDirectory() as tmpdir:
+        path = os.path.join(tmpdir, artifact.file_name)
+        with open(path, "wb") as f:
+            f.write(retrieved_artifact.data)
+        return FileResponse(
+            # Note: mimetype is guessed in the FileResponse constructor
+            path=path,
+            filename=artifact.file_name,
+        )
 
 
 class Agent:
-    db: TaskDB = InMemoryTaskDB()
-    workspace: str = os.getenv("AGENT_WORKSPACE", "workspace")
+    def __init__(self, db: TaskDB):
+        self.name = self.__class__.__name__
+        self.db = db
 
-    @staticmethod
-    def setup_agent(task_handler: TaskHandler, step_handler: StepHandler):
-        """
-        Set the agent's task and step handlers.
-        """
-        global _task_handler
-        _task_handler = task_handler
-
-        global _step_handler
-        _step_handler = step_handler
-
-        return Agent
-
-    @staticmethod
-    def get_workspace(task_id: str) -> str:
-        """
-        Get the workspace path for the specified task.
-        """
-        return os.path.join(os.getcwd(), Agent.workspace, task_id)
-
-    @staticmethod
-    def get_artifact_folder(task_id: str, artifact: Artifact) -> str:
-        """
-        Get the artifact path for the specified task and artifact.
-        """
-        workspace_path = Agent.get_workspace(task_id)
-        relative_path = artifact.relative_path or ""
-        return os.path.join(workspace_path, relative_path)
-
-    @staticmethod
-    def get_artifact_path(task_id: str, artifact: Artifact) -> str:
-        """
-        Get the artifact path for the specified task and artifact.
-        """
-        return os.path.join(
-            Agent.get_artifact_folder(task_id, artifact), artifact.file_name
-        )
-
-    @staticmethod
-    def start(port: int = 8000, router: APIRouter = base_router):
+    def start(self, port: int = 8000, router: APIRouter = base_router):
         """
         Start the agent server.
         """
         config = Config()
         config.bind = [f"localhost:{port}"]  # As an example configuration setting
+        app.title = f"{self.name} - Agent Communication Protocol"
         app.include_router(router)
+        app.add_middleware(AgentMiddleware, agent=self)
         asyncio.run(serve(app, config))
+
+    async def task_handler(self, task: Task):
+        """
+        Handles a new task
+        """
+        return task
+
+    async def step_handler(self, step: Step) -> Step:
+        return step
+
+    async def retrieve_artifact(self, task_id: str, artifact: Artifact) -> Artifact:
+        """
+        Retrieve the artifact data from wherever it is stored and return it as bytes.
+        """
+        return artifact
+
+    async def save_artifact(self, task_id: str, artifact: Artifact) -> Artifact:
+        """
+        Save the artifact data to the agent's workspace, loading from uri if bytes are not available.
+        """
+        return artifact

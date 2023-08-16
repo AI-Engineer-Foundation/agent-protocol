@@ -1,7 +1,10 @@
 import uuid
 from abc import ABC
-from typing import Dict, List, Optional, Any
-from .models import Task as APITask, Step as APIStep, Artifact, Status
+from typing import Any, Dict, List, Optional
+
+from .models import Artifact, Status
+from .models import Step as APIStep
+from .models import Task as APITask
 
 
 class Step(APIStep):
@@ -67,6 +70,14 @@ class TaskDB(ABC):
     async def list_steps(
         self, task_id: str, status: Optional[Status] = None
     ) -> List[Step]:
+        raise NotImplementedError
+
+    async def create_artifact(
+        self, task_id: str, artifact: Artifact, step_id: str | None = None
+    ) -> Artifact:
+        raise NotImplementedError
+
+    async def get_artifact(self, task_id: str, artifact_id: str) -> Artifact:
         raise NotImplementedError
 
 
