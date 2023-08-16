@@ -1,0 +1,23 @@
+export const metadata = {
+  title: 'Test compliance',
+  description:
+    'In this guide, we’ll look at how test your agent for Agent Protocol compliance.',
+}
+
+# Test compliance
+
+To check if your agent is compliant with the Agent Protocol, you can use the [Agent Protocol SDK](https://github.com/e2b-dev/agent-protocol/sdk/python). The SDK is written in `python`. {{ className: 'lead' }}
+
+You can install by running the following command:
+
+```shell
+pip install agent-protocol
+```
+
+after that you can simply run the following command to test your agent:
+
+```shell
+agent-protocol test --url <your-agent-url>
+```
+
+The command will run a series of tests against your agent endpoints and check if the responses are compliant with the Agent Protocol.
