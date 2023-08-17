@@ -262,6 +262,10 @@ components:
           type: boolean
           description: Whether the artifact has been saved to the agent's workspace.
           example: false
+        agent_created:
+          type: boolean
+          description: Whether the artifact has been created by the agent.
+          example: false
         uri:
           type: string
           description: URI of the artifact.
