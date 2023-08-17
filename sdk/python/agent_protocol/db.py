@@ -12,7 +12,7 @@ class Step(APIStep):
 
 
 class Task(APITask):
-    steps: List[Step] = []
+    steps: Optional[List[Step]] = []
 
 
 class NotFoundException(Exception):
@@ -85,10 +85,6 @@ class InMemoryTaskDB(TaskDB):
         input: Optional[str],
         additional_input: Any = None,
     ) -> Task:
-        if not steps:
-            steps = []
-        if not artifacts:
-            artifacts = []
         task_id = str(uuid.uuid4())
         task = Task(
             task_id=task_id,

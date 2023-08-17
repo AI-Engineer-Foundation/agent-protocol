@@ -34,6 +34,7 @@ class TestCompliance:
         response = requests.get(f"{url}/agent/tasks/{task_id}/steps")
         assert response.status_code == 200
         assert isinstance(response.json(), list)
+        assert len(response.json()) > 0
 
     def test_execute_agent_task_step(self, url):
         # Create task
