@@ -2,6 +2,8 @@ import glob from 'fast-glob'
 
 import { Providers } from '@/app/providers'
 import { Layout } from '@/components/Layout'
+import { Analytics } from '@vercel/analytics/react'
+
 
 import '@/styles/tailwind.css'
 
@@ -27,7 +29,10 @@ export default async function RootLayout({ children }) {
       <body className="flex min-h-full bg-white antialiased dark:bg-zinc-900">
         <Providers>
           <div className="w-full">
-            <Layout allSections={allSections}>{children}</Layout>
+            <Layout allSections={allSections}>
+              {children}
+              <Analytics />
+            </Layout>
           </div>
         </Providers>
       </body>
