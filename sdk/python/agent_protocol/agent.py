@@ -31,7 +31,7 @@ async def create_agent_task(
         input=body.input if body else None,
         additional_input=body.additional_input if body else None,
     )
-    await agent.task_handler(task)
+    await agent.create_task(task)
 
     return task
 
@@ -94,7 +94,7 @@ async def execute_agent_task_step(
     step.input = body.input if body else None
     step.additional_input = body.additional_input if body else None
 
-    step = await agent.step_handler(step)
+    step = await agent.run_step(step)
 
     step.status = Status.completed
     return step
@@ -211,13 +211,13 @@ class Agent:
         app.add_middleware(AgentMiddleware, agent=self)
         asyncio.run(serve(app, config))
 
-    async def task_handler(self, task: Task):
+    async def create_task(self, task: Task):
         """
         Handles a new task
         """
         return task
 
-    async def step_handler(self, step: Step) -> Step:
+    async def run_step(self, step: Step) -> Step:
         return step
 
     async def retrieve_artifact(self, task_id: str, artifact: Artifact) -> Artifact:
