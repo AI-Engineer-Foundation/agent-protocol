@@ -2,7 +2,7 @@ from agent_protocol import Agent, Artifact, Step, Task
 from agent_protocol.db import InMemoryTaskDB
 
 
-class AutoGPT(Agent):
+class MinimalAgent(Agent):
     async def task_handler(self, task: Task):
         """
         Handles a new task
