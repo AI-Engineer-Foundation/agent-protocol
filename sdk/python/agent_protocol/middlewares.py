@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import PlainTextResponse
 
-from agent_protocol.db import NotFoundException
+from .db import NotFoundException
 
 
 async def not_found_exception_handler(

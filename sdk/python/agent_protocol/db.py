@@ -28,11 +28,7 @@ class NotFoundException(Exception):
 
 class TaskDB(ABC):
     async def create_task(
-        self,
-        input: Optional[str],
-        additional_input: Any = None,
-        artifacts: Optional[List[Artifact]] = None,
-        steps: Optional[List[Step]] = None,
+        self, input: Optional[str], additional_input: Any = None
     ) -> Task:
         raise NotImplementedError
 
@@ -49,9 +45,8 @@ class TaskDB(ABC):
     async def create_artifact(
         self,
         task_id: str,
-        file_name: str,
-        relative_path: Optional[str] = None,
-        step_id: Optional[str] = None,
+        artifact: Artifact,
+        step_id: str | None = None,
     ) -> Artifact:
         raise NotImplementedError
 
@@ -72,12 +67,13 @@ class TaskDB(ABC):
     ) -> List[Step]:
         raise NotImplementedError
 
-    async def create_artifact(
-        self, task_id: str, artifact: Artifact, step_id: str | None = None
-    ) -> Artifact:
-        raise NotImplementedError
-
-    async def get_artifact(self, task_id: str, artifact_id: str) -> Artifact:
+    async def update_step(
+        self,
+        task_id: str,
+        step_id: str,
+        status: str,
+        additional_properties: Optional[Dict[str, str]] = None,
+    ) -> Step:
         raise NotImplementedError
 
 
@@ -88,8 +84,6 @@ class InMemoryTaskDB(TaskDB):
         self,
         input: Optional[str],
         additional_input: Any = None,
-        artifacts: Optional[List[Artifact]] = None,
-        steps: Optional[List[Step]] = None,
     ) -> Task:
         if not steps:
             steps = []
@@ -99,8 +93,8 @@ class InMemoryTaskDB(TaskDB):
         task = Task(
             task_id=task_id,
             input=input,
-            steps=steps,
-            artifacts=artifacts,
+            steps=[],
+            artifacts=[],
             additional_input=additional_input,
         )
         self._tasks[task_id] = task

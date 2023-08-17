@@ -316,7 +316,6 @@ components:
           description: Definition of an agent task.
           required:
             - 'task_id'
-            - 'artifacts'
           properties:
             task_id:
               description: The ID of the task.
@@ -353,7 +352,6 @@ components:
             - 'step_id'
             - 'task_id'
             - 'status'
-            - 'artifacts'
           properties:
             task_id:
               description: The ID of the task this step belongs to.
