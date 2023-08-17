@@ -33,7 +33,8 @@ class AgentMiddleware:
             >>> @app.get("/")
             >>> async def root(request: Request):
             >>>     agent = request["agent"]
-            >>>     return agent
+            >>>     task = agent.db.create_task("Do something.")
+            >>>     return {"task_id": a.task_id}
             >>> agent = Agent()
             >>> app.add_middleware(AgentMiddleware, agent=agent)
         """

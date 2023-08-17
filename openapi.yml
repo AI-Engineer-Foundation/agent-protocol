@@ -258,10 +258,6 @@ components:
           type: string
           description: Filename of the artifact.
           example: main.py
-        saved:
-          type: boolean
-          description: Whether the artifact has been saved to the agent's workspace.
-          example: false
         agent_created:
           type: boolean
           description: Whether the artifact has been created by the agent.
@@ -270,10 +266,6 @@ components:
           type: string
           description: URI of the artifact.
           example: file://home/bob/workspace/bucket/main.py
-        data:
-          type: string
-          format: byte
-          description: Data of the artifact.
 
     ArtifactUpload:
       type: object
