@@ -99,8 +99,8 @@ async def execute_agent_task_step(
 
     step.status = Status.running
 
-    step.input = body.input if body else None
-    step.additional_input = body.additional_input if body else None
+    step.input = body.input if body else step.input
+    step.additional_input = body.additional_input if body else step.additional_input
 
     step = await _step_handler(step)
 
