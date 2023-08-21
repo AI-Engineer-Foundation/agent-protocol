@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "d0e392f7-0d01-4aa6-bb5d-aee165516aef",
+		"_postman_id": "b2560f90-dfad-4c46-a156-4311f9da86e6",
 		"name": "Agent Protocol - REST",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_uid": "28411126-d0e392f7-0d01-4aa6-bb5d-aee165516aef"
+		"_uid": "28411126-b2560f90-dfad-4c46-a156-4311f9da86e6"
 	},
 	"item": [
 		{
@@ -29,11 +29,11 @@
 									"});"
 								],
 								"type": "text/javascript",
-								"id": "4e683aa5-1568-4a76-9c2b-ca73b1955139"
+								"id": "2999bda6-59d0-422d-b529-d145eb3fa45a"
 							}
 						}
 					],
-					"id": "e047da23-d801-48b0-a920-b802a45d85dc",
+					"id": "a3a754b7-2efe-4d9e-8fdf-41d088afb7b2",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -62,7 +62,7 @@
 					},
 					"response": [
 						{
-							"id": "5cb23f4e-98b5-40bc-9dbf-ed0d9778eac9",
+							"id": "4ad0acd5-6b93-49e7-ba01-86465a0aabed",
 							"name": "mock response",
 							"originalRequest": {
 								"method": "GET",
@@ -90,6 +90,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "text",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Date",
@@ -151,7 +152,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "fea7645b-7f05-4243-aa87-0391da566054",
+								"id": "4a9133ab-a6d2-4f21-8baf-93c953c069c8",
 								"exec": [
 									"var jsonData = pm.response.json();",
 									"pm.globals.set(\"taskId\", jsonData.task_id);",
@@ -191,7 +192,7 @@
 							}
 						}
 					],
-					"id": "038d74e6-ec25-41ff-93e9-ec1ec45adfc3",
+					"id": "3903febb-41e3-45cc-ade0-31d9181a984c",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -220,7 +221,7 @@
 					},
 					"response": [
 						{
-							"id": "759345df-bdea-40fb-a30d-875be9f82773",
+							"id": "eabc276c-5079-48d1-af48-cca9972dc0f8",
 							"name": "mock response",
 							"originalRequest": {
 								"method": "POST",
@@ -248,6 +249,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Date",
@@ -373,11 +375,11 @@
 									""
 								],
 								"type": "text/javascript",
-								"id": "c0332b9a-6e59-4814-96c1-01867f0a574d"
+								"id": "0d71ef41-2a65-41d0-9906-2b55828b90e9"
 							}
 						}
 					],
-					"id": "b52abb71-2497-4f38-8536-f72388a87d1c",
+					"id": "41839c17-8ac7-4df2-89ba-1c0750bdac45",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -408,7 +410,7 @@
 					},
 					"response": [
 						{
-							"id": "7c73f90f-e203-4548-905f-ff20f7feae0b",
+							"id": "8d8a2c6b-7cc9-430f-ad55-da2cec0aa26f",
 							"name": "mock response",
 							"originalRequest": {
 								"method": "POST",
@@ -438,6 +440,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Date",
@@ -499,7 +502,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "2183cebd-e59e-4007-8715-1c0ed22d56f9",
+								"id": "7453dbaa-cbbc-47f8-92fb-623cd69600d7",
 								"exec": [
 									"var artifacts = pm.response.json().artifacts;",
 									"",
@@ -554,7 +557,7 @@
 							}
 						}
 					],
-					"id": "f3a9a4f6-a22c-4413-868f-1b0585b490e6",
+					"id": "5243b2c4-047f-44d8-b69c-4f472b84d9c9",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -591,7 +594,7 @@
 					},
 					"response": [
 						{
-							"id": "4a59be3b-9fb3-4a53-9ca2-3afd502bfa4c",
+							"id": "ace588a7-823e-49c8-9adf-5d12d09a9aea",
 							"name": "mock response",
 							"originalRequest": {
 								"method": "POST",
@@ -627,6 +630,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Date",
@@ -744,11 +748,11 @@
 									""
 								],
 								"type": "text/javascript",
-								"id": "50ee4724-c82d-44ce-b313-9df01ca1e193"
+								"id": "4e42ffbe-d3e7-4ba4-add9-756e964fa47c"
 							}
 						}
 					],
-					"id": "3819c509-9757-4ba1-98b3-2c354667421d",
+					"id": "a3373121-6e1c-409f-8495-339f97362a60",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -785,7 +789,7 @@
 					},
 					"response": [
 						{
-							"id": "694cd857-3be8-4df9-814d-8fe41ad31c95",
+							"id": "c9f5951b-7a43-4a11-a9e5-e1980ed061d6",
 							"name": "mock response",
 							"originalRequest": {
 								"method": "POST",
@@ -821,6 +825,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Date",
@@ -938,11 +943,11 @@
 									""
 								],
 								"type": "text/javascript",
-								"id": "6b5e755f-025f-4a49-b046-3334d44376c7"
+								"id": "8fbcb08e-a74a-470f-be10-4839846d4b1d"
 							}
 						}
 					],
-					"id": "4a0ad2c4-26ba-4afc-8bca-bd7fa955e8cf",
+					"id": "8523c670-ba2d-4579-9b18-88f06db8a087",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -979,7 +984,7 @@
 					},
 					"response": [
 						{
-							"id": "44962b61-e3e7-4eb9-aab9-6a335caa57c2",
+							"id": "b6b302d4-506e-4e63-b73a-4c5965723e4c",
 							"name": "mock response",
 							"originalRequest": {
 								"method": "POST",
@@ -1015,6 +1020,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Date",
@@ -1133,11 +1139,11 @@
 									""
 								],
 								"type": "text/javascript",
-								"id": "d237fa03-c84d-40bf-af9b-2ecb420d3825"
+								"id": "b15d9933-6f97-4f67-a42b-6b0826c9ab02"
 							}
 						}
 					],
-					"id": "e7a06063-d376-42c7-851c-32711a7e0db6",
+					"id": "15251124-3abc-44af-bad5-d851668429d1",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1174,7 +1180,7 @@
 					},
 					"response": [
 						{
-							"id": "75480c35-7e92-4e73-a200-85bc7cc53937",
+							"id": "32e79d94-70ca-4448-b9cf-8efaa1fe9f4d",
 							"name": "mock response",
 							"originalRequest": {
 								"method": "POST",
@@ -1210,6 +1216,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Date",
@@ -1327,11 +1334,11 @@
 									""
 								],
 								"type": "text/javascript",
-								"id": "14368159-50cf-4ac2-bf32-e3e5380d5a1a"
+								"id": "72aa38a7-5cd7-4fca-a9b4-823db4b02c0b"
 							}
 						}
 					],
-					"id": "71988395-b79c-4f74-814f-cf5622ef25af",
+					"id": "22eeddbe-7051-4648-84a5-b939d9ab505e",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1368,7 +1375,7 @@
 					},
 					"response": [
 						{
-							"id": "99841739-d411-49b8-87aa-74c1896b5eaa",
+							"id": "fc9dce7f-91c2-4c2d-847d-b5b4149e0a16",
 							"name": "mock response",
 							"originalRequest": {
 								"method": "POST",
@@ -1404,6 +1411,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Date",
@@ -1521,11 +1529,11 @@
 									""
 								],
 								"type": "text/javascript",
-								"id": "73b2c61b-7fb4-4629-95fb-9184d054a407"
+								"id": "09ff7aee-fa79-47a0-8718-4b5acc3af3ad"
 							}
 						}
 					],
-					"id": "c46860b4-bb43-4c1e-9740-0cbde2ed0b32",
+					"id": "fa6822b8-2bf4-44bd-8c90-0ff1bd5b1d08",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1562,7 +1570,7 @@
 					},
 					"response": [
 						{
-							"id": "6dc3ad56-92a2-403f-b09d-ed5f560917f2",
+							"id": "3ec52d9f-809f-4b48-848c-a192186bf79f",
 							"name": "mock response",
 							"originalRequest": {
 								"method": "POST",
@@ -1598,6 +1606,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Date",
@@ -1666,11 +1675,11 @@
 									""
 								],
 								"type": "text/javascript",
-								"id": "5eea7bce-42b2-4472-a99f-4995fb78cbe6"
+								"id": "2e7f7075-6b08-46d0-bb93-86d1657265eb"
 							}
 						}
 					],
-					"id": "5b58033a-2432-4f5b-9fb5-0de927afd628",
+					"id": "1ef8c47b-ee90-48b4-8250-f8ef854f362c",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1708,7 +1717,7 @@
 					},
 					"response": [
 						{
-							"id": "1a85883e-e5a6-4aad-8685-88ebedebd6ee",
+							"id": "6e4a8a7a-6381-4dfe-90b4-6c877d2be759",
 							"name": "mock response",
 							"originalRequest": {
 								"method": "GET",
@@ -1745,6 +1754,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "text",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Date",
@@ -1801,7 +1811,7 @@
 					]
 				}
 			],
-			"id": "43e2db63-ffb8-47a2-969e-177f9d2e32fb"
+			"id": "babb2759-e161-45ad-b370-7b752f5d7891"
 		},
 		{
 			"name": "Tasks Load Test",
@@ -1825,11 +1835,11 @@
 									"pm.globals.set(\"taskInput\", JSON.parse(pm.request.body.raw).input);"
 								],
 								"type": "text/javascript",
-								"id": "66f06529-a1e4-4848-8edb-2a7eed07ee15"
+								"id": "e6e9f48d-53c3-4b51-978b-8152421275a4"
 							}
 						}
 					],
-					"id": "3a07b486-d8aa-4f8e-9a7c-9d4e06eb9279",
+					"id": "6990c38b-0c3d-4513-8130-ff0e0a6c2968",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1863,7 +1873,7 @@
 					},
 					"response": [
 						{
-							"id": "a0411723-19e2-4d35-aed7-df2513d97efb",
+							"id": "ae448ec5-8f9f-4d2a-8c1d-048fcd1e4926",
 							"name": "mock response",
 							"originalRequest": {
 								"method": "POST",
@@ -1896,6 +1906,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Date",
@@ -1953,7 +1964,7 @@
 				},
 				{
 					"name": "Get the task",
-					"id": "4d6ab896-4b3c-433d-8015-422a8fc6310f",
+					"id": "fa1d4894-b1be-41c5-a711-db33a359bfd5",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1983,7 +1994,7 @@
 					},
 					"response": [
 						{
-							"id": "08812686-3eab-4d3e-b8e3-b77a1a2759ae",
+							"id": "a4d223d7-4271-4c2b-b126-5d68d73e9c66",
 							"name": "mock response",
 							"originalRequest": {
 								"method": "GET",
@@ -2012,6 +2023,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Date",
@@ -2073,7 +2085,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "66f06529-a1e4-4848-8edb-2a7eed07ee15",
+								"id": "eb173949-688d-4fdb-ba93-faf9d629c2f9",
 								"exec": [
 									"Object.keys(pm.globals.toObject()).forEach((key) => {",
 									"    pm.globals.unset(key);",
@@ -2090,7 +2102,7 @@
 							}
 						}
 					],
-					"id": "6eb073c9-4c4d-4c19-9172-9ab72f0df123",
+					"id": "8b9ed6ca-4323-48ed-983d-68b132de517c",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -2119,7 +2131,7 @@
 					},
 					"response": [
 						{
-							"id": "ee20dcaf-c288-4871-8262-f0b38b39e3c0",
+							"id": "92c2bf15-4830-4a37-be69-88efa575a768",
 							"name": "mock response",
 							"originalRequest": {
 								"method": "GET",
@@ -2147,6 +2159,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Date",
@@ -2203,7 +2216,7 @@
 					]
 				}
 			],
-			"id": "9f30724d-bbc8-4889-8361-d8395a068ed9"
+			"id": "5458a8c7-c78a-4b3c-a653-b0855ea288cf"
 		},
 		{
 			"name": "Artifacts Load Test",
@@ -2214,7 +2227,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "fea7645b-7f05-4243-aa87-0391da566054",
+								"id": "d7770586-3379-4c35-a56f-962873c17014",
 								"exec": [
 									"var jsonData = pm.response.json();",
 									"pm.globals.set(\"taskId\", jsonData.task_id);"
@@ -2223,7 +2236,7 @@
 							}
 						}
 					],
-					"id": "6eb6521b-d642-492a-95f2-dae2880be158",
+					"id": "4eb3d9e2-0d94-4daa-95f3-de83fd2ed052",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -2252,7 +2265,7 @@
 					},
 					"response": [
 						{
-							"id": "08db1090-d6ee-4339-984d-fb11e3b6d362",
+							"id": "58180b70-d441-4445-a037-154e83013bd3",
 							"name": "mock response",
 							"originalRequest": {
 								"method": "POST",
@@ -2280,6 +2293,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Date",
@@ -2341,7 +2355,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "3432edc2-c391-4574-ae12-5c822143fcae",
+								"id": "5dc000ff-cb33-4966-9abc-e0627bb257a6",
 								"exec": [
 									""
 								],
@@ -2349,7 +2363,7 @@
 							}
 						}
 					],
-					"id": "e160d867-dc0c-43eb-aa2e-7cc1707171ce",
+					"id": "b43f1dee-a8c0-40dd-924f-e4f9d95ba7e6",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -2367,7 +2381,9 @@
 								{
 									"key": "file",
 									"type": "file",
-									"src": "path/to/your/file.txt"
+									"src": [
+										"path/to/your/file.txt"
+									]
 								},
 								{
 									"key": "relative_path",
@@ -2393,7 +2409,7 @@
 				},
 				{
 					"name": "Upload multiple artifacts for the specified task",
-					"id": "60142d24-6732-47e9-bdc0-102ee7b5d793",
+					"id": "e0b9c253-2394-4da5-b326-e494e1bcdb5c",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -2411,12 +2427,16 @@
 								{
 									"key": "file1",
 									"type": "file",
-									"src": "path/to/your/file1.txt"
+									"src": [
+										"path/to/your/file1.txt"
+									]
 								},
 								{
 									"key": "file2",
 									"type": "file",
-									"src": "path/to/your/file2.txt"
+									"src": [
+										"path/to/your/file2.txt"
+									]
 								},
 								{
 									"key": "relative_path",
@@ -2446,7 +2466,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "5eea7bce-42b2-4472-a99f-4995fb78cbe6",
+								"id": "1a913281-cd56-41da-a0c1-e05ae30b135c",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
@@ -2457,7 +2477,7 @@
 							}
 						}
 					],
-					"id": "a6634357-5266-4f7a-a566-895ee1baabd5",
+					"id": "7befa267-d440-4977-a2ca-b1b9c5f0df7f",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -2494,7 +2514,7 @@
 					},
 					"response": [
 						{
-							"id": "f7d74034-fcbf-497a-b3dc-aa8be693eb15",
+							"id": "095c02f4-dc5a-42d9-a190-9a88233303a0",
 							"name": "mock response",
 							"originalRequest": {
 								"method": "GET",
@@ -2530,6 +2550,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "text",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Date",
@@ -2598,11 +2619,11 @@
 									""
 								],
 								"type": "text/javascript",
-								"id": "5eea7bce-42b2-4472-a99f-4995fb78cbe6"
+								"id": "8195d0ca-177f-4b94-a420-772a5e67c84a"
 							}
 						}
 					],
-					"id": "e4628d95-4ff2-471b-9483-81a5a52d3c1f",
+					"id": "4fb42ae0-4079-4d17-9e9d-263e397c733a",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -2640,7 +2661,7 @@
 					},
 					"response": [
 						{
-							"id": "499c8457-f8b4-48b7-be0e-7868e807344e",
+							"id": "bcaf2971-e204-4c59-b42e-c057764c2291",
 							"name": "mock response",
 							"originalRequest": {
 								"method": "GET",
@@ -2677,6 +2698,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "text",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Date",
@@ -2733,7 +2755,7 @@
 					]
 				}
 			],
-			"id": "2acad219-3aae-4d19-ba5d-2084cfd48bac"
+			"id": "f6336a5e-c1f1-441d-9699-77b17420e912"
 		}
 	]
 }
