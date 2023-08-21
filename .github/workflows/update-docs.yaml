@@ -1,0 +1,34 @@
+name: Regenerate Endpoints docs on change
+
+on:
+  push:
+    paths:
+      - 'openapi.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: docs/
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '16.x'
+      - run: npm i
+      - run: npm run generateEndpoints
+
+      - name: Commit changes
+        run: |
+          git config --global user.email "no-reply@github.com"
+          git config --global user.name "GitHub Actions"
+          git commit -am "Update endpoint docs"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

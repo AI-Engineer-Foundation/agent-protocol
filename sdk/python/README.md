@@ -38,7 +38,7 @@ if __name__ == "__main__":
 
 ### Database
 
-By default the SDK stores data in memory. You can customize the database by setting db to your own database object.
+By default, the SDK stores data in memory. You can customize the database by setting db to your own database object.
 
 ```python
 Agent.db = your_database
@@ -68,68 +68,6 @@ step_handler = ...
 Agent.setup_agent(task_handler, step_handler).start(router=my_router)
 ```
 
-## Usage
+## Docs
 
-To start the server run the file where you added the code above:
-
-```sh
-python file/where/you/added/code.py
-```
-
-and then you can call the API using the following terminal commands:
-
-To **create a task** run:
-
-```sh
-curl --request POST \
-  --url http://localhost:8000/agent/tasks \
-  --header 'Content-Type: application/json' \
-  --data '{
-	"input": "task-input-to-your-agent"
-}'
-```
-
-You will get a response like this:
-
-```json
-{
-  "input": "task-input-to-your-agent",
-  "task_id": "e6d768bb-4c50-4007-9853-aeffb46c77be",
-  "artifacts": []
-}
-```
-
-Then to **execute one step of the task** copy the `task_id` you got from the previous request and run:
-
-```sh
-curl --request POST \
-  --url http://localhost:8000/agent/tasks/<task-id>/steps
-```
-
-To get response like this:
-
-```json
-{
-  "output": "output-from-the-agent",
-  "artifacts": [],
-  "is_last": false,
-  "input": null,
-  "task_id": "e6d768bb-4c50-4007-9853-aeffb46c77be",
-  "step_id": "8ff8ba39-2c3e-4246-8086-fbd2a897240b"
-}
-```
-
-## Test compliance
-
-Part of the package is also a test suite that can be used to test compliance with the protocol. To run the tests, run the following command:
-
-```sh
-agent-protocol test --url <url>
-```
-
-In the background it uses pytest, you can pass any pytest arguments to the command above.
-
-## Examples
-
-- [Smol Developer integration](./examples/smol_developer.py)
-- [Beebot integration](https://github.com/AutoPackAI/beebot/pull/3)
+You can find more info and examples in the [docs](https://agentprotocol.ai/sdks/python).
