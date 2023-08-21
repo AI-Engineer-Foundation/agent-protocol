@@ -1,0 +1,2931 @@
+{
+	"info": {
+		"_postman_id": "d0e392f7-0d01-4aa6-bb5d-aee165516aef",
+		"name": "Agent Protocol - REST",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_uid": "28411126-d0e392f7-0d01-4aa6-bb5d-aee165516aef"
+	},
+	"item": [
+		{
+			"name": "Basic User Experience",
+			"item": [
+				{
+					"name": "Give me all the tasks",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"Object.keys(pm.globals.toObject()).forEach((key) => {",
+									"    pm.globals.unset(key);",
+									"});",
+									"Object.keys(pm.collectionVariables.toObject()).forEach((key) => {",
+									"    pm.collectionVariables.unset(key);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"id": "4e683aa5-1568-4a76-9c2b-ca73b1955139"
+							}
+						}
+					],
+					"id": "e047da23-d801-48b0-a920-b802a45d85dc",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/agent/tasks",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"agent",
+								"tasks"
+							]
+						}
+					},
+					"response": [
+						{
+							"id": "5cb23f4e-98b5-40bc-9dbf-ed0d9778eac9",
+							"name": "mock response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/agent/tasks",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"agent",
+										"tasks"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 17 Aug 2023 18:03:12 GMT",
+									"enabled": true
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8",
+									"enabled": true
+								},
+								{
+									"key": "Content-Length",
+									"value": "150",
+									"enabled": true
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"enabled": true
+								},
+								{
+									"key": "x-srv-trace",
+									"value": "v=1;t=1c95cd08c248d38f",
+									"enabled": true
+								},
+								{
+									"key": "x-srv-span",
+									"value": "v=1;s=2527ca982b2b7c75",
+									"enabled": true
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "120",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "117",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "1692295416",
+									"enabled": true
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"96-S/5iQ2y1qqIInh5BwoPc+chvDJU\"",
+									"enabled": true
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"enabled": true
+								}
+							],
+							"cookie": [],
+							"body": "[]"
+						}
+					]
+				},
+				{
+					"name": "Create a new task",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "fea7645b-7f05-4243-aa87-0391da566054",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"pm.globals.set(\"taskId\", jsonData.task_id);",
+									"",
+									"pm.globals.set(\"taskInput\", JSON.parse(pm.request.body.raw).input);",
+									"",
+									"",
+									"",
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has the required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.input).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.task_id).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.artifacts).to.exist.and.to.be.an('array');",
+									"});",
+									"",
+									"pm.test(\"task_id is a non-empty string\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData.task_id).to.be.a('string').and.to.have.lengthOf.at.least(1);",
+									"});",
+									"",
+									"pm.test(\"Artifacts is an array\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData.artifacts).to.be.an('array');",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "038d74e6-ec25-41ff-93e9-ec1ec45adfc3",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"input\": \"Write the word 'Washington' to a .txt file\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/agent/tasks",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"agent",
+								"tasks"
+							]
+						}
+					},
+					"response": [
+						{
+							"id": "759345df-bdea-40fb-a30d-875be9f82773",
+							"name": "mock response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"input\": \"Write the word 'Washington' to a .txt file\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/agent/tasks",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"agent",
+										"tasks"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sun, 13 Aug 2023 23:23:05 GMT",
+									"enabled": true
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8",
+									"enabled": true
+								},
+								{
+									"key": "Content-Length",
+									"value": "28",
+									"enabled": true
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"enabled": true
+								},
+								{
+									"key": "x-srv-trace",
+									"value": "v=1;t=daef761e243c402b",
+									"enabled": true
+								},
+								{
+									"key": "x-srv-span",
+									"value": "v=1;s=2c0bd88502372360",
+									"enabled": true
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "120",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "115",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "1691968334",
+									"enabled": true
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"96-S/5iQ2y1qqIInh5BwoPc+chvDJU\"",
+									"enabled": true
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"enabled": true
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"task_id\": \"a1b259f8-3ab8-11ee-be56-0242ac121234\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Start the task",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var artifacts = pm.response.json().artifacts;",
+									"",
+									"if (artifacts && artifacts.length > 0) {",
+									"    pm.globals.set(\"artifactId\", artifacts[0].artifact_id);",
+									"}",
+									"",
+									"var artifacts = pm.response.json().artifacts;",
+									"var existingArtifactId = pm.globals.get(\"artifactId\");",
+									"",
+									"if (artifacts && artifacts.length > 0) {",
+									"    if (artifacts.length > 1) {",
+									"        pm.test(\"The task should only create 1 artifact\", function () {",
+									"            pm.expect.fail(\"More than one artifact was created.\");",
+									"        });",
+									"    } else {",
+									"        pm.globals.set(\"artifactId\", artifacts[0].artifact_id);",
+									"    }",
+									"}",
+									"",
+									"",
+									"",
+									"",
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Validate required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData).to.be.an('object');",
+									"",
+									"    pm.expect(responseData.task_id).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.step_id).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.status).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.output).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.is_last).to.exist.and.to.be.a('boolean');",
+									"});",
+									"",
+									"pm.test(\"Verify that artifacts array is present and not empty\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData.artifacts).to.exist.and.to.be.an('array').and.to.have.lengthOf.at.least(1, \"Artifacts array should not be empty\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Verify that artifactId global variable is set correctly\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData.artifacts).to.exist;",
+									"    pm.expect(pm.globals.get(\"artifactId\")).to.eql(responseData.artifacts.length > 0 ? responseData.artifacts[0].artifact_id : null);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Only one artifact is created if artifacts array is not empty\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData.artifacts).to.exist.and.to.be.an('array');",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"id": "c0332b9a-6e59-4814-96c1-01867f0a574d"
+							}
+						}
+					],
+					"id": "b52abb71-2497-4f38-8536-f72388a87d1c",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"input\": \"{{taskInput}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/agent/tasks/{{taskId}}/steps",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"agent",
+								"tasks",
+								"{{taskId}}",
+								"steps"
+							]
+						}
+					},
+					"response": [
+						{
+							"id": "7c73f90f-e203-4548-905f-ff20f7feae0b",
+							"name": "mock response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"input\": \"{{taskInput}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/agent/tasks/{{taskId}}/steps",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"agent",
+										"tasks",
+										"{{taskId}}",
+										"steps"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 14 Aug 2023 16:28:55 GMT",
+									"enabled": true
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8",
+									"enabled": true
+								},
+								{
+									"key": "Content-Length",
+									"value": "275",
+									"enabled": true
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"enabled": true
+								},
+								{
+									"key": "x-srv-trace",
+									"value": "v=1;t=daef761e243c402b",
+									"enabled": true
+								},
+								{
+									"key": "x-srv-span",
+									"value": "v=1;s=2c0bd88502372360",
+									"enabled": true
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "120",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "115",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "1691968334",
+									"enabled": true
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"96-S/5iQ2y1qqIInh5BwoPc+chvDJU\"",
+									"enabled": true
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"enabled": true
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"task_id\": \"fde559f8-3ab8-11ee-be56-0242ac120002\",\n    \"step_id\": \"1a379290-3abc-11ee-be56-0242ac120002\",\n    \"status\": \"completed\",\n    \"output\": \"I am going to use the write_to_file method to write the word 'Washington' to a .txt file\",\n    \"artifacts\": [],\n    \"is_last\": false\n}"
+						}
+					]
+				},
+				{
+					"name": "Continue the task",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2183cebd-e59e-4007-8715-1c0ed22d56f9",
+								"exec": [
+									"var artifacts = pm.response.json().artifacts;",
+									"",
+									"var existingArtifactId = pm.globals.get(\"artifactId\");",
+									"",
+									"if (artifacts && artifacts.length > 0) {",
+									"    if (artifacts.length > 1) {",
+									"        pm.test(\"The task should only create 1 artifact\", function () {",
+									"            pm.expect.fail(\"More than one artifact was created.\");",
+									"        });",
+									"    } else {",
+									"        pm.globals.set(\"artifactId\", artifacts[0].artifact_id);",
+									"    }",
+									"}",
+									"",
+									"",
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Task ID is not empty\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData.task_id).to.exist.and.to.not.be.empty;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Step ID should not be empty\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData.step_id).to.exist.and.to.not.be.empty;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Status should not be empty\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData.status).to.exist.and.to.not.be.empty;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Output is not empty\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData.output).to.exist.and.to.not.be.empty;",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "f3a9a4f6-a22c-4413-868f-1b0585b490e6",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "mock-match",
+								"value": "2",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"input\": \"y\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/agent/tasks/{{taskId}}/steps",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"agent",
+								"tasks",
+								"{{taskId}}",
+								"steps"
+							]
+						}
+					},
+					"response": [
+						{
+							"id": "4a59be3b-9fb3-4a53-9ca2-3afd502bfa4c",
+							"name": "mock response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "mock-match",
+										"value": "2",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"input\": \"y\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/agent/tasks/{{taskId}}/steps",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"agent",
+										"tasks",
+										"{{taskId}}",
+										"steps"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 14 Aug 2023 16:28:55 GMT",
+									"enabled": true
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8",
+									"enabled": true
+								},
+								{
+									"key": "Content-Length",
+									"value": "275",
+									"enabled": true
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"enabled": true
+								},
+								{
+									"key": "x-srv-trace",
+									"value": "v=1;t=daef761e243c402b",
+									"enabled": true
+								},
+								{
+									"key": "x-srv-span",
+									"value": "v=1;s=2c0bd88502372360",
+									"enabled": true
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "120",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "115",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "1691968334",
+									"enabled": true
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"96-S/5iQ2y1qqIInh5BwoPc+chvDJU\"",
+									"enabled": true
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"enabled": true
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"task_id\": \"fde559f8-3ab8-11ee-be56-0242ac120002\",\n    \"step_id\": \"24179290-3abc-11ee-be56-0242ac12002d\",\n    \"status\": \"completed\",\n    \"output\": \"I just wrote the file into a file called output.txt\",\n    \"artifacts\": [\n        \"1b979290-3abc-11ee-be56-0242ac120a9f\"\n    ],\n    \"is_last\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "Continue the task after it's done",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var artifacts = pm.response.json().artifacts;",
+									"",
+									"if (artifacts && artifacts.length > 0) {",
+									"    pm.globals.set(\"artifactId\", artifacts[0].artifact_id);",
+									"}",
+									"",
+									"var artifacts = pm.response.json().artifacts;",
+									"var existingArtifactId = pm.globals.get(\"artifactId\");",
+									"",
+									"if (artifacts && artifacts.length > 0) {",
+									"    if (artifacts.length > 1) {",
+									"        pm.test(\"The task should only create 1 artifact\", function () {",
+									"            pm.expect.fail(\"More than one artifact was created.\");",
+									"        });",
+									"    } else {",
+									"        pm.globals.set(\"artifactId\", artifacts[0].artifact_id);",
+									"    }",
+									"}",
+									"",
+									"",
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Task ID should not be empty\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData.task_id).to.exist.and.to.not.be.empty;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Step ID is not empty\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData.step_id).to.exist.and.to.not.be.empty;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Status is not empty\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData.status).to.exist.and.to.not.be.empty;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Output is not empty\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData.output).to.exist.and.to.not.be.empty;",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"id": "50ee4724-c82d-44ce-b313-9df01ca1e193"
+							}
+						}
+					],
+					"id": "3819c509-9757-4ba1-98b3-2c354667421d",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "mock-match",
+								"value": "3",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"input\": \"y\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/agent/tasks/{{taskId}}/steps",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"agent",
+								"tasks",
+								"{{taskId}}",
+								"steps"
+							]
+						}
+					},
+					"response": [
+						{
+							"id": "694cd857-3be8-4df9-814d-8fe41ad31c95",
+							"name": "mock response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "mock-match",
+										"value": "3",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"input\": \"y\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/agent/tasks/{{taskId}}/steps",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"agent",
+										"tasks",
+										"{{taskId}}",
+										"steps"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 14 Aug 2023 16:28:55 GMT",
+									"enabled": true
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8",
+									"enabled": true
+								},
+								{
+									"key": "Content-Length",
+									"value": "275",
+									"enabled": true
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"enabled": true
+								},
+								{
+									"key": "x-srv-trace",
+									"value": "v=1;t=daef761e243c402b",
+									"enabled": true
+								},
+								{
+									"key": "x-srv-span",
+									"value": "v=1;s=2c0bd88502372360",
+									"enabled": true
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "120",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "115",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "1691968334",
+									"enabled": true
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"96-S/5iQ2y1qqIInh5BwoPc+chvDJU\"",
+									"enabled": true
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"enabled": true
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"task_id\": \"fde559f8-3ab8-11ee-be56-0242ac120002\",\n    \"step_id\": \"34179290-3abc-11ee-be56-0242ac12002d\",\n    \"status\": \"completed\",\n    \"output\": \"I am already done with my work! Is there anything else I can help you with ?\",\n    \"artifacts\": [\n    ],\n    \"is_last\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "Continue the task after it's done 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var artifacts = pm.response.json().artifacts;",
+									"",
+									"if (artifacts && artifacts.length > 0) {",
+									"    pm.globals.set(\"artifactId\", artifacts[0].artifact_id);",
+									"}",
+									"",
+									"var artifacts = pm.response.json().artifacts;",
+									"var existingArtifactId = pm.globals.get(\"artifactId\");",
+									"",
+									"if (artifacts && artifacts.length > 0) {",
+									"    if (artifacts.length > 1) {",
+									"        pm.test(\"The task should only create 1 artifact\", function () {",
+									"            pm.expect.fail(\"More than one artifact was created.\");",
+									"        });",
+									"    } else {",
+									"        pm.globals.set(\"artifactId\", artifacts[0].artifact_id);",
+									"    }",
+									"}",
+									"",
+									"",
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Task ID should not be empty\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData.task_id).to.exist.and.to.not.be.empty;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Step ID should not be empty\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData.step_id).to.exist.and.to.not.be.empty;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Status should not be empty\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData.status).to.exist.and.to.not.be.empty;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Output is not empty\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData.output).to.exist.and.to.not.be.empty;",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"id": "6b5e755f-025f-4a49-b046-3334d44376c7"
+							}
+						}
+					],
+					"id": "4a0ad2c4-26ba-4afc-8bca-bd7fa955e8cf",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "mock-match",
+								"value": "4",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"input\": \"y\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/agent/tasks/{{taskId}}/steps",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"agent",
+								"tasks",
+								"{{taskId}}",
+								"steps"
+							]
+						}
+					},
+					"response": [
+						{
+							"id": "44962b61-e3e7-4eb9-aab9-6a335caa57c2",
+							"name": "mock response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "mock-match",
+										"value": "4",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"input\": \"y\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/agent/tasks/{{taskId}}/steps",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"agent",
+										"tasks",
+										"{{taskId}}",
+										"steps"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 14 Aug 2023 16:28:55 GMT",
+									"enabled": true
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8",
+									"enabled": true
+								},
+								{
+									"key": "Content-Length",
+									"value": "275",
+									"enabled": true
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"enabled": true
+								},
+								{
+									"key": "x-srv-trace",
+									"value": "v=1;t=daef761e243c402b",
+									"enabled": true
+								},
+								{
+									"key": "x-srv-span",
+									"value": "v=1;s=2c0bd88502372360",
+									"enabled": true
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "120",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "115",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "1691968334",
+									"enabled": true
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"96-S/5iQ2y1qqIInh5BwoPc+chvDJU\"",
+									"enabled": true
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"enabled": true
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"task_id\": \"fde559f8-3ab8-11ee-be56-0242ac120002\",\n    \"step_id\": \"44179290-3abc-11ee-be56-0242ac12002d\",\n    \"status\": \"completed\",\n    \"output\": \"I am already done with my work! Is there anything else I can help you with ?\",\n    \"artifacts\": [\n    ],\n    \"is_last\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "Continue the task after it's done 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var artifacts = pm.response.json().artifacts;",
+									"",
+									"if (artifacts && artifacts.length > 0) {",
+									"    pm.globals.set(\"artifactId\", artifacts[0].artifact_id);",
+									"}",
+									"",
+									"var artifacts = pm.response.json().artifacts;",
+									"var existingArtifactId = pm.globals.get(\"artifactId\");",
+									"",
+									"if (artifacts && artifacts.length > 0) {",
+									"    if (artifacts.length > 1) {",
+									"        pm.test(\"The task should only create 1 artifact\", function () {",
+									"            pm.expect.fail(\"More than one artifact was created.\");",
+									"        });",
+									"    } else {",
+									"        pm.globals.set(\"artifactId\", artifacts[0].artifact_id);",
+									"    }",
+									"}",
+									"",
+									"",
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"task_id should not be empty\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData.task_id).to.exist.and.to.not.be.empty;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Step ID is not empty\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData.step_id).to.exist.and.to.not.be.empty;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Status should not be empty\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.status).to.exist.and.to.not.be.empty;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Output is not empty\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData.output).to.exist.and.to.not.be.empty;",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"id": "d237fa03-c84d-40bf-af9b-2ecb420d3825"
+							}
+						}
+					],
+					"id": "e7a06063-d376-42c7-851c-32711a7e0db6",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "mock-match",
+								"value": "5",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"input\": \"y\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/agent/tasks/{{taskId}}/steps",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"agent",
+								"tasks",
+								"{{taskId}}",
+								"steps"
+							]
+						}
+					},
+					"response": [
+						{
+							"id": "75480c35-7e92-4e73-a200-85bc7cc53937",
+							"name": "mock response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "mock-match",
+										"value": "5",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"input\": \"y\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/agent/tasks/{{taskId}}/steps",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"agent",
+										"tasks",
+										"{{taskId}}",
+										"steps"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 14 Aug 2023 16:28:55 GMT",
+									"enabled": true
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8",
+									"enabled": true
+								},
+								{
+									"key": "Content-Length",
+									"value": "275",
+									"enabled": true
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"enabled": true
+								},
+								{
+									"key": "x-srv-trace",
+									"value": "v=1;t=daef761e243c402b",
+									"enabled": true
+								},
+								{
+									"key": "x-srv-span",
+									"value": "v=1;s=2c0bd88502372360",
+									"enabled": true
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "120",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "115",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "1691968334",
+									"enabled": true
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"96-S/5iQ2y1qqIInh5BwoPc+chvDJU\"",
+									"enabled": true
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"enabled": true
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"task_id\": \"fde559f8-3ab8-11ee-be56-0242ac120002\",\n    \"step_id\": \"54179290-3abc-11ee-be56-0242ac12002d\",\n    \"status\": \"completed\",\n    \"output\": \"I am already done with my work! Is there anything else I can help you with ?\",\n    \"artifacts\": [\n    ],\n    \"is_last\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "Continue the task after it's done 4",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var artifacts = pm.response.json().artifacts;",
+									"",
+									"if (artifacts && artifacts.length > 0) {",
+									"    pm.globals.set(\"artifactId\", artifacts[0].artifact_id);",
+									"}",
+									"",
+									"var artifacts = pm.response.json().artifacts;",
+									"var existingArtifactId = pm.globals.get(\"artifactId\");",
+									"",
+									"if (artifacts && artifacts.length > 0) {",
+									"    if (artifacts.length > 1) {",
+									"        pm.test(\"The task should only create 1 artifact\", function () {",
+									"            pm.expect.fail(\"More than one artifact was created.\");",
+									"        });",
+									"    } else {",
+									"        pm.globals.set(\"artifactId\", artifacts[0].artifact_id);",
+									"    }",
+									"}",
+									"",
+									"",
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Task ID is not empty\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData.task_id).to.exist.and.to.not.be.empty;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Step ID is not empty\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData.step_id).to.exist.and.to.not.be.empty;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Status is not empty\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData.status).to.exist.and.to.not.be.empty;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Output is not empty\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData.output).to.exist.and.to.not.be.empty;",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"id": "14368159-50cf-4ac2-bf32-e3e5380d5a1a"
+							}
+						}
+					],
+					"id": "71988395-b79c-4f74-814f-cf5622ef25af",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "mock-match",
+								"value": "6",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"input\": \"y\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/agent/tasks/{{taskId}}/steps",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"agent",
+								"tasks",
+								"{{taskId}}",
+								"steps"
+							]
+						}
+					},
+					"response": [
+						{
+							"id": "99841739-d411-49b8-87aa-74c1896b5eaa",
+							"name": "mock response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "mock-match",
+										"value": "6",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"input\": \"y\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/agent/tasks/{{taskId}}/steps",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"agent",
+										"tasks",
+										"{{taskId}}",
+										"steps"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 14 Aug 2023 16:28:55 GMT",
+									"enabled": true
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8",
+									"enabled": true
+								},
+								{
+									"key": "Content-Length",
+									"value": "275",
+									"enabled": true
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"enabled": true
+								},
+								{
+									"key": "x-srv-trace",
+									"value": "v=1;t=daef761e243c402b",
+									"enabled": true
+								},
+								{
+									"key": "x-srv-span",
+									"value": "v=1;s=2c0bd88502372360",
+									"enabled": true
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "120",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "115",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "1691968334",
+									"enabled": true
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"96-S/5iQ2y1qqIInh5BwoPc+chvDJU\"",
+									"enabled": true
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"enabled": true
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"task_id\": \"fde559f8-3ab8-11ee-be56-0242ac120002\",\n    \"step_id\": \"64179290-3abc-11ee-be56-0242ac12002d\",\n    \"status\": \"completed\",\n    \"output\": \"I am already done with my work! Is there anything else I can help you with ?\",\n    \"artifacts\": [\n    ],\n    \"is_last\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "Continue the task after it's done 5",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var artifacts = pm.response.json().artifacts;",
+									"",
+									"if (artifacts && artifacts.length > 0) {",
+									"    pm.globals.set(\"artifactId\", artifacts[0].artifact_id);",
+									"}",
+									"",
+									"var artifacts = pm.response.json().artifacts;",
+									"var existingArtifactId = pm.globals.get(\"artifactId\");",
+									"",
+									"if (artifacts && artifacts.length > 0) {",
+									"    if (artifacts.length > 1) {",
+									"        pm.test(\"The task should only create 1 artifact\", function () {",
+									"            pm.expect.fail(\"More than one artifact was created.\");",
+									"        });",
+									"    } else {",
+									"        pm.globals.set(\"artifactId\", artifacts[0].artifact_id);",
+									"    }",
+									"}",
+									"",
+									"",
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Task ID is not empty\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData.task_id).to.exist.and.to.not.be.empty;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Step ID is not empty\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData.step_id).to.exist.and.to.not.be.empty;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Status should not be empty\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData.status).to.exist.and.to.not.be.empty;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Output should not be empty\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData.output).to.exist.and.to.not.be.empty;",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"id": "73b2c61b-7fb4-4629-95fb-9184d054a407"
+							}
+						}
+					],
+					"id": "c46860b4-bb43-4c1e-9740-0cbde2ed0b32",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "mock-match",
+								"value": "7",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"input\": \"y\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/agent/tasks/{{taskId}}/steps",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"agent",
+								"tasks",
+								"{{taskId}}",
+								"steps"
+							]
+						}
+					},
+					"response": [
+						{
+							"id": "6dc3ad56-92a2-403f-b09d-ed5f560917f2",
+							"name": "mock response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "mock-match",
+										"value": "7",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"input\": \"y\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/agent/tasks/{{taskId}}/steps",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"agent",
+										"tasks",
+										"{{taskId}}",
+										"steps"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 14 Aug 2023 16:28:55 GMT",
+									"enabled": true
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8",
+									"enabled": true
+								},
+								{
+									"key": "Content-Length",
+									"value": "275",
+									"enabled": true
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"enabled": true
+								},
+								{
+									"key": "x-srv-trace",
+									"value": "v=1;t=daef761e243c402b",
+									"enabled": true
+								},
+								{
+									"key": "x-srv-span",
+									"value": "v=1;s=2c0bd88502372360",
+									"enabled": true
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "120",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "115",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "1691968334",
+									"enabled": true
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"96-S/5iQ2y1qqIInh5BwoPc+chvDJU\"",
+									"enabled": true
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"enabled": true
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"task_id\": \"fde559f8-3ab8-11ee-be56-0242ac120002\",\n    \"step_id\": \"74179290-3abc-11ee-be56-0242ac12002d\",\n    \"status\": \"completed\",\n    \"output\": \"I am already done with my work! Is there anything else I can help you with ?\",\n    \"artifacts\": [\n    ],\n    \"is_last\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "Download Artifact",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"id": "5eea7bce-42b2-4472-a99f-4995fb78cbe6"
+							}
+						}
+					],
+					"id": "5b58033a-2432-4f5b-9fb5-0de927afd628",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "mock-match",
+								"value": "11",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/agent/tasks/{{taskId}}/artifacts/{{artifactId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"agent",
+								"tasks",
+								"{{taskId}}",
+								"artifacts",
+								"{{artifactId}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"id": "1a85883e-e5a6-4aad-8685-88ebedebd6ee",
+							"name": "mock response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "mock-match",
+										"value": "11",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/agent/tasks/{{taskId}}/artifacts/{{artifactId}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"agent",
+										"tasks",
+										"{{taskId}}",
+										"artifacts",
+										"{{artifactId}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 14 Aug 2023 16:28:55 GMT",
+									"enabled": true
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8",
+									"enabled": true
+								},
+								{
+									"key": "Content-Length",
+									"value": "275",
+									"enabled": true
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"enabled": true
+								},
+								{
+									"key": "x-srv-trace",
+									"value": "v=1;t=daef761e243c402b",
+									"enabled": true
+								},
+								{
+									"key": "x-srv-span",
+									"value": "v=1;s=2c0bd88502372360",
+									"enabled": true
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "120",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "115",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "1691968334",
+									"enabled": true
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"96-S/5iQ2y1qqIInh5BwoPc+chvDJU\"",
+									"enabled": true
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"enabled": true
+								}
+							],
+							"cookie": [],
+							"body": "Washington"
+						}
+					]
+				}
+			],
+			"id": "43e2db63-ffb8-47a2-969e-177f9d2e32fb"
+		},
+		{
+			"name": "Tasks",
+			"item": [
+				{
+					"name": "Create a new task",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"Object.keys(pm.globals.toObject()).forEach((key) => {",
+									"    pm.globals.unset(key);",
+									"});",
+									"Object.keys(pm.collectionVariables.toObject()).forEach((key) => {",
+									"    pm.collectionVariables.unset(key);",
+									"});",
+									"",
+									"var jsonData = pm.response.json();",
+									"pm.globals.set(\"taskId\", jsonData.task_id);",
+									"pm.globals.set(\"taskInput\", JSON.parse(pm.request.body.raw).input);"
+								],
+								"type": "text/javascript",
+								"id": "66f06529-a1e4-4848-8edb-2a7eed07ee15"
+							}
+						}
+					],
+					"id": "3a07b486-d8aa-4f8e-9a7c-9d4e06eb9279",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "mock-match",
+								"value": "34"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"input\": \"Write the word 'Washington' to a .txt file\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/agent/tasks",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"agent",
+								"tasks"
+							]
+						}
+					},
+					"response": [
+						{
+							"id": "a0411723-19e2-4d35-aed7-df2513d97efb",
+							"name": "mock response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "mock-match",
+										"value": "34"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"input\": \"Write the word 'Washington' to a .txt file\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/agent/tasks",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"agent",
+										"tasks"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sun, 13 Aug 2023 23:23:05 GMT",
+									"enabled": true
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8",
+									"enabled": true
+								},
+								{
+									"key": "Content-Length",
+									"value": "28",
+									"enabled": true
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"enabled": true
+								},
+								{
+									"key": "x-srv-trace",
+									"value": "v=1;t=daef761e243c402b",
+									"enabled": true
+								},
+								{
+									"key": "x-srv-span",
+									"value": "v=1;s=2c0bd88502372360",
+									"enabled": true
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "120",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "115",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "1691968334",
+									"enabled": true
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"96-S/5iQ2y1qqIInh5BwoPc+chvDJU\"",
+									"enabled": true
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"enabled": true
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"input\": \"Write the word 'Washington' to a .txt file\",\n    \"additional_input\": null,\n    \"task_id\": \"fde559f8-3ab8-11ee-be56-0242ac120002\",\n    \"artifacts\": []\n}"
+						}
+					]
+				},
+				{
+					"name": "Get the task",
+					"id": "4d6ab896-4b3c-433d-8015-422a8fc6310f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"input\": \"Write the word 'Washington' to a .txt file\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/agent/tasks/{{taskId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"agent",
+								"tasks",
+								"{{taskId}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"id": "08812686-3eab-4d3e-b8e3-b77a1a2759ae",
+							"name": "mock response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"input\": \"Write the word 'Washington' to a .txt file\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/agent/tasks/{{taskId}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"agent",
+										"tasks",
+										"{{taskId}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sun, 13 Aug 2023 23:23:05 GMT",
+									"enabled": true
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8",
+									"enabled": true
+								},
+								{
+									"key": "Content-Length",
+									"value": "28",
+									"enabled": true
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"enabled": true
+								},
+								{
+									"key": "x-srv-trace",
+									"value": "v=1;t=daef761e243c402b",
+									"enabled": true
+								},
+								{
+									"key": "x-srv-span",
+									"value": "v=1;s=2c0bd88502372360",
+									"enabled": true
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "120",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "115",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "1691968334",
+									"enabled": true
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"96-S/5iQ2y1qqIInh5BwoPc+chvDJU\"",
+									"enabled": true
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"enabled": true
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"input\": \"Write the word 'Washington' to a .txt file\",\n    \"additional_input\": null,\n    \"task_id\": \"121\",\n    \"artifacts\": []\n}"
+						}
+					]
+				},
+				{
+					"name": "Get all the tasks",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "66f06529-a1e4-4848-8edb-2a7eed07ee15",
+								"exec": [
+									"Object.keys(pm.globals.toObject()).forEach((key) => {",
+									"    pm.globals.unset(key);",
+									"});",
+									"Object.keys(pm.collectionVariables.toObject()).forEach((key) => {",
+									"    pm.collectionVariables.unset(key);",
+									"});",
+									"",
+									"var jsonData = pm.response.json();",
+									"pm.globals.set(\"taskId\", jsonData.task_id);",
+									"pm.globals.set(\"taskInput\", JSON.parse(pm.request.body.raw).input);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "6eb073c9-4c4d-4c19-9172-9ab72f0df123",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"input\": \"Write the word 'Washington' to a .txt file\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/agent/tasks",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"agent",
+								"tasks"
+							]
+						}
+					},
+					"response": [
+						{
+							"id": "ee20dcaf-c288-4871-8262-f0b38b39e3c0",
+							"name": "mock response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"input\": \"Write the word 'Washington' to a .txt file\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/agent/tasks",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"agent",
+										"tasks"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sun, 13 Aug 2023 23:23:05 GMT",
+									"enabled": true
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8",
+									"enabled": true
+								},
+								{
+									"key": "Content-Length",
+									"value": "28",
+									"enabled": true
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"enabled": true
+								},
+								{
+									"key": "x-srv-trace",
+									"value": "v=1;t=daef761e243c402b",
+									"enabled": true
+								},
+								{
+									"key": "x-srv-span",
+									"value": "v=1;s=2c0bd88502372360",
+									"enabled": true
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "120",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "115",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "1691968334",
+									"enabled": true
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"96-S/5iQ2y1qqIInh5BwoPc+chvDJU\"",
+									"enabled": true
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"enabled": true
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"input\": \"Write the word 'Washington' to a .txt file\",\n    \"additional_input\": null,\n    \"task_id\": \"121\",\n    \"artifacts\": []\n}"
+						}
+					]
+				}
+			],
+			"id": "9f30724d-bbc8-4889-8361-d8395a068ed9"
+		},
+		{
+			"name": "Artifacts",
+			"item": [
+				{
+					"name": "Create a new task",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "fea7645b-7f05-4243-aa87-0391da566054",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"pm.globals.set(\"taskId\", jsonData.task_id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "6eb6521b-d642-492a-95f2-dae2880be158",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"input\": \"Write the word 'Washington' to a .txt file\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/agent/tasks",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"agent",
+								"tasks"
+							]
+						}
+					},
+					"response": [
+						{
+							"id": "08db1090-d6ee-4339-984d-fb11e3b6d362",
+							"name": "mock response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"input\": \"Write the word 'Washington' to a .txt file\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/agent/tasks",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"agent",
+										"tasks"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sun, 13 Aug 2023 23:23:05 GMT",
+									"enabled": true
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8",
+									"enabled": true
+								},
+								{
+									"key": "Content-Length",
+									"value": "28",
+									"enabled": true
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"enabled": true
+								},
+								{
+									"key": "x-srv-trace",
+									"value": "v=1;t=daef761e243c402b",
+									"enabled": true
+								},
+								{
+									"key": "x-srv-span",
+									"value": "v=1;s=2c0bd88502372360",
+									"enabled": true
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "120",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "115",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "1691968334",
+									"enabled": true
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"96-S/5iQ2y1qqIInh5BwoPc+chvDJU\"",
+									"enabled": true
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"enabled": true
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"task_id\": \"a1b259f8-3ab8-11ee-be56-0242ac121234\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Upload an artifact for the specified task",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3432edc2-c391-4574-ae12-5c822143fcae",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "e160d867-dc0c-43eb-aa2e-7cc1707171ce",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "multipart/form-data"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "path/to/your/file.txt"
+								},
+								{
+									"key": "relative_path",
+									"value": "python/code",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/agent/tasks/{{taskId}}/artifacts",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"agent",
+								"tasks",
+								"{{taskId}}",
+								"artifacts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload multiple artifacts for the specified task",
+					"id": "60142d24-6732-47e9-bdc0-102ee7b5d793",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "multipart/form-data"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file1",
+									"type": "file",
+									"src": "path/to/your/file1.txt"
+								},
+								{
+									"key": "file2",
+									"type": "file",
+									"src": "path/to/your/file2.txt"
+								},
+								{
+									"key": "relative_path",
+									"value": "python/code",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/agent/tasks/{{taskId}}/artifacts",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"agent",
+								"tasks",
+								"{{taskId}}",
+								"artifacts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload Artifact",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5eea7bce-42b2-4472-a99f-4995fb78cbe6",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "a6634357-5266-4f7a-a566-895ee1baabd5",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "mock-match",
+								"value": "11",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/agent/tasks/{{taskId}}/artifacts",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"agent",
+								"tasks",
+								"{{taskId}}",
+								"artifacts"
+							]
+						}
+					},
+					"response": [
+						{
+							"id": "f7d74034-fcbf-497a-b3dc-aa8be693eb15",
+							"name": "mock response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "mock-match",
+										"value": "11",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/agent/tasks/{{taskId}}/artifacts",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"agent",
+										"tasks",
+										"{{taskId}}",
+										"artifacts"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 14 Aug 2023 16:28:55 GMT",
+									"enabled": true
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8",
+									"enabled": true
+								},
+								{
+									"key": "Content-Length",
+									"value": "275",
+									"enabled": true
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"enabled": true
+								},
+								{
+									"key": "x-srv-trace",
+									"value": "v=1;t=daef761e243c402b",
+									"enabled": true
+								},
+								{
+									"key": "x-srv-span",
+									"value": "v=1;s=2c0bd88502372360",
+									"enabled": true
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "120",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "115",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "1691968334",
+									"enabled": true
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"96-S/5iQ2y1qqIInh5BwoPc+chvDJU\"",
+									"enabled": true
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"enabled": true
+								}
+							],
+							"cookie": [],
+							"body": "Washington"
+						}
+					]
+				},
+				{
+					"name": "Download Artifact",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"id": "5eea7bce-42b2-4472-a99f-4995fb78cbe6"
+							}
+						}
+					],
+					"id": "e4628d95-4ff2-471b-9483-81a5a52d3c1f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "mock-match",
+								"value": "11",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/agent/tasks/{{taskId}}/artifacts/{{artifactId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"agent",
+								"tasks",
+								"{{taskId}}",
+								"artifacts",
+								"{{artifactId}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"id": "499c8457-f8b4-48b7-be0e-7868e807344e",
+							"name": "mock response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "mock-match",
+										"value": "11",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/agent/tasks/{{taskId}}/artifacts/{{artifactId}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"agent",
+										"tasks",
+										"{{taskId}}",
+										"artifacts",
+										"{{artifactId}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 14 Aug 2023 16:28:55 GMT",
+									"enabled": true
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8",
+									"enabled": true
+								},
+								{
+									"key": "Content-Length",
+									"value": "275",
+									"enabled": true
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"enabled": true
+								},
+								{
+									"key": "x-srv-trace",
+									"value": "v=1;t=daef761e243c402b",
+									"enabled": true
+								},
+								{
+									"key": "x-srv-span",
+									"value": "v=1;s=2c0bd88502372360",
+									"enabled": true
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "120",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "115",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "1691968334",
+									"enabled": true
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"96-S/5iQ2y1qqIInh5BwoPc+chvDJU\"",
+									"enabled": true
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"enabled": true
+								}
+							],
+							"cookie": [],
+							"body": "Washington"
+						}
+					]
+				}
+			],
+			"id": "2acad219-3aae-4d19-ba5d-2084cfd48bac"
+		}
+	]
+}
