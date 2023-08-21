@@ -20,3 +20,4 @@ files[] = {"path":"openapi.yaml","metaData":{}}
 
 [config.relations.apiDefinition.metaData]
 type = openapi:3
+rootFiles[] = openapi.yaml
