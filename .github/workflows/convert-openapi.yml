@@ -30,7 +30,7 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add openapi.json
+        git add postman/schemas/openapi.json
         git commit -m "Convert openapi.yml to openapi.json" || echo "No changes to commit"
         git push
         
