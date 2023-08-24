@@ -523,6 +523,6 @@ components:
                               $ref: "#/components/schemas/Artifact"
                       is_last:
                           description: Whether this is the last step in the task.
-                          type: boolean
+                          type: booleans
                           default: false
                           example: true
