@@ -26,9 +26,9 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/Task"
                     x-postman-variables:
-                        type: save
-                        name: task_id
-                        path: .task_id
+                        - type: save
+                          name: task_id
+                          path: .task_id
                 default:
                     description: Internal Server Error
         get:
@@ -90,8 +90,8 @@ paths:
                   schema:
                     type: string
                   x-postman-variables:
-                    type: load
-                    name: task_id
+                    - type: load
+                      name: task_id
             responses:
                 200:
                     description: Returned details about an agent task.
@@ -164,7 +164,7 @@ paths:
                   schema:
                     type: string
                   x-postman-variables:
-                      type: load
+                    - type: load
                       name: task_id
             requestBody:
                 content:
