@@ -122,11 +122,13 @@
                 }
               }
             },
-            "x-postman-variables": {
-              "type": "save",
-              "name": "task_id",
-              "path": ".task_id"
-            }
+            "x-postman-variables": [
+              {
+                "type": "save",
+                "name": "task_id",
+                "path": ".task_id"
+              }
+            ]
           },
           "default": {
             "description": "Internal Server Error"
@@ -323,10 +325,12 @@
             "schema": {
               "type": "string"
             },
-            "x-postman-variables": {
-              "type": "load",
-              "name": "task_id"
-            }
+            "x-postman-variables": [
+              {
+                "type": "load",
+                "name": "task_id"
+              }
+            ]
           }
         ],
         "responses": {
@@ -643,10 +647,12 @@
             "schema": {
               "type": "string"
             },
-            "x-postman-variables": {
-              "type": "load",
-              "name": "task_id"
-            }
+            "x-postman-variables": [
+              {
+                "type": "load",
+                "name": "task_id"
+              }
+            ]
           }
         ],
         "requestBody": {
