@@ -3,7 +3,7 @@ name: Convert OpenAPI
 on:
   push:
     paths:
-      - 'postman/schemas/openapi.yml'
+      - 'postman/schemas/openapi.yaml'
 
 jobs:
   convert:
