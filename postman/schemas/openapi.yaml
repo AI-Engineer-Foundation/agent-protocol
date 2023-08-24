@@ -503,7 +503,7 @@ components:
                           example: "Write to file"
                       status:
                           description: The status of the task step.
-                          type: strings
+                          type: string
                           example: "created"
                           enum:
                               - "created"
