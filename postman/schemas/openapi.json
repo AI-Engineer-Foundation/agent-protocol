@@ -54,6 +54,7 @@
                 "schema": {
                   "allOf": [
                     {
+                      "additionalProperties": false,
                       "type": "object",
                       "description": "Body of the task request.",
                       "required": [
@@ -66,6 +67,7 @@
                           "example": "Write the words you receive to the file 'output.txt'."
                         },
                         "additional_input": {
+                          "additionalProperties": false,
                           "description": "Input parameters for the task. Any value is allowed.",
                           "type": "object",
                           "example": "{\n\"debug\": false,\n\"mode\": \"benchmarks\"\n}"
@@ -78,6 +80,7 @@
                       "required": [
                         "task_id"
                       ],
+                      "additionalProperties": false,
                       "properties": {
                         "task_id": {
                           "description": "The ID of the task.",
@@ -230,8 +233,8 @@
                             "required": [
                               "task_id"
                             ],
+                            "additionalProperties": false,
                             "properties": {
-                              "additionalProperties": false,
                               "task_id": {
                                 "description": "The ID of the task.",
                                 "type": "string",
@@ -379,8 +382,8 @@
                       "required": [
                         "task_id"
                       ],
+                      "additionalProperties": false,
                       "properties": {
-                        "additionalProperties": false,
                         "task_id": {
                           "description": "The ID of the task.",
                           "type": "string",
@@ -529,8 +532,8 @@
                               "task_id",
                               "status"
                             ],
+                            "additionalProperties": false,
                             "properties": {
-                              "additionalProperties": false,
                               "task_id": {
                                 "description": "The ID of the task this step belongs to.",
                                 "type": "string",
@@ -747,8 +750,8 @@
                         "task_id",
                         "status"
                       ],
+                      "additionalProperties": false,
                       "properties": {
-                        "additionalProperties": false,
                         "task_id": {
                           "description": "The ID of the task this step belongs to.",
                           "type": "string",
@@ -917,8 +920,8 @@
                         "task_id",
                         "status"
                       ],
+                      "additionalProperties": false,
                       "properties": {
-                        "additionalProperties": false,
                         "task_id": {
                           "description": "The ID of the task this step belongs to.",
                           "type": "string",
@@ -1349,8 +1352,8 @@
                   "required": [
                     "task_id"
                   ],
+                  "additionalProperties": false,
                   "properties": {
-                    "additionalProperties": false,
                     "task_id": {
                       "description": "The ID of the task.",
                       "type": "string",
@@ -1466,8 +1469,8 @@
                     "task_id",
                     "status"
                   ],
+                  "additionalProperties": false,
                   "properties": {
-                    "additionalProperties": false,
                     "task_id": {
                       "description": "The ID of the task this step belongs to.",
                       "type": "string",
@@ -1741,8 +1744,8 @@
             "required": [
               "task_id"
             ],
+            "additionalProperties": false,
             "properties": {
-              "additionalProperties": false,
               "task_id": {
                 "description": "The ID of the task.",
                 "type": "string",
@@ -1838,8 +1841,8 @@
               "task_id",
               "status"
             ],
+            "additionalProperties": false,
             "properties": {
-              "additionalProperties": false,
               "task_id": {
                 "description": "The ID of the task this step belongs to.",
                 "type": "string",
