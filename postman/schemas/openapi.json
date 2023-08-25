@@ -1265,7 +1265,8 @@
               },
               {
                 "type": "load",
-                "name": "[0].artifact_id"
+                "name": "artifact_array",
+                "path": "[0].artifact_id"
               }
             ]
           },
