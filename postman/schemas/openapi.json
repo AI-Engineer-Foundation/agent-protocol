@@ -647,14 +647,7 @@
                   }
                 }
               }
-            },
-            "x-postman-variables": [
-              {
-                "type": "save",
-                "name": "step_id",
-                "path": ".step_id"
-              }
-            ]
+            }
           },
           "404": {
             "description": "Task not found."
@@ -684,6 +677,11 @@
               {
                 "type": "load",
                 "name": "task_id"
+              },
+              {
+                "type": "save",
+                "name": "step_id",
+                "path": ".step_id"
               }
             ]
           }
