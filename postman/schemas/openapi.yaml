@@ -352,6 +352,7 @@ paths:
 components:
     schemas:
         Pagination:
+            additionalProperties: false
             type: object
             required:
                 - total_items
@@ -377,6 +378,7 @@ components:
                     example: 25
 
         TaskListResponse:
+            additionalProperties: false
             type: object
             properties:
                 tasks:
@@ -387,6 +389,7 @@ components:
                     $ref: "#/components/schemas/Pagination"
 
         TaskStepsListResponse:
+            additionalProperties: false
             type: object
             properties:
                 steps:
@@ -397,6 +400,7 @@ components:
                     $ref: "#/components/schemas/Pagination"
 
         TaskArtifactsListResponse:
+            additionalProperties: false
             type: object
             properties:
                 artifacts:
@@ -407,11 +411,13 @@ components:
                     $ref: "#/components/schemas/Pagination"
 
         TaskInput:
+            additionalProperties: false
             description: Input parameters for the task. Any value is allowed.
             type: object
             example: "{\n\"debug\": false,\n\"mode\": \"benchmarks\"\n}"
 
         Artifact:
+            additionalProperties: false
             type: object
             required:
                 - "artifact_id"
@@ -432,16 +438,19 @@ components:
                     example: file://home/bob/workspace/bucket/main.py
 
         StepInput:
+            additionalProperties: false
             description: Input parameters for the task step. Any value is allowed.
             type: object
             example: "{\n\"file_to_refactor\": \"models.py\"\n}"
 
         StepOutput:
+            additionalProperties: false
             description: Output that the task step has produced. Any value is allowed.
             type: object
             example: "{\n\"tokens\": 7894,\n\"estimated_cost\": \"0,24$\"\n}"
 
         TaskRequestBody:
+            additionalProperties: false
             type: object
             description: Body of the task request.
             required:
@@ -462,6 +471,7 @@ components:
                   required:
                       - "task_id"
                   properties:
+                      additionalProperties: false
                       task_id:
                           description: The ID of the task.
                           type: string
@@ -479,6 +489,7 @@ components:
                               $ref: "#/components/schemas/Artifact"
 
         StepRequestBody:
+            additionalProperties: false
             type: object
             description: Body of the task request.
             required:
@@ -500,6 +511,7 @@ components:
                       - "task_id"
                       - "status"
                   properties:
+                      additionalProperties: false
                       task_id:
                           description: The ID of the task this step belongs to.
                           type: string
