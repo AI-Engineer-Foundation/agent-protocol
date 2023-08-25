@@ -29,8 +29,6 @@ paths:
                         - type: save
                           name: task_id
                           path: .task_id
-                422:
-                    description: Unprocessable entity
                 default:
                     description: Internal Server Error
         get:
@@ -441,6 +439,7 @@ components:
                 input:
                     description: Input prompt for the task.
                     type: string
+                    minLength: 1
                     example: "Write the words you receive to the file 'output.txt'."
                 additional_input:
                     $ref: "#/components/schemas/TaskInput"
