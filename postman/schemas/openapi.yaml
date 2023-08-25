@@ -470,8 +470,8 @@ components:
                   description: Definition of an agent task.
                   required:
                       - "task_id"
+                  additionalProperties: false
                   properties:
-                      additionalProperties: false
                       task_id:
                           description: The ID of the task.
                           type: string
@@ -510,8 +510,8 @@ components:
                       - "step_id"
                       - "task_id"
                       - "status"
+                  additionalProperties: false
                   properties:
-                      additionalProperties: false
                       task_id:
                           description: The ID of the task this step belongs to.
                           type: string

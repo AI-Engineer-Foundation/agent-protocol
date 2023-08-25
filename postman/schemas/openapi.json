@@ -54,7 +54,6 @@
                 "schema": {
                   "allOf": [
                     {
-                      "additionalProperties": false,
                       "type": "object",
                       "description": "Body of the task request.",
                       "required": [
@@ -67,7 +66,6 @@
                           "example": "Write the words you receive to the file 'output.txt'."
                         },
                         "additional_input": {
-                          "additionalProperties": false,
                           "description": "Input parameters for the task. Any value is allowed.",
                           "type": "object",
                           "example": "{\n\"debug\": false,\n\"mode\": \"benchmarks\"\n}"
@@ -81,7 +79,6 @@
                         "task_id"
                       ],
                       "properties": {
-                        "additionalProperties": false,
                         "task_id": {
                           "description": "The ID of the task.",
                           "type": "string",
