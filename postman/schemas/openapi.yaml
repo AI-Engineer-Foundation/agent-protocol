@@ -185,8 +185,8 @@ paths:
                           name: step_id
                           path: .step_id
                         - type: save
-                          name: artifact_id
-                          path: .artifact_id
+                          name: artifact_array
+                          path: .artifacts
                 404:
                     description: Task not found.
                 422:
