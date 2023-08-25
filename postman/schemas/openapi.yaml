@@ -167,7 +167,7 @@ paths:
                     type: string
                   x-postman-variables:
                     - type: load
-                      name: task_id 
+                      name: task_id
             requestBody:
                 content:
                     application/json:
@@ -184,6 +184,9 @@ paths:
                         - type: save
                           name: step_id
                           path: .step_id
+                        - type: save
+                          name: artifact_id
+                          path: .artifact_id
                 404:
                     description: Task not found.
                 422:
@@ -334,6 +337,8 @@ paths:
                   x-postman-variables:
                     - type: load
                       name: task_id
+                    - type: load
+                      name: '[0].artifact_id'
                 - name: artifact_id
                   in: path
                   example: "1e41533e-3904-4401-8a07-c49adf8893de"
