@@ -149,10 +149,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: "#/components/schemas/TaskStepsListResponse"
-                    x-postman-variables:
-                        - type: save
-                          name: step_id
-                          path: .step_id
                 404:
                     description: Task not found.
                 default:
@@ -172,6 +168,10 @@ paths:
                   x-postman-variables:
                     - type: load
                       name: task_id
+                    - type: save
+                      name: step_id
+                      path: .step_id
+                    
             requestBody:
                 content:
                     application/json:
