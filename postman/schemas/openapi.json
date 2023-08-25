@@ -677,11 +677,6 @@
               {
                 "type": "load",
                 "name": "task_id"
-              },
-              {
-                "type": "save",
-                "name": "step_id",
-                "path": ".step_id"
               }
             ]
           }
@@ -827,7 +822,14 @@
                     }
                   ]
                 }
-              }
+              },
+              "x-postman-variables": [
+                {
+                  "type": "save",
+                  "name": "step_id",
+                  "path": ".step_id"
+                }
+              ]
             }
           },
           "404": {
@@ -863,6 +865,10 @@
               {
                 "type": "load",
                 "name": "task_id"
+              },
+              {
+                "type": "load",
+                "name": "step_id"
               }
             ]
           },
