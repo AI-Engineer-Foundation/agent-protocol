@@ -32,7 +32,6 @@
                   "input": {
                     "description": "Input prompt for the task.",
                     "type": "string",
-                    "minLength": 1,
                     "example": "Write the words you receive to the file 'output.txt'."
                   },
                   "additional_input": {
@@ -62,7 +61,6 @@
                         "input": {
                           "description": "Input prompt for the task.",
                           "type": "string",
-                          "minLength": 1,
                           "example": "Write the words you receive to the file 'output.txt'."
                         },
                         "additional_input": {
@@ -131,6 +129,9 @@
                 "path": ".task_id"
               }
             ]
+          },
+          "422": {
+            "description": "Unprocessable entity"
           },
           "default": {
             "description": "Internal Server Error"
@@ -208,7 +209,6 @@
                               "input": {
                                 "description": "Input prompt for the task.",
                                 "type": "string",
-                                "minLength": 1,
                                 "example": "Write the words you receive to the file 'output.txt'."
                               },
                               "additional_input": {
@@ -353,7 +353,6 @@
                         "input": {
                           "description": "Input prompt for the task.",
                           "type": "string",
-                          "minLength": 1,
                           "example": "Write the words you receive to the file 'output.txt'."
                         },
                         "additional_input": {
@@ -1279,7 +1278,6 @@
                     "input": {
                       "description": "Input prompt for the task.",
                       "type": "string",
-                      "minLength": 1,
                       "example": "Write the words you receive to the file 'output.txt'."
                     },
                     "additional_input": {
@@ -1630,7 +1628,6 @@
           "input": {
             "description": "Input prompt for the task.",
             "type": "string",
-            "minLength": 1,
             "example": "Write the words you receive to the file 'output.txt'."
           },
           "additional_input": {
@@ -1652,7 +1649,6 @@
               "input": {
                 "description": "Input prompt for the task.",
                 "type": "string",
-                "minLength": 1,
                 "example": "Write the words you receive to the file 'output.txt'."
               },
               "additional_input": {
