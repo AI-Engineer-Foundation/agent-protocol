@@ -832,8 +832,8 @@
               },
               {
                 "type": "save",
-                "name": "artifact_id",
-                "path": ".artifact_id"
+                "name": "artifact_array",
+                "path": ".artifacts"
               }
             ]
           },
