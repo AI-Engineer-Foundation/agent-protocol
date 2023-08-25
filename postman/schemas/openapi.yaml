@@ -1,7 +1,7 @@
 openapi: 3.0.1
 servers:
     - url: "http://0.0.0.0:8000"
-      description: Test server
+      description: Test server. test
 info:
     title: Agent Protocol
     description: Specification of the API protocol for communication with an agent.
