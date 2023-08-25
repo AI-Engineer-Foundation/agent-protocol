@@ -167,10 +167,7 @@ paths:
                     type: string
                   x-postman-variables:
                     - type: load
-                      name: task_id
-                    - type: save
-                      name: step_id
-                      path: .step_id       
+                      name: task_id 
             requestBody:
                 content:
                     application/json:
@@ -183,6 +180,10 @@ paths:
                         application/json:
                             schema:
                                 $ref: "#/components/schemas/Step"
+                        x-postman-variables:
+                            - type: save
+                              name: step_id
+                              path: .step_id
                 404:
                     description: Task not found.
                 422:
@@ -206,6 +207,8 @@ paths:
                   x-postman-variables:
                       - type: load
                         name: task_id
+                      - type: load
+                        name: step_id
                 - name: step_id
                   in: path
                   example: "28ca533e-3904-4401-8a07-c49adf8891c2"
