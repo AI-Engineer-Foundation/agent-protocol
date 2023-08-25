@@ -170,8 +170,7 @@ paths:
                       name: task_id
                     - type: save
                       name: step_id
-                      path: .step_id
-                    
+                      path: .step_id       
             requestBody:
                 content:
                     application/json:
