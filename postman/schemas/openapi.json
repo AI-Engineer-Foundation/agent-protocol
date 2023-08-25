@@ -126,15 +126,15 @@
                     }
                   ]
                 }
-              },
-              "x-postman-variables": [
-                {
-                  "type": "save",
-                  "name": "task_id",
-                  "path": ".task_id"
-                }
-              ]
-            }
+              }
+            },
+            "x-postman-variables": [
+              {
+                "type": "save",
+                "name": "task_id",
+                "path": ".task_id"
+              }
+            ]
           },
           "422": {
             "description": "Unprocessable entity"
@@ -822,15 +822,15 @@
                     }
                   ]
                 }
-              },
-              "x-postman-variables": [
-                {
-                  "type": "save",
-                  "name": "step_id",
-                  "path": ".step_id"
-                }
-              ]
-            }
+              }
+            },
+            "x-postman-variables": [
+              {
+                "type": "save",
+                "name": "step_id",
+                "path": ".step_id"
+              }
+            ]
           },
           "404": {
             "description": "Task not found."
