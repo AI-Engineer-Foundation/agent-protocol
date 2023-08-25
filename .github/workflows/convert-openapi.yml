@@ -24,7 +24,9 @@ jobs:
       run: npm install -g swagger-cli
 
     - name: Convert openapi.yml to openapi.json
-      run: swagger-cli bundle -r postman/schemas/openapi.yaml -o postman/schemas/openapi.json -t json
+      run: |
+        swagger-cli bundle -r postman/schemas/openapi.yaml -o postman/schemas/openapi.json -t json
+        cp postman/schemas/openapi.yaml openapi.yaml
 
     - name: Commit changes
       run: |
