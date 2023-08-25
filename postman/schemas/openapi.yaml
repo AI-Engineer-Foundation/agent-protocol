@@ -338,7 +338,8 @@ paths:
                     - type: load
                       name: task_id
                     - type: load
-                      name: '[0].artifact_id'
+                      name: artifact_array
+                      path: '[0].artifact_id'
                 - name: artifact_id
                   in: path
                   example: "1e41533e-3904-4401-8a07-c49adf8893de"
