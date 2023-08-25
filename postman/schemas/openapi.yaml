@@ -496,7 +496,7 @@ components:
             properties:
                 input:
                     description: Input prompt for the step.
-                    example: "Washington"
+                    example: "Write the words you receive to the file 'output.txt'."
                     type: string
                 additional_input:
                     $ref: "#/components/schemas/StepInput"
