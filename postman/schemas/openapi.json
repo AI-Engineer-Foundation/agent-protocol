@@ -23,6 +23,7 @@
           "content": {
             "application/json": {
               "schema": {
+                "additionalProperties": false,
                 "type": "object",
                 "description": "Body of the task request.",
                 "required": [
@@ -35,6 +36,7 @@
                     "example": "Write the words you receive to the file 'output.txt'."
                   },
                   "additional_input": {
+                    "additionalProperties": false,
                     "description": "Input parameters for the task. Any value is allowed.",
                     "type": "object",
                     "example": "{\n\"debug\": false,\n\"mode\": \"benchmarks\"\n}"
@@ -52,6 +54,7 @@
                 "schema": {
                   "allOf": [
                     {
+                      "additionalProperties": false,
                       "type": "object",
                       "description": "Body of the task request.",
                       "required": [
@@ -64,6 +67,7 @@
                           "example": "Write the words you receive to the file 'output.txt'."
                         },
                         "additional_input": {
+                          "additionalProperties": false,
                           "description": "Input parameters for the task. Any value is allowed.",
                           "type": "object",
                           "example": "{\n\"debug\": false,\n\"mode\": \"benchmarks\"\n}"
@@ -77,6 +81,7 @@
                         "task_id"
                       ],
                       "properties": {
+                        "additionalProperties": false,
                         "task_id": {
                           "description": "The ID of the task.",
                           "type": "string",
@@ -91,6 +96,7 @@
                           "default": [],
                           "description": "A list of artifacts that the task has produced.",
                           "items": {
+                            "additionalProperties": false,
                             "type": "object",
                             "required": [
                               "artifact_id",
@@ -193,6 +199,7 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "additionalProperties": false,
                   "type": "object",
                   "properties": {
                     "tasks": {
@@ -200,6 +207,7 @@
                       "items": {
                         "allOf": [
                           {
+                            "additionalProperties": false,
                             "type": "object",
                             "description": "Body of the task request.",
                             "required": [
@@ -212,6 +220,7 @@
                                 "example": "Write the words you receive to the file 'output.txt'."
                               },
                               "additional_input": {
+                                "additionalProperties": false,
                                 "description": "Input parameters for the task. Any value is allowed.",
                                 "type": "object",
                                 "example": "{\n\"debug\": false,\n\"mode\": \"benchmarks\"\n}"
@@ -225,6 +234,7 @@
                               "task_id"
                             ],
                             "properties": {
+                              "additionalProperties": false,
                               "task_id": {
                                 "description": "The ID of the task.",
                                 "type": "string",
@@ -239,6 +249,7 @@
                                 "default": [],
                                 "description": "A list of artifacts that the task has produced.",
                                 "items": {
+                                  "additionalProperties": false,
                                   "type": "object",
                                   "required": [
                                     "artifact_id",
@@ -270,6 +281,7 @@
                       }
                     },
                     "pagination": {
+                      "additionalProperties": false,
                       "type": "object",
                       "required": [
                         "total_items",
@@ -344,6 +356,7 @@
                 "schema": {
                   "allOf": [
                     {
+                      "additionalProperties": false,
                       "type": "object",
                       "description": "Body of the task request.",
                       "required": [
@@ -356,6 +369,7 @@
                           "example": "Write the words you receive to the file 'output.txt'."
                         },
                         "additional_input": {
+                          "additionalProperties": false,
                           "description": "Input parameters for the task. Any value is allowed.",
                           "type": "object",
                           "example": "{\n\"debug\": false,\n\"mode\": \"benchmarks\"\n}"
@@ -369,6 +383,7 @@
                         "task_id"
                       ],
                       "properties": {
+                        "additionalProperties": false,
                         "task_id": {
                           "description": "The ID of the task.",
                           "type": "string",
@@ -383,6 +398,7 @@
                           "default": [],
                           "description": "A list of artifacts that the task has produced.",
                           "items": {
+                            "additionalProperties": false,
                             "type": "object",
                             "required": [
                               "artifact_id",
@@ -481,6 +497,7 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "additionalProperties": false,
                   "type": "object",
                   "properties": {
                     "steps": {
@@ -488,6 +505,7 @@
                       "items": {
                         "allOf": [
                           {
+                            "additionalProperties": false,
                             "type": "object",
                             "description": "Body of the task request.",
                             "required": [
@@ -500,6 +518,7 @@
                                 "type": "string"
                               },
                               "additional_input": {
+                                "additionalProperties": false,
                                 "description": "Input parameters for the task step. Any value is allowed.",
                                 "type": "object",
                                 "example": "{\n\"file_to_refactor\": \"models.py\"\n}"
@@ -514,6 +533,7 @@
                               "status"
                             ],
                             "properties": {
+                              "additionalProperties": false,
                               "task_id": {
                                 "description": "The ID of the task this step belongs to.",
                                 "type": "string",
@@ -545,6 +565,7 @@
                                 "example": "I am going to use the write_to_file command and write Washington to a file called output.txt <write_to_file('output.txt', 'Washington')"
                               },
                               "additional_output": {
+                                "additionalProperties": false,
                                 "description": "Output that the task step has produced. Any value is allowed.",
                                 "type": "object",
                                 "example": "{\n\"tokens\": 7894,\n\"estimated_cost\": \"0,24$\"\n}"
@@ -554,6 +575,7 @@
                                 "default": [],
                                 "description": "A list of artifacts that the step has produced.",
                                 "items": {
+                                  "additionalProperties": false,
                                   "type": "object",
                                   "required": [
                                     "artifact_id",
@@ -591,6 +613,7 @@
                       }
                     },
                     "pagination": {
+                      "additionalProperties": false,
                       "type": "object",
                       "required": [
                         "total_items",
@@ -669,6 +692,7 @@
           "content": {
             "application/json": {
               "schema": {
+                "additionalProperties": false,
                 "type": "object",
                 "description": "Body of the task request.",
                 "required": [
@@ -681,6 +705,7 @@
                     "type": "string"
                   },
                   "additional_input": {
+                    "additionalProperties": false,
                     "description": "Input parameters for the task step. Any value is allowed.",
                     "type": "object",
                     "example": "{\n\"file_to_refactor\": \"models.py\"\n}"
@@ -698,6 +723,7 @@
                 "schema": {
                   "allOf": [
                     {
+                      "additionalProperties": false,
                       "type": "object",
                       "description": "Body of the task request.",
                       "required": [
@@ -710,6 +736,7 @@
                           "type": "string"
                         },
                         "additional_input": {
+                          "additionalProperties": false,
                           "description": "Input parameters for the task step. Any value is allowed.",
                           "type": "object",
                           "example": "{\n\"file_to_refactor\": \"models.py\"\n}"
@@ -724,6 +751,7 @@
                         "status"
                       ],
                       "properties": {
+                        "additionalProperties": false,
                         "task_id": {
                           "description": "The ID of the task this step belongs to.",
                           "type": "string",
@@ -755,6 +783,7 @@
                           "example": "I am going to use the write_to_file command and write Washington to a file called output.txt <write_to_file('output.txt', 'Washington')"
                         },
                         "additional_output": {
+                          "additionalProperties": false,
                           "description": "Output that the task step has produced. Any value is allowed.",
                           "type": "object",
                           "example": "{\n\"tokens\": 7894,\n\"estimated_cost\": \"0,24$\"\n}"
@@ -764,6 +793,7 @@
                           "default": [],
                           "description": "A list of artifacts that the step has produced.",
                           "items": {
+                            "additionalProperties": false,
                             "type": "object",
                             "required": [
                               "artifact_id",
@@ -863,6 +893,7 @@
                 "schema": {
                   "allOf": [
                     {
+                      "additionalProperties": false,
                       "type": "object",
                       "description": "Body of the task request.",
                       "required": [
@@ -875,6 +906,7 @@
                           "type": "string"
                         },
                         "additional_input": {
+                          "additionalProperties": false,
                           "description": "Input parameters for the task step. Any value is allowed.",
                           "type": "object",
                           "example": "{\n\"file_to_refactor\": \"models.py\"\n}"
@@ -889,6 +921,7 @@
                         "status"
                       ],
                       "properties": {
+                        "additionalProperties": false,
                         "task_id": {
                           "description": "The ID of the task this step belongs to.",
                           "type": "string",
@@ -920,6 +953,7 @@
                           "example": "I am going to use the write_to_file command and write Washington to a file called output.txt <write_to_file('output.txt', 'Washington')"
                         },
                         "additional_output": {
+                          "additionalProperties": false,
                           "description": "Output that the task step has produced. Any value is allowed.",
                           "type": "object",
                           "example": "{\n\"tokens\": 7894,\n\"estimated_cost\": \"0,24$\"\n}"
@@ -929,6 +963,7 @@
                           "default": [],
                           "description": "A list of artifacts that the step has produced.",
                           "items": {
+                            "additionalProperties": false,
                             "type": "object",
                             "required": [
                               "artifact_id",
@@ -1027,11 +1062,13 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "additionalProperties": false,
                   "type": "object",
                   "properties": {
                     "artifacts": {
                       "type": "array",
                       "items": {
+                        "additionalProperties": false,
                         "type": "object",
                         "required": [
                           "artifact_id",
@@ -1058,6 +1095,7 @@
                       }
                     },
                     "pagination": {
+                      "additionalProperties": false,
                       "type": "object",
                       "required": [
                         "total_items",
@@ -1151,6 +1189,7 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "additionalProperties": false,
                   "type": "object",
                   "required": [
                     "artifact_id",
@@ -1247,6 +1286,7 @@
   "components": {
     "schemas": {
       "Pagination": {
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "total_items",
@@ -1278,6 +1318,7 @@
         }
       },
       "TaskListResponse": {
+        "additionalProperties": false,
         "type": "object",
         "properties": {
           "tasks": {
@@ -1285,6 +1326,7 @@
             "items": {
               "allOf": [
                 {
+                  "additionalProperties": false,
                   "type": "object",
                   "description": "Body of the task request.",
                   "required": [
@@ -1297,6 +1339,7 @@
                       "example": "Write the words you receive to the file 'output.txt'."
                     },
                     "additional_input": {
+                      "additionalProperties": false,
                       "description": "Input parameters for the task. Any value is allowed.",
                       "type": "object",
                       "example": "{\n\"debug\": false,\n\"mode\": \"benchmarks\"\n}"
@@ -1310,6 +1353,7 @@
                     "task_id"
                   ],
                   "properties": {
+                    "additionalProperties": false,
                     "task_id": {
                       "description": "The ID of the task.",
                       "type": "string",
@@ -1324,6 +1368,7 @@
                       "default": [],
                       "description": "A list of artifacts that the task has produced.",
                       "items": {
+                        "additionalProperties": false,
                         "type": "object",
                         "required": [
                           "artifact_id",
@@ -1355,6 +1400,7 @@
             }
           },
           "pagination": {
+            "additionalProperties": false,
             "type": "object",
             "required": [
               "total_items",
@@ -1388,6 +1434,7 @@
         }
       },
       "TaskStepsListResponse": {
+        "additionalProperties": false,
         "type": "object",
         "properties": {
           "steps": {
@@ -1395,6 +1442,7 @@
             "items": {
               "allOf": [
                 {
+                  "additionalProperties": false,
                   "type": "object",
                   "description": "Body of the task request.",
                   "required": [
@@ -1407,6 +1455,7 @@
                       "type": "string"
                     },
                     "additional_input": {
+                      "additionalProperties": false,
                       "description": "Input parameters for the task step. Any value is allowed.",
                       "type": "object",
                       "example": "{\n\"file_to_refactor\": \"models.py\"\n}"
@@ -1421,6 +1470,7 @@
                     "status"
                   ],
                   "properties": {
+                    "additionalProperties": false,
                     "task_id": {
                       "description": "The ID of the task this step belongs to.",
                       "type": "string",
@@ -1452,6 +1502,7 @@
                       "example": "I am going to use the write_to_file command and write Washington to a file called output.txt <write_to_file('output.txt', 'Washington')"
                     },
                     "additional_output": {
+                      "additionalProperties": false,
                       "description": "Output that the task step has produced. Any value is allowed.",
                       "type": "object",
                       "example": "{\n\"tokens\": 7894,\n\"estimated_cost\": \"0,24$\"\n}"
@@ -1461,6 +1512,7 @@
                       "default": [],
                       "description": "A list of artifacts that the step has produced.",
                       "items": {
+                        "additionalProperties": false,
                         "type": "object",
                         "required": [
                           "artifact_id",
@@ -1498,6 +1550,7 @@
             }
           },
           "pagination": {
+            "additionalProperties": false,
             "type": "object",
             "required": [
               "total_items",
@@ -1531,11 +1584,13 @@
         }
       },
       "TaskArtifactsListResponse": {
+        "additionalProperties": false,
         "type": "object",
         "properties": {
           "artifacts": {
             "type": "array",
             "items": {
+              "additionalProperties": false,
               "type": "object",
               "required": [
                 "artifact_id",
@@ -1562,6 +1617,7 @@
             }
           },
           "pagination": {
+            "additionalProperties": false,
             "type": "object",
             "required": [
               "total_items",
@@ -1595,11 +1651,13 @@
         }
       },
       "TaskInput": {
+        "additionalProperties": false,
         "description": "Input parameters for the task. Any value is allowed.",
         "type": "object",
         "example": "{\n\"debug\": false,\n\"mode\": \"benchmarks\"\n}"
       },
       "Artifact": {
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "artifact_id",
@@ -1625,16 +1683,19 @@
         }
       },
       "StepInput": {
+        "additionalProperties": false,
         "description": "Input parameters for the task step. Any value is allowed.",
         "type": "object",
         "example": "{\n\"file_to_refactor\": \"models.py\"\n}"
       },
       "StepOutput": {
+        "additionalProperties": false,
         "description": "Output that the task step has produced. Any value is allowed.",
         "type": "object",
         "example": "{\n\"tokens\": 7894,\n\"estimated_cost\": \"0,24$\"\n}"
       },
       "TaskRequestBody": {
+        "additionalProperties": false,
         "type": "object",
         "description": "Body of the task request.",
         "required": [
@@ -1647,6 +1708,7 @@
             "example": "Write the words you receive to the file 'output.txt'."
           },
           "additional_input": {
+            "additionalProperties": false,
             "description": "Input parameters for the task. Any value is allowed.",
             "type": "object",
             "example": "{\n\"debug\": false,\n\"mode\": \"benchmarks\"\n}"
@@ -1656,6 +1718,7 @@
       "Task": {
         "allOf": [
           {
+            "additionalProperties": false,
             "type": "object",
             "description": "Body of the task request.",
             "required": [
@@ -1668,6 +1731,7 @@
                 "example": "Write the words you receive to the file 'output.txt'."
               },
               "additional_input": {
+                "additionalProperties": false,
                 "description": "Input parameters for the task. Any value is allowed.",
                 "type": "object",
                 "example": "{\n\"debug\": false,\n\"mode\": \"benchmarks\"\n}"
@@ -1681,6 +1745,7 @@
               "task_id"
             ],
             "properties": {
+              "additionalProperties": false,
               "task_id": {
                 "description": "The ID of the task.",
                 "type": "string",
@@ -1695,6 +1760,7 @@
                 "default": [],
                 "description": "A list of artifacts that the task has produced.",
                 "items": {
+                  "additionalProperties": false,
                   "type": "object",
                   "required": [
                     "artifact_id",
@@ -1725,6 +1791,7 @@
         ]
       },
       "StepRequestBody": {
+        "additionalProperties": false,
         "type": "object",
         "description": "Body of the task request.",
         "required": [
@@ -1737,6 +1804,7 @@
             "type": "string"
           },
           "additional_input": {
+            "additionalProperties": false,
             "description": "Input parameters for the task step. Any value is allowed.",
             "type": "object",
             "example": "{\n\"file_to_refactor\": \"models.py\"\n}"
@@ -1746,6 +1814,7 @@
       "Step": {
         "allOf": [
           {
+            "additionalProperties": false,
             "type": "object",
             "description": "Body of the task request.",
             "required": [
@@ -1758,6 +1827,7 @@
                 "type": "string"
               },
               "additional_input": {
+                "additionalProperties": false,
                 "description": "Input parameters for the task step. Any value is allowed.",
                 "type": "object",
                 "example": "{\n\"file_to_refactor\": \"models.py\"\n}"
@@ -1772,6 +1842,7 @@
               "status"
             ],
             "properties": {
+              "additionalProperties": false,
               "task_id": {
                 "description": "The ID of the task this step belongs to.",
                 "type": "string",
@@ -1803,6 +1874,7 @@
                 "example": "I am going to use the write_to_file command and write Washington to a file called output.txt <write_to_file('output.txt', 'Washington')"
               },
               "additional_output": {
+                "additionalProperties": false,
                 "description": "Output that the task step has produced. Any value is allowed.",
                 "type": "object",
                 "example": "{\n\"tokens\": 7894,\n\"estimated_cost\": \"0,24$\"\n}"
@@ -1812,6 +1884,7 @@
                 "default": [],
                 "description": "A list of artifacts that the step has produced.",
                 "items": {
+                  "additionalProperties": false,
                   "type": "object",
                   "required": [
                     "artifact_id",
