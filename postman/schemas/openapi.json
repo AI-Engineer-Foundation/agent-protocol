@@ -130,6 +130,9 @@
               }
             ]
           },
+          "422": {
+            "description": "Unprocessable entity"
+          },
           "default": {
             "description": "Internal Server Error"
           }
