@@ -27,8 +27,8 @@ paths:
                                 $ref: "#/components/schemas/Task"
                         x-postman-variables:
                             - type: save
-                            name: task_id
-                            path: .task_id
+                              name: task_id
+                              path: .task_id
                 422:
                     description: Unprocessable entity
                 default:
