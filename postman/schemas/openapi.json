@@ -1031,7 +1031,13 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "x-postman-variables": [
+              {
+                "type": "load",
+                "name": "task_id"
+              }
+            ]
           },
           {
             "name": "current_page",
