@@ -29,6 +29,9 @@ paths:
                         - type: save
                           name: task_id
                           path: .task_id
+                                422:
+                422:
+                    description: Unprocessable entity
                 default:
                     description: Internal Server Error
         get:
