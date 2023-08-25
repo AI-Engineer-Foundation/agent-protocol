@@ -458,7 +458,7 @@ components:
                 input:
                     description: Input prompt for the task.
                     type: string
-                    example: "Write the words you receive to the file 'output.txt'."
+                    example: "Write 'Washington' to the file 'output.txt'."
                 additional_input:
                     $ref: "#/components/schemas/TaskInput"
 
