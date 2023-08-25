@@ -4,7 +4,7 @@ servers:
       description: Test server
 info:
     title: Agent Protocol
-    description: Specification of the API protocol for communication with an agent.dummy
+    description: Specification of the API protocol for communication with an agent.
     version: "v0.4"
 
 paths:
