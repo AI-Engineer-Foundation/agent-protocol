@@ -240,9 +240,6 @@ paths:
                         - type: save
                           name: step_id
                           path: .step_id
-                        - type: save
-                          name: artifact_array
-                          path: .artifacts
                 404:
                     $ref: '#/components/responses/NotFound'
                 422:
@@ -400,9 +397,6 @@ paths:
                   x-postman-variables:
                       - type: load
                         name: task_id
-                      - type: load
-                        name: artifact_array
-                        path: "[0].artifact_id"
                 - name: artifact_id
                   in: path
                   example: "1e41533e-3904-4401-8a07-c49adf8893de"
