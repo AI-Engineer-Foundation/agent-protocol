@@ -18,10 +18,10 @@ The agent exposes the following endpoints (see the [OpenAPI file](https://github
 
   <Properties>
     
-    <Property name="input" type="string" required="undefined">
+    <Property name="input" type="string" required="true">
         Input prompt for the task.
     </Property>
-    <Property name="additional_input" type="any" required="undefined">
+    <Property name="additional_input" type="object" required="false">
         Input parameters for the task. Any value is allowed.
     </Property>
   </Properties>
@@ -49,12 +49,22 @@ curl --request POST http://localhost:8000/agent/tasks
   <Col>
     List all tasks that have been created for the agent.
 
+    ### Path attributes
+
+  <Properties>
     
+    <Property name="current_page" type="integer">
+        Page number
+    </Property>
+    <Property name="page_size" type="integer">
+        Number of items per page
+    </Property>
+  </Properties>
     
    
     ### Response
   
-    Returned list of agent's task IDs.
+    Returned list of agent's tasks.
 
   </Col>
   <Col sticky>
@@ -113,12 +123,18 @@ curl  http://localhost:8000/agent/tasks/[task_id]
     <Property name="task_id" type="string">
         ID of the task.
     </Property>
+    <Property name="current_page" type="integer">
+        Page number
+    </Property>
+    <Property name="page_size" type="integer">
+        Number of items per page
+    </Property>
   </Properties>
     
    
     ### Response
   
-    Returned list of agent's step IDs for the specified task.
+    Returned list of agent's steps for the specified task.
 
   </Col>
   <Col sticky>
@@ -150,10 +166,10 @@ curl  http://localhost:8000/agent/tasks/[task_id]/steps
 
   <Properties>
     
-    <Property name="input" type="string" required="undefined">
+    <Property name="input" type="string" required="true">
         Input prompt for the step.
     </Property>
-    <Property name="additional_input" type="any" required="undefined">
+    <Property name="additional_input" type="object" required="false">
         Input parameters for the task step. Any value is allowed.
     </Property>
   </Properties>
@@ -223,12 +239,18 @@ curl  http://localhost:8000/agent/tasks/[task_id]/steps/[step_id]
     <Property name="task_id" type="string">
         ID of the task
     </Property>
+    <Property name="current_page" type="integer">
+        Page number
+    </Property>
+    <Property name="page_size" type="integer">
+        Number of items per page
+    </Property>
   </Properties>
     
    
     ### Response
   
-    Returned the content of the artifact.
+    Returned the list of artifacts for the task.
 
   </Col>
   <Col sticky>
@@ -260,11 +282,11 @@ curl  http://localhost:8000/agent/tasks/[task_id]/artifacts
 
   <Properties>
     
-    <Property name="file" type="string" required="true">
+    <Property name="file" type="string" required="undefined">
         File to upload.
     </Property>
-    <Property name="relative_path" type="string" required="false">
-        Relative path of the artifact in the agent's workspace.
+    <Property name="uri" type="string" required="undefined">
+        URI of the artifact.
     </Property>
   </Properties>
    
@@ -278,7 +300,7 @@ curl  http://localhost:8000/agent/tasks/[task_id]/artifacts
 ```bash {{ title: 'cURL' }}
 curl --request POST http://localhost:8000/agent/tasks/[task_id]/artifacts
     -F '@file=[file-path]'
-    -F 'relative_path=[relative_path]'
+    -F 'uri=[uri]'
 ```
     </CodeGroup>
   </Col>
