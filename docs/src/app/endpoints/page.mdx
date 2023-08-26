@@ -277,6 +277,9 @@ curl  http://localhost:8000/agent/tasks/[task_id]/artifacts
     <Property name="task_id" type="string">
         ID of the task
     </Property>
+    <Property name="URI" type="string">
+        URI of the artifact.
+    </Property>
   </Properties>
     ### Body attributes
 
@@ -284,9 +287,6 @@ curl  http://localhost:8000/agent/tasks/[task_id]/artifacts
     
     <Property name="file" type="string" required="undefined">
         File to upload. (The example is 'Washington' in binary)
-    </Property>
-    <Property name="uri" type="string" required="undefined">
-        URI of the artifact.
     </Property>
   </Properties>
    
@@ -300,7 +300,6 @@ curl  http://localhost:8000/agent/tasks/[task_id]/artifacts
 ```bash {{ title: 'cURL' }}
 curl --request POST http://localhost:8000/agent/tasks/[task_id]/artifacts
     -F 'file=[file]'
-    -F 'uri=[uri]'
 ```
     </CodeGroup>
   </Col>
