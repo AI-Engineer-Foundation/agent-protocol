@@ -552,7 +552,8 @@
                               "name": {
                                 "description": "The name of the task step.",
                                 "type": "string",
-                                "example": "Write to file"
+                                "example": "Write to file",
+                                "nullable": true
                               },
                               "status": {
                                 "description": "The status of the task step.",
@@ -772,7 +773,8 @@
                         "name": {
                           "description": "The name of the task step.",
                           "type": "string",
-                          "example": "Write to file"
+                          "example": "Write to file",
+                          "nullable": true
                         },
                         "status": {
                           "description": "The status of the task step.",
@@ -973,7 +975,8 @@
                         "name": {
                           "description": "The name of the task step.",
                           "type": "string",
-                          "example": "Write to file"
+                          "example": "Write to file",
+                          "nullable": true
                         },
                         "status": {
                           "description": "The status of the task step.",
@@ -1588,7 +1591,8 @@
                     "name": {
                       "description": "The name of the task step.",
                       "type": "string",
-                      "example": "Write to file"
+                      "example": "Write to file",
+                      "nullable": true
                     },
                     "status": {
                       "description": "The status of the task step.",
@@ -1939,7 +1943,8 @@
               "name": {
                 "description": "The name of the task step.",
                 "type": "string",
-                "example": "Write to file"
+                "example": "Write to file",
+                "nullable": true
               },
               "status": {
                 "description": "The status of the task step.",
