@@ -1138,6 +1138,16 @@
                 "name": "task_id"
               }
             ]
+          },
+          {
+            "name": "URI",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "file://output.txt",
+            "required": true,
+            "description": "URI of the artifact."
           }
         ],
         "requestBody": {
@@ -1151,11 +1161,6 @@
                     "format": "octet-stream",
                     "description": "File to upload. (The example is 'Washington' in binary)",
                     "example": 2.8046034182327484e+70
-                  },
-                  "uri": {
-                    "type": "string",
-                    "description": "URI of the artifact.",
-                    "example": "output.txt"
                   }
                 }
               }
