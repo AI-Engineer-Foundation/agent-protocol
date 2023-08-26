@@ -556,7 +556,7 @@ components:
                           example: true
 
     responses:
-        UnprocessableEntrity:
+        UnprocessableEntity:
             description: Unable to process request. Likely due to improperly formatted request.
             content:
                 application/json:
