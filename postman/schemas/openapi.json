@@ -3,7 +3,7 @@
   "servers": [
     {
       "url": "http://0.0.0.0:8000",
-      "description": "Test server"
+      "description": "Test server tes"
     }
   ],
   "info": {
