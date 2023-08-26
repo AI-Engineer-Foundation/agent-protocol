@@ -90,10 +90,10 @@ paths:
                   required: true
                   example: "1d5a533e-3904-4401-8a07-c49adf88b981"
                   schema:
-                    type: string
+                      type: string
                   x-postman-variables:
-                    - type: load
-                      name: task_id
+                      - type: load
+                        name: task_id
             responses:
                 200:
                     description: Returned details about an agent task.
@@ -120,8 +120,8 @@ paths:
                   schema:
                       type: string
                   x-postman-variables:
-                    - type: load
-                      name: task_id
+                      - type: load
+                        name: task_id
                 - name: current_page
                   in: query
                   description: Page number
@@ -164,10 +164,10 @@ paths:
                   required: true
                   example: "50da533e-3904-4401-8a07-c49adf88b5eb"
                   schema:
-                    type: string
+                      type: string
                   x-postman-variables:
-                    - type: load
-                      name: task_id
+                      - type: load
+                        name: task_id
             requestBody:
                 content:
                     application/json:
@@ -220,8 +220,8 @@ paths:
                   schema:
                       type: string
                   x-postman-variables:
-                    - type: load
-                      name: step_id
+                      - type: load
+                        name: step_id
             responses:
                 200:
                     description: Returned details about an agent task step.
@@ -248,8 +248,8 @@ paths:
                   schema:
                       type: string
                   x-postman-variables:
-                    - type: load
-                      name: task_id
+                      - type: load
+                        name: task_id
                 - name: current_page
                   in: query
                   description: Page number
@@ -294,8 +294,8 @@ paths:
                   schema:
                       type: string
                   x-postman-variables:
-                    - type: load
-                      name: task_id
+                      - type: load
+                        name: task_id
             requestBody:
                 content:
                     multipart/form-data:
@@ -335,11 +335,11 @@ paths:
                   schema:
                       type: string
                   x-postman-variables:
-                    - type: load
-                      name: task_id
-                    - type: load
-                      name: artifact_array
-                      path: '[0].artifact_id'
+                      - type: load
+                        name: task_id
+                      - type: load
+                        name: artifact_array
+                        path: "[0].artifact_id"
                 - name: artifact_id
                   in: path
                   example: "1e41533e-3904-4401-8a07-c49adf8893de"
@@ -363,7 +363,6 @@ paths:
 components:
     schemas:
         Pagination:
-            additionalProperties: false
             type: object
             required:
                 - total_items
@@ -389,7 +388,6 @@ components:
                     example: 25
 
         TaskListResponse:
-            additionalProperties: false
             type: object
             properties:
                 tasks:
@@ -400,7 +398,6 @@ components:
                     $ref: "#/components/schemas/Pagination"
 
         TaskStepsListResponse:
-            additionalProperties: false
             type: object
             properties:
                 steps:
@@ -411,7 +408,6 @@ components:
                     $ref: "#/components/schemas/Pagination"
 
         TaskArtifactsListResponse:
-            additionalProperties: false
             type: object
             properties:
                 artifacts:
@@ -422,13 +418,11 @@ components:
                     $ref: "#/components/schemas/Pagination"
 
         TaskInput:
-            additionalProperties: false
             description: Input parameters for the task. Any value is allowed.
             type: object
             example: "{\n\"debug\": false,\n\"mode\": \"benchmarks\"\n}"
 
         Artifact:
-            additionalProperties: false
             type: object
             required:
                 - "artifact_id"
@@ -449,19 +443,16 @@ components:
                     example: file://home/bob/workspace/bucket/main.py
 
         StepInput:
-            additionalProperties: false
             description: Input parameters for the task step. Any value is allowed.
             type: object
             example: "{\n\"file_to_refactor\": \"models.py\"\n}"
 
         StepOutput:
-            additionalProperties: false
             description: Output that the task step has produced. Any value is allowed.
             type: object
             example: "{\n\"tokens\": 7894,\n\"estimated_cost\": \"0,24$\"\n}"
 
         TaskRequestBody:
-            additionalProperties: false
             type: object
             description: Body of the task request.
             required:
@@ -481,7 +472,6 @@ components:
                   description: Definition of an agent task.
                   required:
                       - "task_id"
-                  additionalProperties: false
                   properties:
                       task_id:
                           description: The ID of the task.
@@ -500,7 +490,6 @@ components:
                               $ref: "#/components/schemas/Artifact"
 
         StepRequestBody:
-            additionalProperties: false
             type: object
             description: Body of the task request.
             required:
@@ -521,7 +510,6 @@ components:
                       - "step_id"
                       - "task_id"
                       - "status"
-                  additionalProperties: false
                   properties:
                       task_id:
                           description: The ID of the task this step belongs to.
