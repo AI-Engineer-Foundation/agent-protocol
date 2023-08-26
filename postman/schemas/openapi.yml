@@ -571,7 +571,7 @@ components:
                     schema:
                         type: object
                         required:
-                        - message
+                            - message
                         properties:
                             message:
                                 type: string
