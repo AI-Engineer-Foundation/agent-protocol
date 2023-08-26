@@ -131,7 +131,15 @@
             ]
           },
           "422": {
-            "description": "Unprocessable entity"
+            "description": "Unable to process request. Likely due to improperly formatted request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "A generic JSON object without any specific requirements."
+                }
+              }
+            }
           },
           "default": {
             "description": "Internal Server Error"
@@ -416,7 +424,24 @@
             }
           },
           "404": {
-            "description": "Task not found."
+            "description": "Unable to find entity with a given identifier",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Message stating the entity was not found",
+                      "example": "Unable to find entity with the provided id"
+                    }
+                  }
+                }
+              }
+            }
           },
           "default": {
             "description": "Internal Server Error"
@@ -627,7 +652,24 @@
             }
           },
           "404": {
-            "description": "Task not found."
+            "description": "Unable to find entity with a given identifier",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Message stating the entity was not found",
+                      "example": "Unable to find entity with the provided id"
+                    }
+                  }
+                }
+              }
+            }
           },
           "default": {
             "description": "Internal Server Error"
@@ -808,10 +850,35 @@
             ]
           },
           "404": {
-            "description": "Task not found."
+            "description": "Unable to find entity with a given identifier",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Message stating the entity was not found",
+                      "example": "Unable to find entity with the provided id"
+                    }
+                  }
+                }
+              }
+            }
           },
           "422": {
-            "description": "Unprocessable entity."
+            "description": "Unable to process request. Likely due to improperly formatted request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "A generic JSON object without any specific requirements."
+                }
+              }
+            }
           },
           "default": {
             "description": "Internal Server Error"
@@ -977,7 +1044,24 @@
             }
           },
           "404": {
-            "description": "Task or step not found."
+            "description": "Unable to find entity with a given identifier",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Message stating the entity was not found",
+                      "example": "Unable to find entity with the provided id"
+                    }
+                  }
+                }
+              }
+            }
           },
           "default": {
             "description": "Internal Server Error"
@@ -1109,7 +1193,24 @@
             }
           },
           "404": {
-            "description": "Task not found."
+            "description": "Unable to find entity with a given identifier",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Message stating the entity was not found",
+                      "example": "Unable to find entity with the provided id"
+                    }
+                  }
+                }
+              }
+            }
           },
           "default": {
             "description": "Internal Server Error"
@@ -1203,7 +1304,24 @@
             }
           },
           "404": {
-            "description": "Task not found."
+            "description": "Unable to find entity with a given identifier",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Message stating the entity was not found",
+                      "example": "Unable to find entity with the provided id"
+                    }
+                  }
+                }
+              }
+            }
           },
           "default": {
             "description": "Internal Server Error"
@@ -1264,7 +1382,24 @@
             }
           },
           "404": {
-            "description": "Task or artifact not found."
+            "description": "Unable to find entity with a given identifier",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Message stating the entity was not found",
+                      "example": "Unable to find entity with the provided id"
+                    }
+                  }
+                }
+              }
+            }
           },
           "default": {
             "description": "Internal Server Error"
@@ -1875,6 +2010,39 @@
             }
           }
         ]
+      }
+    },
+    "responses": {
+      "UnprocessableEntity": {
+        "description": "Unable to process request. Likely due to improperly formatted request.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "description": "A generic JSON object without any specific requirements."
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Unable to find entity with a given identifier",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "message"
+              ],
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "Message stating the entity was not found",
+                  "example": "Unable to find entity with the provided id"
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
