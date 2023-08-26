@@ -299,7 +299,7 @@ curl  http://localhost:8000/agent/tasks/[task_id]/artifacts
     <CodeGroup title="Request" tag="POST" label="/agent/tasks/<task_id>/artifacts">
 ```bash {{ title: 'cURL' }}
 curl --request POST http://localhost:8000/agent/tasks/[task_id]/artifacts
-    -F '@file=[file-path]'
+    -F 'file=[file]'
     -F 'uri=[uri]'
 ```
     </CodeGroup>
