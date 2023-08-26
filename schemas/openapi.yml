@@ -362,16 +362,16 @@ paths:
                   description: URI of the artifact.
             requestBody:
                 content:
-                multipart/form-data:
-                    schema:
-                    properties:
-                        file:
-                            type: string
-                            format: binary
-                            description: "The uploaded file."
-                        uri:
-                            type: string
-                            description: "The URI pointing to the resource."
+                    multipart/form-data:
+                        schema:
+                        properties:
+                            file:
+                                type: string
+                                format: binary
+                                description: "The uploaded file."
+                            uri:
+                                type: string
+                                description: "The URI pointing to the resource."
             responses:
                 200:
                     description: Returned the content of the artifact.
