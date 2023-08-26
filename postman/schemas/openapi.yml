@@ -30,7 +30,7 @@ paths:
                           name: task_id
                           path: .task_id
                 422:
-                    $ref: '#/schemas/UnprocessableEntity'
+                    $ref: '#/schemas/responses/UnprocessableEntity'
                 default:
                     description: Internal Server Error
         get:
@@ -102,7 +102,7 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/Task"
                 404:
-                    $ref: '#/schemas/NotFound'
+                    $ref: '#/schemas/responses/NotFound'
                 default:
                     description: Internal Server Error
 
@@ -150,7 +150,7 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/TaskStepsListResponse"
                 404:
-                    $ref: '#/schemas/NotFound'
+                    $ref: '#/schemas/responses/NotFound'
                 default:
                     description: Internal Server Error
         post:
@@ -188,9 +188,9 @@ paths:
                           name: artifact_array
                           path: .artifacts
                 404:
-                    $ref: '#/schemas/NotFound'
+                    $ref: '#/schemas/responses/NotFound'
                 422:
-                    $ref: '#/schemas/UnprocessableEntity'
+                    $ref: '#/schemas/responses/UnprocessableEntity'
                 default:
                     description: Internal Server Error
 
@@ -230,7 +230,7 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/Step"
                 404:
-                    $ref: '#/schemas/NotFound'
+                    $ref: '#/schemas/responses/NotFound'
                 default:
                     description: Internal Server Error
 
@@ -278,7 +278,7 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/TaskArtifactsListResponse"
                 404:
-                    $ref: '#/schemas/NotFound'
+                    $ref: '#/schemas/responses/NotFound'
                 default:
                     description: Internal Server Error
         post:
@@ -323,7 +323,7 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/Artifact"
                 404:
-                    $ref: '#/schemas/NotFound'
+                    $ref: '#/schemas/responses/NotFound'
                 default:
                     description: Internal Server Error
 
@@ -362,7 +362,7 @@ paths:
                                 type: string
                                 format: binary
                 404:
-                    $ref: '#/schemas/NotFound'
+                    $ref: '#/schemas/responses/NotFound'
                 default:
                     description: Internal Server Error
 
