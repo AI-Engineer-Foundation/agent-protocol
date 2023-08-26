@@ -1,7 +1,7 @@
 openapi: 3.0.1
 servers:
     - url: "http://0.0.0.0:8000"
-      description: Test server tes
+      description: Test server
 info:
     title: Agent Protocol
     description: Specification of the API protocol for communication with an agent.
@@ -362,16 +362,16 @@ paths:
                   description: URI of the artifact.
             requestBody:
                 content:
-                    application/octet-stream:
-                        schema:
-                            type: object
-                            properties:
-                                file:
-                                    type: string
-                                    format: octet-stream
-                                    description: File to upload. (The example is 'Washington' in binary)
-                                    example: 01010111011000010111001101101000011010010110111001100111011101000110111101101110
-
+                multipart/form-data:
+                    schema:
+                    properties:
+                        file:
+                            type: string
+                            format: binary
+                            description: "The uploaded file."
+                        uri:
+                            type: string
+                            description: "The URI pointing to the resource."
             responses:
                 200:
                     description: Returned the content of the artifact.

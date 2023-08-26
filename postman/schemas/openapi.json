@@ -3,7 +3,7 @@
   "servers": [
     {
       "url": "http://0.0.0.0:8000",
-      "description": "Test server tes"
+      "description": "Test server"
     }
   ],
   "info": {
@@ -1151,18 +1151,18 @@
           }
         ],
         "requestBody": {
-          "content": {
-            "application/octet-stream": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "file": {
-                    "type": "string",
-                    "format": "octet-stream",
-                    "description": "File to upload. (The example is 'Washington' in binary)",
-                    "example": 2.8046034182327484e+70
-                  }
-                }
+          "content": null,
+          "multipart/form-data": {
+            "schema": null,
+            "properties": {
+              "file": {
+                "type": "string",
+                "format": "binary",
+                "description": "The uploaded file."
+              },
+              "uri": {
+                "type": "string",
+                "description": "The URI pointing to the resource."
               }
             }
           }
