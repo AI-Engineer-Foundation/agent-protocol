@@ -355,17 +355,19 @@ paths:
                         name: task_id
             requestBody:
                 content:
-                    multipart/form-data:
+                    application/octet-stream:
                         schema:
                             type: object
                             properties:
                                 file:
                                     type: string
                                     format: octet-stream
-                                    description: File to upload.
+                                    description: File to upload. (The example is 'Washington' in binary)
+                                    example: 01010111011000010111001101101000011010010110111001100111011101000110111101101110
                                 uri:
                                     type: string
                                     description: URI of the artifact.
+                                    example: 'output.txt'
             responses:
                 200:
                     description: Returned the content of the artifact.
