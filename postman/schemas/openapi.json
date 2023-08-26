@@ -841,11 +841,6 @@
                 "type": "save",
                 "name": "step_id",
                 "path": ".step_id"
-              },
-              {
-                "type": "save",
-                "name": "artifact_array",
-                "path": ".artifacts"
               }
             ]
           },
@@ -1350,11 +1345,6 @@
               {
                 "type": "load",
                 "name": "task_id"
-              },
-              {
-                "type": "load",
-                "name": "artifact_array",
-                "path": "[0].artifact_id"
               }
             ]
           },
