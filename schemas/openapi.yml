@@ -30,7 +30,7 @@ paths:
                           name: task_id
                           path: .task_id
                 422:
-                    description: Unprocessable entity
+                    $ref: '#/components/responses/UnprocessableEntity'
                 default:
                     description: Internal Server Error
         get:
@@ -102,7 +102,7 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/Task"
                 404:
-                    description: Task not found.
+                    $ref: '#/components/responses/NotFound'
                 default:
                     description: Internal Server Error
 
@@ -206,7 +206,7 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/TaskStepsListResponse"
                 404:
-                    description: Task not found.
+                    $ref: '#/components/responses/NotFound'
                 default:
                     description: Internal Server Error
         post:
@@ -244,9 +244,9 @@ paths:
                           name: artifact_array
                           path: .artifacts
                 404:
-                    description: Task not found.
+                    $ref: '#/components/responses/NotFound'
                 422:
-                    description: Unprocessable entity.
+                    $ref: '#/components/responses/UnprocessableEntity'
                 default:
                     description: Internal Server Error
 >>>>>>> 450b41d (Update openapi.json and openapi.yml in the root directory):openapi.yml
@@ -287,7 +287,7 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/Step"
                 404:
-                    description: Task or step not found.
+                    $ref: '#/components/responses/NotFound'
                 default:
                     description: Internal Server Error
 
@@ -335,7 +335,7 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/TaskArtifactsListResponse"
                 404:
-                    description: Task not found.
+                    $ref: '#/components/responses/NotFound'
                 default:
                     description: Internal Server Error
         post:
@@ -380,7 +380,7 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/Artifact"
                 404:
-                    description: Task not found.
+                    $ref: '#/components/responses/NotFound'
                 default:
                     description: Internal Server Error
 
@@ -419,7 +419,7 @@ paths:
                                 type: string
                                 format: binary
                 404:
-                    description: Task or artifact not found.
+                    $ref: '#/components/responses/NotFound'
                 default:
                     description: Internal Server Error
 
@@ -611,3 +611,26 @@ components:
                           type: boolean
                           default: false
                           example: true
+
+    responses:
+        UnprocessableEntity:
+            description: Unable to process request. Likely due to improperly formatted request.
+            content:
+                application/json:
+                    schema:
+                        type: object
+                        description: A generic JSON object without any specific requirements.
+        
+        NotFound:
+            description: Unable to find entity with a given identifier
+            content:
+                application/json:
+                    schema:
+                        type: object
+                        required:
+                        - message
+                        properties:
+                            message:
+                                type: string
+                                description: Message stating the entity was not found
+                                example: Unable to find entity with the provided id
