@@ -1142,18 +1142,20 @@
         ],
         "requestBody": {
           "content": {
-            "multipart/form-data": {
+            "application/octet-stream": {
               "schema": {
                 "type": "object",
                 "properties": {
                   "file": {
                     "type": "string",
                     "format": "octet-stream",
-                    "description": "File to upload."
+                    "description": "File to upload. (The example is 'Washington' in binary)",
+                    "example": 2.8046034182327484e+70
                   },
                   "uri": {
                     "type": "string",
-                    "description": "URI of the artifact."
+                    "description": "URI of the artifact.",
+                    "example": "output.txt"
                   }
                 }
               }
