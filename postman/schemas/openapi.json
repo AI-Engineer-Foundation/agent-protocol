@@ -1148,7 +1148,7 @@
                 "properties": {
                   "file": {
                     "type": "string",
-                    "format": "binary",
+                    "format": "octet-stream",
                     "description": "File to upload."
                   },
                   "uri": {
