@@ -415,6 +415,9 @@ components:
 
         TaskArtifactsListResponse:
             type: object
+            required:
+                - "artifacts"
+                - "pagination"
             properties:
                 artifacts:
                     type: array
@@ -433,6 +436,8 @@ components:
             required:
                 - "artifact_id"
                 - "agent_created"
+                - "file_name"
+                - "relative_path"
             description: An Artifact either created by or submitted to the agent.
             properties:
                 artifact_id:
@@ -447,6 +452,18 @@ components:
                     type: string
                     description: URI of the artifact.
                     example: file://home/bob/workspace/bucket/main.py
+                    nullable: true
+                file_name:
+                    description: Filename of the artifact.
+                    type: string
+                    example: 'main.py'
+                relative_path:
+                    description: Relative path of the artifact in the agent's workspace.
+                    type: string
+                    example: 'python/code/'
+                    nullable: true
+                
+
 
         StepInput:
             description: Input parameters for the task step. Any value is allowed.
@@ -468,6 +485,7 @@ components:
                     description: Input prompt for the task.
                     type: string
                     example: "Write 'Washington' to the file 'output.txt'."
+                    nullable: true
                 additional_input:
                     $ref: "#/components/schemas/TaskInput"
 
@@ -478,6 +496,7 @@ components:
                   description: Definition of an agent task.
                   required:
                       - "task_id"
+                      - "artifacts"
                   properties:
                       task_id:
                           description: The ID of the task.
@@ -516,6 +535,8 @@ components:
                       - "step_id"
                       - "task_id"
                       - "status"
+                      - "is_last"
+                      - "artifacts"
                   properties:
                       task_id:
                           description: The ID of the task this step belongs to.
