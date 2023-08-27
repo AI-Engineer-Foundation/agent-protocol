@@ -542,6 +542,7 @@ components:
                           type: string
                           description: Output of the task step.
                           example: "I am going to use the write_to_file command and write Washington to a file called output.txt <write_to_file('output.txt', 'Washington')"
+                          nullable: true
                       additional_output:
                           $ref: "#/components/schemas/StepOutput"
                       artifacts:
