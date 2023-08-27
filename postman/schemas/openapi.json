@@ -576,7 +576,8 @@
                               "output": {
                                 "type": "string",
                                 "description": "Output of the task step.",
-                                "example": "I am going to use the write_to_file command and write Washington to a file called output.txt <write_to_file('output.txt', 'Washington')"
+                                "example": "I am going to use the write_to_file command and write Washington to a file called output.txt <write_to_file('output.txt', 'Washington')",
+                                "nullable": true
                               },
                               "additional_output": {
                                 "description": "Output that the task step has produced. Any value is allowed.",
@@ -797,7 +798,8 @@
                         "output": {
                           "type": "string",
                           "description": "Output of the task step.",
-                          "example": "I am going to use the write_to_file command and write Washington to a file called output.txt <write_to_file('output.txt', 'Washington')"
+                          "example": "I am going to use the write_to_file command and write Washington to a file called output.txt <write_to_file('output.txt', 'Washington')",
+                          "nullable": true
                         },
                         "additional_output": {
                           "description": "Output that the task step has produced. Any value is allowed.",
@@ -999,7 +1001,8 @@
                         "output": {
                           "type": "string",
                           "description": "Output of the task step.",
-                          "example": "I am going to use the write_to_file command and write Washington to a file called output.txt <write_to_file('output.txt', 'Washington')"
+                          "example": "I am going to use the write_to_file command and write Washington to a file called output.txt <write_to_file('output.txt', 'Washington')",
+                          "nullable": true
                         },
                         "additional_output": {
                           "description": "Output that the task step has produced. Any value is allowed.",
@@ -1623,7 +1626,8 @@
                     "output": {
                       "type": "string",
                       "description": "Output of the task step.",
-                      "example": "I am going to use the write_to_file command and write Washington to a file called output.txt <write_to_file('output.txt', 'Washington')"
+                      "example": "I am going to use the write_to_file command and write Washington to a file called output.txt <write_to_file('output.txt', 'Washington')",
+                      "nullable": true
                     },
                     "additional_output": {
                       "description": "Output that the task step has produced. Any value is allowed.",
@@ -1975,7 +1979,8 @@
               "output": {
                 "type": "string",
                 "description": "Output of the task step.",
-                "example": "I am going to use the write_to_file command and write Washington to a file called output.txt <write_to_file('output.txt', 'Washington')"
+                "example": "I am going to use the write_to_file command and write Washington to a file called output.txt <write_to_file('output.txt', 'Washington')",
+                "nullable": true
               },
               "additional_output": {
                 "description": "Output that the task step has produced. Any value is allowed.",
