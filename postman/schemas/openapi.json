@@ -202,6 +202,10 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": [
+                    "tasks",
+                    "pagination"
+                  ],
                   "properties": {
                     "tasks": {
                       "type": "array",
@@ -507,6 +511,10 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": [
+                    "steps",
+                    "pagination"
+                  ],
                   "properties": {
                     "steps": {
                       "type": "array",
@@ -1436,6 +1444,10 @@
       },
       "TaskListResponse": {
         "type": "object",
+        "required": [
+          "tasks",
+          "pagination"
+        ],
         "properties": {
           "tasks": {
             "type": "array",
@@ -1546,6 +1558,10 @@
       },
       "TaskStepsListResponse": {
         "type": "object",
+        "required": [
+          "steps",
+          "pagination"
+        ],
         "properties": {
           "steps": {
             "type": "array",
