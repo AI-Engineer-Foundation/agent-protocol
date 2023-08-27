@@ -633,7 +633,8 @@
                               "additional_output": {
                                 "description": "Output that the task step has produced. Any value is allowed.",
                                 "type": "object",
-                                "example": "{\n\"tokens\": 7894,\n\"estimated_cost\": \"0,24$\"\n}"
+                                "example": "{\n\"tokens\": 7894,\n\"estimated_cost\": \"0,24$\"\n}",
+                                "nullable": true
                               },
                               "artifacts": {
                                 "type": "array",
@@ -871,7 +872,8 @@
                         "additional_output": {
                           "description": "Output that the task step has produced. Any value is allowed.",
                           "type": "object",
-                          "example": "{\n\"tokens\": 7894,\n\"estimated_cost\": \"0,24$\"\n}"
+                          "example": "{\n\"tokens\": 7894,\n\"estimated_cost\": \"0,24$\"\n}",
+                          "nullable": true
                         },
                         "artifacts": {
                           "type": "array",
@@ -1090,7 +1092,8 @@
                         "additional_output": {
                           "description": "Output that the task step has produced. Any value is allowed.",
                           "type": "object",
-                          "example": "{\n\"tokens\": 7894,\n\"estimated_cost\": \"0,24$\"\n}"
+                          "example": "{\n\"tokens\": 7894,\n\"estimated_cost\": \"0,24$\"\n}",
+                          "nullable": true
                         },
                         "artifacts": {
                           "type": "array",
@@ -1779,7 +1782,8 @@
                     "additional_output": {
                       "description": "Output that the task step has produced. Any value is allowed.",
                       "type": "object",
-                      "example": "{\n\"tokens\": 7894,\n\"estimated_cost\": \"0,24$\"\n}"
+                      "example": "{\n\"tokens\": 7894,\n\"estimated_cost\": \"0,24$\"\n}",
+                      "nullable": true
                     },
                     "artifacts": {
                       "type": "array",
@@ -2003,7 +2007,8 @@
       "StepOutput": {
         "description": "Output that the task step has produced. Any value is allowed.",
         "type": "object",
-        "example": "{\n\"tokens\": 7894,\n\"estimated_cost\": \"0,24$\"\n}"
+        "example": "{\n\"tokens\": 7894,\n\"estimated_cost\": \"0,24$\"\n}",
+        "nullable": true
       },
       "TaskRequestBody": {
         "type": "object",
@@ -2197,7 +2202,8 @@
               "additional_output": {
                 "description": "Output that the task step has produced. Any value is allowed.",
                 "type": "object",
-                "example": "{\n\"tokens\": 7894,\n\"estimated_cost\": \"0,24$\"\n}"
+                "example": "{\n\"tokens\": 7894,\n\"estimated_cost\": \"0,24$\"\n}",
+                "nullable": true
               },
               "artifacts": {
                 "type": "array",
