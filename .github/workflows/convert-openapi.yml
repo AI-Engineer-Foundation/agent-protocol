@@ -27,6 +27,7 @@ jobs:
       run: |
         swagger-cli bundle -r postman/schemas/openapi.yml -o postman/schemas/openapi.json -t json
         cp postman/schemas/openapi.yml openapi.yml
+        cp postman/schemas/openapi.json openapi.json
 
     - name: Commit changes
       run: |
@@ -34,5 +35,6 @@ jobs:
         git config --local user.name "GitHub Action"
         git add postman/schemas/openapi.json
         git add openapi.yml
-        git commit -m "Update openapi.json and openapi.yml in the root directory" || echo "No changes to commit"
+        git add openapi.json
+        git commit -m "Update openapi files" || echo "No changes to commit"
         git push
