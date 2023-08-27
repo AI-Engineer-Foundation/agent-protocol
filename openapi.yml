@@ -389,6 +389,9 @@ components:
 
         TaskListResponse:
             type: object
+            required:
+                - tasks
+                - pagination
             properties:
                 tasks:
                     type: array
@@ -399,6 +402,9 @@ components:
 
         TaskStepsListResponse:
             type: object
+            required:
+                - steps
+                - pagination
             properties:
                 steps:
                     type: array
