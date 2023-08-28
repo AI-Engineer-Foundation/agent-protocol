@@ -28,7 +28,27 @@ jobs:
         run: |
           git config --global user.email "no-reply@github.com"
           git config --global user.name "GitHub Actions"
-          git commit -am "Update endpoint docs"
+          git commit -am "Update endpoint docs" || echo "No changes to commit"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
+
+      - name: Install swagger-cli
+        run: |
+          npm install -g swagger-cli
+          npm install -g openapi-format
+
+      - name: Lint and Convert openapi.yml to openapi.json and commit changes
+        run: |
+          cd ..
+          npx openapi-format schemas/openapi.yml --output schemas/openapi.yml
+          swagger-cli bundle -r schemas/openapi.yml -o schemas/openapi.json -t json
+          
+          git config --global user.email "no-reply@github.com"
+          git config --global user.name "GitHub Actions"
+          git add schemas/openapi.yml
+          git add schemas/openapi.json
+          git commit -am "Lint OpenAPI schemas" || echo "No changes to commit"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
