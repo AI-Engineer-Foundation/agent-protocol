@@ -5,6 +5,12 @@
     "description": "Specification of the API protocol for communication with an agent.",
     "version": "v0.3"
   },
+  "servers": [
+    {
+      "url": "http://0.0.0.0:8000",
+      "description": "Test server"
+    }
+  ],
   "paths": {
     "/agent/tasks": {
       "post": {
@@ -20,10 +26,12 @@
                   "input": {
                     "description": "Input prompt for the task.",
                     "type": "string",
-                    "example": "Write the words you receive to the file 'output.txt'."
+                    "example": "Write 'Washington' to the file 'output.txt'.",
+                    "nullable": true
                   },
                   "additional_input": {
                     "description": "Input parameters for the task. Any value is allowed.",
+                    "type": "object",
                     "example": "{\n\"debug\": false,\n\"mode\": \"benchmarks\"\n}"
                   }
                 }
@@ -45,10 +53,12 @@
                         "input": {
                           "description": "Input prompt for the task.",
                           "type": "string",
-                          "example": "Write the words you receive to the file 'output.txt'."
+                          "example": "Write 'Washington' to the file 'output.txt'.",
+                          "nullable": true
                         },
                         "additional_input": {
                           "description": "Input parameters for the task. Any value is allowed.",
+                          "type": "object",
                           "example": "{\n\"debug\": false,\n\"mode\": \"benchmarks\"\n}"
                         }
                       }
@@ -70,7 +80,7 @@
                           "description": "A list of artifacts that the task has produced.",
                           "type": "array",
                           "items": {
-                            "description": "Artifact that the task has produced.",
+                            "description": "An Artifact either created by or submitted to the agent.",
                             "type": "object",
                             "properties": {
                               "artifact_id": {
@@ -86,7 +96,8 @@
                               "relative_path": {
                                 "description": "Relative path of the artifact in the agent's workspace.",
                                 "type": "string",
-                                "example": "python/code/"
+                                "example": "python/code/",
+                                "nullable": true
                               }
                             },
                             "required": [
@@ -103,6 +114,24 @@
                       }
                     }
                   ]
+                }
+              }
+            },
+            "x-postman-variables": [
+              {
+                "type": "save",
+                "name": "task_id",
+                "path": ".task_id"
+              }
+            ]
+          },
+          "422": {
+            "description": "Unable to process request. Likely due to improperly formatted request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "A generic JSON object without any specific requirements.",
+                  "type": "object"
                 }
               }
             }
@@ -155,7 +184,14 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "example": "1d5a533e-3904-4401-8a07-c49adf88b981",
+            "x-postman-variables": [
+              {
+                "type": "load",
+                "name": "task_id"
+              }
+            ]
           }
         ],
         "responses": {
@@ -172,10 +208,12 @@
                         "input": {
                           "description": "Input prompt for the task.",
                           "type": "string",
-                          "example": "Write the words you receive to the file 'output.txt'."
+                          "example": "Write 'Washington' to the file 'output.txt'.",
+                          "nullable": true
                         },
                         "additional_input": {
                           "description": "Input parameters for the task. Any value is allowed.",
+                          "type": "object",
                           "example": "{\n\"debug\": false,\n\"mode\": \"benchmarks\"\n}"
                         }
                       }
@@ -197,7 +235,7 @@
                           "description": "A list of artifacts that the task has produced.",
                           "type": "array",
                           "items": {
-                            "description": "Artifact that the task has produced.",
+                            "description": "An Artifact either created by or submitted to the agent.",
                             "type": "object",
                             "properties": {
                               "artifact_id": {
@@ -213,7 +251,8 @@
                               "relative_path": {
                                 "description": "Relative path of the artifact in the agent's workspace.",
                                 "type": "string",
-                                "example": "python/code/"
+                                "example": "python/code/",
+                                "nullable": true
                               }
                             },
                             "required": [
@@ -235,7 +274,24 @@
             }
           },
           "404": {
-            "description": "Task not found."
+            "description": "Unable to find entity with a given identifier",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "description": "Message stating the entity was not found",
+                      "type": "string",
+                      "example": "Unable to find entity with the provided id"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
           },
           "default": {
             "description": "Internal Server Error"
@@ -258,12 +314,19 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "example": "50da533e-3904-4401-8a07-c49adf88b5eb",
+            "x-postman-variables": [
+              {
+                "type": "load",
+                "name": "task_id"
+              }
+            ]
           }
         ],
         "responses": {
           "200": {
-            "description": "Returned list of agent's step IDs for the specified task.",
+            "description": "Returned list of agent's steps for the specified task.",
             "content": {
               "application/json": {
                 "schema": {
@@ -278,7 +341,24 @@
             }
           },
           "404": {
-            "description": "Task not found."
+            "description": "Unable to find entity with a given identifier",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "description": "Message stating the entity was not found",
+                      "type": "string",
+                      "example": "Unable to find entity with the provided id"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
           },
           "default": {
             "description": "Internal Server Error"
@@ -299,7 +379,14 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "example": "50da533e-3904-4401-8a07-c49adf88b5eb",
+            "x-postman-variables": [
+              {
+                "type": "load",
+                "name": "task_id"
+              }
+            ]
           }
         ],
         "requestBody": {
@@ -312,10 +399,11 @@
                   "input": {
                     "description": "Input prompt for the step.",
                     "type": "string",
-                    "example": "Washington"
+                    "example": "Write the words you receive to the file 'output.txt'."
                   },
                   "additional_input": {
                     "description": "Input parameters for the task step. Any value is allowed.",
+                    "type": "object",
                     "example": "{\n\"file_to_refactor\": \"models.py\"\n}"
                   }
                 }
@@ -337,10 +425,11 @@
                         "input": {
                           "description": "Input prompt for the step.",
                           "type": "string",
-                          "example": "Washington"
+                          "example": "Write the words you receive to the file 'output.txt'."
                         },
                         "additional_input": {
                           "description": "Input parameters for the task step. Any value is allowed.",
+                          "type": "object",
                           "example": "{\n\"file_to_refactor\": \"models.py\"\n}"
                         }
                       }
@@ -367,11 +456,13 @@
                         "name": {
                           "description": "The name of the task step.",
                           "type": "string",
-                          "example": "Write to file"
+                          "example": "Write to file",
+                          "nullable": true
                         },
                         "status": {
                           "description": "The status of the task step.",
                           "type": "string",
+                          "example": "created",
                           "enum": [
                             "created",
                             "running",
@@ -381,17 +472,20 @@
                         "output": {
                           "description": "Output of the task step.",
                           "type": "string",
-                          "example": "I am going to use the write_to_file command and write Washington to a file called output.txt <write_to_file('output.txt', 'Washington')"
+                          "example": "I am going to use the write_to_file command and write Washington to a file called output.txt <write_to_file('output.txt', 'Washington')",
+                          "nullable": true
                         },
                         "additional_output": {
                           "description": "Output that the task step has produced. Any value is allowed.",
-                          "example": "{\n\"tokens\": 7894,\n\"estimated_cost\": \"0,24$\"\n}"
+                          "type": "object",
+                          "example": "{\n\"tokens\": 7894,\n\"estimated_cost\": \"0,24$\"\n}",
+                          "nullable": true
                         },
                         "artifacts": {
                           "description": "A list of artifacts that the step has produced.",
                           "type": "array",
                           "items": {
-                            "description": "Artifact that the task has produced.",
+                            "description": "An Artifact either created by or submitted to the agent.",
                             "type": "object",
                             "properties": {
                               "artifact_id": {
@@ -407,7 +501,8 @@
                               "relative_path": {
                                 "description": "Relative path of the artifact in the agent's workspace.",
                                 "type": "string",
-                                "example": "python/code/"
+                                "example": "python/code/",
+                                "nullable": true
                               }
                             },
                             "required": [
@@ -420,6 +515,7 @@
                         "is_last": {
                           "description": "Whether this is the last step in the task.",
                           "type": "boolean",
+                          "example": true,
                           "default": false
                         }
                       }
@@ -427,10 +523,45 @@
                   ]
                 }
               }
-            }
+            },
+            "x-postman-variables": [
+              {
+                "type": "save",
+                "name": "step_id",
+                "path": ".step_id"
+              }
+            ]
           },
           "404": {
-            "description": "Task not found."
+            "description": "Unable to find entity with a given identifier",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "description": "Message stating the entity was not found",
+                      "type": "string",
+                      "example": "Unable to find entity with the provided id"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unable to process request. Likely due to improperly formatted request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "A generic JSON object without any specific requirements.",
+                  "type": "object"
+                }
+              }
+            }
           },
           "default": {
             "description": "Internal Server Error"
@@ -453,7 +584,18 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "example": "50da533e-3904-4401-8a07-c49adf88b5eb",
+            "x-postman-variables": [
+              {
+                "type": "load",
+                "name": "task_id"
+              },
+              {
+                "type": "load",
+                "name": "step_id"
+              }
+            ]
           },
           {
             "name": "step_id",
@@ -462,7 +604,14 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "example": "28ca533e-3904-4401-8a07-c49adf8891c2",
+            "x-postman-variables": [
+              {
+                "type": "load",
+                "name": "step_id"
+              }
+            ]
           }
         ],
         "responses": {
@@ -479,10 +628,11 @@
                         "input": {
                           "description": "Input prompt for the step.",
                           "type": "string",
-                          "example": "Washington"
+                          "example": "Write the words you receive to the file 'output.txt'."
                         },
                         "additional_input": {
                           "description": "Input parameters for the task step. Any value is allowed.",
+                          "type": "object",
                           "example": "{\n\"file_to_refactor\": \"models.py\"\n}"
                         }
                       }
@@ -509,11 +659,13 @@
                         "name": {
                           "description": "The name of the task step.",
                           "type": "string",
-                          "example": "Write to file"
+                          "example": "Write to file",
+                          "nullable": true
                         },
                         "status": {
                           "description": "The status of the task step.",
                           "type": "string",
+                          "example": "created",
                           "enum": [
                             "created",
                             "running",
@@ -523,17 +675,20 @@
                         "output": {
                           "description": "Output of the task step.",
                           "type": "string",
-                          "example": "I am going to use the write_to_file command and write Washington to a file called output.txt <write_to_file('output.txt', 'Washington')"
+                          "example": "I am going to use the write_to_file command and write Washington to a file called output.txt <write_to_file('output.txt', 'Washington')",
+                          "nullable": true
                         },
                         "additional_output": {
                           "description": "Output that the task step has produced. Any value is allowed.",
-                          "example": "{\n\"tokens\": 7894,\n\"estimated_cost\": \"0,24$\"\n}"
+                          "type": "object",
+                          "example": "{\n\"tokens\": 7894,\n\"estimated_cost\": \"0,24$\"\n}",
+                          "nullable": true
                         },
                         "artifacts": {
                           "description": "A list of artifacts that the step has produced.",
                           "type": "array",
                           "items": {
-                            "description": "Artifact that the task has produced.",
+                            "description": "An Artifact either created by or submitted to the agent.",
                             "type": "object",
                             "properties": {
                               "artifact_id": {
@@ -549,7 +704,8 @@
                               "relative_path": {
                                 "description": "Relative path of the artifact in the agent's workspace.",
                                 "type": "string",
-                                "example": "python/code/"
+                                "example": "python/code/",
+                                "nullable": true
                               }
                             },
                             "required": [
@@ -562,6 +718,7 @@
                         "is_last": {
                           "description": "Whether this is the last step in the task.",
                           "type": "boolean",
+                          "example": true,
                           "default": false
                         }
                       }
@@ -572,7 +729,24 @@
             }
           },
           "404": {
-            "description": "Task or step not found."
+            "description": "Unable to find entity with a given identifier",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "description": "Message stating the entity was not found",
+                      "type": "string",
+                      "example": "Unable to find entity with the provided id"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
           },
           "default": {
             "description": "Internal Server Error"
@@ -595,19 +769,26 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "example": "50da533e-3904-4401-8a07-c49adf88b5eb",
+            "x-postman-variables": [
+              {
+                "type": "load",
+                "name": "task_id"
+              }
+            ]
           }
         ],
         "responses": {
           "200": {
-            "description": "Returned the content of the artifact.",
+            "description": "Returned the list of artifacts for the task.",
             "content": {
               "application/json": {
                 "schema": {
                   "description": "A list of artifacts for the task",
                   "type": "array",
                   "items": {
-                    "description": "Artifact that the task has produced.",
+                    "description": "An Artifact either created by or submitted to the agent.",
                     "type": "object",
                     "properties": {
                       "artifact_id": {
@@ -623,7 +804,8 @@
                       "relative_path": {
                         "description": "Relative path of the artifact in the agent's workspace.",
                         "type": "string",
-                        "example": "python/code/"
+                        "example": "python/code/",
+                        "nullable": true
                       }
                     },
                     "required": [
@@ -637,7 +819,24 @@
             }
           },
           "404": {
-            "description": "Task not found."
+            "description": "Unable to find entity with a given identifier",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "description": "Message stating the entity was not found",
+                      "type": "string",
+                      "example": "Unable to find entity with the provided id"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
           },
           "default": {
             "description": "Internal Server Error"
@@ -658,7 +857,14 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "example": "50da533e-3904-4401-8a07-c49adf88b5eb",
+            "x-postman-variables": [
+              {
+                "type": "load",
+                "name": "task_id"
+              }
+            ]
           }
         ],
         "requestBody": {
@@ -692,7 +898,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "description": "Artifact that the task has produced.",
+                  "description": "An Artifact either created by or submitted to the agent.",
                   "type": "object",
                   "properties": {
                     "artifact_id": {
@@ -708,7 +914,8 @@
                     "relative_path": {
                       "description": "Relative path of the artifact in the agent's workspace.",
                       "type": "string",
-                      "example": "python/code/"
+                      "example": "python/code/",
+                      "nullable": true
                     }
                   },
                   "required": [
@@ -720,7 +927,24 @@
             }
           },
           "404": {
-            "description": "Task not found."
+            "description": "Unable to find entity with a given identifier",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "description": "Message stating the entity was not found",
+                      "type": "string",
+                      "example": "Unable to find entity with the provided id"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
           },
           "default": {
             "description": "Internal Server Error"
@@ -743,7 +967,14 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "example": "50da533e-3904-4401-8a07-c49adf88b5eb",
+            "x-postman-variables": [
+              {
+                "type": "load",
+                "name": "task_id"
+              }
+            ]
           },
           {
             "name": "artifact_id",
@@ -752,7 +983,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "example": "1e41533e-3904-4401-8a07-c49adf8893de"
           }
         ],
         "responses": {
@@ -768,7 +1000,24 @@
             }
           },
           "404": {
-            "description": "Task or artifact not found."
+            "description": "Unable to find entity with a given identifier",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "description": "Message stating the entity was not found",
+                      "type": "string",
+                      "example": "Unable to find entity with the provided id"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
           },
           "default": {
             "description": "Internal Server Error"
@@ -782,12 +1031,52 @@
   },
   "components": {
     "schemas": {
+      "TaskStepsListResponse": {
+        "description": "A list of step IDs for the task",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "default": []
+      },
+      "TaskArtifactsListResponse": {
+        "description": "A list of artifacts for the task",
+        "type": "array",
+        "items": {
+          "description": "An Artifact either created by or submitted to the agent.",
+          "type": "object",
+          "properties": {
+            "artifact_id": {
+              "description": "ID of the artifact.",
+              "type": "string",
+              "example": "b225e278-8b4c-4f99-a696-8facf19f0e56"
+            },
+            "file_name": {
+              "description": "Filename of the artifact.",
+              "type": "string",
+              "example": "main.py"
+            },
+            "relative_path": {
+              "description": "Relative path of the artifact in the agent's workspace.",
+              "type": "string",
+              "example": "python/code/",
+              "nullable": true
+            }
+          },
+          "required": [
+            "artifact_id",
+            "file_name"
+          ]
+        },
+        "default": []
+      },
       "TaskInput": {
         "description": "Input parameters for the task. Any value is allowed.",
+        "type": "object",
         "example": "{\n\"debug\": false,\n\"mode\": \"benchmarks\"\n}"
       },
       "Artifact": {
-        "description": "Artifact that the task has produced.",
+        "description": "An Artifact either created by or submitted to the agent.",
         "type": "object",
         "properties": {
           "artifact_id": {
@@ -803,7 +1092,8 @@
           "relative_path": {
             "description": "Relative path of the artifact in the agent's workspace.",
             "type": "string",
-            "example": "python/code/"
+            "example": "python/code/",
+            "nullable": true
           }
         },
         "required": [
@@ -832,11 +1122,14 @@
       },
       "StepInput": {
         "description": "Input parameters for the task step. Any value is allowed.",
+        "type": "object",
         "example": "{\n\"file_to_refactor\": \"models.py\"\n}"
       },
       "StepOutput": {
         "description": "Output that the task step has produced. Any value is allowed.",
-        "example": "{\n\"tokens\": 7894,\n\"estimated_cost\": \"0,24$\"\n}"
+        "type": "object",
+        "example": "{\n\"tokens\": 7894,\n\"estimated_cost\": \"0,24$\"\n}",
+        "nullable": true
       },
       "TaskRequestBody": {
         "description": "Body of the task request.",
@@ -845,10 +1138,12 @@
           "input": {
             "description": "Input prompt for the task.",
             "type": "string",
-            "example": "Write the words you receive to the file 'output.txt'."
+            "example": "Write 'Washington' to the file 'output.txt'.",
+            "nullable": true
           },
           "additional_input": {
             "description": "Input parameters for the task. Any value is allowed.",
+            "type": "object",
             "example": "{\n\"debug\": false,\n\"mode\": \"benchmarks\"\n}"
           }
         }
@@ -862,10 +1157,12 @@
               "input": {
                 "description": "Input prompt for the task.",
                 "type": "string",
-                "example": "Write the words you receive to the file 'output.txt'."
+                "example": "Write 'Washington' to the file 'output.txt'.",
+                "nullable": true
               },
               "additional_input": {
                 "description": "Input parameters for the task. Any value is allowed.",
+                "type": "object",
                 "example": "{\n\"debug\": false,\n\"mode\": \"benchmarks\"\n}"
               }
             }
@@ -887,7 +1184,7 @@
                 "description": "A list of artifacts that the task has produced.",
                 "type": "array",
                 "items": {
-                  "description": "Artifact that the task has produced.",
+                  "description": "An Artifact either created by or submitted to the agent.",
                   "type": "object",
                   "properties": {
                     "artifact_id": {
@@ -903,7 +1200,8 @@
                     "relative_path": {
                       "description": "Relative path of the artifact in the agent's workspace.",
                       "type": "string",
-                      "example": "python/code/"
+                      "example": "python/code/",
+                      "nullable": true
                     }
                   },
                   "required": [
@@ -928,10 +1226,11 @@
           "input": {
             "description": "Input prompt for the step.",
             "type": "string",
-            "example": "Washington"
+            "example": "Write the words you receive to the file 'output.txt'."
           },
           "additional_input": {
             "description": "Input parameters for the task step. Any value is allowed.",
+            "type": "object",
             "example": "{\n\"file_to_refactor\": \"models.py\"\n}"
           }
         }
@@ -945,10 +1244,11 @@
               "input": {
                 "description": "Input prompt for the step.",
                 "type": "string",
-                "example": "Washington"
+                "example": "Write the words you receive to the file 'output.txt'."
               },
               "additional_input": {
                 "description": "Input parameters for the task step. Any value is allowed.",
+                "type": "object",
                 "example": "{\n\"file_to_refactor\": \"models.py\"\n}"
               }
             }
@@ -975,11 +1275,13 @@
               "name": {
                 "description": "The name of the task step.",
                 "type": "string",
-                "example": "Write to file"
+                "example": "Write to file",
+                "nullable": true
               },
               "status": {
                 "description": "The status of the task step.",
                 "type": "string",
+                "example": "created",
                 "enum": [
                   "created",
                   "running",
@@ -989,17 +1291,20 @@
               "output": {
                 "description": "Output of the task step.",
                 "type": "string",
-                "example": "I am going to use the write_to_file command and write Washington to a file called output.txt <write_to_file('output.txt', 'Washington')"
+                "example": "I am going to use the write_to_file command and write Washington to a file called output.txt <write_to_file('output.txt', 'Washington')",
+                "nullable": true
               },
               "additional_output": {
                 "description": "Output that the task step has produced. Any value is allowed.",
-                "example": "{\n\"tokens\": 7894,\n\"estimated_cost\": \"0,24$\"\n}"
+                "type": "object",
+                "example": "{\n\"tokens\": 7894,\n\"estimated_cost\": \"0,24$\"\n}",
+                "nullable": true
               },
               "artifacts": {
                 "description": "A list of artifacts that the step has produced.",
                 "type": "array",
                 "items": {
-                  "description": "Artifact that the task has produced.",
+                  "description": "An Artifact either created by or submitted to the agent.",
                   "type": "object",
                   "properties": {
                     "artifact_id": {
@@ -1015,7 +1320,8 @@
                     "relative_path": {
                       "description": "Relative path of the artifact in the agent's workspace.",
                       "type": "string",
-                      "example": "python/code/"
+                      "example": "python/code/",
+                      "nullable": true
                     }
                   },
                   "required": [
@@ -1028,11 +1334,45 @@
               "is_last": {
                 "description": "Whether this is the last step in the task.",
                 "type": "boolean",
+                "example": true,
                 "default": false
               }
             }
           }
         ]
+      }
+    },
+    "responses": {
+      "UnprocessableEntity": {
+        "description": "Unable to process request. Likely due to improperly formatted request.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "description": "A generic JSON object without any specific requirements.",
+              "type": "object"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Unable to find entity with a given identifier",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "description": "Message stating the entity was not found",
+                  "type": "string",
+                  "example": "Unable to find entity with the provided id"
+                }
+              },
+              "required": [
+                "message"
+              ]
+            }
+          }
+        }
       }
     }
   }

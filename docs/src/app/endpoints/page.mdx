@@ -21,7 +21,7 @@ The agent exposes the following endpoints (see the [OpenAPI file](https://github
     <Property name="input" type="string" required="undefined">
         Input prompt for the task.
     </Property>
-    <Property name="additional_input" type="any" required="undefined">
+    <Property name="additional_input" type="object" required="undefined">
         Input parameters for the task. Any value is allowed.
     </Property>
   </Properties>
@@ -118,7 +118,7 @@ curl  http://localhost:8000/agent/tasks/[task_id]
    
     ### Response
   
-    Returned list of agent's step IDs for the specified task.
+    Returned list of agent's steps for the specified task.
 
   </Col>
   <Col sticky>
@@ -153,7 +153,7 @@ curl  http://localhost:8000/agent/tasks/[task_id]/steps
     <Property name="input" type="string" required="undefined">
         Input prompt for the step.
     </Property>
-    <Property name="additional_input" type="any" required="undefined">
+    <Property name="additional_input" type="object" required="undefined">
         Input parameters for the task step. Any value is allowed.
     </Property>
   </Properties>
@@ -228,7 +228,7 @@ curl  http://localhost:8000/agent/tasks/[task_id]/steps/[step_id]
    
     ### Response
   
-    Returned the content of the artifact.
+    Returned the list of artifacts for the task.
 
   </Col>
   <Col sticky>
