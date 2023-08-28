@@ -19,6 +19,12 @@ if ! command -v newman &> /dev/null; then
   npm install -g newman
 fi
 
+if ! command -v newman-reporter-htmlextra &> /dev/null; then
+  echo "newman-reporter-htmlextra is not found. Installing..."
+  npm install -g newman-reporter-htmlextra
+fi
+
+
 # Inform the user that the process may take some time
 cat << "EOF"
 
@@ -48,3 +54,11 @@ newman run https://raw.githubusercontent.com/Significant-Gravitas/postman/master
 --env-var "url=$URL" \
 -r htmlextra \
 --reporter-htmlextra-export report.html
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  open report.html
+elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+  xdg-open report.html
+else
+  echo "Please open the report.html file in your browser."
+fi
