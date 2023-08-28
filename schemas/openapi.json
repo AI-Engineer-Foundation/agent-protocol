@@ -2,23 +2,20 @@
   "openapi": "3.0.1",
   "info": {
     "title": "Agent Protocol",
-    "description": "Specification of the API protocol for communication with an agent. test",
+    "description": "Specification of the API protocol for communication with an agent.",
     "version": "v0.3"
   },
   "paths": {
     "/agent/tasks": {
       "post": {
-        "summary": "Creates a task for the agent.",
-        "tags": [
-          "agent"
-        ],
         "operationId": "createAgentTask",
+        "summary": "Creates a task for the agent.",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
                 "description": "Body of the task request.",
+                "type": "object",
                 "properties": {
                   "input": {
                     "description": "Input prompt for the task.",
@@ -42,8 +39,8 @@
                 "schema": {
                   "allOf": [
                     {
-                      "type": "object",
                       "description": "Body of the task request.",
+                      "type": "object",
                       "properties": {
                         "input": {
                           "description": "Input prompt for the task.",
@@ -70,20 +67,11 @@
                           "example": "50da533e-3904-4401-8a07-c49adf88b5eb"
                         },
                         "artifacts": {
-                          "type": "array",
-                          "example": [
-                            "7a49f31c-f9c6-4346-a22c-e32bc5af4d8e",
-                            "ab7b4091-2560-4692-a4fe-d831ea3ca7d6"
-                          ],
-                          "default": [],
                           "description": "A list of artifacts that the task has produced.",
+                          "type": "array",
                           "items": {
-                            "type": "object",
-                            "required": [
-                              "artifact_id",
-                              "file_name"
-                            ],
                             "description": "Artifact that the task has produced.",
+                            "type": "object",
                             "properties": {
                               "artifact_id": {
                                 "description": "ID of the artifact.",
@@ -100,8 +88,17 @@
                                 "type": "string",
                                 "example": "python/code/"
                               }
-                            }
-                          }
+                            },
+                            "required": [
+                              "artifact_id",
+                              "file_name"
+                            ]
+                          },
+                          "example": [
+                            "7a49f31c-f9c6-4346-a22c-e32bc5af4d8e",
+                            "ab7b4091-2560-4692-a4fe-d831ea3ca7d6"
+                          ],
+                          "default": []
                         }
                       }
                     }
@@ -113,26 +110,26 @@
           "default": {
             "description": "Internal Server Error"
           }
-        }
-      },
-      "get": {
-        "summary": "List all tasks that have been created for the agent.",
+        },
         "tags": [
           "agent"
-        ],
+        ]
+      },
+      "get": {
         "operationId": "listAgentTasksIDs",
+        "summary": "List all tasks that have been created for the agent.",
         "responses": {
           "200": {
             "description": "Returned list of agent's task IDs.",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "default": [],
                   "description": "A list of task IDs",
+                  "type": "array",
                   "items": {
                     "type": "string"
-                  }
+                  },
+                  "default": []
                 }
               }
             }
@@ -140,16 +137,16 @@
           "default": {
             "description": "Internal Server Error"
           }
-        }
+        },
+        "tags": [
+          "agent"
+        ]
       }
     },
     "/agent/tasks/{task_id}": {
       "get": {
-        "summary": "Get details about a specified agent task.",
-        "tags": [
-          "agent"
-        ],
         "operationId": "getAgentTask",
+        "summary": "Get details about a specified agent task.",
         "parameters": [
           {
             "name": "task_id",
@@ -169,8 +166,8 @@
                 "schema": {
                   "allOf": [
                     {
-                      "type": "object",
                       "description": "Body of the task request.",
+                      "type": "object",
                       "properties": {
                         "input": {
                           "description": "Input prompt for the task.",
@@ -197,20 +194,11 @@
                           "example": "50da533e-3904-4401-8a07-c49adf88b5eb"
                         },
                         "artifacts": {
-                          "type": "array",
-                          "example": [
-                            "7a49f31c-f9c6-4346-a22c-e32bc5af4d8e",
-                            "ab7b4091-2560-4692-a4fe-d831ea3ca7d6"
-                          ],
-                          "default": [],
                           "description": "A list of artifacts that the task has produced.",
+                          "type": "array",
                           "items": {
-                            "type": "object",
-                            "required": [
-                              "artifact_id",
-                              "file_name"
-                            ],
                             "description": "Artifact that the task has produced.",
+                            "type": "object",
                             "properties": {
                               "artifact_id": {
                                 "description": "ID of the artifact.",
@@ -227,8 +215,17 @@
                                 "type": "string",
                                 "example": "python/code/"
                               }
-                            }
-                          }
+                            },
+                            "required": [
+                              "artifact_id",
+                              "file_name"
+                            ]
+                          },
+                          "example": [
+                            "7a49f31c-f9c6-4346-a22c-e32bc5af4d8e",
+                            "ab7b4091-2560-4692-a4fe-d831ea3ca7d6"
+                          ],
+                          "default": []
                         }
                       }
                     }
@@ -243,16 +240,16 @@
           "default": {
             "description": "Internal Server Error"
           }
-        }
+        },
+        "tags": [
+          "agent"
+        ]
       }
     },
     "/agent/tasks/{task_id}/steps": {
       "get": {
-        "summary": "List all steps for the specified task.",
-        "tags": [
-          "agent"
-        ],
         "operationId": "listAgentTaskSteps",
+        "summary": "List all steps for the specified task.",
         "parameters": [
           {
             "name": "task_id",
@@ -270,12 +267,12 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "default": [],
                   "description": "A list of step IDs for the task",
+                  "type": "array",
                   "items": {
                     "type": "string"
-                  }
+                  },
+                  "default": []
                 }
               }
             }
@@ -286,14 +283,14 @@
           "default": {
             "description": "Internal Server Error"
           }
-        }
-      },
-      "post": {
-        "summary": "Execute a step in the specified agent task.",
+        },
         "tags": [
           "agent"
-        ],
+        ]
+      },
+      "post": {
         "operationId": "executeAgentTaskStep",
+        "summary": "Execute a step in the specified agent task.",
         "parameters": [
           {
             "name": "task_id",
@@ -309,13 +306,13 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
                 "description": "Body of the task request.",
+                "type": "object",
                 "properties": {
                   "input": {
                     "description": "Input prompt for the step.",
-                    "example": "Washington",
-                    "type": "string"
+                    "type": "string",
+                    "example": "Washington"
                   },
                   "additional_input": {
                     "description": "Input parameters for the task step. Any value is allowed.",
@@ -334,13 +331,13 @@
                 "schema": {
                   "allOf": [
                     {
-                      "type": "object",
                       "description": "Body of the task request.",
+                      "type": "object",
                       "properties": {
                         "input": {
                           "description": "Input prompt for the step.",
-                          "example": "Washington",
-                          "type": "string"
+                          "type": "string",
+                          "example": "Washington"
                         },
                         "additional_input": {
                           "description": "Input parameters for the task step. Any value is allowed.",
@@ -382,8 +379,8 @@
                           ]
                         },
                         "output": {
-                          "type": "string",
                           "description": "Output of the task step.",
+                          "type": "string",
                           "example": "I am going to use the write_to_file command and write Washington to a file called output.txt <write_to_file('output.txt', 'Washington')"
                         },
                         "additional_output": {
@@ -391,16 +388,11 @@
                           "example": "{\n\"tokens\": 7894,\n\"estimated_cost\": \"0,24$\"\n}"
                         },
                         "artifacts": {
-                          "type": "array",
-                          "default": [],
                           "description": "A list of artifacts that the step has produced.",
+                          "type": "array",
                           "items": {
-                            "type": "object",
-                            "required": [
-                              "artifact_id",
-                              "file_name"
-                            ],
                             "description": "Artifact that the task has produced.",
+                            "type": "object",
                             "properties": {
                               "artifact_id": {
                                 "description": "ID of the artifact.",
@@ -417,8 +409,13 @@
                                 "type": "string",
                                 "example": "python/code/"
                               }
-                            }
-                          }
+                            },
+                            "required": [
+                              "artifact_id",
+                              "file_name"
+                            ]
+                          },
+                          "default": []
                         },
                         "is_last": {
                           "description": "Whether this is the last step in the task.",
@@ -438,16 +435,16 @@
           "default": {
             "description": "Internal Server Error"
           }
-        }
+        },
+        "tags": [
+          "agent"
+        ]
       }
     },
     "/agent/tasks/{task_id}/steps/{step_id}": {
       "get": {
-        "summary": "Get details about a specified task step.",
-        "tags": [
-          "agent"
-        ],
         "operationId": "getAgentTaskStep",
+        "summary": "Get details about a specified task step.",
         "parameters": [
           {
             "name": "task_id",
@@ -476,13 +473,13 @@
                 "schema": {
                   "allOf": [
                     {
-                      "type": "object",
                       "description": "Body of the task request.",
+                      "type": "object",
                       "properties": {
                         "input": {
                           "description": "Input prompt for the step.",
-                          "example": "Washington",
-                          "type": "string"
+                          "type": "string",
+                          "example": "Washington"
                         },
                         "additional_input": {
                           "description": "Input parameters for the task step. Any value is allowed.",
@@ -524,8 +521,8 @@
                           ]
                         },
                         "output": {
-                          "type": "string",
                           "description": "Output of the task step.",
+                          "type": "string",
                           "example": "I am going to use the write_to_file command and write Washington to a file called output.txt <write_to_file('output.txt', 'Washington')"
                         },
                         "additional_output": {
@@ -533,16 +530,11 @@
                           "example": "{\n\"tokens\": 7894,\n\"estimated_cost\": \"0,24$\"\n}"
                         },
                         "artifacts": {
-                          "type": "array",
-                          "default": [],
                           "description": "A list of artifacts that the step has produced.",
+                          "type": "array",
                           "items": {
-                            "type": "object",
-                            "required": [
-                              "artifact_id",
-                              "file_name"
-                            ],
                             "description": "Artifact that the task has produced.",
+                            "type": "object",
                             "properties": {
                               "artifact_id": {
                                 "description": "ID of the artifact.",
@@ -559,8 +551,13 @@
                                 "type": "string",
                                 "example": "python/code/"
                               }
-                            }
-                          }
+                            },
+                            "required": [
+                              "artifact_id",
+                              "file_name"
+                            ]
+                          },
+                          "default": []
                         },
                         "is_last": {
                           "description": "Whether this is the last step in the task.",
@@ -580,16 +577,16 @@
           "default": {
             "description": "Internal Server Error"
           }
-        }
+        },
+        "tags": [
+          "agent"
+        ]
       }
     },
     "/agent/tasks/{task_id}/artifacts": {
       "get": {
-        "summary": "List all artifacts that have been created for the given task.",
-        "tags": [
-          "agent"
-        ],
         "operationId": "listAgentTaskArtifacts",
+        "summary": "List all artifacts that have been created for the given task.",
         "parameters": [
           {
             "name": "task_id",
@@ -607,16 +604,11 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "default": [],
                   "description": "A list of artifacts for the task",
+                  "type": "array",
                   "items": {
-                    "type": "object",
-                    "required": [
-                      "artifact_id",
-                      "file_name"
-                    ],
                     "description": "Artifact that the task has produced.",
+                    "type": "object",
                     "properties": {
                       "artifact_id": {
                         "description": "ID of the artifact.",
@@ -633,8 +625,13 @@
                         "type": "string",
                         "example": "python/code/"
                       }
-                    }
-                  }
+                    },
+                    "required": [
+                      "artifact_id",
+                      "file_name"
+                    ]
+                  },
+                  "default": []
                 }
               }
             }
@@ -645,39 +642,14 @@
           "default": {
             "description": "Internal Server Error"
           }
-        }
-      },
-      "post": {
-        "summary": "Upload an artifact for the specified task.",
+        },
         "tags": [
           "agent"
-        ],
+        ]
+      },
+      "post": {
         "operationId": "uploadAgentTaskArtifacts",
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "required": [
-                  "file"
-                ],
-                "description": "Artifact to upload to the agent.",
-                "properties": {
-                  "file": {
-                    "description": "File to upload.",
-                    "type": "string",
-                    "format": "binary"
-                  },
-                  "relative_path": {
-                    "description": "Relative path of the artifact in the agent's workspace.",
-                    "type": "string",
-                    "example": "python/code"
-                  }
-                }
-              }
-            }
-          }
-        },
+        "summary": "Upload an artifact for the specified task.",
         "parameters": [
           {
             "name": "task_id",
@@ -689,18 +661,39 @@
             }
           }
         ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "description": "Artifact to upload to the agent.",
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "description": "File to upload.",
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "relative_path": {
+                    "description": "Relative path of the artifact in the agent's workspace.",
+                    "type": "string",
+                    "example": "python/code"
+                  }
+                },
+                "required": [
+                  "file"
+                ]
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Returned the content of the artifact.",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "required": [
-                    "artifact_id",
-                    "file_name"
-                  ],
                   "description": "Artifact that the task has produced.",
+                  "type": "object",
                   "properties": {
                     "artifact_id": {
                       "description": "ID of the artifact.",
@@ -717,7 +710,11 @@
                       "type": "string",
                       "example": "python/code/"
                     }
-                  }
+                  },
+                  "required": [
+                    "artifact_id",
+                    "file_name"
+                  ]
                 }
               }
             }
@@ -728,16 +725,16 @@
           "default": {
             "description": "Internal Server Error"
           }
-        }
+        },
+        "tags": [
+          "agent"
+        ]
       }
     },
     "/agent/tasks/{task_id}/artifacts/{artifact_id}": {
       "get": {
-        "summary": "Download a specified artifact.",
-        "tags": [
-          "agent"
-        ],
         "operationId": "downloadAgentTaskArtifact",
+        "summary": "Download a specified artifact.",
         "parameters": [
           {
             "name": "task_id",
@@ -776,7 +773,10 @@
           "default": {
             "description": "Internal Server Error"
           }
-        }
+        },
+        "tags": [
+          "agent"
+        ]
       }
     }
   },
@@ -787,12 +787,8 @@
         "example": "{\n\"debug\": false,\n\"mode\": \"benchmarks\"\n}"
       },
       "Artifact": {
-        "type": "object",
-        "required": [
-          "artifact_id",
-          "file_name"
-        ],
         "description": "Artifact that the task has produced.",
+        "type": "object",
         "properties": {
           "artifact_id": {
             "description": "ID of the artifact.",
@@ -809,14 +805,15 @@
             "type": "string",
             "example": "python/code/"
           }
-        }
+        },
+        "required": [
+          "artifact_id",
+          "file_name"
+        ]
       },
       "ArtifactUpload": {
-        "type": "object",
-        "required": [
-          "file"
-        ],
         "description": "Artifact to upload to the agent.",
+        "type": "object",
         "properties": {
           "file": {
             "description": "File to upload.",
@@ -828,7 +825,10 @@
             "type": "string",
             "example": "python/code"
           }
-        }
+        },
+        "required": [
+          "file"
+        ]
       },
       "StepInput": {
         "description": "Input parameters for the task step. Any value is allowed.",
@@ -839,8 +839,8 @@
         "example": "{\n\"tokens\": 7894,\n\"estimated_cost\": \"0,24$\"\n}"
       },
       "TaskRequestBody": {
-        "type": "object",
         "description": "Body of the task request.",
+        "type": "object",
         "properties": {
           "input": {
             "description": "Input prompt for the task.",
@@ -856,8 +856,8 @@
       "Task": {
         "allOf": [
           {
-            "type": "object",
             "description": "Body of the task request.",
+            "type": "object",
             "properties": {
               "input": {
                 "description": "Input prompt for the task.",
@@ -884,20 +884,11 @@
                 "example": "50da533e-3904-4401-8a07-c49adf88b5eb"
               },
               "artifacts": {
-                "type": "array",
-                "example": [
-                  "7a49f31c-f9c6-4346-a22c-e32bc5af4d8e",
-                  "ab7b4091-2560-4692-a4fe-d831ea3ca7d6"
-                ],
-                "default": [],
                 "description": "A list of artifacts that the task has produced.",
+                "type": "array",
                 "items": {
-                  "type": "object",
-                  "required": [
-                    "artifact_id",
-                    "file_name"
-                  ],
                   "description": "Artifact that the task has produced.",
+                  "type": "object",
                   "properties": {
                     "artifact_id": {
                       "description": "ID of the artifact.",
@@ -914,21 +905,30 @@
                       "type": "string",
                       "example": "python/code/"
                     }
-                  }
-                }
+                  },
+                  "required": [
+                    "artifact_id",
+                    "file_name"
+                  ]
+                },
+                "example": [
+                  "7a49f31c-f9c6-4346-a22c-e32bc5af4d8e",
+                  "ab7b4091-2560-4692-a4fe-d831ea3ca7d6"
+                ],
+                "default": []
               }
             }
           }
         ]
       },
       "StepRequestBody": {
-        "type": "object",
         "description": "Body of the task request.",
+        "type": "object",
         "properties": {
           "input": {
             "description": "Input prompt for the step.",
-            "example": "Washington",
-            "type": "string"
+            "type": "string",
+            "example": "Washington"
           },
           "additional_input": {
             "description": "Input parameters for the task step. Any value is allowed.",
@@ -939,13 +939,13 @@
       "Step": {
         "allOf": [
           {
-            "type": "object",
             "description": "Body of the task request.",
+            "type": "object",
             "properties": {
               "input": {
                 "description": "Input prompt for the step.",
-                "example": "Washington",
-                "type": "string"
+                "type": "string",
+                "example": "Washington"
               },
               "additional_input": {
                 "description": "Input parameters for the task step. Any value is allowed.",
@@ -987,8 +987,8 @@
                 ]
               },
               "output": {
-                "type": "string",
                 "description": "Output of the task step.",
+                "type": "string",
                 "example": "I am going to use the write_to_file command and write Washington to a file called output.txt <write_to_file('output.txt', 'Washington')"
               },
               "additional_output": {
@@ -996,16 +996,11 @@
                 "example": "{\n\"tokens\": 7894,\n\"estimated_cost\": \"0,24$\"\n}"
               },
               "artifacts": {
-                "type": "array",
-                "default": [],
                 "description": "A list of artifacts that the step has produced.",
+                "type": "array",
                 "items": {
-                  "type": "object",
-                  "required": [
-                    "artifact_id",
-                    "file_name"
-                  ],
                   "description": "Artifact that the task has produced.",
+                  "type": "object",
                   "properties": {
                     "artifact_id": {
                       "description": "ID of the artifact.",
@@ -1022,8 +1017,13 @@
                       "type": "string",
                       "example": "python/code/"
                     }
-                  }
-                }
+                  },
+                  "required": [
+                    "artifact_id",
+                    "file_name"
+                  ]
+                },
+                "default": []
               },
               "is_last": {
                 "description": "Whether this is the last step in the task.",
