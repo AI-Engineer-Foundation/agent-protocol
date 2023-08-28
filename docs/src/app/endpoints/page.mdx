@@ -6,7 +6,7 @@ export const metadata = {
 
 # Endpoints
 
-The agent exposes the following endpoints (see the [OpenAPI file](https://github.com/e2b-dev/agent-protocol/blob/main/openapi.yml)):
+The agent exposes the following endpoints (see the [OpenAPI file](https://github.com/e2b-dev/agent-protocol/blob/main/schemas/openapi.yml)):
 
 ## Create Agent Task {{ tag: 'POST', label: '/agent/tasks' }}
 
@@ -17,7 +17,7 @@ The agent exposes the following endpoints (see the [OpenAPI file](https://github
     ### Body attributes
 
   <Properties>
-    
+
     <Property name="input" type="string" required="undefined">
         Input prompt for the task.
     </Property>
@@ -25,9 +25,9 @@ The agent exposes the following endpoints (see the [OpenAPI file](https://github
         Input parameters for the task. Any value is allowed.
     </Property>
   </Properties>
-   
+
     ### Response
-  
+
     A new agent task was successfully created.
 
   </Col>
@@ -53,15 +53,15 @@ curl --request POST http://localhost:8000/agent/tasks
     ### Path attributes
 
   <Properties>
-    
+
     <Property name="task_id" type="string">
         ID of the task
     </Property>
   </Properties>
-    
-   
+
+
     ### Response
-  
+
     Returned details about an agent task.
 
   </Col>
@@ -120,7 +120,7 @@ curl  http://localhost:8000/agent/tasks/[task_id]/steps
     ### Path attributes
 
   <Properties>
-    
+
     <Property name="task_id" type="string">
         ID of the task
     </Property>
@@ -128,7 +128,7 @@ curl  http://localhost:8000/agent/tasks/[task_id]/steps
     ### Body attributes
 
   <Properties>
-    
+
     <Property name="input" type="string" required="undefined">
         Input prompt for the step.
     </Property>
@@ -136,9 +136,9 @@ curl  http://localhost:8000/agent/tasks/[task_id]/steps
         Input parameters for the task step. Any value is allowed.
     </Property>
   </Properties>
-   
+
     ### Response
-  
+
     Executed step for the agent task.
 
   </Col>
@@ -164,7 +164,7 @@ curl --request POST http://localhost:8000/agent/tasks/[task_id]/steps
     ### Path attributes
 
   <Properties>
-    
+
     <Property name="task_id" type="string">
         ID of the task
     </Property>
@@ -172,10 +172,10 @@ curl --request POST http://localhost:8000/agent/tasks/[task_id]/steps
         ID of the step
     </Property>
   </Properties>
-    
-   
+
+
     ### Response
-  
+
     Returned details about an agent task step.
 
   </Col>
@@ -234,7 +234,7 @@ curl  http://localhost:8000/agent/tasks/[task_id]/artifacts
     ### Path attributes
 
   <Properties>
-    
+
     <Property name="task_id" type="string">
         ID of the task
     </Property>
@@ -242,7 +242,7 @@ curl  http://localhost:8000/agent/tasks/[task_id]/artifacts
     ### Body attributes
 
   <Properties>
-    
+
     <Property name="file" type="string" required="true">
         File to upload.
     </Property>
@@ -250,9 +250,9 @@ curl  http://localhost:8000/agent/tasks/[task_id]/artifacts
         Relative path of the artifact in the agent's workspace.
     </Property>
   </Properties>
-   
+
     ### Response
-  
+
     Returned the content of the artifact.
 
   </Col>
@@ -278,7 +278,7 @@ curl --request POST http://localhost:8000/agent/tasks/[task_id]/artifacts
     ### Path attributes
 
   <Properties>
-    
+
     <Property name="task_id" type="string">
         ID of the task
     </Property>
@@ -286,10 +286,10 @@ curl --request POST http://localhost:8000/agent/tasks/[task_id]/artifacts
         ID of the artifact
     </Property>
   </Properties>
-    
-   
+
+
     ### Response
-  
+
     Returned the content of the artifact.
 
   </Col>

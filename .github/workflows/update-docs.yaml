@@ -3,7 +3,7 @@ name: Regenerate Endpoints docs on change
 on:
   push:
     paths:
-      - 'openapi.yml'
+      - 'schemas/openapi.yml'
 
 permissions:
   contents: write
