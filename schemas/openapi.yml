@@ -311,6 +311,10 @@ components:
           description: ID of the artifact.
           type: string
           example: b225e278-8b4c-4f99-a696-8facf19f0e56
+        agent_created:
+          description: Whether the artifact has been created by the agent.
+          type: boolean
+          example: false
         file_name:
           description: Filename of the artifact.
           type: string
@@ -322,6 +326,7 @@ components:
           nullable: true
       required:
         - artifact_id
+        - agent_created
         - file_name
     ArtifactUpload:
       description: Artifact to upload to the agent.
