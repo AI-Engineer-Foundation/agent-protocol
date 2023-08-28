@@ -314,7 +314,7 @@ components:
         agent_created:
           description: Whether the artifact has been created by the agent.
           type: boolean
-          example: falseÒ
+          example: false
         file_name:
           description: Filename of the artifact.
           type: string
