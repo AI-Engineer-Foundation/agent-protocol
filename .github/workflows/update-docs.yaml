@@ -43,7 +43,7 @@ jobs:
       - name: Commit changes
         run: |
           git config --global user.email "no-reply@github.com"
-            git config --global user.name "GitHub Actions"
+          git config --global user.name "GitHub Actions"
           git add schemas/openapi.json
           git commit -am "Update openapi.json" || echo "No changes to commit"
           git push
