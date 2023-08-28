@@ -56,9 +56,13 @@ newman run https://raw.githubusercontent.com/Significant-Gravitas/postman/master
 --reporter-htmlextra-export report.html \
 --reporter-htmlextra-title "Agent Protocol Tests"
 
+agent_protocol_tests_results=$?
+
 if [[ "$OSTYPE" == "darwin"* ]]; then
   open report.html
 elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
   xdg-open report.html
 fi
 echo "If the report wasn't generated, please open the report.html file in your browser."
+
+exit $agent_protocol_tests_results
