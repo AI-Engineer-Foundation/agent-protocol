@@ -77,9 +77,16 @@
                       "description": "Definition of an agent task.",
                       "required": [
                         "task_id",
-                        "artifacts"
+                        "artifacts",
+                        "created_at"
                       ],
                       "properties": {
+                        "created_at": {
+                          "description": "The creation datetime of the task.",
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2023-01-01T00:00:00Z"
+                        },
                         "task_id": {
                           "description": "The ID of the task.",
                           "type": "string",
@@ -98,11 +105,23 @@
                             "required": [
                               "artifact_id",
                               "agent_created",
-                              "file_name",
-                              "relative_path"
+                              "created_at",
+                              "modified_at"
                             ],
                             "description": "An Artifact either created by or submitted to the agent.",
                             "properties": {
+                              "created_at": {
+                                "description": "The creation datetime of the task.",
+                                "type": "string",
+                                "format": "date-time",
+                                "example": "2023-01-01T00:00:00Z"
+                              },
+                              "modified_at": {
+                                "description": "The modification datetime of the task.",
+                                "type": "string",
+                                "format": "date-time",
+                                "example": "2023-01-01T00:00:00Z"
+                              },
                               "artifact_id": {
                                 "type": "string",
                                 "description": "ID of the artifact.",
@@ -111,12 +130,7 @@
                               "agent_created": {
                                 "type": "boolean",
                                 "description": "Whether the artifact has been created by the agent.",
-                                "example": false
-                              },
-                              "uri": {
-                                "type": "string",
-                                "description": "URI of the artifact.",
-                                "example": "file://home/bob/workspace/bucket/main.py",
+                                "example": false,
                                 "nullable": true
                               },
                               "file_name": {
@@ -253,9 +267,16 @@
                             "description": "Definition of an agent task.",
                             "required": [
                               "task_id",
-                              "artifacts"
+                              "artifacts",
+                              "created_at"
                             ],
                             "properties": {
+                              "created_at": {
+                                "description": "The creation datetime of the task.",
+                                "type": "string",
+                                "format": "date-time",
+                                "example": "2023-01-01T00:00:00Z"
+                              },
                               "task_id": {
                                 "description": "The ID of the task.",
                                 "type": "string",
@@ -274,11 +295,23 @@
                                   "required": [
                                     "artifact_id",
                                     "agent_created",
-                                    "file_name",
-                                    "relative_path"
+                                    "created_at",
+                                    "modified_at"
                                   ],
                                   "description": "An Artifact either created by or submitted to the agent.",
                                   "properties": {
+                                    "created_at": {
+                                      "description": "The creation datetime of the task.",
+                                      "type": "string",
+                                      "format": "date-time",
+                                      "example": "2023-01-01T00:00:00Z"
+                                    },
+                                    "modified_at": {
+                                      "description": "The modification datetime of the task.",
+                                      "type": "string",
+                                      "format": "date-time",
+                                      "example": "2023-01-01T00:00:00Z"
+                                    },
                                     "artifact_id": {
                                       "type": "string",
                                       "description": "ID of the artifact.",
@@ -287,12 +320,7 @@
                                     "agent_created": {
                                       "type": "boolean",
                                       "description": "Whether the artifact has been created by the agent.",
-                                      "example": false
-                                    },
-                                    "uri": {
-                                      "type": "string",
-                                      "description": "URI of the artifact.",
-                                      "example": "file://home/bob/workspace/bucket/main.py",
+                                      "example": false,
                                       "nullable": true
                                     },
                                     "file_name": {
@@ -413,9 +441,16 @@
                       "description": "Definition of an agent task.",
                       "required": [
                         "task_id",
-                        "artifacts"
+                        "artifacts",
+                        "created_at"
                       ],
                       "properties": {
+                        "created_at": {
+                          "description": "The creation datetime of the task.",
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2023-01-01T00:00:00Z"
+                        },
                         "task_id": {
                           "description": "The ID of the task.",
                           "type": "string",
@@ -434,11 +469,23 @@
                             "required": [
                               "artifact_id",
                               "agent_created",
-                              "file_name",
-                              "relative_path"
+                              "created_at",
+                              "modified_at"
                             ],
                             "description": "An Artifact either created by or submitted to the agent.",
                             "properties": {
+                              "created_at": {
+                                "description": "The creation datetime of the task.",
+                                "type": "string",
+                                "format": "date-time",
+                                "example": "2023-01-01T00:00:00Z"
+                              },
+                              "modified_at": {
+                                "description": "The modification datetime of the task.",
+                                "type": "string",
+                                "format": "date-time",
+                                "example": "2023-01-01T00:00:00Z"
+                              },
                               "artifact_id": {
                                 "type": "string",
                                 "description": "ID of the artifact.",
@@ -447,12 +494,7 @@
                               "agent_created": {
                                 "type": "boolean",
                                 "description": "Whether the artifact has been created by the agent.",
-                                "example": false
-                              },
-                              "uri": {
-                                "type": "string",
-                                "description": "URI of the artifact.",
-                                "example": "file://home/bob/workspace/bucket/main.py",
+                                "example": false,
                                 "nullable": true
                               },
                               "file_name": {
@@ -594,10 +636,24 @@
                               "step_id",
                               "task_id",
                               "status",
+                              "created_at",
+                              "modified_at",
                               "is_last",
                               "artifacts"
                             ],
                             "properties": {
+                              "created_at": {
+                                "description": "The creation datetime of the task.",
+                                "type": "string",
+                                "format": "date-time",
+                                "example": "2023-01-01T00:00:00Z"
+                              },
+                              "modified_at": {
+                                "description": "The modification datetime of the task.",
+                                "type": "string",
+                                "format": "date-time",
+                                "example": "2023-01-01T00:00:00Z"
+                              },
                               "task_id": {
                                 "description": "The ID of the task this step belongs to.",
                                 "type": "string",
@@ -645,11 +701,23 @@
                                   "required": [
                                     "artifact_id",
                                     "agent_created",
-                                    "file_name",
-                                    "relative_path"
+                                    "created_at",
+                                    "modified_at"
                                   ],
                                   "description": "An Artifact either created by or submitted to the agent.",
                                   "properties": {
+                                    "created_at": {
+                                      "description": "The creation datetime of the task.",
+                                      "type": "string",
+                                      "format": "date-time",
+                                      "example": "2023-01-01T00:00:00Z"
+                                    },
+                                    "modified_at": {
+                                      "description": "The modification datetime of the task.",
+                                      "type": "string",
+                                      "format": "date-time",
+                                      "example": "2023-01-01T00:00:00Z"
+                                    },
                                     "artifact_id": {
                                       "type": "string",
                                       "description": "ID of the artifact.",
@@ -658,12 +726,7 @@
                                     "agent_created": {
                                       "type": "boolean",
                                       "description": "Whether the artifact has been created by the agent.",
-                                      "example": false
-                                    },
-                                    "uri": {
-                                      "type": "string",
-                                      "description": "URI of the artifact.",
-                                      "example": "file://home/bob/workspace/bucket/main.py",
+                                      "example": false,
                                       "nullable": true
                                     },
                                     "file_name": {
@@ -833,10 +896,24 @@
                         "step_id",
                         "task_id",
                         "status",
+                        "created_at",
+                        "modified_at",
                         "is_last",
                         "artifacts"
                       ],
                       "properties": {
+                        "created_at": {
+                          "description": "The creation datetime of the task.",
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2023-01-01T00:00:00Z"
+                        },
+                        "modified_at": {
+                          "description": "The modification datetime of the task.",
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2023-01-01T00:00:00Z"
+                        },
                         "task_id": {
                           "description": "The ID of the task this step belongs to.",
                           "type": "string",
@@ -884,11 +961,23 @@
                             "required": [
                               "artifact_id",
                               "agent_created",
-                              "file_name",
-                              "relative_path"
+                              "created_at",
+                              "modified_at"
                             ],
                             "description": "An Artifact either created by or submitted to the agent.",
                             "properties": {
+                              "created_at": {
+                                "description": "The creation datetime of the task.",
+                                "type": "string",
+                                "format": "date-time",
+                                "example": "2023-01-01T00:00:00Z"
+                              },
+                              "modified_at": {
+                                "description": "The modification datetime of the task.",
+                                "type": "string",
+                                "format": "date-time",
+                                "example": "2023-01-01T00:00:00Z"
+                              },
                               "artifact_id": {
                                 "type": "string",
                                 "description": "ID of the artifact.",
@@ -897,12 +986,7 @@
                               "agent_created": {
                                 "type": "boolean",
                                 "description": "Whether the artifact has been created by the agent.",
-                                "example": false
-                              },
-                              "uri": {
-                                "type": "string",
-                                "description": "URI of the artifact.",
-                                "example": "file://home/bob/workspace/bucket/main.py",
+                                "example": false,
                                 "nullable": true
                               },
                               "file_name": {
@@ -1053,10 +1137,24 @@
                         "step_id",
                         "task_id",
                         "status",
+                        "created_at",
+                        "modified_at",
                         "is_last",
                         "artifacts"
                       ],
                       "properties": {
+                        "created_at": {
+                          "description": "The creation datetime of the task.",
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2023-01-01T00:00:00Z"
+                        },
+                        "modified_at": {
+                          "description": "The modification datetime of the task.",
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2023-01-01T00:00:00Z"
+                        },
                         "task_id": {
                           "description": "The ID of the task this step belongs to.",
                           "type": "string",
@@ -1104,11 +1202,23 @@
                             "required": [
                               "artifact_id",
                               "agent_created",
-                              "file_name",
-                              "relative_path"
+                              "created_at",
+                              "modified_at"
                             ],
                             "description": "An Artifact either created by or submitted to the agent.",
                             "properties": {
+                              "created_at": {
+                                "description": "The creation datetime of the task.",
+                                "type": "string",
+                                "format": "date-time",
+                                "example": "2023-01-01T00:00:00Z"
+                              },
+                              "modified_at": {
+                                "description": "The modification datetime of the task.",
+                                "type": "string",
+                                "format": "date-time",
+                                "example": "2023-01-01T00:00:00Z"
+                              },
                               "artifact_id": {
                                 "type": "string",
                                 "description": "ID of the artifact.",
@@ -1117,12 +1227,7 @@
                               "agent_created": {
                                 "type": "boolean",
                                 "description": "Whether the artifact has been created by the agent.",
-                                "example": false
-                              },
-                              "uri": {
-                                "type": "string",
-                                "description": "URI of the artifact.",
-                                "example": "file://home/bob/workspace/bucket/main.py",
+                                "example": false,
                                 "nullable": true
                               },
                               "file_name": {
@@ -1248,11 +1353,23 @@
                         "required": [
                           "artifact_id",
                           "agent_created",
-                          "file_name",
-                          "relative_path"
+                          "created_at",
+                          "modified_at"
                         ],
                         "description": "An Artifact either created by or submitted to the agent.",
                         "properties": {
+                          "created_at": {
+                            "description": "The creation datetime of the task.",
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2023-01-01T00:00:00Z"
+                          },
+                          "modified_at": {
+                            "description": "The modification datetime of the task.",
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2023-01-01T00:00:00Z"
+                          },
                           "artifact_id": {
                             "type": "string",
                             "description": "ID of the artifact.",
@@ -1261,12 +1378,7 @@
                           "agent_created": {
                             "type": "boolean",
                             "description": "Whether the artifact has been created by the agent.",
-                            "example": false
-                          },
-                          "uri": {
-                            "type": "string",
-                            "description": "URI of the artifact.",
-                            "example": "file://home/bob/workspace/bucket/main.py",
+                            "example": false,
                             "nullable": true
                           },
                           "file_name": {
@@ -1368,14 +1480,13 @@
             ]
           },
           {
-            "name": "URI",
-            "in": "header",
+            "name": "relative_path",
+            "in": "query",
+            "description": "Relative path of the artifact in the agent's workspace.",
+            "required": false,
             "schema": {
               "type": "string"
-            },
-            "example": "file://output.txt",
-            "required": true,
-            "description": "URI of the artifact."
+            }
           }
         ],
         "requestBody": {
@@ -1387,10 +1498,6 @@
                     "type": "string",
                     "format": "binary",
                     "description": "The uploaded file."
-                  },
-                  "uri": {
-                    "type": "string",
-                    "description": "The URI pointing to the resource."
                   }
                 }
               }
@@ -1407,11 +1514,23 @@
                   "required": [
                     "artifact_id",
                     "agent_created",
-                    "file_name",
-                    "relative_path"
+                    "created_at",
+                    "modified_at"
                   ],
                   "description": "An Artifact either created by or submitted to the agent.",
                   "properties": {
+                    "created_at": {
+                      "description": "The creation datetime of the task.",
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2023-01-01T00:00:00Z"
+                    },
+                    "modified_at": {
+                      "description": "The modification datetime of the task.",
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2023-01-01T00:00:00Z"
+                    },
                     "artifact_id": {
                       "type": "string",
                       "description": "ID of the artifact.",
@@ -1420,12 +1539,7 @@
                     "agent_created": {
                       "type": "boolean",
                       "description": "Whether the artifact has been created by the agent.",
-                      "example": false
-                    },
-                    "uri": {
-                      "type": "string",
-                      "description": "URI of the artifact.",
-                      "example": "file://home/bob/workspace/bucket/main.py",
+                      "example": false,
                       "nullable": true
                     },
                     "file_name": {
@@ -1613,9 +1727,16 @@
                   "description": "Definition of an agent task.",
                   "required": [
                     "task_id",
-                    "artifacts"
+                    "artifacts",
+                    "created_at"
                   ],
                   "properties": {
+                    "created_at": {
+                      "description": "The creation datetime of the task.",
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2023-01-01T00:00:00Z"
+                    },
                     "task_id": {
                       "description": "The ID of the task.",
                       "type": "string",
@@ -1634,11 +1755,23 @@
                         "required": [
                           "artifact_id",
                           "agent_created",
-                          "file_name",
-                          "relative_path"
+                          "created_at",
+                          "modified_at"
                         ],
                         "description": "An Artifact either created by or submitted to the agent.",
                         "properties": {
+                          "created_at": {
+                            "description": "The creation datetime of the task.",
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2023-01-01T00:00:00Z"
+                          },
+                          "modified_at": {
+                            "description": "The modification datetime of the task.",
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2023-01-01T00:00:00Z"
+                          },
                           "artifact_id": {
                             "type": "string",
                             "description": "ID of the artifact.",
@@ -1647,12 +1780,7 @@
                           "agent_created": {
                             "type": "boolean",
                             "description": "Whether the artifact has been created by the agent.",
-                            "example": false
-                          },
-                          "uri": {
-                            "type": "string",
-                            "description": "URI of the artifact.",
-                            "example": "file://home/bob/workspace/bucket/main.py",
+                            "example": false,
                             "nullable": true
                           },
                           "file_name": {
@@ -1743,10 +1871,24 @@
                     "step_id",
                     "task_id",
                     "status",
+                    "created_at",
+                    "modified_at",
                     "is_last",
                     "artifacts"
                   ],
                   "properties": {
+                    "created_at": {
+                      "description": "The creation datetime of the task.",
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2023-01-01T00:00:00Z"
+                    },
+                    "modified_at": {
+                      "description": "The modification datetime of the task.",
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2023-01-01T00:00:00Z"
+                    },
                     "task_id": {
                       "description": "The ID of the task this step belongs to.",
                       "type": "string",
@@ -1794,11 +1936,23 @@
                         "required": [
                           "artifact_id",
                           "agent_created",
-                          "file_name",
-                          "relative_path"
+                          "created_at",
+                          "modified_at"
                         ],
                         "description": "An Artifact either created by or submitted to the agent.",
                         "properties": {
+                          "created_at": {
+                            "description": "The creation datetime of the task.",
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2023-01-01T00:00:00Z"
+                          },
+                          "modified_at": {
+                            "description": "The modification datetime of the task.",
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2023-01-01T00:00:00Z"
+                          },
                           "artifact_id": {
                             "type": "string",
                             "description": "ID of the artifact.",
@@ -1807,12 +1961,7 @@
                           "agent_created": {
                             "type": "boolean",
                             "description": "Whether the artifact has been created by the agent.",
-                            "example": false
-                          },
-                          "uri": {
-                            "type": "string",
-                            "description": "URI of the artifact.",
-                            "example": "file://home/bob/workspace/bucket/main.py",
+                            "example": false,
                             "nullable": true
                           },
                           "file_name": {
@@ -1887,11 +2036,23 @@
               "required": [
                 "artifact_id",
                 "agent_created",
-                "file_name",
-                "relative_path"
+                "created_at",
+                "modified_at"
               ],
               "description": "An Artifact either created by or submitted to the agent.",
               "properties": {
+                "created_at": {
+                  "description": "The creation datetime of the task.",
+                  "type": "string",
+                  "format": "date-time",
+                  "example": "2023-01-01T00:00:00Z"
+                },
+                "modified_at": {
+                  "description": "The modification datetime of the task.",
+                  "type": "string",
+                  "format": "date-time",
+                  "example": "2023-01-01T00:00:00Z"
+                },
                 "artifact_id": {
                   "type": "string",
                   "description": "ID of the artifact.",
@@ -1900,12 +2061,7 @@
                 "agent_created": {
                   "type": "boolean",
                   "description": "Whether the artifact has been created by the agent.",
-                  "example": false
-                },
-                "uri": {
-                  "type": "string",
-                  "description": "URI of the artifact.",
-                  "example": "file://home/bob/workspace/bucket/main.py",
+                  "example": false,
                   "nullable": true
                 },
                 "file_name": {
@@ -1965,11 +2121,23 @@
         "required": [
           "artifact_id",
           "agent_created",
-          "file_name",
-          "relative_path"
+          "created_at",
+          "modified_at"
         ],
         "description": "An Artifact either created by or submitted to the agent.",
         "properties": {
+          "created_at": {
+            "description": "The creation datetime of the task.",
+            "type": "string",
+            "format": "date-time",
+            "example": "2023-01-01T00:00:00Z"
+          },
+          "modified_at": {
+            "description": "The modification datetime of the task.",
+            "type": "string",
+            "format": "date-time",
+            "example": "2023-01-01T00:00:00Z"
+          },
           "artifact_id": {
             "type": "string",
             "description": "ID of the artifact.",
@@ -1978,12 +2146,7 @@
           "agent_created": {
             "type": "boolean",
             "description": "Whether the artifact has been created by the agent.",
-            "example": false
-          },
-          "uri": {
-            "type": "string",
-            "description": "URI of the artifact.",
-            "example": "file://home/bob/workspace/bucket/main.py",
+            "example": false,
             "nullable": true
           },
           "file_name": {
@@ -2057,9 +2220,16 @@
             "description": "Definition of an agent task.",
             "required": [
               "task_id",
-              "artifacts"
+              "artifacts",
+              "created_at"
             ],
             "properties": {
+              "created_at": {
+                "description": "The creation datetime of the task.",
+                "type": "string",
+                "format": "date-time",
+                "example": "2023-01-01T00:00:00Z"
+              },
               "task_id": {
                 "description": "The ID of the task.",
                 "type": "string",
@@ -2078,11 +2248,23 @@
                   "required": [
                     "artifact_id",
                     "agent_created",
-                    "file_name",
-                    "relative_path"
+                    "created_at",
+                    "modified_at"
                   ],
                   "description": "An Artifact either created by or submitted to the agent.",
                   "properties": {
+                    "created_at": {
+                      "description": "The creation datetime of the task.",
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2023-01-01T00:00:00Z"
+                    },
+                    "modified_at": {
+                      "description": "The modification datetime of the task.",
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2023-01-01T00:00:00Z"
+                    },
                     "artifact_id": {
                       "type": "string",
                       "description": "ID of the artifact.",
@@ -2091,12 +2273,7 @@
                     "agent_created": {
                       "type": "boolean",
                       "description": "Whether the artifact has been created by the agent.",
-                      "example": false
-                    },
-                    "uri": {
-                      "type": "string",
-                      "description": "URI of the artifact.",
-                      "example": "file://home/bob/workspace/bucket/main.py",
+                      "example": false,
                       "nullable": true
                     },
                     "file_name": {
@@ -2163,10 +2340,24 @@
               "step_id",
               "task_id",
               "status",
+              "created_at",
+              "modified_at",
               "is_last",
               "artifacts"
             ],
             "properties": {
+              "created_at": {
+                "description": "The creation datetime of the task.",
+                "type": "string",
+                "format": "date-time",
+                "example": "2023-01-01T00:00:00Z"
+              },
+              "modified_at": {
+                "description": "The modification datetime of the task.",
+                "type": "string",
+                "format": "date-time",
+                "example": "2023-01-01T00:00:00Z"
+              },
               "task_id": {
                 "description": "The ID of the task this step belongs to.",
                 "type": "string",
@@ -2214,11 +2405,23 @@
                   "required": [
                     "artifact_id",
                     "agent_created",
-                    "file_name",
-                    "relative_path"
+                    "created_at",
+                    "modified_at"
                   ],
                   "description": "An Artifact either created by or submitted to the agent.",
                   "properties": {
+                    "created_at": {
+                      "description": "The creation datetime of the task.",
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2023-01-01T00:00:00Z"
+                    },
+                    "modified_at": {
+                      "description": "The modification datetime of the task.",
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2023-01-01T00:00:00Z"
+                    },
                     "artifact_id": {
                       "type": "string",
                       "description": "ID of the artifact.",
@@ -2227,12 +2430,7 @@
                     "agent_created": {
                       "type": "boolean",
                       "description": "Whether the artifact has been created by the agent.",
-                      "example": false
-                    },
-                    "uri": {
-                      "type": "string",
-                      "description": "URI of the artifact.",
-                      "example": "file://home/bob/workspace/bucket/main.py",
+                      "example": false,
                       "nullable": true
                     },
                     "file_name": {
