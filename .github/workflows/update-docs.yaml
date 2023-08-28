@@ -46,8 +46,10 @@ jobs:
           
           git config --global user.email "no-reply@github.com"
           git config --global user.name "GitHub Actions"
+          git add schemas/openapi.yml
+          git commit -am "Lint openapi.yml" || echo "No changes to commit"
           git add schemas/openapi.json
-          git commit -am "Update openapi.json" || echo "No changes to commit"
+          git commit -am "Convert openapi.yml into openapi.json" || echo "No changes to commit"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
