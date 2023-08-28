@@ -65,4 +65,22 @@ elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
 fi
 echo "If the report wasn't generated, please open the report.html file in your browser."
 
+newman run https://raw.githubusercontent.com/merwanehamadi/postman-contract-test-generator/main/src/Contract%20Test%20Generator.postman_collection.json \
+-e https://raw.githubusercontent.com/merwanehamadi/postman-contract-test-generator/main/src/Contract%20Test%20Environment.postman_environment.json \
+--env-var "env-openapi-json-url=https://raw.githubusercontent.com/merwanehamadi/agent-protocol/main/openapi.json" \
+-r htmlextra \
+--env-var "env-server=Test server" \
+-r htmlextra \
+--reporter-htmlextra-export report.html \
+--reporter-htmlextra-title "Agent Protocol Contract Testing"
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  open report.html
+elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+  xdg-open report.html
+fi
+echo "If the report wasn't generated, please open the report.html file in your browser."
+
+
+
 exit $agent_protocol_tests_results
