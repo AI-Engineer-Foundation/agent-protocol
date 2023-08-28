@@ -38,7 +38,7 @@ jobs:
           npm install -g swagger-cli
           npm install -g openapi-format
 
-      - name: Convert openapi.yml to openapi.json and commit changes
+      - name: Lint and Convert openapi.yml to openapi.json and commit changes
         run: |
           cd ..
           npx openapi-format schemas/openapi.yml --output schemas/openapi.yml
