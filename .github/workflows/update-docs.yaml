@@ -38,6 +38,7 @@ jobs:
 
       - name: Convert openapi.yml to openapi.json
         run: |
+          cd ..
           swagger-cli bundle -r schemas/openapi.yml -o schemas/openapi.json -t json
 
       - name: Commit changes
