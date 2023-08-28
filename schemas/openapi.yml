@@ -294,7 +294,7 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/Artifact'
-      default: [ ]
+      default: []
     TaskInput:
       description: Input parameters for the task. Any value is allowed.
       type: object
