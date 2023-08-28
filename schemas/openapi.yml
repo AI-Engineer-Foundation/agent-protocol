@@ -1,623 +1,380 @@
 openapi: 3.0.1
-servers:
-    - url: "http://0.0.0.0:8000"
-      description: Test server
 info:
-    title: Agent Protocol
-    description: Specification of the API protocol for communication with an agent.
-    version: "v0.4"
+  title: Agent Protocol
+  description: Specification of the API protocol for communication with an agent.
+  version: 'v0.3'
 
 paths:
-    /agent/tasks:
-        post:
-            summary: Creates a task for the agent.
-            tags: [agent]
-            operationId: createAgentTask
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: "#/components/schemas/TaskRequestBody"
-            responses:
-                200:
-                    description: A new agent task was successfully created.
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/Task"
-                    x-postman-variables:
-                        - type: save
-                          name: task_id
-                          path: .task_id
-                422:
-                    $ref: '#/components/responses/UnprocessableEntity'
-                default:
-                    description: Internal Server Error
-        get:
-            summary: List all tasks that have been created for the agent.
-            tags: [agent]
-            operationId: listAgentTasksIDs
-            parameters:
-                - name: current_page
-                  in: query
-                  description: Page number
-                  required: false
-                  example: 2
-                  schema:
-                      type: integer
-                      format: int32
-                      default: 1
-                      minimum: 1
-                - name: page_size
-                  in: query
-                  description: Number of items per page
-                  required: false
-                  example: 25
-                  schema:
-                      type: integer
-                      format: int32
-                      default: 10
-                      minimum: 1
-            responses:
-                200:
-                    description: Returned list of agent's tasks.
-                    headers:
-                        content-length:
-                            description: The length of the response body in octets (8-bit bytes)
-                            schema:
-                                type: integer
-                        date:
-                            description: The date and time at which the message was originated
-                            schema:
-                                type: string
-                                format: date-time
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/TaskListResponse"
-                default:
-                    description: Internal Server Error
+  /agent/tasks:
+    post:
+      summary: Creates a task for the agent.
+      tags: [agent]
+      operationId: createAgentTask
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskRequestBody'
+      responses:
+        200:
+          description: A new agent task was successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        default:
+          description: Internal Server Error
+    get:
+      summary: List all tasks that have been created for the agent.
+      tags: [agent]
+      operationId: listAgentTasksIDs
+      responses:
+        200:
+          description: Returned list of agent's task IDs.
+          content:
+            application/json:
+              schema:
+                type: array
+                default: []
+                description: A list of task IDs
+                items:
+                  type: string
+        default:
+          description: Internal Server Error
 
-    /agent/tasks/{task_id}:
-        get:
-            summary: Get details about a specified agent task.
-            tags: [agent]
-            operationId: getAgentTask
-            parameters:
-                - name: task_id
-                  in: path
-                  description: ID of the task
-                  required: true
-                  example: "1d5a533e-3904-4401-8a07-c49adf88b981"
-                  schema:
-                      type: string
-                  x-postman-variables:
-                      - type: load
-                        name: task_id
-            responses:
-                200:
-                    description: Returned details about an agent task.
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/Task"
-                404:
-                    $ref: '#/components/responses/NotFound'
-                default:
-                    description: Internal Server Error
+  /agent/tasks/{task_id}:
+    get:
+      summary: Get details about a specified agent task.
+      tags: [agent]
+      operationId: getAgentTask
+      parameters:
+        - name: task_id
+          in: path
+          description: ID of the task
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Returned details about an agent task.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        404:
+          description: Task not found.
+        default:
+          description: Internal Server Error
 
-    /agent/tasks/{task_id}/steps:
-        get:
-            summary: List all steps for the specified task.
-            tags: [agent]
-            operationId: listAgentTaskSteps
-            parameters:
-                - name: task_id
-                  in: path
-                  description: ID of the task
-                  required: true
-                  example: "50da533e-3904-4401-8a07-c49adf88b5eb"
-                  schema:
-                      type: string
-                  x-postman-variables:
-                      - type: load
-                        name: task_id
-                - name: current_page
-                  in: query
-                  description: Page number
-                  example: 2
-                  required: false
-                  schema:
-                      type: integer
-                      format: int32
-                      default: 1
-                      minimum: 1
-                - name: page_size
-                  in: query
-                  description: Number of items per page
-                  required: false
-                  example: 25
-                  schema:
-                      type: integer
-                      format: int32
-                      default: 10
-                      minimum: 1
-            responses:
-                200:
-                    description: Returned list of agent's steps for the specified task.
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/TaskStepsListResponse"
-                404:
-                    $ref: '#/components/responses/NotFound'
-                default:
-                    description: Internal Server Error
-        post:
-            summary: Execute a step in the specified agent task.
-            tags: [agent]
-            operationId: executeAgentTaskStep
-            parameters:
-                - name: task_id
-                  in: path
-                  description: ID of the task
-                  required: true
-                  example: "50da533e-3904-4401-8a07-c49adf88b5eb"
-                  schema:
-                      type: string
-                  x-postman-variables:
-                      - type: load
-                        name: task_id
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: "#/components/schemas/StepRequestBody"
-            responses:
-                200:
-                    description: Executed step for the agent task.
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/Step"
-                    x-postman-variables:
-                        - type: save
-                          name: step_id
-                          path: .step_id
-                404:
-                    $ref: '#/components/responses/NotFound'
-                422:
-                    $ref: '#/components/responses/UnprocessableEntity'
-                default:
-                    description: Internal Server Error
+  /agent/tasks/{task_id}/steps:
+    get:
+      summary: List all steps for the specified task.
+      tags: [agent]
+      operationId: listAgentTaskSteps
+      parameters:
+        - name: task_id
+          in: path
+          description: ID of the task
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Returned list of agent's step IDs for the specified task.
+          content:
+            application/json:
+              schema:
+                type: array
+                default: []
+                description: A list of step IDs for the task
+                items:
+                  type: string
+        404:
+          description: Task not found.
+        default:
+          description: Internal Server Error
+    post:
+      summary: Execute a step in the specified agent task.
+      tags: [agent]
+      operationId: executeAgentTaskStep
+      parameters:
+        - name: task_id
+          in: path
+          description: ID of the task
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StepRequestBody'
+      responses:
+        200:
+          description: Executed step for the agent task.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Step'
+        404:
+          description: Task not found.
+        default:
+          description: Internal Server Error
 
-    /agent/tasks/{task_id}/steps/{step_id}:
-        get:
-            summary: Get details about a specified task step.
-            tags: [agent]
-            operationId: getAgentTaskStep
-            parameters:
-                - name: task_id
-                  in: path
-                  description: ID of the task
-                  example: "50da533e-3904-4401-8a07-c49adf88b5eb"
-                  required: true
-                  schema:
-                      type: string
-                  x-postman-variables:
-                      - type: load
-                        name: task_id
-                      - type: load
-                        name: step_id
-                - name: step_id
-                  in: path
-                  example: "28ca533e-3904-4401-8a07-c49adf8891c2"
-                  description: ID of the step
-                  required: true
-                  schema:
-                      type: string
-                  x-postman-variables:
-                      - type: load
-                        name: step_id
-            responses:
-                200:
-                    description: Returned details about an agent task step.
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/Step"
-                404:
-                    $ref: '#/components/responses/NotFound'
-                default:
-                    description: Internal Server Error
+  /agent/tasks/{task_id}/steps/{step_id}:
+    get:
+      summary: Get details about a specified task step.
+      tags: [agent]
+      operationId: getAgentTaskStep
+      parameters:
+        - name: task_id
+          in: path
+          description: ID of the task
+          required: true
+          schema:
+            type: string
+        - name: step_id
+          in: path
+          description: ID of the step
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Returned details about an agent task step.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Step'
+        404:
+          description: Task or step not found.
+        default:
+          description: Internal Server Error
 
-    /agent/tasks/{task_id}/artifacts:
-        get:
-            summary: List all artifacts that have been created for the given task.
-            tags: [agent]
-            operationId: listAgentTaskArtifacts
-            parameters:
-                - name: task_id
-                  in: path
-                  description: ID of the task
-                  example: "50da533e-3904-4401-8a07-c49adf88b5eb"
-                  required: true
-                  schema:
-                      type: string
-                  x-postman-variables:
-                      - type: load
-                        name: task_id
-                - name: current_page
-                  in: query
-                  description: Page number
-                  example: 2
-                  required: false
-                  schema:
-                      type: integer
-                      format: int32
-                      default: 1
-                      minimum: 1
-                - name: page_size
-                  in: query
-                  description: Number of items per page
-                  required: false
-                  example: 25
-                  schema:
-                      type: integer
-                      format: int32
-                      default: 10
-                      minimum: 1
-            responses:
-                200:
-                    description: Returned the list of artifacts for the task.
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/TaskArtifactsListResponse"
-                404:
-                    $ref: '#/components/responses/NotFound'
-                default:
-                    description: Internal Server Error
-        post:
-            summary: Upload an artifact for the specified task.
-            tags: [agent]
-            operationId: uploadAgentTaskArtifacts
-            parameters:
-                - name: task_id
-                  in: path
-                  description: ID of the task
-                  example: "50da533e-3904-4401-8a07-c49adf88b5eb"
-                  required: true
-                  schema:
-                      type: string
-                  x-postman-variables:
-                      - type: load
-                        name: task_id
-                - name: relative_path
-                  in: query
-                  description: Relative path of the artifact in the agent's workspace.
-                  required: false
-                  schema:
-                      type: string
-            requestBody:
-                content:
-                    multipart/form-data:
-                        schema:
-                            properties:
-                                file:
-                                    type: string
-                                    format: binary
-                                    description: "The uploaded file."
-            responses:
-                200:
-                    description: Returned the content of the artifact.
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/Artifact"
-                404:
-                    $ref: '#/components/responses/NotFound'
-                default:
-                    description: Internal Server Error
+  /agent/tasks/{task_id}/artifacts:
+    get:
+      summary: List all artifacts that have been created for the given task.
+      tags: [agent]
+      operationId: listAgentTaskArtifacts
+      parameters:
+        - name: task_id
+          in: path
+          description: ID of the task
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Returned the content of the artifact.
+          content:
+            application/json:
+              schema:
+                type: array
+                default: []
+                description: A list of artifacts for the task
+                items:
+                  $ref: '#/components/schemas/Artifact'
+        404:
+          description: Task not found.
+        default:
+          description: Internal Server Error
+    post:
+      summary: Upload an artifact for the specified task.
+      tags: [agent]
+      operationId: uploadAgentTaskArtifacts
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ArtifactUpload'
+      parameters:
+        - name: task_id
+          in: path
+          description: ID of the task
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Returned the content of the artifact.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Artifact'
+        404:
+          description: Task not found.
+        default:
+          description: Internal Server Error
 
-    /agent/tasks/{task_id}/artifacts/{artifact_id}:
-        get:
-            summary: Download a specified artifact.
-            tags: [agent]
-            operationId: downloadAgentTaskArtifact
-            parameters:
-                - name: task_id
-                  in: path
-                  description: ID of the task
-                  required: true
-                  example: "50da533e-3904-4401-8a07-c49adf88b5eb"
-                  schema:
-                      type: string
-                  x-postman-variables:
-                      - type: load
-                        name: task_id
-                - name: artifact_id
-                  in: path
-                  example: "1e41533e-3904-4401-8a07-c49adf8893de"
-                  description: ID of the artifact
-                  required: true
-                  schema:
-                      type: string
-            responses:
-                200:
-                    description: Returned the content of the artifact.
-                    content:
-                        application/octet-stream:
-                            schema:
-                                type: string
-                                format: binary
-                404:
-                    $ref: '#/components/responses/NotFound'
-                default:
-                    description: Internal Server Error
+  /agent/tasks/{task_id}/artifacts/{artifact_id}:
+    get:
+      summary: Download a specified artifact.
+      tags: [agent]
+      operationId: downloadAgentTaskArtifact
+      parameters:
+        - name: task_id
+          in: path
+          description: ID of the task
+          required: true
+          schema:
+            type: string
+        - name: artifact_id
+          in: path
+          description: ID of the artifact
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Returned the content of the artifact.
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        404:
+          description: Task or artifact not found.
+        default:
+          description: Internal Server Error
 
 components:
-    schemas:
-        Pagination:
-            type: object
-            required:
-                - total_items
-                - total_pages
-                - current_page
-                - page_size
-            properties:
-                total_items:
-                    type: integer
-                    description: Total number of items.
-                    example: 42
-                total_pages:
-                    type: integer
-                    description: Total number of pages.
-                    example: 97
-                current_page:
-                    type: integer
-                    description: Current_page page number.
-                    example: 1
-                page_size:
-                    type: integer
-                    description: Number of items per page.
-                    example: 25
+  schemas:
+    TaskInput:
+      description: Input parameters for the task. Any value is allowed.
+      example: "{\n\"debug\": false,\n\"mode\": \"benchmarks\"\n}"
 
-        TaskListResponse:
-            type: object
-            required:
-                - tasks
-                - pagination
-            properties:
-                tasks:
-                    type: array
-                    items:
-                        $ref: "#/components/schemas/Task"
-                pagination:
-                    $ref: "#/components/schemas/Pagination"
+    Artifact:
+      type: object
+      required:
+        - 'artifact_id'
+        - 'file_name'
+      description: Artifact that the task has produced.
+      properties:
+        artifact_id:
+          description: ID of the artifact.
+          type: string
+          example: 'b225e278-8b4c-4f99-a696-8facf19f0e56'
+        file_name:
+          description: Filename of the artifact.
+          type: string
+          example: 'main.py'
+        relative_path:
+          description: Relative path of the artifact in the agent's workspace.
+          type: string
+          example: 'python/code/'
 
-        TaskStepsListResponse:
-            type: object
-            required:
-                - steps
-                - pagination
-            properties:
-                steps:
-                    type: array
-                    items:
-                        $ref: "#/components/schemas/Step"
-                pagination:
-                    $ref: "#/components/schemas/Pagination"
+    ArtifactUpload:
+      type: object
+      required:
+        - 'file'
+      description: Artifact to upload to the agent.
+      properties:
+        file:
+          description: File to upload.
+          type: string
+          format: binary
+        relative_path:
+          description: Relative path of the artifact in the agent's workspace.
+          type: string
+          example: 'python/code'
 
-        TaskArtifactsListResponse:
-            type: object
-            required:
-                - "artifacts"
-                - "pagination"
-            properties:
-                artifacts:
-                    type: array
-                    items:
-                        $ref: "#/components/schemas/Artifact"
-                pagination:
-                    $ref: "#/components/schemas/Pagination"
+    StepInput:
+      description: Input parameters for the task step. Any value is allowed.
+      example: "{\n\"file_to_refactor\": \"models.py\"\n}"
 
-        TaskInput:
-            description: Input parameters for the task. Any value is allowed.
-            type: object
-            example: "{\n\"debug\": false,\n\"mode\": \"benchmarks\"\n}"
+    StepOutput:
+      description: Output that the task step has produced. Any value is allowed.
+      example: "{\n\"tokens\": 7894,\n\"estimated_cost\": \"0,24$\"\n}"
 
-        Artifact:
-            type: object
-            required:
-                - "artifact_id"
-                - "agent_created"
-                - "created_at"
-                - "modified_at"
-            description: An Artifact either created by or submitted to the agent.
-            properties:
-                created_at:
-                    description: The creation datetime of the task.
-                    type: string
-                    format: date-time
-                    example: "2023-01-01T00:00:00Z"
-                modified_at:
-                    description: The modification datetime of the task.
-                    type: string
-                    format: date-time
-                    example: "2023-01-01T00:00:00Z"
-                artifact_id:
-                    type: string
-                    description: ID of the artifact.
-                    example: b225e278-8b4c-4f99-a696-8facf19f0e56
-                agent_created:
-                    type: boolean
-                    description: Whether the artifact has been created by the agent.
-                    example: false
-                    nullable: true
-                file_name:
-                    description: Filename of the artifact.
-                    type: string
-                    example: 'main.py'
-                relative_path:
-                    description: Relative path of the artifact in the agent's workspace.
-                    type: string
-                    example: 'python/code/'
-                    nullable: true
-                
+    TaskRequestBody:
+      type: object
+      description: Body of the task request.
+      properties:
+        input:
+          description: Input prompt for the task.
+          type: string
+          example: "Write the words you receive to the file 'output.txt'."
+        additional_input:
+          $ref: '#/components/schemas/TaskInput'
 
+    Task:
+      allOf:
+        - $ref: '#/components/schemas/TaskRequestBody'
+        - type: object
+          description: Definition of an agent task.
+          required:
+            - 'task_id'
+            - 'artifacts'
+          properties:
+            task_id:
+              description: The ID of the task.
+              type: string
+              example: '50da533e-3904-4401-8a07-c49adf88b5eb'
+            artifacts:
+              type: array
+              example:
+                [
+                  '7a49f31c-f9c6-4346-a22c-e32bc5af4d8e',
+                  'ab7b4091-2560-4692-a4fe-d831ea3ca7d6',
+                ]
+              default: []
+              description: A list of artifacts that the task has produced.
+              items:
+                $ref: '#/components/schemas/Artifact'
 
-        StepInput:
-            description: Input parameters for the task step. Any value is allowed.
-            type: object
-            example: "{\n\"file_to_refactor\": \"models.py\"\n}"
+    StepRequestBody:
+      type: object
+      description: Body of the task request.
+      properties:
+        input:
+          description: Input prompt for the step.
+          example: 'Washington'
+          type: string
+        additional_input:
+          $ref: '#/components/schemas/StepInput'
 
-        StepOutput:
-            description: Output that the task step has produced. Any value is allowed.
-            type: object
-            example: "{\n\"tokens\": 7894,\n\"estimated_cost\": \"0,24$\"\n}"
-            nullable: true
-
-        TaskRequestBody:
-            type: object
-            description: Body of the task request.
-            required:
-                - input
-            properties:
-                input:
-                    description: Input prompt for the task.
-                    type: string
-                    example: "Write 'Washington' to the file 'output.txt'."
-                    nullable: true
-                additional_input:
-                    $ref: "#/components/schemas/TaskInput"
-
-        Task:
-            allOf:
-                - $ref: "#/components/schemas/TaskRequestBody"
-                - type: object
-                  description: Definition of an agent task.
-                  required:
-                      - "task_id"
-                      - "artifacts"
-                      - "created_at"
-                  properties:
-                      created_at:
-                          description: The creation datetime of the task.
-                          type: string
-                          format: date-time
-                          example: "2023-01-01T00:00:00Z"
-                      task_id:
-                          description: The ID of the task.
-                          type: string
-                          example: "50da533e-3904-4401-8a07-c49adf88b5eb"
-                      artifacts:
-                          type: array
-                          example:
-                              [
-                                  "7a49f31c-f9c6-4346-a22c-e32bc5af4d8e",
-                                  "ab7b4091-2560-4692-a4fe-d831ea3ca7d6",
-                              ]
-                          default: []
-                          description: A list of artifacts that the task has produced.
-                          items:
-                              $ref: "#/components/schemas/Artifact"
-
-        StepRequestBody:
-            type: object
-            description: Body of the task request.
-            required:
-                - input
-            properties:
-                input:
-                    description: Input prompt for the step.
-                    example: "Write the words you receive to the file 'output.txt'."
-                    type: string
-                additional_input:
-                    $ref: "#/components/schemas/StepInput"
-
-        Step:
-            allOf:
-                - $ref: "#/components/schemas/StepRequestBody"
-                - type: object
-                  required:
-                      - "step_id"
-                      - "task_id"
-                      - "status"
-                      - "created_at"
-                      - "modified_at"
-                      - "is_last"
-                      - "artifacts"
-                  properties:
-                      created_at:
-                          description: The creation datetime of the task.
-                          type: string
-                          format: date-time
-                          example: "2023-01-01T00:00:00Z"
-                      modified_at:
-                          description: The modification datetime of the task.
-                          type: string
-                          format: date-time
-                          example: "2023-01-01T00:00:00Z"
-                      task_id:
-                          description: The ID of the task this step belongs to.
-                          type: string
-                          example: "50da533e-3904-4401-8a07-c49adf88b5eb"
-                      step_id:
-                          description: The ID of the task step.
-                          type: string
-                          example: "6bb1801a-fd80-45e8-899a-4dd723cc602e"
-                      name:
-                          description: The name of the task step.
-                          type: string
-                          example: "Write to file"
-                          nullable: true
-                      status:
-                          description: The status of the task step.
-                          type: string
-                          example: "created"
-                          enum:
-                              - "created"
-                              - "running"
-                              - "completed"
-                      output:
-                          type: string
-                          description: Output of the task step.
-                          example: "I am going to use the write_to_file command and write Washington to a file called output.txt <write_to_file('output.txt', 'Washington')"
-                          nullable: true
-                      additional_output:
-                          $ref: "#/components/schemas/StepOutput"
-                      artifacts:
-                          type: array
-                          default: []
-                          description: A list of artifacts that the step has produced.
-                          items:
-                              $ref: "#/components/schemas/Artifact"
-                      is_last:
-                          description: Whether this is the last step in the task.
-                          type: boolean
-                          default: false
-                          example: true
-
-    responses:
-        UnprocessableEntity:
-            description: Unable to process request. Likely due to improperly formatted request.
-            content:
-                application/json:
-                    schema:
-                        type: object
-                        description: A generic JSON object without any specific requirements.
-        
-        NotFound:
-            description: Unable to find entity with a given identifier
-            content:
-                application/json:
-                    schema:
-                        type: object
-                        required:
-                            - message
-                        properties:
-                            message:
-                                type: string
-                                description: Message stating the entity was not found
-                                example: Unable to find entity with the provided id
+    Step:
+      allOf:
+        - $ref: '#/components/schemas/StepRequestBody'
+        - type: object
+          required:
+            - 'step_id'
+            - 'task_id'
+            - 'status'
+            - 'artifacts'
+          properties:
+            task_id:
+              description: The ID of the task this step belongs to.
+              type: string
+              example: '50da533e-3904-4401-8a07-c49adf88b5eb'
+            step_id:
+              description: The ID of the task step.
+              type: string
+              example: '6bb1801a-fd80-45e8-899a-4dd723cc602e'
+            name:
+              description: The name of the task step.
+              type: string
+              example: 'Write to file'
+            status:
+              description: The status of the task step.
+              type: string
+              enum:
+                - 'created'
+                - 'running'
+                - 'completed'
+            output:
+              type: string
+              description: Output of the task step.
+              example: "I am going to use the write_to_file command and write Washington to a file called output.txt <write_to_file('output.txt', 'Washington')"
+            additional_output:
+              $ref: '#/components/schemas/StepOutput'
+            artifacts:
+              type: array
+              default: []
+              description: A list of artifacts that the step has produced.
+              items:
+                $ref: '#/components/schemas/Artifact'
+            is_last:
+              description: Whether this is the last step in the task.
+              type: boolean
+              default: false
