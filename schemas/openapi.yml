@@ -3,6 +3,9 @@ info:
   title: Agent Protocol
   description: Specification of the API protocol for communication with an agent.
   version: v0.3
+servers:
+  - url: 'http://0.0.0.0:8000'
+    description: Test server
 paths:
   /agent/tasks:
     post:
@@ -20,6 +23,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Task'
+          x-postman-variables:
+            - type: save
+              name: task_id
+              path: .task_id
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
         default:
           description: Internal Server Error
       tags:
@@ -53,6 +62,10 @@ paths:
           required: true
           schema:
             type: string
+          example: 1d5a533e-3904-4401-8a07-c49adf88b981
+          x-postman-variables:
+            - type: load
+              name: task_id
       responses:
         '200':
           description: Returned details about an agent task.
@@ -61,7 +74,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Task'
         '404':
-          description: Task not found.
+          $ref: '#/components/responses/NotFound'
         default:
           description: Internal Server Error
       tags:
@@ -77,19 +90,19 @@ paths:
           required: true
           schema:
             type: string
+          example: 50da533e-3904-4401-8a07-c49adf88b5eb
+          x-postman-variables:
+            - type: load
+              name: task_id
       responses:
         '200':
-          description: Returned list of agent's step IDs for the specified task.
+          description: Returned list of agent's steps for the specified task.
           content:
             application/json:
               schema:
-                description: A list of step IDs for the task
-                type: array
-                items:
-                  type: string
-                default: []
+                $ref: '#/components/schemas/TaskStepsListResponse'
         '404':
-          description: Task not found.
+          $ref: '#/components/responses/NotFound'
         default:
           description: Internal Server Error
       tags:
@@ -104,6 +117,10 @@ paths:
           required: true
           schema:
             type: string
+          example: 50da533e-3904-4401-8a07-c49adf88b5eb
+          x-postman-variables:
+            - type: load
+              name: task_id
       requestBody:
         content:
           application/json:
@@ -116,8 +133,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Step'
+          x-postman-variables:
+            - type: save
+              name: step_id
+              path: .step_id
         '404':
-          description: Task not found.
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
         default:
           description: Internal Server Error
       tags:
@@ -133,12 +156,22 @@ paths:
           required: true
           schema:
             type: string
+          example: 50da533e-3904-4401-8a07-c49adf88b5eb
+          x-postman-variables:
+            - type: load
+              name: task_id
+            - type: load
+              name: step_id
         - name: step_id
           in: path
           description: ID of the step
           required: true
           schema:
             type: string
+          example: 28ca533e-3904-4401-8a07-c49adf8891c2
+          x-postman-variables:
+            - type: load
+              name: step_id
       responses:
         '200':
           description: Returned details about an agent task step.
@@ -147,7 +180,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Step'
         '404':
-          description: Task or step not found.
+          $ref: '#/components/responses/NotFound'
         default:
           description: Internal Server Error
       tags:
@@ -163,19 +196,19 @@ paths:
           required: true
           schema:
             type: string
+          example: 50da533e-3904-4401-8a07-c49adf88b5eb
+          x-postman-variables:
+            - type: load
+              name: task_id
       responses:
         '200':
-          description: Returned the content of the artifact.
+          description: Returned the list of artifacts for the task.
           content:
             application/json:
               schema:
-                description: A list of artifacts for the task
-                type: array
-                items:
-                  $ref: '#/components/schemas/Artifact'
-                default: []
+                $ref: '#/components/schemas/TaskArtifactsListResponse'
         '404':
-          description: Task not found.
+          $ref: '#/components/responses/NotFound'
         default:
           description: Internal Server Error
       tags:
@@ -190,6 +223,10 @@ paths:
           required: true
           schema:
             type: string
+          example: 50da533e-3904-4401-8a07-c49adf88b5eb
+          x-postman-variables:
+            - type: load
+              name: task_id
       requestBody:
         content:
           multipart/form-data:
@@ -203,7 +240,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Artifact'
         '404':
-          description: Task not found.
+          $ref: '#/components/responses/NotFound'
         default:
           description: Internal Server Error
       tags:
@@ -219,12 +256,17 @@ paths:
           required: true
           schema:
             type: string
+          example: 50da533e-3904-4401-8a07-c49adf88b5eb
+          x-postman-variables:
+            - type: load
+              name: task_id
         - name: artifact_id
           in: path
           description: ID of the artifact
           required: true
           schema:
             type: string
+          example: 1e41533e-3904-4401-8a07-c49adf8893de
       responses:
         '200':
           description: Returned the content of the artifact.
@@ -234,22 +276,35 @@ paths:
                 type: string
                 format: binary
         '404':
-          description: Task or artifact not found.
+          $ref: '#/components/responses/NotFound'
         default:
           description: Internal Server Error
       tags:
         - agent
 components:
   schemas:
+    TaskStepsListResponse:
+      description: A list of step IDs for the task
+      type: array
+      items:
+        type: string
+      default: []
+    TaskArtifactsListResponse:
+      description: A list of artifacts for the task
+      type: array
+      items:
+        $ref: '#/components/schemas/Artifact'
+      default: [ ]
     TaskInput:
       description: Input parameters for the task. Any value is allowed.
+      type: object
       example: |-
         {
         "debug": false,
         "mode": "benchmarks"
         }
     Artifact:
-      description: Artifact that the task has produced.
+      description: An Artifact either created by or submitted to the agent.
       type: object
       properties:
         artifact_id:
@@ -264,6 +319,7 @@ components:
           description: Relative path of the artifact in the agent's workspace.
           type: string
           example: python/code/
+          nullable: true
       required:
         - artifact_id
         - file_name
@@ -283,17 +339,20 @@ components:
         - file
     StepInput:
       description: Input parameters for the task step. Any value is allowed.
+      type: object
       example: |-
         {
         "file_to_refactor": "models.py"
         }
     StepOutput:
       description: Output that the task step has produced. Any value is allowed.
+      type: object
       example: |-
         {
         "tokens": 7894,
         "estimated_cost": "0,24$"
         }
+      nullable: true
     TaskRequestBody:
       description: Body of the task request.
       type: object
@@ -301,7 +360,8 @@ components:
         input:
           description: Input prompt for the task.
           type: string
-          example: Write the words you receive to the file 'output.txt'.
+          example: Write 'Washington' to the file 'output.txt'.
+          nullable: true
         additional_input:
           $ref: '#/components/schemas/TaskInput'
     Task:
@@ -333,7 +393,7 @@ components:
         input:
           description: Input prompt for the step.
           type: string
-          example: Washington
+          example: Write the words you receive to the file 'output.txt'.
         additional_input:
           $ref: '#/components/schemas/StepInput'
     Step:
@@ -358,9 +418,11 @@ components:
               description: The name of the task step.
               type: string
               example: Write to file
+              nullable: true
             status:
               description: The status of the task step.
               type: string
+              example: created
               enum:
                 - created
                 - running
@@ -369,6 +431,7 @@ components:
               description: Output of the task step.
               type: string
               example: 'I am going to use the write_to_file command and write Washington to a file called output.txt <write_to_file(''output.txt'', ''Washington'')'
+              nullable: true
             additional_output:
               $ref: '#/components/schemas/StepOutput'
             artifacts:
@@ -380,4 +443,26 @@ components:
             is_last:
               description: Whether this is the last step in the task.
               type: boolean
+              example: true
               default: false
+  responses:
+    UnprocessableEntity:
+      description: Unable to process request. Likely due to improperly formatted request.
+      content:
+        application/json:
+          schema:
+            description: A generic JSON object without any specific requirements.
+            type: object
+    NotFound:
+      description: Unable to find entity with a given identifier
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                description: Message stating the entity was not found
+                type: string
+                example: Unable to find entity with the provided id
+            required:
+              - message
