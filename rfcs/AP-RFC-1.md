@@ -78,4 +78,4 @@ If the resource is not found, the agent should return `404` status code.
 
 ## Detailed Design (Optional)
 
-You can find the full spec in the [API spec](./../openapi.yml).
+You can find the full spec in the [API spec](./../schemas/openapi.yml).

@@ -2,7 +2,7 @@ import OpenApi from '@readme/openapi-parser'
 import yaml from 'js-yaml'
 import fs from 'fs'
 
-let doc = yaml.load(fs.readFileSync('../openapi.yml'))
+let doc = yaml.load(fs.readFileSync('../schemas/openapi.yml'))
 
 let endpoints = ''
 let $refs = await OpenApi.resolve(doc)

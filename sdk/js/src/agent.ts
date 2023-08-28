@@ -15,7 +15,7 @@ import {
   type TaskRequestBody,
 } from './models'
 
-import spec from '../../../openapi.yml'
+import spec from '../../../schemas/openapi.yml'
 
 const app = express()
 

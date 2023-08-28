@@ -56,15 +56,15 @@ follow the [RFC template](./rfcs/template.md).
 
 ## ⚙️ Components
 
-### [Protocol](./openapi.yml)
+### [Protocol](./schemas/openapi.yml)
 
 The most important part. It specifies which endpoints should the agent expose.
-The protocol is defined in [OpenAPI specification](./openapi.yml).
+The protocol is defined in [OpenAPI specification](./schemas/openapi.yml).
 
 #### How does the protocol work?
 
 Right now the protocol is defined as a REST API (via the
-[OpenAPI spec](./openapi.yml)) with two essential routes for interaction with
+[OpenAPI spec](./schemas/openapi.yml)) with two essential routes for interaction with
 your agent:
 
 - `POST /agent/tasks` for creating a new task for the agent (for example giving
