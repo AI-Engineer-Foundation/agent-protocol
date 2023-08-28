@@ -74,7 +74,7 @@ paths:
       parameters:
         - name: task_id
           in: path
-          description: ID of the task
+          description: ID of the task.
           required: true
           schema:
             type: string
