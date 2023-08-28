@@ -74,13 +74,17 @@ newman run https://raw.githubusercontent.com/merwanehamadi/postman-contract-test
 --reporter-htmlextra-export report.html \
 --reporter-htmlextra-title "Agent Protocol Contract Testing"
 
+agent_protocol_contract_testing_results=$?
+
+
 if [[ "$OSTYPE" == "darwin"* ]]; then
   open report.html
 elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
   xdg-open report.html
 fi
-echo "If the report wasn't generated, please open the report.html file in your browser."
 
-
-
-exit $agent_protocol_tests_results
+if [[ $agent_protocol_tests_results -ne 0 ]] || [[ $agent_protocol_contract_testing_results -ne 0 ]]; then
+    exit 1
+else
+    exit 0
+fi
