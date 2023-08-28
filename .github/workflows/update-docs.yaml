@@ -36,13 +36,11 @@ jobs:
       - name: Install swagger-cli
         run: npm install -g swagger-cli
 
-      - name: Convert openapi.yml to openapi.json
+      - name: Convert openapi.yml to openapi.json and commit changes
         run: |
           cd ..
           swagger-cli bundle -r schemas/openapi.yml -o schemas/openapi.json -t json
-
-      - name: Commit changes
-        run: |
+          
           git config --global user.email "no-reply@github.com"
           git config --global user.name "GitHub Actions"
           git add schemas/openapi.json
