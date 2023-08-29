@@ -3,7 +3,7 @@
   "info": {
     "title": "Agent Protocol",
     "description": "Specification of the API protocol for communication with an agent.",
-    "version": "v0.3"
+    "version": "v0.4"
   },
   "servers": [
     {
@@ -183,16 +183,128 @@
         ],
         "responses": {
           "200": {
-            "description": "Returned list of agent's task IDs.",
+            "description": "Returned list of agent's tasks.",
             "content": {
               "application/json": {
                 "schema": {
-                  "description": "A list of task IDs",
-                  "type": "array",
-                  "items": {
-                    "type": "string"
+                  "type": "object",
+                  "properties": {
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "allOf": [
+                          {
+                            "description": "Body of the task request.",
+                            "type": "object",
+                            "properties": {
+                              "input": {
+                                "description": "Input prompt for the task.",
+                                "type": "string",
+                                "example": "Write 'Washington' to the file 'output.txt'.",
+                                "nullable": true
+                              },
+                              "additional_input": {
+                                "description": "Input parameters for the task. Any value is allowed.",
+                                "type": "object",
+                                "example": "{\n\"debug\": false,\n\"mode\": \"benchmarks\"\n}"
+                              }
+                            }
+                          },
+                          {
+                            "type": "object",
+                            "description": "Definition of an agent task.",
+                            "required": [
+                              "task_id",
+                              "artifacts"
+                            ],
+                            "properties": {
+                              "task_id": {
+                                "description": "The ID of the task.",
+                                "type": "string",
+                                "example": "50da533e-3904-4401-8a07-c49adf88b5eb"
+                              },
+                              "artifacts": {
+                                "description": "A list of artifacts that the task has produced.",
+                                "type": "array",
+                                "items": {
+                                  "description": "An Artifact either created by or submitted to the agent.",
+                                  "type": "object",
+                                  "properties": {
+                                    "artifact_id": {
+                                      "description": "ID of the artifact.",
+                                      "type": "string",
+                                      "example": "b225e278-8b4c-4f99-a696-8facf19f0e56"
+                                    },
+                                    "agent_created": {
+                                      "description": "Whether the artifact has been created by the agent.",
+                                      "type": "boolean",
+                                      "example": false
+                                    },
+                                    "file_name": {
+                                      "description": "Filename of the artifact.",
+                                      "type": "string",
+                                      "example": "main.py"
+                                    },
+                                    "relative_path": {
+                                      "description": "Relative path of the artifact in the agent's workspace.",
+                                      "type": "string",
+                                      "example": "python/code/",
+                                      "nullable": true
+                                    }
+                                  },
+                                  "required": [
+                                    "artifact_id",
+                                    "agent_created",
+                                    "file_name"
+                                  ]
+                                },
+                                "example": [
+                                  "7a49f31c-f9c6-4346-a22c-e32bc5af4d8e",
+                                  "ab7b4091-2560-4692-a4fe-d831ea3ca7d6"
+                                ],
+                                "default": []
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "total_items": {
+                          "description": "Total number of items.",
+                          "type": "integer",
+                          "example": 42
+                        },
+                        "total_pages": {
+                          "description": "Total number of pages.",
+                          "type": "integer",
+                          "example": 97
+                        },
+                        "current_page": {
+                          "description": "Current_page page number.",
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "page_size": {
+                          "description": "Number of items per page.",
+                          "type": "integer",
+                          "example": 25
+                        }
+                      },
+                      "required": [
+                        "total_items",
+                        "total_pages",
+                        "current_page",
+                        "page_size"
+                      ]
+                    }
                   },
-                  "default": []
+                  "required": [
+                    "tasks",
+                    "pagination"
+                  ]
                 }
               }
             }
@@ -396,12 +508,161 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "description": "A list of step IDs for the task",
-                  "type": "array",
-                  "items": {
-                    "type": "string"
+                  "type": "object",
+                  "properties": {
+                    "steps": {
+                      "type": "array",
+                      "items": {
+                        "allOf": [
+                          {
+                            "description": "Body of the task request.",
+                            "type": "object",
+                            "properties": {
+                              "input": {
+                                "description": "Input prompt for the step.",
+                                "type": "string",
+                                "example": "Write the words you receive to the file 'output.txt'.",
+                                "nullable": true
+                              },
+                              "additional_input": {
+                                "description": "Input parameters for the task step. Any value is allowed.",
+                                "type": "object",
+                                "example": "{\n\"file_to_refactor\": \"models.py\"\n}"
+                              }
+                            }
+                          },
+                          {
+                            "type": "object",
+                            "required": [
+                              "step_id",
+                              "task_id",
+                              "status",
+                              "is_last",
+                              "artifacts"
+                            ],
+                            "properties": {
+                              "task_id": {
+                                "description": "The ID of the task this step belongs to.",
+                                "type": "string",
+                                "example": "50da533e-3904-4401-8a07-c49adf88b5eb"
+                              },
+                              "step_id": {
+                                "description": "The ID of the task step.",
+                                "type": "string",
+                                "example": "6bb1801a-fd80-45e8-899a-4dd723cc602e"
+                              },
+                              "name": {
+                                "description": "The name of the task step.",
+                                "type": "string",
+                                "example": "Write to file",
+                                "nullable": true
+                              },
+                              "status": {
+                                "description": "The status of the task step.",
+                                "type": "string",
+                                "example": "created",
+                                "enum": [
+                                  "created",
+                                  "running",
+                                  "completed"
+                                ]
+                              },
+                              "output": {
+                                "description": "Output of the task step.",
+                                "type": "string",
+                                "example": "I am going to use the write_to_file command and write Washington to a file called output.txt <write_to_file('output.txt', 'Washington')",
+                                "nullable": true
+                              },
+                              "additional_output": {
+                                "description": "Output that the task step has produced. Any value is allowed.",
+                                "type": "object",
+                                "example": "{\n\"tokens\": 7894,\n\"estimated_cost\": \"0,24$\"\n}",
+                                "nullable": true
+                              },
+                              "artifacts": {
+                                "description": "A list of artifacts that the step has produced.",
+                                "type": "array",
+                                "items": {
+                                  "description": "An Artifact either created by or submitted to the agent.",
+                                  "type": "object",
+                                  "properties": {
+                                    "artifact_id": {
+                                      "description": "ID of the artifact.",
+                                      "type": "string",
+                                      "example": "b225e278-8b4c-4f99-a696-8facf19f0e56"
+                                    },
+                                    "agent_created": {
+                                      "description": "Whether the artifact has been created by the agent.",
+                                      "type": "boolean",
+                                      "example": false
+                                    },
+                                    "file_name": {
+                                      "description": "Filename of the artifact.",
+                                      "type": "string",
+                                      "example": "main.py"
+                                    },
+                                    "relative_path": {
+                                      "description": "Relative path of the artifact in the agent's workspace.",
+                                      "type": "string",
+                                      "example": "python/code/",
+                                      "nullable": true
+                                    }
+                                  },
+                                  "required": [
+                                    "artifact_id",
+                                    "agent_created",
+                                    "file_name"
+                                  ]
+                                },
+                                "default": []
+                              },
+                              "is_last": {
+                                "description": "Whether this is the last step in the task.",
+                                "type": "boolean",
+                                "example": true,
+                                "default": false
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "total_items": {
+                          "description": "Total number of items.",
+                          "type": "integer",
+                          "example": 42
+                        },
+                        "total_pages": {
+                          "description": "Total number of pages.",
+                          "type": "integer",
+                          "example": 97
+                        },
+                        "current_page": {
+                          "description": "Current_page page number.",
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "page_size": {
+                          "description": "Number of items per page.",
+                          "type": "integer",
+                          "example": 25
+                        }
+                      },
+                      "required": [
+                        "total_items",
+                        "total_pages",
+                        "current_page",
+                        "page_size"
+                      ]
+                    }
                   },
-                  "default": []
+                  "required": [
+                    "steps",
+                    "pagination"
+                  ]
                 }
               }
             }
@@ -508,6 +769,7 @@
                         "step_id",
                         "task_id",
                         "status",
+                        "is_last",
                         "artifacts"
                       ],
                       "properties": {
@@ -718,6 +980,7 @@
                         "step_id",
                         "task_id",
                         "status",
+                        "is_last",
                         "artifacts"
                       ],
                       "properties": {
@@ -892,41 +1155,79 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "description": "A list of artifacts for the task",
-                  "type": "array",
-                  "items": {
-                    "description": "An Artifact either created by or submitted to the agent.",
-                    "type": "object",
-                    "properties": {
-                      "artifact_id": {
-                        "description": "ID of the artifact.",
-                        "type": "string",
-                        "example": "b225e278-8b4c-4f99-a696-8facf19f0e56"
-                      },
-                      "agent_created": {
-                        "description": "Whether the artifact has been created by the agent.",
-                        "type": "boolean",
-                        "example": false
-                      },
-                      "file_name": {
-                        "description": "Filename of the artifact.",
-                        "type": "string",
-                        "example": "main.py"
-                      },
-                      "relative_path": {
-                        "description": "Relative path of the artifact in the agent's workspace.",
-                        "type": "string",
-                        "example": "python/code/",
-                        "nullable": true
+                  "type": "object",
+                  "properties": {
+                    "artifacts": {
+                      "type": "array",
+                      "items": {
+                        "description": "An Artifact either created by or submitted to the agent.",
+                        "type": "object",
+                        "properties": {
+                          "artifact_id": {
+                            "description": "ID of the artifact.",
+                            "type": "string",
+                            "example": "b225e278-8b4c-4f99-a696-8facf19f0e56"
+                          },
+                          "agent_created": {
+                            "description": "Whether the artifact has been created by the agent.",
+                            "type": "boolean",
+                            "example": false
+                          },
+                          "file_name": {
+                            "description": "Filename of the artifact.",
+                            "type": "string",
+                            "example": "main.py"
+                          },
+                          "relative_path": {
+                            "description": "Relative path of the artifact in the agent's workspace.",
+                            "type": "string",
+                            "example": "python/code/",
+                            "nullable": true
+                          }
+                        },
+                        "required": [
+                          "artifact_id",
+                          "agent_created",
+                          "file_name"
+                        ]
                       }
                     },
-                    "required": [
-                      "artifact_id",
-                      "agent_created",
-                      "file_name"
-                    ]
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "total_items": {
+                          "description": "Total number of items.",
+                          "type": "integer",
+                          "example": 42
+                        },
+                        "total_pages": {
+                          "description": "Total number of pages.",
+                          "type": "integer",
+                          "example": 97
+                        },
+                        "current_page": {
+                          "description": "Current_page page number.",
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "page_size": {
+                          "description": "Number of items per page.",
+                          "type": "integer",
+                          "example": 25
+                        }
+                      },
+                      "required": [
+                        "total_items",
+                        "total_pages",
+                        "current_page",
+                        "page_size"
+                      ]
+                    }
                   },
-                  "default": []
+                  "required": [
+                    "artifacts",
+                    "pagination"
+                  ]
                 }
               }
             }
@@ -1173,52 +1474,365 @@
             "type": "integer",
             "example": 25
           }
-        }
-      },
-      "TaskStepsListResponse": {
-        "description": "A list of step IDs for the task",
-        "type": "array",
-        "items": {
-          "type": "string"
         },
-        "default": []
+        "required": [
+          "total_items",
+          "total_pages",
+          "current_page",
+          "page_size"
+        ]
       },
-      "TaskArtifactsListResponse": {
-        "description": "A list of artifacts for the task",
-        "type": "array",
-        "items": {
-          "description": "An Artifact either created by or submitted to the agent.",
-          "type": "object",
-          "properties": {
-            "artifact_id": {
-              "description": "ID of the artifact.",
-              "type": "string",
-              "example": "b225e278-8b4c-4f99-a696-8facf19f0e56"
-            },
-            "agent_created": {
-              "description": "Whether the artifact has been created by the agent.",
-              "type": "boolean",
-              "example": false
-            },
-            "file_name": {
-              "description": "Filename of the artifact.",
-              "type": "string",
-              "example": "main.py"
-            },
-            "relative_path": {
-              "description": "Relative path of the artifact in the agent's workspace.",
-              "type": "string",
-              "example": "python/code/",
-              "nullable": true
+      "TaskListResponse": {
+        "type": "object",
+        "properties": {
+          "tasks": {
+            "type": "array",
+            "items": {
+              "allOf": [
+                {
+                  "description": "Body of the task request.",
+                  "type": "object",
+                  "properties": {
+                    "input": {
+                      "description": "Input prompt for the task.",
+                      "type": "string",
+                      "example": "Write 'Washington' to the file 'output.txt'.",
+                      "nullable": true
+                    },
+                    "additional_input": {
+                      "description": "Input parameters for the task. Any value is allowed.",
+                      "type": "object",
+                      "example": "{\n\"debug\": false,\n\"mode\": \"benchmarks\"\n}"
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "description": "Definition of an agent task.",
+                  "required": [
+                    "task_id",
+                    "artifacts"
+                  ],
+                  "properties": {
+                    "task_id": {
+                      "description": "The ID of the task.",
+                      "type": "string",
+                      "example": "50da533e-3904-4401-8a07-c49adf88b5eb"
+                    },
+                    "artifacts": {
+                      "description": "A list of artifacts that the task has produced.",
+                      "type": "array",
+                      "items": {
+                        "description": "An Artifact either created by or submitted to the agent.",
+                        "type": "object",
+                        "properties": {
+                          "artifact_id": {
+                            "description": "ID of the artifact.",
+                            "type": "string",
+                            "example": "b225e278-8b4c-4f99-a696-8facf19f0e56"
+                          },
+                          "agent_created": {
+                            "description": "Whether the artifact has been created by the agent.",
+                            "type": "boolean",
+                            "example": false
+                          },
+                          "file_name": {
+                            "description": "Filename of the artifact.",
+                            "type": "string",
+                            "example": "main.py"
+                          },
+                          "relative_path": {
+                            "description": "Relative path of the artifact in the agent's workspace.",
+                            "type": "string",
+                            "example": "python/code/",
+                            "nullable": true
+                          }
+                        },
+                        "required": [
+                          "artifact_id",
+                          "agent_created",
+                          "file_name"
+                        ]
+                      },
+                      "example": [
+                        "7a49f31c-f9c6-4346-a22c-e32bc5af4d8e",
+                        "ab7b4091-2560-4692-a4fe-d831ea3ca7d6"
+                      ],
+                      "default": []
+                    }
+                  }
+                }
+              ]
             }
           },
-          "required": [
-            "artifact_id",
-            "agent_created",
-            "file_name"
-          ]
+          "pagination": {
+            "type": "object",
+            "properties": {
+              "total_items": {
+                "description": "Total number of items.",
+                "type": "integer",
+                "example": 42
+              },
+              "total_pages": {
+                "description": "Total number of pages.",
+                "type": "integer",
+                "example": 97
+              },
+              "current_page": {
+                "description": "Current_page page number.",
+                "type": "integer",
+                "example": 1
+              },
+              "page_size": {
+                "description": "Number of items per page.",
+                "type": "integer",
+                "example": 25
+              }
+            },
+            "required": [
+              "total_items",
+              "total_pages",
+              "current_page",
+              "page_size"
+            ]
+          }
         },
-        "default": []
+        "required": [
+          "tasks",
+          "pagination"
+        ]
+      },
+      "TaskStepsListResponse": {
+        "type": "object",
+        "properties": {
+          "steps": {
+            "type": "array",
+            "items": {
+              "allOf": [
+                {
+                  "description": "Body of the task request.",
+                  "type": "object",
+                  "properties": {
+                    "input": {
+                      "description": "Input prompt for the step.",
+                      "type": "string",
+                      "example": "Write the words you receive to the file 'output.txt'.",
+                      "nullable": true
+                    },
+                    "additional_input": {
+                      "description": "Input parameters for the task step. Any value is allowed.",
+                      "type": "object",
+                      "example": "{\n\"file_to_refactor\": \"models.py\"\n}"
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "step_id",
+                    "task_id",
+                    "status",
+                    "is_last",
+                    "artifacts"
+                  ],
+                  "properties": {
+                    "task_id": {
+                      "description": "The ID of the task this step belongs to.",
+                      "type": "string",
+                      "example": "50da533e-3904-4401-8a07-c49adf88b5eb"
+                    },
+                    "step_id": {
+                      "description": "The ID of the task step.",
+                      "type": "string",
+                      "example": "6bb1801a-fd80-45e8-899a-4dd723cc602e"
+                    },
+                    "name": {
+                      "description": "The name of the task step.",
+                      "type": "string",
+                      "example": "Write to file",
+                      "nullable": true
+                    },
+                    "status": {
+                      "description": "The status of the task step.",
+                      "type": "string",
+                      "example": "created",
+                      "enum": [
+                        "created",
+                        "running",
+                        "completed"
+                      ]
+                    },
+                    "output": {
+                      "description": "Output of the task step.",
+                      "type": "string",
+                      "example": "I am going to use the write_to_file command and write Washington to a file called output.txt <write_to_file('output.txt', 'Washington')",
+                      "nullable": true
+                    },
+                    "additional_output": {
+                      "description": "Output that the task step has produced. Any value is allowed.",
+                      "type": "object",
+                      "example": "{\n\"tokens\": 7894,\n\"estimated_cost\": \"0,24$\"\n}",
+                      "nullable": true
+                    },
+                    "artifacts": {
+                      "description": "A list of artifacts that the step has produced.",
+                      "type": "array",
+                      "items": {
+                        "description": "An Artifact either created by or submitted to the agent.",
+                        "type": "object",
+                        "properties": {
+                          "artifact_id": {
+                            "description": "ID of the artifact.",
+                            "type": "string",
+                            "example": "b225e278-8b4c-4f99-a696-8facf19f0e56"
+                          },
+                          "agent_created": {
+                            "description": "Whether the artifact has been created by the agent.",
+                            "type": "boolean",
+                            "example": false
+                          },
+                          "file_name": {
+                            "description": "Filename of the artifact.",
+                            "type": "string",
+                            "example": "main.py"
+                          },
+                          "relative_path": {
+                            "description": "Relative path of the artifact in the agent's workspace.",
+                            "type": "string",
+                            "example": "python/code/",
+                            "nullable": true
+                          }
+                        },
+                        "required": [
+                          "artifact_id",
+                          "agent_created",
+                          "file_name"
+                        ]
+                      },
+                      "default": []
+                    },
+                    "is_last": {
+                      "description": "Whether this is the last step in the task.",
+                      "type": "boolean",
+                      "example": true,
+                      "default": false
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "pagination": {
+            "type": "object",
+            "properties": {
+              "total_items": {
+                "description": "Total number of items.",
+                "type": "integer",
+                "example": 42
+              },
+              "total_pages": {
+                "description": "Total number of pages.",
+                "type": "integer",
+                "example": 97
+              },
+              "current_page": {
+                "description": "Current_page page number.",
+                "type": "integer",
+                "example": 1
+              },
+              "page_size": {
+                "description": "Number of items per page.",
+                "type": "integer",
+                "example": 25
+              }
+            },
+            "required": [
+              "total_items",
+              "total_pages",
+              "current_page",
+              "page_size"
+            ]
+          }
+        },
+        "required": [
+          "steps",
+          "pagination"
+        ]
+      },
+      "TaskArtifactsListResponse": {
+        "type": "object",
+        "properties": {
+          "artifacts": {
+            "type": "array",
+            "items": {
+              "description": "An Artifact either created by or submitted to the agent.",
+              "type": "object",
+              "properties": {
+                "artifact_id": {
+                  "description": "ID of the artifact.",
+                  "type": "string",
+                  "example": "b225e278-8b4c-4f99-a696-8facf19f0e56"
+                },
+                "agent_created": {
+                  "description": "Whether the artifact has been created by the agent.",
+                  "type": "boolean",
+                  "example": false
+                },
+                "file_name": {
+                  "description": "Filename of the artifact.",
+                  "type": "string",
+                  "example": "main.py"
+                },
+                "relative_path": {
+                  "description": "Relative path of the artifact in the agent's workspace.",
+                  "type": "string",
+                  "example": "python/code/",
+                  "nullable": true
+                }
+              },
+              "required": [
+                "artifact_id",
+                "agent_created",
+                "file_name"
+              ]
+            }
+          },
+          "pagination": {
+            "type": "object",
+            "properties": {
+              "total_items": {
+                "description": "Total number of items.",
+                "type": "integer",
+                "example": 42
+              },
+              "total_pages": {
+                "description": "Total number of pages.",
+                "type": "integer",
+                "example": 97
+              },
+              "current_page": {
+                "description": "Current_page page number.",
+                "type": "integer",
+                "example": 1
+              },
+              "page_size": {
+                "description": "Number of items per page.",
+                "type": "integer",
+                "example": 25
+              }
+            },
+            "required": [
+              "total_items",
+              "total_pages",
+              "current_page",
+              "page_size"
+            ]
+          }
+        },
+        "required": [
+          "artifacts",
+          "pagination"
+        ]
       },
       "TaskInput": {
         "description": "Input parameters for the task. Any value is allowed.",
@@ -1423,6 +2037,7 @@
               "step_id",
               "task_id",
               "status",
+              "is_last",
               "artifacts"
             ],
             "properties": {
