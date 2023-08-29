@@ -55,7 +55,7 @@
 		},
 		{
 			"key": "env-server",
-			"value": "",
+			"value": "Test server",
 			"enabled": true
 		},
 		{
@@ -80,12 +80,18 @@
 		},
 		{
 			"key": "env-openapi-json-url",
-			"value": "",
+			"value": "https://raw.githubusercontent.com/merwanehamadi/agent-protocol/main/openapi.json",
 			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "env-schema",
+			"value": "",
+			"type": "any",
 			"enabled": true
 		}
 	],
 	"_postman_variable_scope": "environment",
-	"_postman_exported_at": "2023-08-28T03:17:55.182Z",
+	"_postman_exported_at": "2023-08-29T04:00:00.370Z",
 	"_postman_exported_using": "Postman/10.17.2"
 }
