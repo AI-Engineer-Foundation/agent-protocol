@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Agent Protocol
   description: Specification of the API protocol for communication with an agent.
-  version: v0.3
+  version: v0.4
 servers:
   - url: 'http://0.0.0.0:8000'
     description: Test server
@@ -59,15 +59,11 @@ paths:
           example: 25
       responses:
         '200':
-          description: Returned list of agent's task IDs.
+          description: Returned list of agent's tasks.
           content:
             application/json:
               schema:
-                description: A list of task IDs
-                type: array
-                items:
-                  type: string
-                default: []
+                $ref: '#/components/schemas/TaskListResponse'
         default:
           description: Internal Server Error
       tags:
@@ -363,18 +359,47 @@ components:
           description: Number of items per page.
           type: integer
           example: 25
+      required:
+        - total_items
+        - total_pages
+        - current_page
+        - page_size
+    TaskListResponse:
+      type: object
+      properties:
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Task'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+      required:
+        - tasks
+        - pagination
     TaskStepsListResponse:
-      description: A list of step IDs for the task
-      type: array
-      items:
-        type: string
-      default: []
+      type: object
+      properties:
+        steps:
+          type: array
+          items:
+            $ref: '#/components/schemas/Step'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+      required:
+        - steps
+        - pagination
     TaskArtifactsListResponse:
-      description: A list of artifacts for the task
-      type: array
-      items:
-        $ref: '#/components/schemas/Artifact'
-      default: []
+      type: object
+      properties:
+        artifacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Artifact'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+      required:
+        - artifacts
+        - pagination
     TaskInput:
       description: Input parameters for the task. Any value is allowed.
       type: object
@@ -490,6 +515,7 @@ components:
             - step_id
             - task_id
             - status
+            - is_last
             - artifacts
           properties:
             task_id:
