@@ -2,7 +2,7 @@
 
 | Feature name  | Support Pagination                       |
 | :------------ |:-----------------------------------------|
-| **Author(s)** | Merwane Hamadi (merwanehamadi@gmail.com) |
+| **Author(s)** | Merwane Hamadi (merwanehamadi@gmail.com)  Craig Swift (craigswift13@gmail.com)|
 | **RFC PR:**   | [PR 53](https://github.com/e2b-dev/agent-protocol/pull/53)                              |
 | **Updated**   | 2023-08-28                               |
 | **Obsoletes** |                                          |
