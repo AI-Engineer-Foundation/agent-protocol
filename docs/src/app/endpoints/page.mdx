@@ -49,7 +49,17 @@ curl --request POST http://localhost:8000/agent/tasks
   <Col>
     List all tasks that have been created for the agent.
 
+    ### Path attributes
+
+  <Properties>
     
+    <Property name="current_page" type="integer">
+        Page number
+    </Property>
+    <Property name="page_size" type="integer">
+        Number of items per page
+    </Property>
+  </Properties>
     
    
     ### Response
@@ -112,6 +122,12 @@ curl  http://localhost:8000/agent/tasks/[task_id]
     
     <Property name="task_id" type="string">
         ID of the task.
+    </Property>
+    <Property name="current_page" type="integer">
+        Page number
+    </Property>
+    <Property name="page_size" type="integer">
+        Number of items per page
     </Property>
   </Properties>
     
@@ -222,6 +238,12 @@ curl  http://localhost:8000/agent/tasks/[task_id]/steps/[step_id]
     
     <Property name="task_id" type="string">
         ID of the task
+    </Property>
+    <Property name="current_page" type="integer">
+        Page number
+    </Property>
+    <Property name="page_size" type="integer">
+        Number of items per page
     </Property>
   </Properties>
     
