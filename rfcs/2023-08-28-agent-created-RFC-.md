@@ -2,7 +2,7 @@
 
 | Feature name  | Artifact Created At                      |
 |:--------------|:-----------------------------------------|
-| **Author(s)** | Merwane Hamadi (merwanehamadi@gmail.com) |
+| **Author(s)** | Merwane Hamadi (merwanehamadi@gmail.com) Craig Swift (craigswift13@gmail.com) |
 | **RFC PR:**   |                                          |
 | **Created**   | 2023-08-28                               |
 | **Obsoletes** |                                          |
