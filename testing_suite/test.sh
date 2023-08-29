@@ -49,8 +49,7 @@ Running the tests, this might take a while. Please wait...
 
 EOF
 
-newman run https://raw.githubusercontent.com/Significant-Gravitas/postman/master/Postman%20Collections/agent_protocol_v0.4.json \
--e https://raw.githubusercontent.com/Significant-Gravitas/postman/master/Postman%20Collections/env_0.4.json \
+newman run https://raw.githubusercontent.com/e2b-dev/agent-protocol/main/testing_suite/agent_protocol_v0.4.json \
 --env-var "url=$URL" \
 -r htmlextra \
 --reporter-htmlextra-export report.html \
@@ -65,9 +64,9 @@ elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
 fi
 echo "If the report wasn't generated, please open the report.html file in your browser."
 
-newman run https://raw.githubusercontent.com/merwanehamadi/postman-contract-test-generator/main/src/Contract%20Test%20Generator.postman_collection.json \
--e https://raw.githubusercontent.com/merwanehamadi/postman-contract-test-generator/main/src/Contract%20Test%20Environment.postman_environment.json \
---env-var "env-openapi-json-url=https://raw.githubusercontent.com/merwanehamadi/agent-protocol/main/openapi.json" \
+newman run https://raw.githubusercontent.com/e2b-dev/agent-protocol/main/testing_suite/contract_tests_v0.4.json \
+-e https://raw.githubusercontent.com/e2b-dev/agent-protocol/main/testing_suite/contract_tests_env.json \
+--env-var "env-openapi-json-url=https://raw.githubusercontent.com/e2b-dev/agent-protocol/main/schemas/openapi.json" \
 -r htmlextra \
 --env-var "env-server=Test server" \
 -r htmlextra \
