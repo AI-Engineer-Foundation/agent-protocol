@@ -153,6 +153,34 @@
       "get": {
         "operationId": "listAgentTasksIDs",
         "summary": "List all tasks that have been created for the agent.",
+        "parameters": [
+          {
+            "name": "current_page",
+            "in": "query",
+            "description": "Page number",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1,
+              "minimum": 1
+            },
+            "example": 2
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "Number of items per page",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10,
+              "minimum": 1
+            },
+            "example": 25
+          }
+        ],
         "responses": {
           "200": {
             "description": "Returned list of agent's task IDs.",
@@ -334,6 +362,32 @@
                 "name": "task_id"
               }
             ]
+          },
+          {
+            "name": "current_page",
+            "in": "query",
+            "description": "Page number",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1,
+              "minimum": 1
+            },
+            "example": 2
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "Number of items per page",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10,
+              "minimum": 1
+            },
+            "example": 25
           }
         ],
         "responses": {
@@ -411,7 +465,8 @@
                   "input": {
                     "description": "Input prompt for the step.",
                     "type": "string",
-                    "example": "Write the words you receive to the file 'output.txt'."
+                    "example": "Write the words you receive to the file 'output.txt'.",
+                    "nullable": true
                   },
                   "additional_input": {
                     "description": "Input parameters for the task step. Any value is allowed.",
@@ -437,7 +492,8 @@
                         "input": {
                           "description": "Input prompt for the step.",
                           "type": "string",
-                          "example": "Write the words you receive to the file 'output.txt'."
+                          "example": "Write the words you receive to the file 'output.txt'.",
+                          "nullable": true
                         },
                         "additional_input": {
                           "description": "Input parameters for the task step. Any value is allowed.",
@@ -646,7 +702,8 @@
                         "input": {
                           "description": "Input prompt for the step.",
                           "type": "string",
-                          "example": "Write the words you receive to the file 'output.txt'."
+                          "example": "Write the words you receive to the file 'output.txt'.",
+                          "nullable": true
                         },
                         "additional_input": {
                           "description": "Input parameters for the task step. Any value is allowed.",
@@ -801,6 +858,32 @@
                 "name": "task_id"
               }
             ]
+          },
+          {
+            "name": "current_page",
+            "in": "query",
+            "description": "Page number",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1,
+              "minimum": 1
+            },
+            "example": 2
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "Number of items per page",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10,
+              "minimum": 1
+            },
+            "example": 25
           }
         ],
         "responses": {
@@ -1067,6 +1150,31 @@
   },
   "components": {
     "schemas": {
+      "Pagination": {
+        "type": "object",
+        "properties": {
+          "total_items": {
+            "description": "Total number of items.",
+            "type": "integer",
+            "example": 42
+          },
+          "total_pages": {
+            "description": "Total number of pages.",
+            "type": "integer",
+            "example": 97
+          },
+          "current_page": {
+            "description": "Current_page page number.",
+            "type": "integer",
+            "example": 1
+          },
+          "page_size": {
+            "description": "Number of items per page.",
+            "type": "integer",
+            "example": 25
+          }
+        }
+      },
       "TaskStepsListResponse": {
         "description": "A list of step IDs for the task",
         "type": "array",
@@ -1280,7 +1388,8 @@
           "input": {
             "description": "Input prompt for the step.",
             "type": "string",
-            "example": "Write the words you receive to the file 'output.txt'."
+            "example": "Write the words you receive to the file 'output.txt'.",
+            "nullable": true
           },
           "additional_input": {
             "description": "Input parameters for the task step. Any value is allowed.",
@@ -1298,7 +1407,8 @@
               "input": {
                 "description": "Input prompt for the step.",
                 "type": "string",
-                "example": "Write the words you receive to the file 'output.txt'."
+                "example": "Write the words you receive to the file 'output.txt'.",
+                "nullable": true
               },
               "additional_input": {
                 "description": "Input parameters for the task step. Any value is allowed.",
