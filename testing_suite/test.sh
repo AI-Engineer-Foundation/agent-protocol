@@ -64,7 +64,7 @@ elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
 fi
 echo "If the report wasn't generated, please open the report.html file in your browser."
 
-newman run https://raw.githubusercontent.com/e2b-dev/agent-protocol/main/testing_suite/contract_tests_v0.4.json \
+newman run https://raw.githubusercontent.com/e2b-dev/agent-protocol/main/testing_suite/contract_tests.json \
 -e https://raw.githubusercontent.com/e2b-dev/agent-protocol/main/testing_suite/contract_tests_env.json \
 --env-var "env-openapi-json-url=https://raw.githubusercontent.com/e2b-dev/agent-protocol/main/schemas/openapi.json" \
 -r htmlextra \
