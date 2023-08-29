@@ -441,7 +441,7 @@ components:
           description: File to upload.
           type: string
           format: binary
-          example: "binary representation of file"
+          example: binary representation of file
         relative_path:
           description: Relative path of the artifact in the agent's workspace.
           type: string
