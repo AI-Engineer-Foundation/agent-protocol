@@ -76,7 +76,7 @@
 									"\r",
 									"        const schema = jsyaml.load(providedSchema);\r",
 									"        pm.collectionVariables.set('coll-schema', JSON.stringify(schema));\r",
-									"        postman.setNextRequest('Get API Base Urls');\r",
+									"        postman.setNextRequest('Get API Base Url');\r",
 									"    }\r",
 									"    catch(err){\r",
 									"        console.log(err);\r",
