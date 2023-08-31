@@ -1347,7 +1347,94 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"id": "c03d94f7-1f28-4e36-b010-c3dd89aece4e",
+							"name": "mock response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"input\": \"Write the word 'Washington' to a .txt file\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{url}}/agent/tasks"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sun, 13 Aug 2023 23:23:05 GMT",
+									"enabled": true
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8",
+									"enabled": true
+								},
+								{
+									"key": "Content-Length",
+									"value": "28",
+									"enabled": true
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"enabled": true
+								},
+								{
+									"key": "x-srv-trace",
+									"value": "v=1;t=daef761e243c402b",
+									"enabled": true
+								},
+								{
+									"key": "x-srv-span",
+									"value": "v=1;s=2c0bd88502372360",
+									"enabled": true
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "120",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "115",
+									"enabled": true
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "1691968334",
+									"enabled": true
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"96-S/5iQ2y1qqIInh5BwoPc+chvDJU\"",
+									"enabled": true
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"enabled": true
+								}
+							],
+							"cookie": [],
+							"responseTime": null,
+							"body": "{\n    \"input\": \"Write the word 'Washington' to a .txt file\",\n    \"additional_input\": null,\n    \"task_id\": \"121\",\n    \"artifacts\": []\n}"
+						}
+					]
 				}
 			],
 			"id": "4b743f46-e582-4565-ac7d-c6446a710ee1",
