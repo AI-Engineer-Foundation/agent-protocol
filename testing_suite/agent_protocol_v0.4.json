@@ -129,22 +129,7 @@
 										}
 									}
 								},
-								"url": {
-									"raw": "{{url}}/agent/tasks?=",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"agent",
-										"tasks"
-									],
-									"query": [
-										{
-											"key": "",
-											"value": ""
-										}
-									]
-								}
+								"url": "{{url}}/agent/tasks"
 							},
 							"status": "OK",
 							"code": 200,
