@@ -113,6 +113,11 @@
 										"key": "Content-Type",
 										"value": "application/json",
 										"type": "text"
+									},
+									{
+										"key": "mock-match",
+										"value": "7",
+										"type": "text"
 									}
 								],
 								"body": {
@@ -125,7 +130,7 @@
 									}
 								},
 								"url": {
-									"raw": "{{url}}/agent/tasks?mock-match=7",
+									"raw": "{{url}}/agent/tasks?=",
 									"host": [
 										"{{url}}"
 									],
@@ -135,8 +140,8 @@
 									],
 									"query": [
 										{
-											"key": "mock-match",
-											"value": "7"
+											"key": "",
+											"value": ""
 										}
 									]
 								}
