@@ -119,7 +119,7 @@
 									}
 								},
 								"url": {
-									"raw": "{{url}}/agent/tasks?mock-match=7",
+									"raw": "{{url}}/agent/tasks?mock-match=7s",
 									"host": [
 										"{{url}}"
 									],
@@ -130,8 +130,7 @@
 									"query": [
 										{
 											"key": "mock-match",
-											"value": "7",
-											"type": "text"
+											"value": "7s"
 										}
 									]
 								}
