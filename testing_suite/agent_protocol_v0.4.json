@@ -87,7 +87,7 @@
 						"header": [
 							{
 								"key": "mock-match",
-								"value": "19",
+								"value": "7",
 								"type": "text"
 							}
 						],
@@ -113,11 +113,6 @@
 										"key": "Content-Type",
 										"value": "application/json",
 										"type": "text"
-									},
-									{
-										"key": "mock-match",
-										"value": "19",
-										"type": "text"
 									}
 								],
 								"body": {
@@ -129,7 +124,22 @@
 										}
 									}
 								},
-								"url": "{{url}}/agent/tasks"
+								"url": {
+									"raw": "{{url}}/agent/tasks?mock-match=7",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"agent",
+										"tasks"
+									],
+									"query": [
+										{
+											"key": "mock-match",
+											"value": "7"
+										}
+									]
+								}
 							},
 							"status": "OK",
 							"code": 200,
