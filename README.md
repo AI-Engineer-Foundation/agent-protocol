@@ -133,6 +133,7 @@ If you're an agent developer, you can use the SDK to implement the protocol. You
 ## 💬 Public discourse & development
 
 - PRs and issues are welcome!
+- Join [AIEF Discord](https://discord.gg/TxDzUWab) and their dedicated `agent-protocol` channel
 - Join [Auto-GPT Discord](https://discord.gg/autogpt) and their dedicated
   `agent-protocol` channel
 - Join [e2b Discord](https://discord.gg/U7KEcGErtQ) and their dedicated
