@@ -49,21 +49,6 @@ Running the tests, this might take a while. Please wait...
 
 EOF
 
-newman run https://raw.githubusercontent.com/e2b-dev/agent-protocol/main/testing_suite/agent_protocol_v0.4.json \
---env-var "url=$URL" \
--r htmlextra \
---reporter-htmlextra-export report.html \
---reporter-htmlextra-title "Agent Protocol Tests"
-
-agent_protocol_tests_results=$?
-
-if [[ "$OSTYPE" == "darwin"* ]]; then
-  open report.html
-elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
-  xdg-open report.html
-fi
-echo "If the report wasn't generated, please open the report.html file in your browser."
-
 newman run https://raw.githubusercontent.com/e2b-dev/agent-protocol/main/testing_suite/contract_tests.json \
 -e https://raw.githubusercontent.com/e2b-dev/agent-protocol/main/testing_suite/contract_tests_env.json \
 --env-var "env-openapi-json-url=https://raw.githubusercontent.com/e2b-dev/agent-protocol/main/schemas/openapi.json" \

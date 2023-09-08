@@ -80,7 +80,7 @@
 		},
 		{
 			"key": "env-openapi-json-url",
-			"value": "https://raw.githubusercontent.com/merwanehamadi/agent-protocol/main/openapi.json",
+			"value": "https://raw.githubusercontent.com/AI-Engineers-Foundation/agent-protocol/main/schemas/openapi.json",
 			"type": "default",
 			"enabled": true
 		},
