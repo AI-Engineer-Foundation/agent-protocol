@@ -34,7 +34,7 @@ paths:
       tags:
         - agent
     get:
-      operationId: listAgentTasksIDs
+      operationId: listAgentTasks
       summary: List all tasks that have been created for the agent.
       parameters:
         - name: current_page

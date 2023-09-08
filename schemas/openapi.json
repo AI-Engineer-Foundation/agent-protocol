@@ -151,7 +151,7 @@
         ]
       },
       "get": {
-        "operationId": "listAgentTasksIDs",
+        "operationId": "listAgentTasks",
         "summary": "List all tasks that have been created for the agent.",
         "parameters": [
           {
