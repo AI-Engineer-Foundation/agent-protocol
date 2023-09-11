@@ -263,3 +263,5 @@ cython_debug/
 
 .idea/
 
+# Testing Suite HTML Reports
+report.html
