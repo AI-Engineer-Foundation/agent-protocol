@@ -19,12 +19,6 @@ if ! command -v newman &> /dev/null; then
   npm install -g newman
 fi
 
-if ! command -v newman-reporter-htmlextra &> /dev/null; then
-  echo "newman-reporter-htmlextra is not found. Installing..."
-  npm install -g newman-reporter-htmlextra
-fi
-
-
 # Inform the user that the process may take some time
 cat << "EOF"
 
@@ -52,22 +46,9 @@ EOF
 newman run https://raw.githubusercontent.com/e2b-dev/agent-protocol/main/testing_suite/contract_tests.json \
 -e https://raw.githubusercontent.com/e2b-dev/agent-protocol/main/testing_suite/contract_tests_env.json \
 --env-var "env-openapi-json-url=https://raw.githubusercontent.com/e2b-dev/agent-protocol/main/schemas/openapi.json" \
--r htmlextra \
---env-var "env-server=Test server" \
--r htmlextra \
---reporter-htmlextra-export report.html \
---reporter-htmlextra-title "Agent Protocol Contract Testing"
+--env-var "env-server=Test server"
 
 agent_protocol_contract_testing_results=$?
-
-
-if [[ "$OSTYPE" == "darwin"* ]]; then
-  opener="open"
-elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
-  opener="xdg-open"
-fi
-
-$opener report.html || echo "couldn't open the report. You can open it yourself in your favorite browser. The report is located in the current directory and named report.html"
 
 if [[ $agent_protocol_tests_results -ne 0 ]] || [[ $agent_protocol_contract_testing_results -ne 0 ]]; then
     exit 1
