@@ -62,10 +62,12 @@ agent_protocol_contract_testing_results=$?
 
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
-  open report.html
+  opener="open"
 elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
-  xdg-open report.html
+  opener="xdg-open"
 fi
+
+$opener report.html || echo "couldn't open the report. You can open it yourself in your favorite browser. The report is located in the current directory and named report.html"
 
 if [[ $agent_protocol_tests_results -ne 0 ]] || [[ $agent_protocol_contract_testing_results -ne 0 ]]; then
     exit 1
