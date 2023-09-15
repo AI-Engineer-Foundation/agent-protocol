@@ -43,6 +43,10 @@ Running the tests, this might take a while. Please wait...
 
 EOF
 
+newman run https://raw.githubusercontent.com/e2b-dev/agent-protocol/main/testing_suite/agent_protocol_v1.json \
+--env-var "url=$URL"
+
+
 newman run https://raw.githubusercontent.com/e2b-dev/agent-protocol/main/testing_suite/contract_tests.json \
 -e https://raw.githubusercontent.com/e2b-dev/agent-protocol/main/testing_suite/contract_tests_env.json \
 --env-var "env-openapi-json-url=https://raw.githubusercontent.com/e2b-dev/agent-protocol/main/schemas/openapi.json" \

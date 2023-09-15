@@ -19,7 +19,7 @@ const url = 'http://localhost:8000'
 const body = JSON.stringify({ input: 'task-input-to-your-agent' })
 
 // Create task
-let response = await fetch(`${url}/agent/tasks`, { method: 'POST' }, { body })
+let response = await fetch(`${url}/ap/v1/agent/tasks`, { method: 'POST' }, { body })
 let data = await response.json()
 
 const taskId = data.task_id
@@ -27,7 +27,7 @@ let isLast = false
 
 // Execute steps until the completion
 while (!isLast) {
-  response = await fetch(`${url}/agent/tasks/${taskId}/steps`, {
+  response = await fetch(`${url}/ap/v1/agent/tasks/${taskId}/steps`, {
     method: 'POST',
   })
   data = await response.json()
@@ -46,7 +46,7 @@ To **create a task** run
 
 ```sh
 curl --request POST \
-  --url http://localhost:8000/agent/tasks \
+  --url http://localhost:8000/ap/v1/agent/tasks \
   --header 'Content-Type: application/json' \
   --data '{
 	"input": "task-input-to-your-agent"
@@ -68,7 +68,7 @@ previous request and run:
 
 ```sh
 curl --request POST \
-  --url http://localhost:8000/agent/tasks/<task-id>/steps
+  --url http://localhost:8000/ap/v1/agent/tasks/<task-id>/steps
 ```
 
 To get response like this:

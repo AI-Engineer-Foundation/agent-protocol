@@ -10,56 +10,56 @@ class TestCompliance:
         return TaskRequestBody(input="test").dict()
 
     def test_create_agent_task(self, url):
-        response = requests.post(f"{url}/agent/tasks", json=self.task_data)
+        response = requests.post(f"{url}/ap/v1/agent/tasks", json=self.task_data)
         assert response.status_code == 200
         assert Task(**response.json()).task_id
 
     def test_list_agent_tasks_ids(self, url):
-        response = requests.get(f"{url}/agent/tasks")
+        response = requests.get(f"{url}/ap/v1/agent/tasks")
         assert response.status_code == 200
         assert isinstance(response.json(), list)
 
     def test_get_agent_task(self, url):
         # Create task
-        response = requests.post(f"{url}/agent/tasks", json=self.task_data)
+        response = requests.post(f"{url}/ap/v1/agent/tasks", json=self.task_data)
         task_id = response.json()["task_id"]
-        response = requests.get(f"{url}/agent/tasks/{task_id}")
+        response = requests.get(f"{url}/ap/v1/agent/tasks/{task_id}")
         assert response.status_code == 200
         assert Task(**response.json()).task_id == task_id
 
     def test_list_agent_task_steps(self, url):
         # Create task
-        response = requests.post(f"{url}/agent/tasks", json=self.task_data)
+        response = requests.post(f"{url}/ap/v1/agent/tasks", json=self.task_data)
         task_id = response.json()["task_id"]
-        response = requests.get(f"{url}/agent/tasks/{task_id}/steps")
+        response = requests.get(f"{url}/ap/v1/agent/tasks/{task_id}/steps")
         assert response.status_code == 200
         assert isinstance(response.json(), list)
 
     def test_execute_agent_task_step(self, url):
         # Create task
-        response = requests.post(f"{url}/agent/tasks", json=self.task_data)
+        response = requests.post(f"{url}/ap/v1/agent/tasks", json=self.task_data)
         task_id = response.json()["task_id"]
         step_body = StepRequestBody(input="test")
         response = requests.post(
-            f"{url}/agent/tasks/{task_id}/steps", json=step_body.dict()
+            f"{url}/ap/v1/agent/tasks/{task_id}/steps", json=step_body.dict()
         )
         assert response.status_code == 200
 
     def test_list_artifacts(self, url):
-        response = requests.post(f"{url}/agent/tasks", json=self.task_data)
+        response = requests.post(f"{url}/ap/v1/agent/tasks", json=self.task_data)
         task_id = response.json()["task_id"]
-        response = requests.get(f"{url}/agent/tasks/{task_id}/artifacts")
+        response = requests.get(f"{url}/ap/v1/agent/tasks/{task_id}/artifacts")
         assert response.status_code == 200
         assert isinstance(response.json(), list)
 
     def test_get_agent_task_step(self, url):
         # Create task
-        response = requests.post(f"{url}/agent/tasks", json=self.task_data)
+        response = requests.post(f"{url}/ap/v1/agent/tasks", json=self.task_data)
         task_id = response.json()["task_id"]
         # Get steps
-        response = requests.get(f"{url}/agent/tasks/{task_id}/steps")
+        response = requests.get(f"{url}/ap/v1/agent/tasks/{task_id}/steps")
         step_id = response.json()[0]
-        response = requests.get(f"{url}/agent/tasks/{task_id}/steps/{step_id}")
+        response = requests.get(f"{url}/ap/v1/agent/tasks/{task_id}/steps/{step_id}")
         assert response.status_code == 200
         assert Step(**response.json()).step_id == step_id
 

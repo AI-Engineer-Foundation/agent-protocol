@@ -129,6 +129,9 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
+# bun
+bun.lockb
+
 ### Python template
 # Byte-compiled / optimized / DLL files
 __pycache__/

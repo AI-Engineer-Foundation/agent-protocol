@@ -83,7 +83,7 @@ export const createAgentTask = async (
   tasks.push([task, stepHandler])
   return task
 }
-app.post('/agent/tasks', (req, res) => {
+app.post('/ap/v1/agent/tasks', (req, res) => {
   void (async () => {
     try {
       const task = await createAgentTask(req.body)
@@ -102,7 +102,7 @@ app.post('/agent/tasks', (req, res) => {
 export const listAgentTaskIDs = async (): Promise<string[]> => {
   return tasks.map(([task, _]) => task.task_id)
 }
-app.get('/agent/tasks', (req, res) => {
+app.get('/ap/v1/agent/tasks', (req, res) => {
   void (async () => {
     try {
       const ids = await listAgentTaskIDs()
@@ -126,7 +126,7 @@ export const getAgentTask = async (taskId: string): Promise<Task> => {
   }
   return task[0]
 }
-app.get('/agent/tasks/:task_id', (req, res) => {
+app.get('/ap/v1/agent/tasks/:task_id', (req, res) => {
   void (async () => {
     try {
       const task = await getAgentTask(req.params.task_id)
@@ -152,7 +152,7 @@ export const listAgentTaskSteps = async (taskId: string): Promise<string[]> => {
     .filter((step) => step.task_id === taskId)
     .map((step) => step.step_id)
 }
-app.get('/agent/tasks/:task_id/steps', (req, res) => {
+app.get('/ap/v1/agent/tasks/:task_id/steps', (req, res) => {
   void (async () => {
     try {
       const ids = await listAgentTaskSteps(req.params.task_id)
@@ -198,7 +198,7 @@ export const executeAgentTaskStep = async (
   steps.push(step)
   return step
 }
-app.post('/agent/tasks/:task_id/steps', (req, res) => {
+app.post('/ap/v1/agent/tasks/:task_id/steps', (req, res) => {
   void (async () => {
     try {
       const step = await executeAgentTaskStep(req.params.task_id, req.body)
@@ -230,7 +230,7 @@ export const getAgentTaskStep = async (
   }
   return step
 }
-app.get('/agent/tasks/:task_id/steps/:step_id', (req, res) => {
+app.get('/ap/v1/agent/tasks/:task_id/steps/:step_id', (req, res) => {
   void (async () => {
     try {
       const step = await getAgentTaskStep(

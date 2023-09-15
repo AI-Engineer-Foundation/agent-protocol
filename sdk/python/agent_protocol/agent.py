@@ -30,7 +30,7 @@ _step_handler: Optional[StepHandler]
 base_router = APIRouter()
 
 
-@base_router.post("/agent/tasks", response_model=Task, tags=["agent"])
+@base_router.post("/ap/v1/agent/tasks", response_model=Task, tags=["agent"])
 async def create_agent_task(body: TaskRequestBody | None = None) -> Task:
     """
     Creates a task for the agent.
@@ -47,7 +47,7 @@ async def create_agent_task(body: TaskRequestBody | None = None) -> Task:
     return task
 
 
-@base_router.get("/agent/tasks", response_model=List[str], tags=["agent"])
+@base_router.get("/ap/v1/agent/tasks", response_model=List[str], tags=["agent"])
 async def list_agent_tasks_ids() -> List[str]:
     """
     List all tasks that have been created for the agent.
@@ -55,7 +55,7 @@ async def list_agent_tasks_ids() -> List[str]:
     return [task.task_id for task in await Agent.db.list_tasks()]
 
 
-@base_router.get("/agent/tasks/{task_id}", response_model=Task, tags=["agent"])
+@base_router.get("/ap/v1/agent/tasks/{task_id}", response_model=Task, tags=["agent"])
 async def get_agent_task(task_id: str) -> Task:
     """
     Get details about a specified agent task.
@@ -64,7 +64,7 @@ async def get_agent_task(task_id: str) -> Task:
 
 
 @base_router.get(
-    "/agent/tasks/{task_id}/steps",
+    "/ap/v1/agent/tasks/{task_id}/steps",
     response_model=List[str],
     tags=["agent"],
 )
@@ -77,7 +77,7 @@ async def list_agent_task_steps(task_id: str) -> List[str]:
 
 
 @base_router.post(
-    "/agent/tasks/{task_id}/steps",
+    "/ap/v1/agent/tasks/{task_id}/steps",
     response_model=Step,
     tags=["agent"],
 )
@@ -109,7 +109,7 @@ async def execute_agent_task_step(
 
 
 @base_router.get(
-    "/agent/tasks/{task_id}/steps/{step_id}",
+    "/ap/v1/agent/tasks/{task_id}/steps/{step_id}",
     response_model=Step,
     tags=["agent"],
 )
@@ -121,7 +121,7 @@ async def get_agent_task_step(task_id: str, step_id: str) -> Step:
 
 
 @base_router.get(
-    "/agent/tasks/{task_id}/artifacts",
+    "/ap/v1/agent/tasks/{task_id}/artifacts",
     response_model=List[Artifact],
     tags=["agent"],
 )
@@ -134,7 +134,7 @@ async def list_agent_task_artifacts(task_id: str) -> List[Artifact]:
 
 
 @base_router.post(
-    "/agent/tasks/{task_id}/artifacts",
+    "/ap/v1/agent/tasks/{task_id}/artifacts",
     response_model=Artifact,
     tags=["agent"],
 )
@@ -162,7 +162,7 @@ async def upload_agent_task_artifacts(
 
 
 @base_router.get(
-    "/agent/tasks/{task_id}/artifacts/{artifact_id}",
+    "/ap/v1/agent/tasks/{task_id}/artifacts/{artifact_id}",
     tags=["agent"],
 )
 async def download_agent_task_artifacts(task_id: str, artifact_id: str) -> FileResponse:

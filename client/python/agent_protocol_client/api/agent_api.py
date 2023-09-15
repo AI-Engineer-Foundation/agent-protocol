@@ -203,7 +203,7 @@ class AgentApi(object):
         }
 
         return self.api_client.call_api(
-            "/agent/tasks",
+            "/ap/v1/agent/tasks",
             "POST",
             _path_params,
             _query_params,
@@ -383,7 +383,7 @@ class AgentApi(object):
         }
 
         return self.api_client.call_api(
-            "/agent/tasks/{task_id}/artifacts/{artifact_id}",
+            "/ap/v1/agent/tasks/{task_id}/artifacts/{artifact_id}",
             "GET",
             _path_params,
             _query_params,
@@ -571,7 +571,7 @@ class AgentApi(object):
         }
 
         return self.api_client.call_api(
-            "/agent/tasks/{task_id}/steps",
+            "/ap/v1/agent/tasks/{task_id}/steps",
             "POST",
             _path_params,
             _query_params,
@@ -738,7 +738,7 @@ class AgentApi(object):
         }
 
         return self.api_client.call_api(
-            "/agent/tasks/{task_id}",
+            "/ap/v1/agent/tasks/{task_id}",
             "GET",
             _path_params,
             _query_params,
@@ -918,7 +918,7 @@ class AgentApi(object):
         }
 
         return self.api_client.call_api(
-            "/agent/tasks/{task_id}/steps/{step_id}",
+            "/ap/v1/agent/tasks/{task_id}/steps/{step_id}",
             "GET",
             _path_params,
             _query_params,
@@ -1087,7 +1087,7 @@ class AgentApi(object):
         }
 
         return self.api_client.call_api(
-            "/agent/tasks/{task_id}/artifacts",
+            "/ap/v1/agent/tasks/{task_id}/artifacts",
             "GET",
             _path_params,
             _query_params,
@@ -1256,7 +1256,7 @@ class AgentApi(object):
         }
 
         return self.api_client.call_api(
-            "/agent/tasks/{task_id}/steps",
+            "/ap/v1/agent/tasks/{task_id}/steps",
             "GET",
             _path_params,
             _query_params,
@@ -1405,7 +1405,7 @@ class AgentApi(object):
         }
 
         return self.api_client.call_api(
-            "/agent/tasks",
+            "/ap/v1/agent/tasks",
             "GET",
             _path_params,
             _query_params,
@@ -1632,7 +1632,7 @@ class AgentApi(object):
         }
 
         return self.api_client.call_api(
-            "/agent/tasks/{task_id}/artifacts",
+            "/ap/v1/agent/tasks/{task_id}/artifacts",
             "POST",
             _path_params,
             _query_params,
