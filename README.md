@@ -88,9 +88,7 @@ your agent (and in between agents in the future).
 
 This library should be used by the users of the agents. Your agent is deployed somewhere and the users of your agent can use this library to interact with your agent.
 
-Thanks to the standard the users
-can try multiple agents without the need for any additional adjustments (or very
-minimal) in their code.
+Thanks to the standard the users can try multiple agents without the need for any additional adjustments (or very minimal) in their code.
 
 ## 📦 How to use the protocol
 
@@ -107,12 +105,7 @@ If you're an agent developer, you can use the SDK to implement the protocol. You
 
 - ✅ [Auto-GPT](https://github.com/Significant-Gravitas/Auto-GPT)
   - Track [PR here](https://github.com/Significant-Gravitas/Auto-GPT/pull/5044)
-- 🚧 [Auto-GPT-Forge](https://github.com/Significant-Gravitas/Auto-GPT-Forge)
-- 🚧
-  [Auto-GPT-Benchmarks](https://github.com/Significant-Gravitas/Auto-GPT-Benchmarks)
-  - Track
-    [PR here](https://github.com/Significant-Gravitas/Auto-GPT-Benchmarks/pull/209).
-    Waiting for merge.
+- ✅ [Auto-GPT-Forge](https://github.com/Significant-Gravitas/Auto-GPT-Forge)
 - 🚧 [babyagi](https://github.com/yoheinakajima/babyagi)
   - Track [PR here](https://github.com/yoheinakajima/babyagi/pull/356). Waiting
     for merge.
@@ -120,7 +113,7 @@ If you're an agent developer, you can use the SDK to implement the protocol. You
   - Track [PR here](https://github.com/smol-ai/developer/pull/123).
 - 🚧 [beebot](https://github.com/AutoPackAI/beebot)
   - Might require more features. See
-    [issue here](https://github.com/e2b-dev/agent-protocol/issues/9).
+    [issue here](https://github.com/ai-engineers-foundation/agent-protocol/issues/9).
 
 ## 📃 High-level future roadmap
 
@@ -128,6 +121,7 @@ If you're an agent developer, you can use the SDK to implement the protocol. You
 - Connection to the outside world:
   - 3rd party services (= “Agent I/O”)
   - Authentication on behalf of users
+- Protocol Plugins
 - Is there anything missing? Please submit an RFC with a proposed feature!
 
 ## 💬 Public discourse & development
