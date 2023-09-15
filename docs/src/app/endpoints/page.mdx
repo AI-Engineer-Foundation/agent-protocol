@@ -8,7 +8,32 @@ export const metadata = {
 
 The agent exposes the following endpoints (see the [OpenAPI file](https://github.com/e2b-dev/agent-protocol/blob/main/schemas/openapi.yml)):
 
-## Create Agent Task {{ tag: 'POST', label: '/agent/tasks' }}
+## Get Agent Info {{ tag: 'GET', label: '/ap/v1/agent/info' }}
+<Row>
+  <Col>
+    Get information about the agent.
+
+    
+    
+   
+    ### Response
+  
+    Returned information about the agent.
+
+  </Col>
+  <Col sticky>
+    <CodeGroup title="Request" tag="GET" label="/ap/v1/agent/info">
+```bash {{ title: 'cURL' }}
+curl  http://localhost:8000/ap/v1/agent/info
+
+```
+    </CodeGroup>
+  </Col>
+</Row>
+
+---
+
+## Create Agent Task {{ tag: 'POST', label: '/ap/v1/agent/tasks' }}
 <Row>
   <Col>
     Creates a task for the agent.
@@ -21,8 +46,8 @@ The agent exposes the following endpoints (see the [OpenAPI file](https://github
     <Property name="input" type="string" required="undefined">
         Input prompt for the task.
     </Property>
-    <Property name="additional_input" type="object" required="undefined">
-        Input parameters for the task. Any value is allowed.
+    <Property name="config" type="object" required="undefined">
+        Config parameters for a task or step. Options must match those specified in the agent's config_options from the info endpoint.
     </Property>
   </Properties>
    
@@ -32,11 +57,11 @@ The agent exposes the following endpoints (see the [OpenAPI file](https://github
 
   </Col>
   <Col sticky>
-    <CodeGroup title="Request" tag="POST" label="/agent/tasks">
+    <CodeGroup title="Request" tag="POST" label="/ap/v1/agent/tasks">
 ```bash {{ title: 'cURL' }}
-curl --request POST http://localhost:8000/agent/tasks
+curl --request POST http://localhost:8000/ap/v1/agent/tasks
     -F 'input=[input]'
-    -F 'additional_input=[additional_input]'
+    -F 'config=[config]'
 ```
     </CodeGroup>
   </Col>
@@ -44,7 +69,7 @@ curl --request POST http://localhost:8000/agent/tasks
 
 ---
 
-## List Agent Tasks {{ tag: 'GET', label: '/agent/tasks' }}
+## List Agent Tasks I Ds {{ tag: 'GET', label: '/ap/v1/agent/tasks' }}
 <Row>
   <Col>
     List all tasks that have been created for the agent.
@@ -68,9 +93,9 @@ curl --request POST http://localhost:8000/agent/tasks
 
   </Col>
   <Col sticky>
-    <CodeGroup title="Request" tag="GET" label="/agent/tasks">
+    <CodeGroup title="Request" tag="GET" label="/ap/v1/agent/tasks">
 ```bash {{ title: 'cURL' }}
-curl  http://localhost:8000/agent/tasks
+curl  http://localhost:8000/ap/v1/agent/tasks
 
 ```
     </CodeGroup>
@@ -79,7 +104,7 @@ curl  http://localhost:8000/agent/tasks
 
 ---
 
-## Get Agent Task {{ tag: 'GET', label: '/agent/tasks/<task_id>' }}
+## Get Agent Task {{ tag: 'GET', label: '/ap/v1/agent/tasks/<task_id>' }}
 <Row>
   <Col>
     Get details about a specified agent task.
@@ -100,9 +125,9 @@ curl  http://localhost:8000/agent/tasks
 
   </Col>
   <Col sticky>
-    <CodeGroup title="Request" tag="GET" label="/agent/tasks/<task_id>">
+    <CodeGroup title="Request" tag="GET" label="/ap/v1/agent/tasks/<task_id>">
 ```bash {{ title: 'cURL' }}
-curl  http://localhost:8000/agent/tasks/[task_id]
+curl  http://localhost:8000/ap/v1/agent/tasks/[task_id]
 
 ```
     </CodeGroup>
@@ -111,7 +136,7 @@ curl  http://localhost:8000/agent/tasks/[task_id]
 
 ---
 
-## List Agent Task Steps {{ tag: 'GET', label: '/agent/tasks/<task_id>/steps' }}
+## List Agent Task Steps {{ tag: 'GET', label: '/ap/v1/agent/tasks/<task_id>/steps' }}
 <Row>
   <Col>
     List all steps for the specified task.
@@ -138,9 +163,9 @@ curl  http://localhost:8000/agent/tasks/[task_id]
 
   </Col>
   <Col sticky>
-    <CodeGroup title="Request" tag="GET" label="/agent/tasks/<task_id>/steps">
+    <CodeGroup title="Request" tag="GET" label="/ap/v1/agent/tasks/<task_id>/steps">
 ```bash {{ title: 'cURL' }}
-curl  http://localhost:8000/agent/tasks/[task_id]/steps
+curl  http://localhost:8000/ap/v1/agent/tasks/[task_id]/steps
 
 ```
     </CodeGroup>
@@ -149,7 +174,7 @@ curl  http://localhost:8000/agent/tasks/[task_id]/steps
 
 ---
 
-## Execute Agent Task Step {{ tag: 'POST', label: '/agent/tasks/<task_id>/steps' }}
+## Execute Agent Task Step {{ tag: 'POST', label: '/ap/v1/agent/tasks/<task_id>/steps' }}
 <Row>
   <Col>
     Execute a step in the specified agent task.
@@ -169,8 +194,8 @@ curl  http://localhost:8000/agent/tasks/[task_id]/steps
     <Property name="input" type="string" required="undefined">
         Input prompt for the step.
     </Property>
-    <Property name="additional_input" type="object" required="undefined">
-        Input parameters for the task step. Any value is allowed.
+    <Property name="config" type="object" required="undefined">
+        Config parameters for a task or step. Options must match those specified in the agent's config_options from the info endpoint.
     </Property>
   </Properties>
    
@@ -180,11 +205,11 @@ curl  http://localhost:8000/agent/tasks/[task_id]/steps
 
   </Col>
   <Col sticky>
-    <CodeGroup title="Request" tag="POST" label="/agent/tasks/<task_id>/steps">
+    <CodeGroup title="Request" tag="POST" label="/ap/v1/agent/tasks/<task_id>/steps">
 ```bash {{ title: 'cURL' }}
-curl --request POST http://localhost:8000/agent/tasks/[task_id]/steps
+curl --request POST http://localhost:8000/ap/v1/agent/tasks/[task_id]/steps
     -F 'input=[input]'
-    -F 'additional_input=[additional_input]'
+    -F 'config=[config]'
 ```
     </CodeGroup>
   </Col>
@@ -192,7 +217,7 @@ curl --request POST http://localhost:8000/agent/tasks/[task_id]/steps
 
 ---
 
-## Get Agent Task Step {{ tag: 'GET', label: '/agent/tasks/<task_id>/steps/<step_id>' }}
+## Get Agent Task Step {{ tag: 'GET', label: '/ap/v1/agent/tasks/<task_id>/steps/<step_id>' }}
 <Row>
   <Col>
     Get details about a specified task step.
@@ -216,9 +241,9 @@ curl --request POST http://localhost:8000/agent/tasks/[task_id]/steps
 
   </Col>
   <Col sticky>
-    <CodeGroup title="Request" tag="GET" label="/agent/tasks/<task_id>/steps/<step_id>">
+    <CodeGroup title="Request" tag="GET" label="/ap/v1/agent/tasks/<task_id>/steps/<step_id>">
 ```bash {{ title: 'cURL' }}
-curl  http://localhost:8000/agent/tasks/[task_id]/steps/[step_id]
+curl  http://localhost:8000/ap/v1/agent/tasks/[task_id]/steps/[step_id]
 
 ```
     </CodeGroup>
@@ -227,7 +252,7 @@ curl  http://localhost:8000/agent/tasks/[task_id]/steps/[step_id]
 
 ---
 
-## List Agent Task Artifacts {{ tag: 'GET', label: '/agent/tasks/<task_id>/artifacts' }}
+## List Agent Task Artifacts {{ tag: 'GET', label: '/ap/v1/agent/tasks/<task_id>/artifacts' }}
 <Row>
   <Col>
     List all artifacts that have been created for the given task.
@@ -254,9 +279,9 @@ curl  http://localhost:8000/agent/tasks/[task_id]/steps/[step_id]
 
   </Col>
   <Col sticky>
-    <CodeGroup title="Request" tag="GET" label="/agent/tasks/<task_id>/artifacts">
+    <CodeGroup title="Request" tag="GET" label="/ap/v1/agent/tasks/<task_id>/artifacts">
 ```bash {{ title: 'cURL' }}
-curl  http://localhost:8000/agent/tasks/[task_id]/artifacts
+curl  http://localhost:8000/ap/v1/agent/tasks/[task_id]/artifacts
 
 ```
     </CodeGroup>
@@ -265,7 +290,7 @@ curl  http://localhost:8000/agent/tasks/[task_id]/artifacts
 
 ---
 
-## Upload Agent Task Artifacts {{ tag: 'POST', label: '/agent/tasks/<task_id>/artifacts' }}
+## Upload Agent Task Artifacts {{ tag: 'POST', label: '/ap/v1/agent/tasks/<task_id>/artifacts' }}
 <Row>
   <Col>
     Upload an artifact for the specified task.
@@ -296,9 +321,9 @@ curl  http://localhost:8000/agent/tasks/[task_id]/artifacts
 
   </Col>
   <Col sticky>
-    <CodeGroup title="Request" tag="POST" label="/agent/tasks/<task_id>/artifacts">
+    <CodeGroup title="Request" tag="POST" label="/ap/v1/agent/tasks/<task_id>/artifacts">
 ```bash {{ title: 'cURL' }}
-curl --request POST http://localhost:8000/agent/tasks/[task_id]/artifacts
+curl --request POST http://localhost:8000/ap/v1/agent/tasks/[task_id]/artifacts
     -F '@file=[file-path]'
     -F 'relative_path=[relative_path]'
 ```
@@ -308,7 +333,7 @@ curl --request POST http://localhost:8000/agent/tasks/[task_id]/artifacts
 
 ---
 
-## Download Agent Task Artifact {{ tag: 'GET', label: '/agent/tasks/<task_id>/artifacts/<artifact_id>' }}
+## Download Agent Task Artifact {{ tag: 'GET', label: '/ap/v1/agent/tasks/<task_id>/artifacts/<artifact_id>' }}
 <Row>
   <Col>
     Download a specified artifact.
@@ -332,9 +357,9 @@ curl --request POST http://localhost:8000/agent/tasks/[task_id]/artifacts
 
   </Col>
   <Col sticky>
-    <CodeGroup title="Request" tag="GET" label="/agent/tasks/<task_id>/artifacts/<artifact_id>">
+    <CodeGroup title="Request" tag="GET" label="/ap/v1/agent/tasks/<task_id>/artifacts/<artifact_id>">
 ```bash {{ title: 'cURL' }}
-curl  http://localhost:8000/agent/tasks/[task_id]/artifacts/[artifact_id]
+curl  http://localhost:8000/ap/v1/agent/tasks/[task_id]/artifacts/[artifact_id]
 
 ```
     </CodeGroup>
