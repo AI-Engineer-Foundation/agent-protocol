@@ -3,7 +3,7 @@
   "info": {
     "title": "Agent Protocol",
     "description": "Specification of the API protocol for communication with an agent.",
-    "version": "v0.4"
+    "version": "v1"
   },
   "servers": [
     {
@@ -12,7 +12,158 @@
     }
   ],
   "paths": {
-    "/agent/tasks": {
+    "/ap/v1/agent/info": {
+      "get": {
+        "operationId": "getAgentInfo",
+        "summary": "Get information about the agent.",
+        "responses": {
+          "200": {
+            "description": "Returned information about the agent.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "description": "Name of the agent.",
+                      "type": "string",
+                      "example": "My Agent"
+                    },
+                    "description": {
+                      "description": "Description of the agent.",
+                      "type": "string",
+                      "example": "My agent is the best agent."
+                    },
+                    "version": {
+                      "description": "Version of the agent.",
+                      "type": "string",
+                      "example": "1.0.0"
+                    },
+                    "protocol_version": {
+                      "description": "Version of the agent protocol.",
+                      "type": "string",
+                      "example": 1
+                    },
+                    "github": {
+                      "description": "GitHub repository of the agent.",
+                      "type": "string",
+                      "example": "https://github.com/AI-Engineers-Foundation/agent-protocol"
+                    },
+                    "url": {
+                      "description": "URL of the agent.",
+                      "type": "string",
+                      "example": "https://my-agent.com"
+                    },
+                    "docs": {
+                      "description": "Link to the documentation of the agent.",
+                      "type": "string",
+                      "example": "https://my-agent.com/docs"
+                    },
+                    "issues": {
+                      "description": "Link to the issues of the agent.",
+                      "type": "string",
+                      "example": "https://github.com/AI-Engineers-Foundation/agent-protocol/issues"
+                    },
+                    "config_options": {
+                      "description": "List of configuration options for the agent's tasks and steps. The config is a user-defined set of key/value pairs where the values are standard but the keys are not.",
+                      "type": "object",
+                      "example": "{\n\"debug\": {\n\"type\": \"boolean\",\n\"default\": false,\n\"description\": \"Whether to run the agent in debug mode.\"\n},\n\"model\": {\n\"type\": \"string\",\n\"default\": \"gpt-4\",\n\"description\": \"The model in which the agent's tasks should run.\"\n}\n}",
+                      "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "description": "The type of the value.",
+                            "type": "string",
+                            "enum": [
+                              "string",
+                              "integer",
+                              "float",
+                              "boolean",
+                              "list",
+                              "dict"
+                            ]
+                          },
+                          "default": {
+                            "description": "The default value of the config option.",
+                            "type": "string"
+                          },
+                          "description": {
+                            "description": "A description of the value with type, default value, and description.",
+                            "type": "string"
+                          },
+                          "options": {
+                            "description": "A list of options for the config option.",
+                            "type": "array",
+                            "items": {
+                              "oneOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "integer"
+                                },
+                                {
+                                  "type": "number"
+                                },
+                                {
+                                  "type": "boolean"
+                                },
+                                {
+                                  "type": "object"
+                                },
+                                {
+                                  "type": "array",
+                                  "items": {
+                                    "oneOf": [
+                                      {
+                                        "type": "string"
+                                      },
+                                      {
+                                        "type": "integer"
+                                      },
+                                      {
+                                        "type": "number"
+                                      },
+                                      {
+                                        "type": "boolean"
+                                      },
+                                      {
+                                        "type": "object"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "default",
+                          "description"
+                        ],
+                        "example": "{\n\"type\": \"string\",\n\"default\": \"gpt-4\",\n\"description\": \"Model for the agent's steps to use.\"\n\"options\": [\"gpt-4\", \"gpt-3.5-turbo\", \"gpt-3.5-turbo-16k\"]\n}",
+                        "description": "A description of the value with type, default value, and description."
+                      }
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "version",
+                    "protocol_version",
+                    "config_options"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "agent"
+        ]
+      }
+    },
+    "/ap/v1/agent/tasks": {
       "post": {
         "operationId": "createAgentTask",
         "summary": "Creates a task for the agent.",
@@ -29,10 +180,10 @@
                     "example": "Write 'Washington' to the file 'output.txt'.",
                     "nullable": true
                   },
-                  "additional_input": {
-                    "description": "Input parameters for the task. Any value is allowed.",
+                  "config": {
+                    "description": "Config parameters for a task or step. Options must match those specified in the agent's config_options from the info endpoint.",
                     "type": "object",
-                    "example": "{\n\"debug\": false,\n\"mode\": \"benchmarks\"\n}"
+                    "example": "{\n\"debug\": false,\n\"model\": \"gpt-3.5-turbo-16k\"\n}"
                   }
                 }
               }
@@ -56,10 +207,10 @@
                           "example": "Write 'Washington' to the file 'output.txt'.",
                           "nullable": true
                         },
-                        "additional_input": {
-                          "description": "Input parameters for the task. Any value is allowed.",
+                        "config": {
+                          "description": "Config parameters for a task or step. Options must match those specified in the agent's config_options from the info endpoint.",
                           "type": "object",
-                          "example": "{\n\"debug\": false,\n\"mode\": \"benchmarks\"\n}"
+                          "example": "{\n\"debug\": false,\n\"model\": \"gpt-3.5-turbo-16k\"\n}"
                         }
                       }
                     },
@@ -151,7 +302,7 @@
         ]
       },
       "get": {
-        "operationId": "listAgentTasks",
+        "operationId": "listAgentTasksIDs",
         "summary": "List all tasks that have been created for the agent.",
         "parameters": [
           {
@@ -203,10 +354,10 @@
                                 "example": "Write 'Washington' to the file 'output.txt'.",
                                 "nullable": true
                               },
-                              "additional_input": {
-                                "description": "Input parameters for the task. Any value is allowed.",
+                              "config": {
+                                "description": "Config parameters for a task or step. Options must match those specified in the agent's config_options from the info endpoint.",
                                 "type": "object",
-                                "example": "{\n\"debug\": false,\n\"mode\": \"benchmarks\"\n}"
+                                "example": "{\n\"debug\": false,\n\"model\": \"gpt-3.5-turbo-16k\"\n}"
                               }
                             }
                           },
@@ -318,7 +469,7 @@
         ]
       }
     },
-    "/agent/tasks/{task_id}": {
+    "/ap/v1/agent/tasks/{task_id}": {
       "get": {
         "operationId": "getAgentTask",
         "summary": "Get details about a specified agent task.",
@@ -357,10 +508,10 @@
                           "example": "Write 'Washington' to the file 'output.txt'.",
                           "nullable": true
                         },
-                        "additional_input": {
-                          "description": "Input parameters for the task. Any value is allowed.",
+                        "config": {
+                          "description": "Config parameters for a task or step. Options must match those specified in the agent's config_options from the info endpoint.",
                           "type": "object",
-                          "example": "{\n\"debug\": false,\n\"mode\": \"benchmarks\"\n}"
+                          "example": "{\n\"debug\": false,\n\"model\": \"gpt-3.5-turbo-16k\"\n}"
                         }
                       }
                     },
@@ -454,7 +605,7 @@
         ]
       }
     },
-    "/agent/tasks/{task_id}/steps": {
+    "/ap/v1/agent/tasks/{task_id}/steps": {
       "get": {
         "operationId": "listAgentTaskSteps",
         "summary": "List all steps for the specified task.",
@@ -524,10 +675,10 @@
                                 "example": "Write the words you receive to the file 'output.txt'.",
                                 "nullable": true
                               },
-                              "additional_input": {
-                                "description": "Input parameters for the task step. Any value is allowed.",
+                              "config": {
+                                "description": "Config parameters for a task or step. Options must match those specified in the agent's config_options from the info endpoint.",
                                 "type": "object",
-                                "example": "{\n\"file_to_refactor\": \"models.py\"\n}"
+                                "example": "{\n\"debug\": false,\n\"model\": \"gpt-3.5-turbo-16k\"\n}"
                               }
                             }
                           },
@@ -729,10 +880,10 @@
                     "example": "Write the words you receive to the file 'output.txt'.",
                     "nullable": true
                   },
-                  "additional_input": {
-                    "description": "Input parameters for the task step. Any value is allowed.",
+                  "config": {
+                    "description": "Config parameters for a task or step. Options must match those specified in the agent's config_options from the info endpoint.",
                     "type": "object",
-                    "example": "{\n\"file_to_refactor\": \"models.py\"\n}"
+                    "example": "{\n\"debug\": false,\n\"model\": \"gpt-3.5-turbo-16k\"\n}"
                   }
                 }
               }
@@ -756,10 +907,10 @@
                           "example": "Write the words you receive to the file 'output.txt'.",
                           "nullable": true
                         },
-                        "additional_input": {
-                          "description": "Input parameters for the task step. Any value is allowed.",
+                        "config": {
+                          "description": "Config parameters for a task or step. Options must match those specified in the agent's config_options from the info endpoint.",
                           "type": "object",
-                          "example": "{\n\"file_to_refactor\": \"models.py\"\n}"
+                          "example": "{\n\"debug\": false,\n\"model\": \"gpt-3.5-turbo-16k\"\n}"
                         }
                       }
                     },
@@ -908,7 +1059,7 @@
         ]
       }
     },
-    "/agent/tasks/{task_id}/steps/{step_id}": {
+    "/ap/v1/agent/tasks/{task_id}/steps/{step_id}": {
       "get": {
         "operationId": "getAgentTaskStep",
         "summary": "Get details about a specified task step.",
@@ -967,10 +1118,10 @@
                           "example": "Write the words you receive to the file 'output.txt'.",
                           "nullable": true
                         },
-                        "additional_input": {
-                          "description": "Input parameters for the task step. Any value is allowed.",
+                        "config": {
+                          "description": "Config parameters for a task or step. Options must match those specified in the agent's config_options from the info endpoint.",
                           "type": "object",
-                          "example": "{\n\"file_to_refactor\": \"models.py\"\n}"
+                          "example": "{\n\"debug\": false,\n\"model\": \"gpt-3.5-turbo-16k\"\n}"
                         }
                       }
                     },
@@ -1101,7 +1252,7 @@
         ]
       }
     },
-    "/agent/tasks/{task_id}/artifacts": {
+    "/ap/v1/agent/tasks/{task_id}/artifacts": {
       "get": {
         "operationId": "listAgentTaskArtifacts",
         "summary": "List all artifacts that have been created for the given task.",
@@ -1376,7 +1527,7 @@
         ]
       }
     },
-    "/agent/tasks/{task_id}/artifacts/{artifact_id}": {
+    "/ap/v1/agent/tasks/{task_id}/artifacts/{artifact_id}": {
       "get": {
         "operationId": "downloadAgentTaskArtifact",
         "summary": "Download a specified artifact.",
@@ -1452,6 +1603,139 @@
   },
   "components": {
     "schemas": {
+      "AgentInfo": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "Name of the agent.",
+            "type": "string",
+            "example": "My Agent"
+          },
+          "description": {
+            "description": "Description of the agent.",
+            "type": "string",
+            "example": "My agent is the best agent."
+          },
+          "version": {
+            "description": "Version of the agent.",
+            "type": "string",
+            "example": "1.0.0"
+          },
+          "protocol_version": {
+            "description": "Version of the agent protocol.",
+            "type": "string",
+            "example": 1
+          },
+          "github": {
+            "description": "GitHub repository of the agent.",
+            "type": "string",
+            "example": "https://github.com/AI-Engineers-Foundation/agent-protocol"
+          },
+          "url": {
+            "description": "URL of the agent.",
+            "type": "string",
+            "example": "https://my-agent.com"
+          },
+          "docs": {
+            "description": "Link to the documentation of the agent.",
+            "type": "string",
+            "example": "https://my-agent.com/docs"
+          },
+          "issues": {
+            "description": "Link to the issues of the agent.",
+            "type": "string",
+            "example": "https://github.com/AI-Engineers-Foundation/agent-protocol/issues"
+          },
+          "config_options": {
+            "description": "List of configuration options for the agent's tasks and steps. The config is a user-defined set of key/value pairs where the values are standard but the keys are not.",
+            "type": "object",
+            "example": "{\n\"debug\": {\n\"type\": \"boolean\",\n\"default\": false,\n\"description\": \"Whether to run the agent in debug mode.\"\n},\n\"model\": {\n\"type\": \"string\",\n\"default\": \"gpt-4\",\n\"description\": \"The model in which the agent's tasks should run.\"\n}\n}",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "description": "The type of the value.",
+                  "type": "string",
+                  "enum": [
+                    "string",
+                    "integer",
+                    "float",
+                    "boolean",
+                    "list",
+                    "dict"
+                  ]
+                },
+                "default": {
+                  "description": "The default value of the config option.",
+                  "type": "string"
+                },
+                "description": {
+                  "description": "A description of the value with type, default value, and description.",
+                  "type": "string"
+                },
+                "options": {
+                  "description": "A list of options for the config option.",
+                  "type": "array",
+                  "items": {
+                    "oneOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "boolean"
+                      },
+                      {
+                        "type": "object"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "oneOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "integer"
+                            },
+                            {
+                              "type": "number"
+                            },
+                            {
+                              "type": "boolean"
+                            },
+                            {
+                              "type": "object"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "type",
+                "default",
+                "description"
+              ],
+              "example": "{\n\"type\": \"string\",\n\"default\": \"gpt-4\",\n\"description\": \"Model for the agent's steps to use.\"\n\"options\": [\"gpt-4\", \"gpt-3.5-turbo\", \"gpt-3.5-turbo-16k\"]\n}",
+              "description": "A description of the value with type, default value, and description."
+            }
+          }
+        },
+        "required": [
+          "name",
+          "version",
+          "protocol_version",
+          "config_options"
+        ]
+      },
       "Pagination": {
         "type": "object",
         "properties": {
@@ -1500,10 +1784,10 @@
                       "example": "Write 'Washington' to the file 'output.txt'.",
                       "nullable": true
                     },
-                    "additional_input": {
-                      "description": "Input parameters for the task. Any value is allowed.",
+                    "config": {
+                      "description": "Config parameters for a task or step. Options must match those specified in the agent's config_options from the info endpoint.",
                       "type": "object",
-                      "example": "{\n\"debug\": false,\n\"mode\": \"benchmarks\"\n}"
+                      "example": "{\n\"debug\": false,\n\"model\": \"gpt-3.5-turbo-16k\"\n}"
                     }
                   }
                 },
@@ -1620,10 +1904,10 @@
                       "example": "Write the words you receive to the file 'output.txt'.",
                       "nullable": true
                     },
-                    "additional_input": {
-                      "description": "Input parameters for the task step. Any value is allowed.",
+                    "config": {
+                      "description": "Config parameters for a task or step. Options must match those specified in the agent's config_options from the info endpoint.",
                       "type": "object",
-                      "example": "{\n\"file_to_refactor\": \"models.py\"\n}"
+                      "example": "{\n\"debug\": false,\n\"model\": \"gpt-3.5-turbo-16k\"\n}"
                     }
                   }
                 },
@@ -1835,10 +2119,10 @@
           "pagination"
         ]
       },
-      "TaskInput": {
-        "description": "Input parameters for the task. Any value is allowed.",
+      "TaskOrStepConfiguration": {
+        "description": "Config parameters for a task or step. Options must match those specified in the agent's config_options from the info endpoint.",
         "type": "object",
-        "example": "{\n\"debug\": false,\n\"mode\": \"benchmarks\"\n}"
+        "example": "{\n\"debug\": false,\n\"model\": \"gpt-3.5-turbo-16k\"\n}"
       },
       "Artifact": {
         "description": "An Artifact either created by or submitted to the agent.",
@@ -1892,11 +2176,6 @@
           "file"
         ]
       },
-      "StepInput": {
-        "description": "Input parameters for the task step. Any value is allowed.",
-        "type": "object",
-        "example": "{\n\"file_to_refactor\": \"models.py\"\n}"
-      },
       "StepOutput": {
         "description": "Output that the task step has produced. Any value is allowed.",
         "type": "object",
@@ -1913,10 +2192,10 @@
             "example": "Write 'Washington' to the file 'output.txt'.",
             "nullable": true
           },
-          "additional_input": {
-            "description": "Input parameters for the task. Any value is allowed.",
+          "config": {
+            "description": "Config parameters for a task or step. Options must match those specified in the agent's config_options from the info endpoint.",
             "type": "object",
-            "example": "{\n\"debug\": false,\n\"mode\": \"benchmarks\"\n}"
+            "example": "{\n\"debug\": false,\n\"model\": \"gpt-3.5-turbo-16k\"\n}"
           }
         }
       },
@@ -1932,10 +2211,10 @@
                 "example": "Write 'Washington' to the file 'output.txt'.",
                 "nullable": true
               },
-              "additional_input": {
-                "description": "Input parameters for the task. Any value is allowed.",
+              "config": {
+                "description": "Config parameters for a task or step. Options must match those specified in the agent's config_options from the info endpoint.",
                 "type": "object",
-                "example": "{\n\"debug\": false,\n\"mode\": \"benchmarks\"\n}"
+                "example": "{\n\"debug\": false,\n\"model\": \"gpt-3.5-turbo-16k\"\n}"
               }
             }
           },
@@ -2007,10 +2286,10 @@
             "example": "Write the words you receive to the file 'output.txt'.",
             "nullable": true
           },
-          "additional_input": {
-            "description": "Input parameters for the task step. Any value is allowed.",
+          "config": {
+            "description": "Config parameters for a task or step. Options must match those specified in the agent's config_options from the info endpoint.",
             "type": "object",
-            "example": "{\n\"file_to_refactor\": \"models.py\"\n}"
+            "example": "{\n\"debug\": false,\n\"model\": \"gpt-3.5-turbo-16k\"\n}"
           }
         }
       },
@@ -2026,10 +2305,10 @@
                 "example": "Write the words you receive to the file 'output.txt'.",
                 "nullable": true
               },
-              "additional_input": {
-                "description": "Input parameters for the task step. Any value is allowed.",
+              "config": {
+                "description": "Config parameters for a task or step. Options must match those specified in the agent's config_options from the info endpoint.",
                 "type": "object",
-                "example": "{\n\"file_to_refactor\": \"models.py\"\n}"
+                "example": "{\n\"debug\": false,\n\"model\": \"gpt-3.5-turbo-16k\"\n}"
               }
             }
           },
