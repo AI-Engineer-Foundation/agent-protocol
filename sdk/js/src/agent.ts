@@ -260,11 +260,10 @@ app.get('/agent/tasks/:task_id/steps/:step_id', (req, res) => {
  */
 export const getArtifactPath = (taskId: string, artifact: Artifact): string => {
   return path.join(
-    __dirname,
+    process.cwd(),
     WORKSPACE,
     taskId,
     artifact.relative_path ?? '',
-    artifact.artifact_id,
     artifact.file_name
   )
 }
@@ -356,8 +355,8 @@ app.post('/agent/tasks/:task_id/artifacts', (req, res) => {
           .json({ message: 'Unable to find task with the provided id' })
       }
 
-      //@ts-ignore
-      let file = req.files.find(({ fieldname }) => fieldname == 'file')
+      const files = req.files as Array<Express.Multer.File>
+      let file = files.find(({ fieldname }) => fieldname == 'file')
       const artifact = await createArtifact(task[0], file, relativePath)
       res.status(200).json(artifact)
     } catch (err: Error | any) {
