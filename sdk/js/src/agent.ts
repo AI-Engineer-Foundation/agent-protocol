@@ -2,6 +2,8 @@ import * as OpenApiValidator from 'express-openapi-validator'
 import express from 'express'
 import { v4 as uuid } from 'uuid'
 import yaml from 'js-yaml'
+import fs from 'fs'
+import path from 'path'
 
 import {
   type TaskInput,
@@ -22,6 +24,8 @@ const app = express()
 app.use(express.json())
 app.use(express.text())
 app.use(express.urlencoded({ extended: false }))
+
+const WORKSPACE = process.env.AGENT_WORKSPACE ?? 'workspace'
 
 app.get('/openapi.yaml', (_, res) => {
   res.setHeader('Content-Type', 'text/yaml').status(200).send(spec)
@@ -243,6 +247,64 @@ app.get('/agent/tasks/:task_id/steps/:step_id', (req, res) => {
       res.status(500).json({ error: err.message })
     }
   })()
+})
+
+/**
+ * Creates an artifact for a task
+ * @param task Task associated with new artifact
+ * @param file File that will be added as artifact
+ * @param relativePath Relative path where the artifact might be stored. Can be undefined
+ */
+export const createArtifact = async (
+  task: Task,
+  file: any,
+  relativePath?: string
+): Promise<Artifact> => {
+  const artifactId = uuid()
+  const artifact = {
+    artifact_id: artifactId,
+    agent_created: false,
+    file_name: file.originalname,
+    relative_path: relativePath || null,
+  }
+  task.artifacts = task.artifacts || []
+  task.artifacts.push(artifact)
+
+  // Save file to server's file system
+  const artifactFolderPath = path.join(
+    __dirname,
+    WORKSPACE,
+    'artifacts',
+    task.task_id,
+    artifactId
+  )
+  fs.mkdirSync(artifactFolderPath, { recursive: true })
+  const filePath = path.join(artifactFolderPath, file.originalname)
+  fs.writeFileSync(filePath, file.buffer)
+}
+
+app.post('/agent/tasks/:task_id/artifacts', (req, res) => {
+  void (async () => {
+    try {
+      const taskId = req.params.task_id
+      const relativePath = req.body.relative_path
+
+      const task = tasks.find(([{ task_id }]) => task_id == taskId)
+      if (!task) {
+        return res
+          .status(404)
+          .json({ message: 'Unable to find task with the provided id' })
+      }
+
+      //@ts-ignore
+      let file = req.files.find(({ fieldname }) => fieldname == 'file')
+      const artifact = await createArtifact(task[0], file, relativePath)
+      res.status(200).json(artifact)
+    } catch (err: Error | any) {
+      console.error(err)
+      res.status(500).json({ error: err.message })
+    }
+  })
 })
 
 export class Agent {
