@@ -6,7 +6,12 @@ export type TaskInput = any
 /**
  * Artifact that the task has produced. Any value is allowed.
  */
-export type Artifact = any
+export type Artifact = {
+  artifact_id: string,
+  agent_created: boolean,
+  file_name: string,
+  relative_path: string | null,
+}
 
 /**
  * Input parameters for the task step. Any value is allowed.

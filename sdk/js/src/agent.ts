@@ -250,6 +250,23 @@ app.get('/agent/tasks/:task_id/steps/:step_id', (req, res) => {
 })
 
 /**
+ * Get the folder of an artifact associated to a task
+ * @param taskId Task associated with artifact
+ * @param artifact Artifact associated with the path returned
+ * @returns Absolute path of the artifact
+ */
+export const getArtifactPath = (taskId: string, artifact: Artifact): string => {
+  return path.join(
+    __dirname,
+    WORKSPACE,
+    taskId,
+    artifact.relative_path ?? '',
+    artifact.artifact_id,
+    artifact.file_name
+  )
+}
+
+/**
  * Creates an artifact for a task
  * @param task Task associated with new artifact
  * @param file File that will be added as artifact
@@ -261,7 +278,7 @@ export const createArtifact = async (
   relativePath?: string
 ): Promise<Artifact> => {
   const artifactId = uuid()
-  const artifact = {
+  const artifact: Artifact = {
     artifact_id: artifactId,
     agent_created: false,
     file_name: file.originalname,
@@ -270,17 +287,12 @@ export const createArtifact = async (
   task.artifacts = task.artifacts || []
   task.artifacts.push(artifact)
 
+  const artifactFolderPath = getArtifactPath(task.task_id, artifact)
+
   // Save file to server's file system
-  const artifactFolderPath = path.join(
-    __dirname,
-    WORKSPACE,
-    'artifacts',
-    task.task_id,
-    artifactId
-  )
-  fs.mkdirSync(artifactFolderPath, { recursive: true })
-  const filePath = path.join(artifactFolderPath, file.originalname)
-  fs.writeFileSync(filePath, file.buffer)
+  fs.mkdirSync(path.join(artifactFolderPath, '..'), { recursive: true })
+  fs.writeFileSync(artifactFolderPath, file.buffer)
+  return artifact
 }
 
 app.post('/agent/tasks/:task_id/artifacts', (req, res) => {
@@ -304,7 +316,42 @@ app.post('/agent/tasks/:task_id/artifacts', (req, res) => {
       console.error(err)
       res.status(500).json({ error: err.message })
     }
-  })
+  })()
+})
+
+/**
+ * Get an artifact of a task
+ * @param taskId ID of task associated with artifact
+ * @param artifactId ID of artifact to be retrieved
+ * @returns A stored artifact
+ */
+export const getTaskArtifact = async (
+  taskId: string,
+  artifactId: string
+): Promise<Artifact> => {
+  const task = await getAgentTask(taskId)
+  const artifact = task.artifacts?.find((a) => a.artifact_id === artifactId)
+  if (!artifact) {
+    throw new Error(
+      `Artifact with id ${artifactId} in task with id ${taskId} was not found`
+    )
+  }
+  return artifact
+}
+
+app.get('/agent/tasks/:task_id/artifacts/:artifact_id', (req, res) => {
+  void (async () => {
+    const taskId = req.params.task_id
+    const artifactId = req.params.artifact_id
+    try {
+      const artifact = await getTaskArtifact(taskId, artifactId)
+      const artifactPath = getArtifactPath(taskId, artifact)
+      res.status(200).sendFile(artifactPath)
+    } catch (err: Error | any) {
+      console.error(err)
+      res.status(404).json({ error: err.message })
+    }
+  })()
 })
 
 export class Agent {
