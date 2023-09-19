@@ -11,7 +11,6 @@
 This RFC proposes several changes to the Agent Protocol API to improve task, step, and artifact management. Key changes include:
 
 - Prefixing endpoint schema with `/ap/v1/`
-- Introduction of the `/ap/v1/agent/info` endpoint
 
 ## Motivation
 
