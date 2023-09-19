@@ -11,6 +11,7 @@ export type Artifact = {
   agent_created: boolean,
   file_name: string,
   relative_path: string | null,
+  created_at: string
 }
 
 /**
@@ -22,6 +23,12 @@ export type StepInput = any
  * Output that the task step has produced. Any value is allowed.
  */
 export type StepOutput = any
+
+export enum StepStatus {
+  CREATED = "created",
+  RUNNING = "running",
+  COMPLETED = "completed"
+}
 
 export interface Step {
   output?: StepOutput
@@ -42,6 +49,10 @@ export interface Step {
    * The ID of the task step.
    */
   step_id: string
+  /**
+   * Current status of step
+   */
+  status: StepStatus
 }
 
 export interface StepRequestBody {

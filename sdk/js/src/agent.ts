@@ -15,6 +15,7 @@ import {
   type StepResult,
   type Task,
   type TaskRequestBody,
+  StepStatus,
 } from './models'
 
 import spec from '../../../schemas/openapi.yml'
@@ -191,7 +192,9 @@ export const executeAgentTaskStep = async (
     output: stepResult.output ?? null,
     artifacts: stepResult.artifacts ?? [],
     is_last: stepResult.is_last ?? false,
+    status: StepStatus.COMPLETED
   }
+
   if (step.artifacts != null) {
     if (task[0].artifacts == null || task[0].artifacts.length === 0) {
       task[0].artifacts = step.artifacts
@@ -283,6 +286,7 @@ export const createArtifact = async (
     agent_created: false,
     file_name: file.originalname,
     relative_path: relativePath || null,
+    created_at: Date.now().toString(),
   }
   task.artifacts = task.artifacts || []
   task.artifacts.push(artifact)
