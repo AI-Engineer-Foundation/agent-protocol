@@ -192,7 +192,7 @@ export const executeAgentTaskStep = async (
     output: stepResult.output ?? null,
     artifacts: stepResult.artifacts ?? [],
     is_last: stepResult.is_last ?? false,
-    status: StepStatus.COMPLETED
+    status: StepStatus.COMPLETED,
   }
 
   if (step.artifacts != null) {
@@ -268,6 +268,50 @@ export const getArtifactPath = (taskId: string, artifact: Artifact): string => {
     artifact.file_name
   )
 }
+
+app.get('/agent/tasks/:task_id/artifacts', (req, res) => {
+  void (async () => {
+    const taskId = req.params.task_id
+    try {
+      const task = await getAgentTask(taskId)
+      const current_page = Number(req.query['current_page']) || 1
+      const page_size = Number(req.query['page_size']) || 10
+
+      if (!task.artifacts) {
+        return res.status(200).send({
+          artifacts: [],
+          pagination: {
+            total_items: 0,
+            total_pages: 0,
+            current_page,
+            page_size,
+          },
+        })
+      }
+      const total_items = task.artifacts.length
+      const total_pages = Math.ceil(total_items / page_size)
+
+      // Slice artifacts array based on pagination
+      const start = (current_page - 1) * page_size
+      const end = start + page_size
+      const pagedArtifacts = task.artifacts.slice(start, end)
+      console.log({ artifacts: task.artifacts })
+      console.log({ pagedArtifacts })
+      res.status(200).send({
+        artifacts: pagedArtifacts,
+        pagination: {
+          total_items,
+          total_pages,
+          current_page,
+          page_size,
+        },
+      })
+    } catch (err: Error | any) {
+      console.error(err)
+      res.status(404).json({ error: err.message })
+    }
+  })()
+})
 
 /**
  * Creates an artifact for a task
