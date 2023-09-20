@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "84d6bd70-4a9f-4470-be02-f2f9089ec69b",
-		"name": "Agent Protocol - REST v0.4",
+		"name": "Agent Protocol - REST v1",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
 	"item": [
@@ -100,7 +100,7 @@
 								}
 							}
 						},
-						"url": "{{url}}/agent/tasks"
+						"url": "{{url}}/ap/v1/agent/tasks"
 					},
 					"response": [
 						{
@@ -129,7 +129,7 @@
 										}
 									}
 								},
-								"url": "{{url}}/agent/tasks"
+								"url": "{{url}}/ap/v1/agent/tasks"
 							},
 							"status": "OK",
 							"code": 200,
@@ -265,7 +265,7 @@
 								}
 							}
 						},
-						"url": "{{url}}/agent/tasks"
+						"url": "{{url}}/ap/v1/agent/tasks"
 					},
 					"response": [
 						{
@@ -293,7 +293,7 @@
 										}
 									}
 								},
-								"url": "{{url}}/agent/tasks"
+								"url": "{{url}}/ap/v1/agent/tasks"
 							},
 							"status": "OK",
 							"code": 200,
@@ -367,7 +367,7 @@
 					]
 				},
 				{
-					"name": "Execute the steps until completion",
+					"name": "Execute a step",
 					"event": [
 						{
 							"listen": "test",
@@ -383,7 +383,7 @@
 									"",
 									"    var artifacts = pm.response.json().artifacts;",
 									"    var existingArtifactId = pm.globals.get(\"artifactId\");",
-									"",
+									"/*  Commented out artifact checking code and max step code because the SDK doesn't implement simple agents",
 									"    if (artifacts && artifacts.length > 0) {",
 									"        if (artifacts.length > 1) {",
 									"            pm.test(\"This task should only create 1 artifact\", function () {",
@@ -392,11 +392,11 @@
 									"        } else {",
 									"            pm.globals.set(\"artifactId\", artifacts[0].artifact_id);",
 									"        }",
-									"    }",
+									"    }*/",
 									"    stepNumber = pm.collectionVariables.get(\"step-number\") ?? 1",
 									"    const maxSteps = 10",
 									"    if(!pm.response.json().is_last) {",
-									"        if (stepNumber > maxSteps) {",
+									"        /*if (stepNumber > maxSteps) {",
 									"            console.log(`Max steps reached (${maxSteps})`);",
 									"            pm.test(`This task should be completed after ${maxSteps} steps`, function () {",
 									"                pm.expect.fail(`is_last should be true before max steps reached (${maxSteps})`);",
@@ -416,7 +416,7 @@
 									"",
 									"            pm.collectionVariables.set('previous-step', pm.response.json().step_id)",
 									"            postman.setNextRequest('Execute the steps until completion');",
-									"        }",
+									"        }*/",
 									"        ",
 									"    }",
 									"}"
@@ -463,7 +463,7 @@
 								}
 							}
 						},
-						"url": "{{url}}/agent/tasks/{{task_id}}/steps"
+						"url": "{{url}}/ap/v1/agent/tasks/{{task_id}}/steps"
 					},
 					"response": [
 						{
@@ -492,7 +492,7 @@
 										}
 									}
 								},
-								"url": "{{url}}/agent/tasks/{{task_id}}/steps"
+								"url": "{{url}}/ap/v1/agent/tasks/{{task_id}}/steps"
 							},
 							"status": "OK",
 							"code": 200,
@@ -589,7 +589,7 @@
 										}
 									}
 								},
-								"url": "{{url}}/agent/tasks/{{task_id}}/steps"
+								"url": "{{url}}/ap/v1/agent/tasks/{{task_id}}/steps"
 							},
 							"status": "OK",
 							"code": 200,
@@ -658,7 +658,7 @@
 							],
 							"cookie": [],
 							"responseTime": null,
-							"body": "{\n    \"task_id\": \"fde559f8-3ab8-11ee-be56-0242ac120002\",\n    \"step_id\": \"2a479290-3abc-11ee-be56-0242ac1209c1\",\n    \"input\": \"y\",\n    \"status\": \"completed\",\n    \"output\": \"I used the write_to_file method to write the file output.txt\",\n    \"artifacts\": [\n                {\n          \"artifact_id\": \"2ba79290-3abc-11ee-be56-0242ac1209d3\",\n          \"agent_created\": true,\n          \"uri\": \"file://output.txt\"\n        }\n    ],\n    \"is_last\": true\n}"
+							"body": "{\n    \"task_id\": \"fde559f8-3ab8-11ee-be56-0242ac120002\",\n    \"step_id\": \"2a479290-3abc-11ee-be56-0242ac1209c1\",\n    \"input\": \"y\",\n    \"status\": \"completed\",\n    \"output\": \"I used the write_to_file method to write the file test_output.txt\",\n    \"artifacts\": [\n                {\n          \"artifact_id\": \"2ba79290-3abc-11ee-be56-0242ac1209d3\",\n          \"agent_created\": true,\n          \"uri\": \"file://test_output.txt\"\n        }\n    ],\n    \"is_last\": true\n}"
 						}
 					]
 				},
@@ -713,7 +713,7 @@
 								}
 							}
 						},
-						"url": "{{url}}/agent/tasks/{{task_id}}/steps"
+						"url": "{{url}}/ap/v1/agent/tasks/{{task_id}}/steps"
 					},
 					"response": [
 						{
@@ -742,7 +742,7 @@
 										}
 									}
 								},
-								"url": "{{url}}/agent/tasks/{{task_id}}/steps"
+								"url": "{{url}}/ap/v1/agent/tasks/{{task_id}}/steps"
 							},
 							"status": "OK",
 							"code": 200,
@@ -812,136 +812,6 @@
 							"cookie": [],
 							"responseTime": null,
 							"body": "{\n    \"task_id\": \"fde559f8-3ab8-11ee-be56-0242ac120002\",\n    \"step_id\": \"2d479290-3abc-11ee-be56-0242ac120b95\",\n    \"status\": \"completed\",\n    \"output\": \"I am already done with my work.\",\n    \"artifacts\": [\n    ],\n    \"is_last\": true\n}"
-						}
-					]
-				},
-				{
-					"name": "Download Artifact",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "0f7f41c0-bacd-4abb-9d9c-b85b2c1a0c6f",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"id": "3235877e-cb4b-4fa9-8df6-724e6d35482c",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "mock-match",
-								"value": "11",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "file",
-							"file": {
-								"src": ""
-							}
-						},
-						"url": "{{url}}/agent/tasks/{{task_id}}/artifacts/{{artifactId}}"
-					},
-					"response": [
-						{
-							"id": "d243deea-d0a7-40a0-acd2-fe2e4183ceef",
-							"name": "mock response",
-							"originalRequest": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "mock-match",
-										"value": "11",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": "{{url}}/agent/tasks/{{task_id}}/artifacts/{{artifactId}}"
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "text",
-							"header": [
-								{
-									"key": "Date",
-									"value": "Mon, 14 Aug 2023 16:28:55 GMT",
-									"enabled": true
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8",
-									"enabled": true
-								},
-								{
-									"key": "Content-Length",
-									"value": "275",
-									"enabled": true
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive",
-									"enabled": true
-								},
-								{
-									"key": "x-srv-trace",
-									"value": "v=1;t=daef761e243c402b",
-									"enabled": true
-								},
-								{
-									"key": "x-srv-span",
-									"value": "v=1;s=2c0bd88502372360",
-									"enabled": true
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*",
-									"enabled": true
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "120",
-									"enabled": true
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "115",
-									"enabled": true
-								},
-								{
-									"key": "X-RateLimit-Reset",
-									"value": "1691968334",
-									"enabled": true
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"96-S/5iQ2y1qqIInh5BwoPc+chvDJU\"",
-									"enabled": true
-								},
-								{
-									"key": "Vary",
-									"value": "Accept-Encoding",
-									"enabled": true
-								}
-							],
-							"cookie": [],
-							"responseTime": null,
-							"body": "Washington"
 						}
 					]
 				}
@@ -1019,7 +889,7 @@
 								}
 							}
 						},
-						"url": "{{url}}/agent/tasks"
+						"url": "{{url}}/ap/v1/agent/tasks"
 					},
 					"response": []
 				},
@@ -1074,7 +944,7 @@
 								}
 							}
 						},
-						"url": "{{url}}/agent/tasks/{{task_id}}"
+						"url": "{{url}}/ap/v1/agent/tasks/{{task_id}}"
 					},
 					"response": [
 						{
@@ -1092,7 +962,7 @@
 										}
 									}
 								},
-								"url": "{{url}}/agent/tasks/{{taskId}}"
+								"url": "{{url}}/ap/v1/agent/tasks/{{taskId}}"
 							},
 							"status": "OK",
 							"code": 200,
@@ -1206,7 +1076,7 @@
 								}
 							}
 						},
-						"url": "{{url}}/agent/tasks"
+						"url": "{{url}}/ap/v1/agent/tasks"
 					},
 					"response": []
 				},
@@ -1246,12 +1116,12 @@
 								}
 							}
 						},
-						"url": "{{url}}/agent/tasks"
+						"url": "{{url}}/ap/v1/agent/tasks"
 					},
 					"response": []
 				},
 				{
-					"name": "Get all the tasks Pagination",
+					"name": "Get all the tasks with Pagination",
 					"event": [
 						{
 							"listen": "test",
@@ -1327,9 +1197,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/agent/tasks?page_size=1&current_page=1",
+							"raw": "{{url}}/ap/v1/agent/tasks?page_size=1&current_page=1",
 							"host": [
-								"{{url}}"
+								"{{url}}/ap/v1"
 							],
 							"path": [
 								"agent",
@@ -1411,7 +1281,7 @@
 								}
 							}
 						},
-						"url": "{{url}}/agent/tasks"
+						"url": "{{url}}/ap/v1/agent/tasks"
 					},
 					"response": []
 				},
@@ -1448,11 +1318,11 @@
 								{
 									"key": "file",
 									"type": "file",
-									"src": "output.txt"
+									"src": "test_output.txt"
 								}
 							]
 						},
-						"url": "{{url}}/agent/tasks/{{task_id}}/artifacts"
+						"url": "{{url}}/ap/v1/agent/tasks/{{task_id}}/artifacts"
 					},
 					"response": []
 				},
@@ -1492,7 +1362,7 @@
 								}
 							}
 						},
-						"url": "{{url}}/agent/tasks/{{task_id}}/artifacts/{{artifact_id}}"
+						"url": "{{url}}/ap/v1/agent/tasks/{{task_id}}/artifacts/{{artifact_id}}"
 					},
 					"response": [
 						{
@@ -1516,7 +1386,7 @@
 										}
 									}
 								},
-								"url": "{{url}}/agent/tasks/{{taskId}}/artifacts/{{artifactId}}"
+								"url": "{{url}}/ap/v1/agent/tasks/{{taskId}}/artifacts/{{artifactId}}"
 							},
 							"status": "OK",
 							"code": 200,

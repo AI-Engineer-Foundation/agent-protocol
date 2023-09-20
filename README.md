@@ -67,9 +67,9 @@ Right now the protocol is defined as a REST API (via the
 [OpenAPI spec](./schemas/openapi.yml)) with two essential routes for interaction with
 your agent:
 
-- `POST /agent/tasks` for creating a new task for the agent (for example giving
+- `POST /ap/v1/agent/tasks` for creating a new task for the agent (for example giving
   the agent an objective that you want to accomplish)
-- `POST /agent/tasks/{task_id}/steps` for executing one step of the defined task
+- `POST /ap/v1/agent/tasks/{task_id}/steps` for executing one step of the defined task
 
 It has also a few additional routes for listing the tasks, steps and downloading / uploading artifacts.
 

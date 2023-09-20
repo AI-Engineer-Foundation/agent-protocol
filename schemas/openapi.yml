@@ -2,12 +2,12 @@ openapi: 3.0.1
 info:
   title: Agent Protocol
   description: Specification of the API protocol for communication with an agent.
-  version: v0.4
+  version: v1
 servers:
   - url: 'http://0.0.0.0:8000'
-    description: Test server
+    description: Agent Protocol API
 paths:
-  /agent/tasks:
+  /ap/v1/agent/tasks:
     post:
       operationId: createAgentTask
       summary: Creates a task for the agent.
@@ -68,7 +68,7 @@ paths:
           description: Internal Server Error
       tags:
         - agent
-  '/agent/tasks/{task_id}':
+  '/ap/v1/agent/tasks/{task_id}':
     get:
       operationId: getAgentTask
       summary: Get details about a specified agent task.
@@ -96,7 +96,7 @@ paths:
           description: Internal Server Error
       tags:
         - agent
-  '/agent/tasks/{task_id}/steps':
+  '/ap/v1/agent/tasks/{task_id}/steps':
     get:
       operationId: listAgentTaskSteps
       summary: List all steps for the specified task.
@@ -182,7 +182,7 @@ paths:
           description: Internal Server Error
       tags:
         - agent
-  '/agent/tasks/{task_id}/steps/{step_id}':
+  '/ap/v1/agent/tasks/{task_id}/steps/{step_id}':
     get:
       operationId: getAgentTaskStep
       summary: Get details about a specified task step.
@@ -222,7 +222,7 @@ paths:
           description: Internal Server Error
       tags:
         - agent
-  '/agent/tasks/{task_id}/artifacts':
+  '/ap/v1/agent/tasks/{task_id}/artifacts':
     get:
       operationId: listAgentTaskArtifacts
       summary: List all artifacts that have been created for the given task.
@@ -302,7 +302,7 @@ paths:
           description: Internal Server Error
       tags:
         - agent
-  '/agent/tasks/{task_id}/artifacts/{artifact_id}':
+  '/ap/v1/agent/tasks/{task_id}/artifacts/{artifact_id}':
     get:
       operationId: downloadAgentTaskArtifact
       summary: Download a specified artifact.
