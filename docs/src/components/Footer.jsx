@@ -111,7 +111,7 @@ function SmallPrint() {
         >
           Follow us on GitHub
         </SocialLink>
-        <SocialLink href="https://discord.gg/sV2Yquec" icon={DiscordIcon}>
+        <SocialLink href="https://discord.gg/qnUPyvTX" icon={DiscordIcon}>
           Discuss on Discord
         </SocialLink>
       </div>
