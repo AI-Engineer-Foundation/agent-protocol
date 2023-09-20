@@ -51,7 +51,7 @@ export type StepHandler = (input: StepInput | null) => Promise<StepResult>
  * A function that handles a task.
  * Returns a step handler.
  */
-export type TaskHandler = (input: TaskInput | null) => Promise<StepHandler>
+export type TaskHandler = (taskId: String, input: TaskInput | null) => Promise<StepHandler>
 
 const tasks: Array<[Task, StepHandler]> = []
 const steps: Step[] = []
@@ -79,12 +79,12 @@ export const createAgentTask = async (
   if (taskHandler == null) {
     throw new Error('Task handler not defined')
   }
-  const stepHandler = await taskHandler(body?.input ?? null)
   const task: Task = {
     task_id: uuid(),
     input: body?.input ?? null,
     artifacts: [],
   }
+  const stepHandler = await taskHandler(task.task_id, body?.input ?? null)
   tasks.push([task, stepHandler])
   return task
 }
@@ -253,7 +253,7 @@ app.get('/agent/tasks/:task_id/steps/:step_id', (req, res) => {
 })
 
 /**
- * Get the folder of an artifact associated to a task
+ * Get path of an artifact associated to a task
  * @param taskId Task associated with artifact
  * @param artifact Artifact associated with the path returned
  * @returns Absolute path of the artifact
@@ -294,8 +294,7 @@ app.get('/agent/tasks/:task_id/artifacts', (req, res) => {
       const start = (current_page - 1) * page_size
       const end = start + page_size
       const pagedArtifacts = task.artifacts.slice(start, end)
-      console.log({ artifacts: task.artifacts })
-      console.log({ pagedArtifacts })
+
       res.status(200).send({
         artifacts: pagedArtifacts,
         pagination: {
