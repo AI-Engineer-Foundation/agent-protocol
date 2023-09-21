@@ -2,7 +2,7 @@
   <img height="420px" src="./assets/cover.png" alt="agent protocol">
 </h1>
 <p align="center">
-  <a href="https://discord.gg/TxDzUWab" target="_blank">
+  <a href="https://discord.gg/bJnNh666C3" target="_blank">
     <img src="https://img.shields.io/static/v1?label=Join&message=%20discord!&color=mediumslateblue">
   </a>
   <a href="https://twitter.com/e2b_dev" target="_blank">
@@ -67,9 +67,9 @@ Right now the protocol is defined as a REST API (via the
 [OpenAPI spec](./schemas/openapi.yml)) with two essential routes for interaction with
 your agent:
 
-- `POST /agent/tasks` for creating a new task for the agent (for example giving
+- `POST /ap/v1/agent/tasks` for creating a new task for the agent (for example giving
   the agent an objective that you want to accomplish)
-- `POST /agent/tasks/{task_id}/steps` for executing one step of the defined task
+- `POST /ap/v1/agent/tasks/{task_id}/steps` for executing one step of the defined task
 
 It has also a few additional routes for listing the tasks, steps and downloading / uploading artifacts.
 

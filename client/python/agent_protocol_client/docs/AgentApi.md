@@ -4,15 +4,15 @@ All URIs are relative to _http://localhost_
 
 | Method                                                                       | HTTP request                                           | Description                                                   |
 | ---------------------------------------------------------------------------- | ------------------------------------------------------ | ------------------------------------------------------------- |
-| [**create_agent_task**](AgentApi.md#create_agent_task)                       | **POST** /agent/tasks                                  | Creates a task for the agent.                                 |
-| [**download_agent_task_artifact**](AgentApi.md#download_agent_task_artifact) | **GET** /agent/tasks/{task_id}/artifacts/{artifact_id} | Download a specified artifact.                                |
-| [**execute_agent_task_step**](AgentApi.md#execute_agent_task_step)           | **POST** /agent/tasks/{task_id}/steps                  | Execute a step in the specified agent task.                   |
-| [**get_agent_task**](AgentApi.md#get_agent_task)                             | **GET** /agent/tasks/{task_id}                         | Get details about a specified agent task.                     |
-| [**get_agent_task_step**](AgentApi.md#get_agent_task_step)                   | **GET** /agent/tasks/{task_id}/steps/{step_id}         | Get details about a specified task step.                      |
-| [**list_agent_task_artifacts**](AgentApi.md#list_agent_task_artifacts)       | **GET** /agent/tasks/{task_id}/artifacts               | List all artifacts that have been created for the given task. |
-| [**list_agent_task_steps**](AgentApi.md#list_agent_task_steps)               | **GET** /agent/tasks/{task_id}/steps                   | List all steps for the specified task.                        |
-| [**list_agent_tasks_ids**](AgentApi.md#list_agent_tasks_ids)                 | **GET** /agent/tasks                                   | List all tasks that have been created for the agent.          |
-| [**upload_agent_task_artifacts**](AgentApi.md#upload_agent_task_artifacts)   | **POST** /agent/tasks/{task_id}/artifacts              | Upload an artifact for the specified task.                    |
+| [**create_agent_task**](AgentApi.md#create_agent_task)                       | **POST** /ap/v1/agent/tasks                                  | Creates a task for the agent.                                 |
+| [**download_agent_task_artifact**](AgentApi.md#download_agent_task_artifact) | **GET** /ap/v1/agent/tasks/{task_id}/artifacts/{artifact_id} | Download a specified artifact.                                |
+| [**execute_agent_task_step**](AgentApi.md#execute_agent_task_step)           | **POST** /ap/v1/agent/tasks/{task_id}/steps                  | Execute a step in the specified agent task.                   |
+| [**get_agent_task**](AgentApi.md#get_agent_task)                             | **GET** /ap/v1/agent/tasks/{task_id}                         | Get details about a specified agent task.                     |
+| [**get_agent_task_step**](AgentApi.md#get_agent_task_step)                   | **GET** /ap/v1/agent/tasks/{task_id}/steps/{step_id}         | Get details about a specified task step.                      |
+| [**list_agent_task_artifacts**](AgentApi.md#list_agent_task_artifacts)       | **GET** /ap/v1/agent/tasks/{task_id}/artifacts               | List all artifacts that have been created for the given task. |
+| [**list_agent_task_steps**](AgentApi.md#list_agent_task_steps)               | **GET** /ap/v1/agent/tasks/{task_id}/steps                   | List all steps for the specified task.                        |
+| [**list_agent_tasks_ids**](AgentApi.md#list_agent_tasks_ids)                 | **GET** /ap/v1/agent/tasks                                   | List all tasks that have been created for the agent.          |
+| [**upload_agent_task_artifacts**](AgentApi.md#upload_agent_task_artifacts)   | **POST** /ap/v1/agent/tasks/{task_id}/artifacts              | Upload an artifact for the specified task.                    |
 
 # **create_agent_task**
 
