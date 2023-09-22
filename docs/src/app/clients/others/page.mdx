@@ -68,7 +68,8 @@ previous request and run:
 
 ```sh
 curl --request POST \
-  --url http://localhost:8000/ap/v1/agent/tasks/<task-id>/steps
+  --url http://localhost:8000/ap/v1/agent/tasks/<task-id>/steps \
+  --header 'Content-Type: application/json'
 ```
 
 To get response like this:
