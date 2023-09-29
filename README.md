@@ -113,7 +113,7 @@ If you're an agent developer, you can use the SDK to implement the protocol. You
   - Track [PR here](https://github.com/smol-ai/developer/pull/123).
 - 🚧 [beebot](https://github.com/AutoPackAI/beebot)
   - Might require more features. See
-    [issue here](https://github.com/ai-engineers-foundation/agent-protocol/issues/9).
+    [issue here](https://github.com/AI-Engineer-Foundation/agent-protocol/issues/9).
 
 ## 📃 High-level future roadmap
 

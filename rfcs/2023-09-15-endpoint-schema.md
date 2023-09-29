@@ -3,7 +3,7 @@
 | Feature name  | Example name                                |
 | :------------ | :------------------------------------------ |
 | **Author(s)** | J. Zane Cook (jzanecook@z90.studio)                      |
-| **RFC PR:**   | [PR 66](https://github.com/AI-Engineers-Foundation/agent-protocol/pull/66)                                 |
+| **RFC PR:**   | [PR 66](https://github.com/AI-Engineer-Foundation/agent-protocol/pull/66)                                 |
 | **Updated**   | 2023-09-18                                  |
 
 ## Summary
