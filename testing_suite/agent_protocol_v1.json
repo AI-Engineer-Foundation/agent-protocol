@@ -258,7 +258,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"input\": \"Write the word 'Washington' to a .txt file\"\n}",
+							"raw": "{\n    \"input\": \"Write the word 'Washington' to a .txt file\",\n    \"additional_input\": {\"test_run_id\": \"123\"}\n}",
 							"options": {
 								"raw": {
 									"language": "json"
