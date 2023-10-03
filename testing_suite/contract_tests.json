@@ -1535,15 +1535,5 @@
 				"id": "c48549ed-e6df-407a-8452-ec1db5cc81eb"
 			}
 		}
-	],
-	"variable": [
-		{
-			"key": "coll-schema",
-			"value": ""
-		},
-		{
-			"key": "coll-schemaTests",
-			"value": ""
-		}
 	]
 }
