@@ -73,7 +73,7 @@ your agent:
 
 It has also a few additional routes for listing the tasks, steps and downloading / uploading artifacts.
 
-### [SDK](./sdk)
+### [SDK](https://github.com/AI-Engineer-Foundation/agent-protocol-sdk-python/tree/main)
 
 This is our implementation of the protocol. It’s a library that you can use to build your agent. You can use it, or you can implement it on your own. It’s up to you.
 
@@ -84,7 +84,7 @@ builders to build their agents and the SDK should solve the rest.
 Basically it wraps your agent in a web server that allows for communication with
 your agent (and in between agents in the future).
 
-### [Client](./client)
+### [Client](https://github.com/AI-Engineer-Foundation/agent-protocol-client-python)
 
 This library should be used by the users of the agents. Your agent is deployed somewhere and the users of your agent can use this library to interact with your agent.
 
