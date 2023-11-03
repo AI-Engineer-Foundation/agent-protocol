@@ -1,5 +1,6 @@
 use apc::apis;
 use clap::{Args, Parser, Subcommand};
+use tokio;
 // use apc::models;
 
 /// Simple program to greet a person
@@ -56,12 +57,12 @@ struct TaskListArgs {
     /// Page Number
     /// Default: 1
     #[arg(short, long, default_value_t = 1)]
-    page: u8,
+    page: i32,
 
     /// Page Size
     /// Default: 10
     #[arg(short = 's', long, default_value_t = 10)]
-    page_size: u8,
+    page_size: i32,
 }
 
 #[derive(Args, Debug)]
@@ -187,10 +188,11 @@ struct TaskArtifactDownloadArgs {
     output_file: Option<String>,
 }
 
-fn main() {
+#[tokio::main]
+async fn main() {
     let args = APCli::parse();
 
-    let _configuration: apis::configuration::Configuration = apis::configuration::Configuration {
+    let configuration: apis::configuration::Configuration = apis::configuration::Configuration {
         base_path: args.url.clone(),
         user_agent: Some("Agent-CLI/v1".to_owned()),
         client: reqwest::Client::new(),
@@ -206,14 +208,15 @@ fn main() {
                         eprintln!("Error: Cannot list tasks and use an ID simultaneously. Please choose one operation.");
                         std::process::exit(1);
                     }
-                    // let tasks = apis::agent_api::list_agent_tasks(
-                    //     &args.url,
-                    //     task_list_args.page,
-                    //     task_list_args.page_size,
-                    // )
-                    // .unwrap();
+                    let tasks = apis::agent_api::list_agent_tasks(
+                        &configuration,
+                        Some(task_list_args.page),
+                        Some(task_list_args.page_size),
+                    )
+                    .await
+                    .unwrap();
 
-                    // println!("{:?}", tasks);
+                    println!("{:?}", tasks);
 
                     println!("Will be listing tasks with arguments: {:?}", task_list_args)
                 }
