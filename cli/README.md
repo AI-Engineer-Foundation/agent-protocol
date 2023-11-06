@@ -14,3 +14,13 @@ To execute the tool, run:
 cargo build
 cargo run -h
 ```
+
+## Formatting
+
+More about code formatting, see [rustfmt](https://github.com/rust-lang/rustfmt)
+
+```rust
+rustup toolchain install nightly
+rustup component add rustfmt --toolchain nightly
+cargo +nightly fmt
+```
