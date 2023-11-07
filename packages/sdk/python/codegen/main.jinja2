@@ -1,0 +1,17 @@
+from __future__ import annotations
+
+from fastapi import FastAPI
+
+from agent_protocol.db import NotFoundException
+from agent_protocol.middlewares import not_found_exception_handler
+
+app = FastAPI(
+    {% if info %}
+    {% for key,value in info.items() %}
+    {% set info_value= value.__repr__() %}
+    {{ key }} = {{info_value}},
+    {% endfor %}
+    {% endif %}
+    )
+
+app.add_exception_handler(NotFoundException, not_found_exception_handler)
