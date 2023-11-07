@@ -3,18 +3,7 @@ use clap::{Args, Parser, Subcommand};
 use tokio;
 // use apc::models;
 
-/// Simple program to greet a person
-#[derive(Parser, Debug)]
-#[command(author, version, about, long_about = None)]
-struct APCli {
-	/// URL of the Agent
-	#[arg(short, long, default_value_t = String::from("http://localhost:8000"))]
-	url: String,
-
-	/// Command to run
-	#[command(subcommand)]
-	commands: Commands,
-}
+mod args;
 
 #[derive(Subcommand, Debug)]
 enum Commands {
@@ -187,6 +176,8 @@ struct TaskArtifactDownloadArgs {
 	#[arg(name = "output_file", short = 'o', long)]
 	output_file: Option<String>,
 }
+
+use args::APCli;
 
 #[tokio::main]
 async fn main() {
