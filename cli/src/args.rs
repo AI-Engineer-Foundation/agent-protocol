@@ -6,31 +6,31 @@ use clap::{Args, Parser, Subcommand};
 pub struct APCli {
     /// URL of the Agent
     #[arg(short, long, default_value_t = String::from("http://localhost:8000"))]
-    url: String,
+    pub url: String,
 
     /// Command to run
     #[command(subcommand)]
-    commands: Commands,
+    pub commands: Commands,
 }
 
 #[derive(Subcommand, Debug)]
-enum Commands {
+pub enum Commands {
     #[command(name = "task")]
     Task(TaskArgs),
 }
 
 #[derive(Args, Debug)]
-struct TaskArgs {
+pub struct TaskArgs {
     /// Task ID
     #[arg(name = "id")]
-    id: Option<String>,
+    pub id: Option<String>,
 
     #[command(subcommand)]
-    commands: TaskCommands,
+    pub commands: TaskCommands,
 }
 
 #[derive(Subcommand, Debug)]
-enum TaskCommands {
+pub enum TaskCommands {
     /// List Tasks
     #[command(name = "list")]
     List(TaskListArgs),
@@ -50,44 +50,44 @@ enum TaskCommands {
 }
 
 #[derive(Args, Debug)]
-struct TaskListArgs {
+pub struct TaskListArgs {
     /// Page Number
     /// Default: 1
     #[arg(short, long, default_value_t = 1)]
-    page: i32,
+    pub page: i32,
 
     /// Page Size
     /// Default: 10
     #[arg(short = 's', long, default_value_t = 10)]
-    page_size: i32,
+    pub page_size: i32,
 }
 
 #[derive(Args, Debug)]
-struct TaskCreateArgs {
+pub struct TaskCreateArgs {
     /// Task Input
     /// Example: --input 'Write Washington to a file'
     #[arg(name = "input", short = 'i', long)]
-    input: String,
+    pub input: String,
 
     /// Additional Input
     /// Default: None
     /// Example: --additional-input '{"foo": "bar"}'
     #[arg(name = "additional_input", short = 'a', long)]
-    additional_input: Option<String>,
+    pub additional_input: Option<String>,
 }
 
 #[derive(Args, Debug)]
-struct TaskStepArgs {
+pub struct TaskStepArgs {
     /// Step ID
     #[arg(name = "id")]
-    id: Option<String>,
+    pub id: Option<String>,
 
     #[command(subcommand)]
-    commands: TaskStepCommands,
+    pub commands: TaskStepCommands,
 }
 
 #[derive(Subcommand, Debug)]
-enum TaskStepCommands {
+pub enum TaskStepCommands {
     /// List Steps for this Task
     #[command(name = "list")]
     List(TaskStepListArgs),
@@ -98,44 +98,44 @@ enum TaskStepCommands {
 }
 
 #[derive(Args, Debug)]
-struct TaskStepListArgs {
+pub struct TaskStepListArgs {
     /// Page Number
     /// Default: 1
     #[arg(short, long, default_value_t = 1)]
-    page: u8,
+    pub page: u8,
 
     /// Page Size
     /// Default: 10
     #[arg(short = 's', long, default_value_t = 10)]
-    page_size: u8,
+    pub page_size: u8,
 }
 
 #[derive(Args, Debug)]
-struct TaskStepExecuteArgs {
+pub struct TaskStepExecuteArgs {
     /// Step Input
     /// Example: --input 'Write Washington to a file'
     #[arg(name = "input", short = 'i', long)]
-    input: String,
+    pub input: String,
 
     /// Additional Input
     /// Default: None
     /// Example: --additional-input '{"foo": "bar"}'
     #[arg(name = "additional_input", short = 'a', long)]
-    additional_input: Option<String>,
+    pub additional_input: Option<String>,
 }
 
 #[derive(Args, Debug)]
-struct TaskArtifactArgs {
+pub struct TaskArtifactArgs {
     /// Artifact ID
     #[arg(name = "id")]
-    id: Option<String>,
+    pub id: Option<String>,
 
     #[command(subcommand)]
-    commands: TaskArtifactCommands,
+    pub commands: TaskArtifactCommands,
 }
 
 #[derive(Subcommand, Debug)]
-enum TaskArtifactCommands {
+pub enum TaskArtifactCommands {
     /// List Artifacts for this Task
     #[command(name = "list")]
     List(TaskArtifactListArgs),
@@ -150,37 +150,37 @@ enum TaskArtifactCommands {
 }
 
 #[derive(Args, Debug)]
-struct TaskArtifactListArgs {
+pub struct TaskArtifactListArgs {
     /// Page Number
     /// Default: 1
     #[arg(short, long, default_value_t = 1)]
-    page: u8,
+    pub page: u8,
 
     /// Page Size
     /// Default: 10
     #[arg(short = 's', long, default_value_t = 10)]
-    page_size: u8,
+    pub page_size: u8,
 }
 
 #[derive(Args, Debug)]
-struct TaskArtifactUploadArgs {
+pub struct TaskArtifactUploadArgs {
     /// Artifact Input
     /// Example: --input 'Write Washington to a file'
     #[arg(name = "input", short = 'i', long)]
-    input: String,
+    pub input: String,
 
     /// Additional Input
     /// Default: None
     /// Example: --additional-input '{"foo": "bar"}'
     #[arg(name = "additional_input", short = 'a', long)]
-    additional_input: Option<String>,
+    pub additional_input: Option<String>,
 }
 
 #[derive(Args, Debug)]
-struct TaskArtifactDownloadArgs {
+pub struct TaskArtifactDownloadArgs {
     /// Output File
     /// Default: None
     /// Example: --output-file 'washington.txt'
     #[arg(name = "output_file", short = 'o', long)]
-    output_file: Option<String>,
+    pub output_file: Option<String>,
 }

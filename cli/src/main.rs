@@ -1,10 +1,10 @@
 use apc::apis;
-use clap::{Args, Parser, Subcommand};
+use clap::Parser;
 use tokio;
 // use apc::models;
 
 mod args;
-use args::APCli;
+use args::{APCli, Commands, TaskArtifactCommands, TaskCommands, TaskStepCommands};
 
 #[tokio::main]
 async fn main() {
