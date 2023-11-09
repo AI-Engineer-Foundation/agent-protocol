@@ -10,17 +10,20 @@
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct TaskArtifactsListResponse {
-	#[serde(rename = "artifacts")]
-	pub artifacts: Vec<crate::models::Artifact>,
-	#[serde(rename = "pagination")]
-	pub pagination: Box<crate::models::Pagination>,
+    #[serde(rename = "artifacts")]
+    pub artifacts: Vec<crate::models::Artifact>,
+    #[serde(rename = "pagination")]
+    pub pagination: Box<crate::models::Pagination>,
 }
 
 impl TaskArtifactsListResponse {
-	pub fn new(
-		artifacts: Vec<crate::models::Artifact>,
-		pagination: crate::models::Pagination,
-	) -> TaskArtifactsListResponse {
-		TaskArtifactsListResponse { artifacts, pagination: Box::new(pagination) }
-	}
+    pub fn new(
+        artifacts: Vec<crate::models::Artifact>,
+        pagination: crate::models::Pagination,
+    ) -> TaskArtifactsListResponse {
+        TaskArtifactsListResponse {
+            artifacts,
+            pagination: Box::new(pagination),
+        }
+    }
 }

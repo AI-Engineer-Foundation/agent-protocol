@@ -10,17 +10,20 @@
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct TaskListResponse {
-	#[serde(rename = "tasks")]
-	pub tasks: Vec<crate::models::Task>,
-	#[serde(rename = "pagination")]
-	pub pagination: Box<crate::models::Pagination>,
+    #[serde(rename = "tasks")]
+    pub tasks: Vec<crate::models::Task>,
+    #[serde(rename = "pagination")]
+    pub pagination: Box<crate::models::Pagination>,
 }
 
 impl TaskListResponse {
-	pub fn new(
-		tasks: Vec<crate::models::Task>,
-		pagination: crate::models::Pagination,
-	) -> TaskListResponse {
-		TaskListResponse { tasks, pagination: Box::new(pagination) }
-	}
+    pub fn new(
+        tasks: Vec<crate::models::Task>,
+        pagination: crate::models::Pagination,
+    ) -> TaskListResponse {
+        TaskListResponse {
+            tasks,
+            pagination: Box::new(pagination),
+        }
+    }
 }

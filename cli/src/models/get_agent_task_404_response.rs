@@ -10,13 +10,13 @@
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct GetAgentTask404Response {
-	/// Message stating the entity was not found
-	#[serde(rename = "message")]
-	pub message: String,
+    /// Message stating the entity was not found
+    #[serde(rename = "message")]
+    pub message: String,
 }
 
 impl GetAgentTask404Response {
-	pub fn new(message: String) -> GetAgentTask404Response {
-		GetAgentTask404Response { message }
-	}
+    pub fn new(message: String) -> GetAgentTask404Response {
+        GetAgentTask404Response { message }
+    }
 }

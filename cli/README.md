@@ -24,3 +24,5 @@ rustup toolchain install nightly
 rustup component add rustfmt --toolchain nightly
 cargo +nightly fmt
 ```
+
+Updates: let's just use the default rust format settings by running `cargo fmt`

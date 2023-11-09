@@ -10,27 +10,32 @@
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Task {
-	/// Input prompt for the task.
-	#[serde(
-		rename = "input",
-		default,
-		with = "::serde_with::rust::double_option",
-		skip_serializing_if = "Option::is_none"
-	)]
-	pub input: Option<Option<String>>,
-	/// Input parameters for the task. Any value is allowed.
-	#[serde(rename = "additional_input", skip_serializing_if = "Option::is_none")]
-	pub additional_input: Option<serde_json::Value>,
-	/// The ID of the task.
-	#[serde(rename = "task_id")]
-	pub task_id: String,
-	/// A list of artifacts that the task has produced.
-	#[serde(rename = "artifacts")]
-	pub artifacts: Vec<crate::models::Artifact>,
+    /// Input prompt for the task.
+    #[serde(
+        rename = "input",
+        default,
+        with = "::serde_with::rust::double_option",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub input: Option<Option<String>>,
+    /// Input parameters for the task. Any value is allowed.
+    #[serde(rename = "additional_input", skip_serializing_if = "Option::is_none")]
+    pub additional_input: Option<serde_json::Value>,
+    /// The ID of the task.
+    #[serde(rename = "task_id")]
+    pub task_id: String,
+    /// A list of artifacts that the task has produced.
+    #[serde(rename = "artifacts")]
+    pub artifacts: Vec<crate::models::Artifact>,
 }
 
 impl Task {
-	pub fn new(task_id: String, artifacts: Vec<crate::models::Artifact>) -> Task {
-		Task { input: None, additional_input: None, task_id, artifacts }
-	}
+    pub fn new(task_id: String, artifacts: Vec<crate::models::Artifact>) -> Task {
+        Task {
+            input: None,
+            additional_input: None,
+            task_id,
+            artifacts,
+        }
+    }
 }
