@@ -21,7 +21,7 @@ pub struct TaskRequestBody {
         with = "::serde_with::rust::double_option",
         skip_serializing_if = "Option::is_none"
     )]
-    pub input: Option<Option<String>>,
+    pub input: Option<String>,
     /// Input parameters for the task. Any value is allowed.
     #[serde(rename = "additional_input", skip_serializing_if = "Option::is_none")]
     pub additional_input: Option<serde_json::Value>,
