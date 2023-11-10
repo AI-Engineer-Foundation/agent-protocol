@@ -44,9 +44,8 @@ You can find more info and examples in the [docs](https://agentprotocol.ai/sdks/
 
 ## Contributing
 ```bash
-git clone https://github.com/AI-Engineers-Foundation/agent-protocol-sdk-js
-cd ./agent-protocol-sdk-js
-git submodule update --init
+git clone https://github.com/AI-Engineers-Foundation/agent-protocol
+cd agent-protocol/sdk/js
 npm install
 npm run build
 ```

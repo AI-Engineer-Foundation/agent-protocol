@@ -72,7 +72,7 @@ Agent.setup_agent(task_handler, step_handler).start(router=my_router)
 
 You can test the compliance of your agent using the following script:
 ```bash
-$ URL=http://127.0.0.1:8000 bash -c "$(curl -fsSL https://raw.githubusercontent.com/AI-Engineers-Foundation/agent-protocol/main/testing_suite/test.sh)"
+URL=http://127.0.0.1:8000 bash -c "$(curl -fsSL https://agentprotocol.ai/test.sh)"
 ```
 
 What this does is run a series of GET and POST requests against your agent to verify that it's compliant with the Agent Protocol.
@@ -86,13 +86,10 @@ You can find more info and examples in the [docs](https://agentprotocol.ai/sdks/
 If you want to use the agent_protocol package from the cloned repository, you should be able to use poetry to set it up, like below.
 
 ```bash
-$ git clone git@github.com:AI-Engineers-Foundation/agent-protocol-sdk-python.git
-
-$ cd agent-protocol-sdk-python
-
-$ poetry install
-
-$ poetry run python examples/minimal.py
+git clone git@github.com:AI-Engineers-Foundation/agent-protocol.git
+cd agent-protocol/sdk/python
+poetry install
+poetry run python examples/minimal.py
 ```
 
-Feel free to open [an issue](https://github.com/AI-Engineers-Foundation/agent-protocol-sdk-python/issues) if you run into any problems!
+Feel free to open [an issue](https://github.com/AI-Engineers-Foundation/agent-protocol/issues) if you run into any problems!

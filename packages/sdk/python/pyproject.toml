@@ -6,7 +6,7 @@ authors = ["AI Engineers Foundation <aiengineersfoundation@gmail.com>"]
 license = "MIT"
 readme = "README.md"
 homepage = "https://agentprotocol.ai/"
-repository = "https://github.com/AI-Engineers-Foundation/agent-protocol-sdk-python/tree/main/"
+repository = "https://github.com/AI-Engineers-Foundation/agent-protocol/tree/main/packages/sdk/python"
 packages = [{ include = "agent_protocol" }]
 
 [tool.poetry.dependencies]
@@ -31,4 +31,4 @@ build-backend = "poetry.core.masonry.api"
 agent-protocol = "agent_protocol.cli:cli"
 
 [tool.poetry.urls]
-"Bug Tracker" = "https://github.com/AI-Engineers-Foundation/agent-protocol-sdk-python/issues"
+"Bug Tracker" = "https://github.com/AI-Engineers-Foundation/agent-protocol/issues"
