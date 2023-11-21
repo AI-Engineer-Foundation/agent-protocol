@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "agent_protocol"
-version = "1.0.1"
+version = "1.0.2"
 description = "API for interacting with Agents that use the Agent Protocol"
 authors = ["AI Engineers Foundation <aiengineersfoundation@gmail.com>"]
 license = "MIT"
