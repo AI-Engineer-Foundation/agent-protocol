@@ -1,0 +1,34 @@
+[tool.poetry]
+name = "agent_protocol"
+version = "1.0.1"
+description = "API for interacting with Agents that use the Agent Protocol"
+authors = ["AI Engineers Foundation <aiengineersfoundation@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://agentprotocol.ai/"
+repository = "https://github.com/AI-Engineers-Foundation/agent-protocol/tree/main/packages/sdk/python"
+packages = [{ include = "agent_protocol" }]
+
+[tool.poetry.dependencies]
+python = ">=3.10, <4.0.0"
+fastapi = "^0.100.0"
+hypercorn = "^0.14.4"
+pytest = "^7.0.0"
+pydantic = "^1.10.5, <2"
+click = "^8.1.6"
+requests = "^2.31.0"
+python-multipart = "^0.0.6"
+aiofiles = "^23.1.0"
+
+[tool.poetry.group.dev.dependencies]
+fastapi-code-generator = "^0.4.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+agent-protocol = "agent_protocol.cli:cli"
+
+[tool.poetry.urls]
+"Bug Tracker" = "https://github.com/AI-Engineers-Foundation/agent-protocol/issues"
