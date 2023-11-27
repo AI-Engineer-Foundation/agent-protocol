@@ -367,8 +367,8 @@ const registerCreateArtifact: RouteRegisterFn = (router: Router, context: RouteC
         const relativePath = req.body.relative_path
 
         const task = tasks.find(([{ task_id }]) => task_id == taskId)
-        if (!task) {
-          res
+        if (task === undefined) {
+          return res
             .status(404)
             .json({ message: 'Unable to find task with the provided id' })
         }
