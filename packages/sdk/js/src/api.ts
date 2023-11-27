@@ -3,7 +3,7 @@ import yaml from "js-yaml";
 import express, { Router } from "express";  // <-- Import Router
 import * as core from "express-serve-static-core";
 
-import spec from "../agent-protocol/schemas/openapi.yml";
+import spec from "../../../../schemas/openapi.yml";
 
 export type ApiApp = core.Express;
 
