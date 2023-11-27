@@ -260,6 +260,9 @@ const registerGetArtifacts: RouteRegisterFn = (router: Router) => {
       const taskId = req.params.task_id
       try {
         const artifacts = await getArtifacts(taskId)
+        if (artifacts == undefined) {
+          return res.status(404).json({ error: `Task with id ${taskId} not found` })
+        }
         const current_page = Number(req.query['current_page']) || 1
         const page_size = Number(req.query['page_size']) || 10
   
