@@ -2,8 +2,8 @@
 
 All URIs are relative to _http://localhost_
 
-| Method                                                                       | HTTP request                                           | Description                                                   |
-| ---------------------------------------------------------------------------- | ------------------------------------------------------ | ------------------------------------------------------------- |
+| Method                                                                       | HTTP request                                                 | Description                                                   |
+| ---------------------------------------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------- |
 | [**create_agent_task**](AgentApi.md#create_agent_task)                       | **POST** /ap/v1/agent/tasks                                  | Creates a task for the agent.                                 |
 | [**download_agent_task_artifact**](AgentApi.md#download_agent_task_artifact) | **GET** /ap/v1/agent/tasks/{task_id}/artifacts/{artifact_id} | Download a specified artifact.                                |
 | [**execute_agent_task_step**](AgentApi.md#execute_agent_task_step)           | **POST** /ap/v1/agent/tasks/{task_id}/steps                  | Execute a step in the specified agent task.                   |

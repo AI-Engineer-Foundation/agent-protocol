@@ -7,10 +7,10 @@ export type TaskInput = any
  * Artifact that the task has produced. Any value is allowed.
  */
 export type Artifact = {
-  artifact_id: string,
-  agent_created: boolean,
-  file_name: string,
-  relative_path: string | null,
+  artifact_id: string
+  agent_created: boolean
+  file_name: string
+  relative_path: string | null
   created_at: string
 }
 
@@ -25,9 +25,9 @@ export type StepInput = any
 export type StepOutput = any
 
 export enum StepStatus {
-  CREATED = "created",
-  RUNNING = "running",
-  COMPLETED = "completed"
+  CREATED = 'created',
+  RUNNING = 'running',
+  COMPLETED = 'completed',
 }
 
 export interface Step {

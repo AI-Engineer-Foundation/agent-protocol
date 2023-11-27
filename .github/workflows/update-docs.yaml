@@ -31,7 +31,7 @@ jobs:
           git commit -am "Update endpoint docs" || echo "No changes to commit"
           git push
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install swagger-cli
         run: |
@@ -43,7 +43,7 @@ jobs:
           cd ..
           npx openapi-format schemas/openapi.yml --output schemas/openapi.yml
           swagger-cli bundle -r schemas/openapi.yml -o schemas/openapi.json -t json
-          
+
           git config --global user.email "no-reply@github.com"
           git config --global user.name "GitHub Actions"
           git add schemas/openapi.yml
