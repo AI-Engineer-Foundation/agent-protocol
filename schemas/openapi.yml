@@ -33,6 +33,9 @@ paths:
           description: Internal Server Error
       tags:
         - agent
+      security:
+        - HTTPBearer: []
+        - {}
     get:
       operationId: listAgentTasks
       summary: List all tasks that have been created for the agent.
@@ -68,6 +71,9 @@ paths:
           description: Internal Server Error
       tags:
         - agent
+      security:
+        - HTTPBearer: []
+        - {}
   '/ap/v1/agent/tasks/{task_id}':
     get:
       operationId: getAgentTask
@@ -96,6 +102,9 @@ paths:
           description: Internal Server Error
       tags:
         - agent
+      security:
+        - HTTPBearer: []
+        - {}
   '/ap/v1/agent/tasks/{task_id}/steps':
     get:
       operationId: listAgentTaskSteps
@@ -144,6 +153,9 @@ paths:
           description: Internal Server Error
       tags:
         - agent
+      security:
+        - HTTPBearer: []
+        - {}
     post:
       operationId: executeAgentTaskStep
       summary: Execute a step in the specified agent task.
@@ -182,6 +194,9 @@ paths:
           description: Internal Server Error
       tags:
         - agent
+      security:
+        - HTTPBearer: []
+        - {}
   '/ap/v1/agent/tasks/{task_id}/steps/{step_id}':
     get:
       operationId: getAgentTaskStep
@@ -222,6 +237,9 @@ paths:
           description: Internal Server Error
       tags:
         - agent
+      security:
+        - HTTPBearer: []
+        - {}
   '/ap/v1/agent/tasks/{task_id}/artifacts':
     get:
       operationId: listAgentTaskArtifacts
@@ -270,6 +288,9 @@ paths:
           description: Internal Server Error
       tags:
         - agent
+      security:
+        - HTTPBearer: []
+        - {}
     post:
       operationId: uploadAgentTaskArtifacts
       summary: Upload an artifact for the specified task.
@@ -302,6 +323,9 @@ paths:
           description: Internal Server Error
       tags:
         - agent
+      security:
+        - HTTPBearer: []
+        - {}
   '/ap/v1/agent/tasks/{task_id}/artifacts/{artifact_id}':
     get:
       operationId: downloadAgentTaskArtifact
@@ -338,6 +362,9 @@ paths:
           description: Internal Server Error
       tags:
         - agent
+      security:
+        - HTTPBearer: []
+        - {}
 components:
   schemas:
     Pagination:
@@ -543,7 +570,7 @@ components:
             output:
               description: Output of the task step.
               type: string
-              example: 'I am going to use the write_to_file command and write Washington to a file called output.txt <write_to_file(''output.txt'', ''Washington'')'
+              example: "I am going to use the write_to_file command and write Washington to a file called output.txt <write_to_file('output.txt', 'Washington')"
               nullable: true
             additional_output:
               $ref: '#/components/schemas/StepOutput'
@@ -579,3 +606,7 @@ components:
                 example: Unable to find entity with the provided id
             required:
               - message
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer
