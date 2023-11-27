@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "agent-protocol-client"
-version = "1.0.1"
+version = "1.0.2"
 description = "Agent Communication Protocol Client"
 authors = ["AI Engineers Foundation <aiengineersfoundation@gmail.com>"]
 license = "MIT"
