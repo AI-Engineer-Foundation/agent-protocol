@@ -1,0 +1,64 @@
+import { SDKs } from '@/components/SDKs'
+import { Clients } from '@/components/Clients'
+import { HeroPattern } from '@/components/HeroPattern'
+import Link from 'next/link'
+
+export const metadata = {
+  title: 'Agent Protocol',
+  description:
+    'Agent Protocol - The open source communication protocol for AI agents.',
+}
+
+export const sections = [
+  { title: 'SDKs', id: 'sdks' },
+  { title: 'Clients', id: 'clients' },
+]
+
+<HeroPattern />
+
+# Agent Protocol
+
+The AI agent space is young. Most developers are building agents in their own way. This creates a challenge:
+It's hard to communicate with different agents since the interface is often different every time.
+Because we struggle with communicating with different agents, it's also hard to compare them easily.
+Additionally, if we had a single communication interface with agents, it'd also make it easier developing devtools that works with agents out of the box.
+
+We present the **Agent Protocol** - a single common interface for communicating with agents.
+
+Any agent developer can implement this protocol.
+The Agent Protocol is an API specification - list of endpoints, which the agent
+should expose with predefined response models.
+The protocol is **tech stack agnostic**. Any agent can adopt this protocol no
+matter what framework they're using (or not using).
+
+We believe, this will help the ecosystem grow faster and simplify the integrations.
+
+We're starting with a minimal core. We want to build upon that iteratively
+by learning from agent developers about what they actually need.
+
+<div className="mb-16 mt-6 flex gap-3">
+  <Button href="/protocol" arrow="right" children="Protocol" />
+  <Button href="/sdks" variant="outline" children="Explore SDKs" />
+  <Button href="https://github.com/AI-Engineer-Foundation/agent-protocol" variant="outline" children="GitHub" />
+</div>
+
+## High level description {{ anchor: false }}
+
+The Agent Protocol is an API specification - list of endpoints, which the agent should expose with predefined input and response models. The protocol is designed to be as simple as possible, so it can be implemented by any agent. {{ className: 'lead' }}
+
+There are two main endpoints:
+
+- `POST /ap/v1/agent/tasks` - for creating tasks
+- `POST /ap/v1/agent/tasks/{id}/steps` - for triggering next step for the task
+
+To find more details [click here](/protocol).
+
+## Community
+
+If you're interested in the Agent Protocol, come to discuss on <Link href="https://discord.gg/3zcNWTucwn">Discord</Link>.
+
+We're also looking for contributors to help us build the protocol, everyone is welcome to join.
+
+<SDKs />
+
+<Clients />
