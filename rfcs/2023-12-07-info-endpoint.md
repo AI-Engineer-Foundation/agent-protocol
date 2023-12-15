@@ -6,13 +6,15 @@
 | **Relevant Issue:**   | [#39](https://github.com/AI-Engineer-Foundation/agent-protocol/issues/39)                                 |
 | **RFC PR:**   | [TBD](https://github.com/AI-Engineer-Foundation/agent-protocol/pulls)                                 |
 | **Created**   | 2023-12-07                                  |
-| **Updated**   | 2023-12-11                                  |
+| **Updated**   | 2023-12-15                                  |
 
 ## Summary
 
 Current methods of information gathering for agents is insufficient, this RFC proposes an info endpoint that would enforce that certain qualities of an agent are readily available. The enclosing proposed fields introduced should enable adequate knowledge-gathering capabilities to consumers of the agent, whether they are a tool, user, or another agent that utilizes the agent protocol.
 
-This RFC assumes that its introduction would fall along a `v2` release of the Agent Protocol, and as such any references to the Agent Protocol version reflects that assumption. The proposed new endpoint would exist at `/ap/v2/agent/info` and would be accessed with a `GET` request.
+This RFC assumes that its introduction would fall along a `v2` release of the Agent Protocol, and as such any references to the Agent Protocol version reflects that assumption. The proposed new endpoint would exist at `/ap/v2/agent/info` and would be accessed with a `GET` request. As the version of the agent protocol updates, this route will update as well.
+
+This also introduces a second endpoint for getting the supported versions of the agent protocol `/ap/versions`.
 
 ## Motivation
 
@@ -102,6 +104,30 @@ AgentInfo:
             - version
 ```
 
+We also propose a `/ap/versions` endpoint that returns a list of supported versions in a json array.
+
+The motivation here is to have a single relible endpoint across versions to know what endpoints will be available in routes as the agent protocol progresses.
+
+```json
+{
+    "versions": [1, 2, 3]
+}
+```
+
+The spec will have this section added to the yaml definition of the agent protocol.
+
+```yml
+AgentVersions:
+    description: Versions that the agent supports.
+    type: object
+    properties:
+        versions:
+            description: Integers representing the Major version of the OpenAPI spec (used in the endpoint schema)
+            type: array
+            items:
+                type: integer
+```
+
 ### Alternatives Considered
 
 - Requiring more details on the endpoint.
@@ -126,7 +152,8 @@ AgentInfo:
 ## Questions and Discussion Topics
 
 - Is this implementation enough to fit any needs that agents might have in the future?
+  - Yes, the community agrees, as long as the route is pushed into new versions with updates as needed.
 - We believe this is a great endpoint to store more information in the future, what do you think?
+  - Yes, the community agrees
 - Should this be mounted at `/ap/info`?
-<!-- - Should `url` be the base of the `/ap/...` url or should it be the base url for the agent as a whole?
-  - e.g. `domain.com` vs `domain.com/test/ap/...` -->
+  - No, but we should have a `/ap/version` endpoint that returns the supported numbers in the route
