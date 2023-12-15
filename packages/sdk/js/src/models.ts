@@ -6,7 +6,7 @@ export type TaskInput = any
 /**
  * Artifact that the task has produced. Any value is allowed.
  */
-export type Artifact = {
+export interface Artifact {
   artifact_id: string
   agent_created: boolean
   file_name: string

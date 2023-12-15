@@ -16,12 +16,11 @@ import {
 } from './models'
 import {
   createApi,
-  ApiApp,
-  ApiConfig,
-  RouteRegisterFn,
-  RouteContext,
+  type ApiConfig,
+  type RouteRegisterFn,
+  type RouteContext,
 } from './api'
-import { Router } from 'express'
+import { type Router } from 'express'
 
 /**
  * A function that handles a step in a task.
@@ -33,7 +32,7 @@ export type StepHandler = (input: StepInput | null) => Promise<StepResult>
  * Returns a step handler.
  */
 export type TaskHandler = (
-  taskId: String,
+  taskId: string,
   input: TaskInput | null
 ) => Promise<StepHandler>
 
@@ -189,7 +188,7 @@ export const executeAgentTaskStep = async (
   }
 
   // If there are artifacts in the step, append them to the task's artifacts array (or initialize it if necessary)
-  if (step.artifacts && step.artifacts.length > 0) {
+  if ((step.artifacts != null) && step.artifacts.length > 0) {
     task[0].artifacts = task[0].artifacts ?? []
     task[0].artifacts.push(...step.artifacts)
   }
@@ -259,40 +258,36 @@ const registerGetArtifacts: RouteRegisterFn = (router: Router) => {
       const taskId = req.params.task_id
       try {
         const artifacts = await getArtifacts(taskId)
-        if (artifacts == undefined) {
+        if (artifacts === undefined) {
           return res
             .status(404)
             .json({ error: `Task with id ${taskId} not found` })
         }
-        const current_page = Number(req.query['current_page']) || 1
-        const page_size = Number(req.query['page_size']) || 10
-
-        if (!artifacts) {
-          res.status(200).send({
-            artifacts: [],
-            pagination: {
-              total_items: 0,
-              total_pages: 0,
-              current_page,
-              page_size,
-            },
-          })
+        let currentPage = 1
+        let pageSize = 10
+        if (req.query.current_page !== undefined && !isNaN(Number(req.query.current_page))) {
+          currentPage = Number(req.query.current_page)
         }
-        const total_items = artifacts.length
-        const total_pages = Math.ceil(total_items / page_size)
+        
+        if (req.query.page_size !== undefined && !isNaN(Number(req.query.page_size))) {
+          pageSize = Number(req.query.page_size)
+        }
+
+        const totalItems = artifacts.length
+        const totalPages = Math.ceil(totalItems / pageSize)
 
         // Slice artifacts array based on pagination
-        const start = (current_page - 1) * page_size
-        const end = start + page_size
+        const start = (currentPage - 1) * pageSize
+        const end = start + pageSize
         const pagedArtifacts = artifacts.slice(start, end)
 
         res.status(200).send({
           artifacts: pagedArtifacts,
           pagination: {
-            total_items,
-            total_pages,
-            current_page,
-            page_size,
+            total_items: totalItems,
+            total_pages: totalPages,
+            current_page: currentPage,
+            page_size: pageSize,
           },
         })
       } catch (err: Error | any) {
@@ -343,10 +338,10 @@ export const createArtifact = async (
     artifact_id: artifactId,
     agent_created: false,
     file_name: file.originalname,
-    relative_path: relativePath || null,
+    relative_path: relativePath ?? null,
     created_at: Date.now().toString(),
   }
-  task.artifacts = task.artifacts || []
+  task.artifacts = (task.artifacts != null) ?? []
   task.artifacts.push(artifact)
 
   const artifactFolderPath = getArtifactPath(task.task_id, workspace, artifact)
@@ -366,15 +361,15 @@ const registerCreateArtifact: RouteRegisterFn = (
         const taskId = req.params.task_id
         const relativePath = req.body.relative_path
 
-        const task = tasks.find(([{ task_id }]) => task_id == taskId)
+        const task = tasks.find(([{ task_id: originalTaskId }]) => originalTaskId === taskId)
         if (task === undefined) {
           return res
             .status(404)
             .json({ message: 'Unable to find task with the provided id' })
         }
 
-        const files = req.files as Array<Express.Multer.File>
-        let file = files.find(({ fieldname }) => fieldname == 'file')
+        const files = req.files as Express.Multer.File[]
+        const file = files.find(({ fieldname }) => fieldname === 'file')
         const artifact = await createArtifact(
           context.workspace,
           task[0],
@@ -402,7 +397,7 @@ export const getTaskArtifact = async (
 ): Promise<Artifact> => {
   const task = await getAgentTask(taskId)
   const artifact = task.artifacts?.find((a) => a.artifact_id === artifactId)
-  if (!artifact) {
+  if (artifact == null) {
     throw new Error(
       `Artifact with id ${artifactId} in task with id ${taskId} was not found`
     )
@@ -447,7 +442,7 @@ export class Agent {
   constructor(
     public taskHandler: TaskHandler,
     public config: AgentConfig
-  ) {}
+  ) { }
 
   static handleTask(
     _taskHandler: TaskHandler,
@@ -455,14 +450,14 @@ export class Agent {
   ): Agent {
     taskHandler = _taskHandler
     return new Agent(_taskHandler, {
-      workspace: config.workspace || defaultAgentConfig.workspace,
-      port: config.port || defaultAgentConfig.port,
+      workspace: config.workspace ?? defaultAgentConfig.workspace,
+      port: config.port ?? defaultAgentConfig.port,
     })
   }
 
   start(port?: number): void {
     const config: ApiConfig = {
-      port: port || this.config.port || defaultAgentConfig.port,
+      port: port ?? this.config.port ?? defaultAgentConfig.port,
       routes: [
         registerCreateAgentTask,
         registerListAgentTaskIDs,
