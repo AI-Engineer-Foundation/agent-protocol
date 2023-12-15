@@ -1,4 +1,3 @@
-
 import { v4 as uuid } from 'uuid'
 import * as fs from 'fs'
 import * as path from 'path'
@@ -17,12 +16,11 @@ import {
 } from './models'
 import {
   createApi,
-  ApiApp,
-  ApiConfig,
-  RouteRegisterFn,
-  RouteContext,
-} from "./api";
-import { Router } from 'express';
+  type ApiConfig,
+  type RouteRegisterFn,
+  type RouteContext,
+} from './api'
+import { type Router } from 'express'
 
 /**
  * A function that handles a step in a task.
@@ -34,7 +32,7 @@ export type StepHandler = (input: StepInput | null) => Promise<StepResult>
  * Returns a step handler.
  */
 export type TaskHandler = (
-  taskId: String,
+  taskId: string,
   input: TaskInput | null
 ) => Promise<StepHandler>
 
@@ -84,7 +82,7 @@ const registerCreateAgentTask: RouteRegisterFn = (router: Router) => {
         res.status(500).json({ error: err.message })
       }
     })()
-  });
+  })
 }
 
 /**
@@ -190,7 +188,7 @@ export const executeAgentTaskStep = async (
   }
 
   // If there are artifacts in the step, append them to the task's artifacts array (or initialize it if necessary)
-  if (step.artifacts && step.artifacts.length > 0) {
+  if (step.artifacts != null && step.artifacts.length > 0) {
     task[0].artifacts = task[0].artifacts ?? []
     task[0].artifacts.push(...step.artifacts)
   }
@@ -251,8 +249,8 @@ const registerGetAgentTaskStep: RouteRegisterFn = (router: Router) => {
 export const getArtifacts = async (
   taskId: string
 ): Promise<Artifact[] | undefined> => {
-  const task = await getAgentTask(taskId);
-  return task.artifacts;
+  const task = await getAgentTask(taskId)
+  return task.artifacts
 }
 const registerGetArtifacts: RouteRegisterFn = (router: Router) => {
   router.get('/agent/tasks/:task_id/artifacts', (req, res) => {
@@ -260,38 +258,42 @@ const registerGetArtifacts: RouteRegisterFn = (router: Router) => {
       const taskId = req.params.task_id
       try {
         const artifacts = await getArtifacts(taskId)
-        if (artifacts == undefined) {
-          return res.status(404).json({ error: `Task with id ${taskId} not found` })
+        if (artifacts === undefined) {
+          return res
+            .status(404)
+            .json({ error: `Task with id ${taskId} not found` })
         }
-        const current_page = Number(req.query['current_page']) || 1
-        const page_size = Number(req.query['page_size']) || 10
-  
-        if (!artifacts) {
-          res.status(200).send({
-            artifacts: [],
-            pagination: {
-              total_items: 0,
-              total_pages: 0,
-              current_page,
-              page_size,
-            },
-          })
+        let currentPage = 1
+        let pageSize = 10
+        if (
+          req.query.current_page !== undefined &&
+          !isNaN(Number(req.query.current_page))
+        ) {
+          currentPage = Number(req.query.current_page)
         }
-        const total_items = artifacts.length
-        const total_pages = Math.ceil(total_items / page_size)
+
+        if (
+          req.query.page_size !== undefined &&
+          !isNaN(Number(req.query.page_size))
+        ) {
+          pageSize = Number(req.query.page_size)
+        }
+
+        const totalItems = artifacts.length
+        const totalPages = Math.ceil(totalItems / pageSize)
 
         // Slice artifacts array based on pagination
-        const start = (current_page - 1) * page_size
-        const end = start + page_size
+        const start = (currentPage - 1) * pageSize
+        const end = start + pageSize
         const pagedArtifacts = artifacts.slice(start, end)
 
         res.status(200).send({
           artifacts: pagedArtifacts,
           pagination: {
-            total_items,
-            total_pages,
-            current_page,
-            page_size,
+            total_items: totalItems,
+            total_pages: totalPages,
+            current_page: currentPage,
+            page_size: pageSize,
           },
         })
       } catch (err: Error | any) {
@@ -313,9 +315,9 @@ export const getArtifactPath = (
   workspace: string,
   artifact: Artifact
 ): string => {
-  const rootDir = path.isAbsolute(workspace) ?
-    workspace :
-    path.join(process.cwd(), workspace);
+  const rootDir = path.isAbsolute(workspace)
+    ? workspace
+    : path.join(process.cwd(), workspace)
 
   return path.join(
     rootDir,
@@ -342,39 +344,40 @@ export const createArtifact = async (
     artifact_id: artifactId,
     agent_created: false,
     file_name: file.originalname,
-    relative_path: relativePath || null,
+    relative_path: relativePath ?? null,
     created_at: Date.now().toString(),
   }
-  task.artifacts = task.artifacts || []
+  task.artifacts = task.artifacts != null ?? []
   task.artifacts.push(artifact)
 
-  const artifactFolderPath = getArtifactPath(
-    task.task_id,
-    workspace,
-    artifact
-  )
+  const artifactFolderPath = getArtifactPath(task.task_id, workspace, artifact)
 
   // Save file to server's file system
   fs.mkdirSync(path.join(artifactFolderPath, '..'), { recursive: true })
   fs.writeFileSync(artifactFolderPath, file.buffer)
   return artifact
 }
-const registerCreateArtifact: RouteRegisterFn = (router: Router, context: RouteContext) => {
+const registerCreateArtifact: RouteRegisterFn = (
+  router: Router,
+  context: RouteContext
+) => {
   router.post('/agent/tasks/:task_id/artifacts', (req, res) => {
     void (async () => {
       try {
         const taskId = req.params.task_id
         const relativePath = req.body.relative_path
 
-        const task = tasks.find(([{ task_id }]) => task_id == taskId)
+        const task = tasks.find(
+          ([{ task_id: originalTaskId }]) => originalTaskId === taskId
+        )
         if (task === undefined) {
           return res
             .status(404)
             .json({ message: 'Unable to find task with the provided id' })
         }
 
-        const files = req.files as Array<Express.Multer.File>
-        let file = files.find(({ fieldname }) => fieldname == 'file')
+        const files = req.files as Express.Multer.File[]
+        const file = files.find(({ fieldname }) => fieldname === 'file')
         const artifact = await createArtifact(
           context.workspace,
           task[0],
@@ -402,21 +405,28 @@ export const getTaskArtifact = async (
 ): Promise<Artifact> => {
   const task = await getAgentTask(taskId)
   const artifact = task.artifacts?.find((a) => a.artifact_id === artifactId)
-  if (!artifact) {
+  if (artifact == null) {
     throw new Error(
       `Artifact with id ${artifactId} in task with id ${taskId} was not found`
     )
   }
   return artifact
 }
-const registerGetTaskArtifact: RouteRegisterFn = (router: Router, context: RouteContext) => {
+const registerGetTaskArtifact: RouteRegisterFn = (
+  router: Router,
+  context: RouteContext
+) => {
   router.get('/agent/tasks/:task_id/artifacts/:artifact_id', (req, res) => {
     void (async () => {
       const taskId = req.params.task_id
       const artifactId = req.params.artifact_id
       try {
         const artifact = await getTaskArtifact(taskId, artifactId)
-        const artifactPath = getArtifactPath(taskId, context.workspace, artifact)
+        const artifactPath = getArtifactPath(
+          taskId,
+          context.workspace,
+          artifact
+        )
         res.status(200).sendFile(artifactPath)
       } catch (err: Error | any) {
         console.error(err)
@@ -427,20 +437,20 @@ const registerGetTaskArtifact: RouteRegisterFn = (router: Router, context: Route
 }
 
 export interface AgentConfig {
-  port: number;
-  workspace: string;
+  port: number
+  workspace: string
 }
 
 export const defaultAgentConfig: AgentConfig = {
   port: 8000,
-  workspace: "./workspace"
-};
+  workspace: './workspace',
+}
 
 export class Agent {
   constructor(
     public taskHandler: TaskHandler,
     public config: AgentConfig
-  ) { }
+  ) {}
 
   static handleTask(
     _taskHandler: TaskHandler,
@@ -448,14 +458,14 @@ export class Agent {
   ): Agent {
     taskHandler = _taskHandler
     return new Agent(_taskHandler, {
-      workspace: config.workspace || defaultAgentConfig.workspace,
-      port: config.port || defaultAgentConfig.port
-    });
+      workspace: config.workspace ?? defaultAgentConfig.workspace,
+      port: config.port ?? defaultAgentConfig.port,
+    })
   }
 
   start(port?: number): void {
     const config: ApiConfig = {
-      port: port || this.config.port || defaultAgentConfig.port,
+      port: port ?? this.config.port ?? defaultAgentConfig.port,
       routes: [
         registerCreateAgentTask,
         registerListAgentTaskIDs,
@@ -465,13 +475,13 @@ export class Agent {
         registerGetAgentTaskStep,
         registerGetArtifacts,
         registerCreateArtifact,
-        registerGetTaskArtifact
+        registerGetTaskArtifact,
       ],
       callback: () => {
         console.log(`Agent listening at http://localhost:${this.config.port}`)
       },
       context: {
-        workspace: this.config.workspace
+        workspace: this.config.workspace,
       },
     }
 

@@ -1,1553 +1,1516 @@
 {
-	"info": {
-		"_postman_id": "03c5c4b6-9071-4ab4-b5a1-4bda97a3b3aa",
-		"name": "Contract Test Generator",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "API Validation",
-			"item": [
-				{
-					"name": "Cleanup Previous Run",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "6e0312e1-1276-47b2-92be-b481545de5fb",
-								"exec": [
-									"// See https://blog.postman.com/2019/05/28/pro-tip-dynamically-unset-postman-environment-variables/\r",
-									"// for more details on what we're doing here. \r",
-									"\r",
-									"cleanupCollectionVariables();\r",
-									"\r",
-									"function cleanupCollectionVariables() {\r",
-									"    const clean = _.keys(pm.collectionVariables.toObject());\r",
-									"\r",
-									"    _.each(clean, (arrItem) => {\r",
-									"        pm.collectionVariables.unset(arrItem);\r",
-									"    });\r",
-									"}"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"id": "acaabbd4-94fc-4444-8718-b9ca2c087721",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"id": "30368860-aef9-46d6-ad44-8fac61b8f842",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": "https://postman-echo.com/delay/0"
-					},
-					"response": []
-				},
-				{
-					"name": "Initialize",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "d15a1e94-1145-4006-b514-b5300671da90",
-								"exec": [
-									"var envSchema = null\r",
-									"if (pm.environment.get(\"env-openapi-json-url\")){\r",
-									"    envSchema = JSON.stringify(pm.response.json());\r",
-									"}\r",
-									"\r",
-									"const providedSchema = pm.environment.get('env-schema') || envSchema;\r",
-									"if(providedSchema){\r",
-									"    let success = true;\r",
-									"    try{\r",
-									"        const yaml = pm.environment.get('env-jsonToYaml');\r",
-									"        (new Function(yaml))();\r",
-									"\r",
-									"        const schema = jsyaml.load(providedSchema);\r",
-									"        pm.collectionVariables.set('coll-schema', JSON.stringify(schema));\r",
-									"        postman.setNextRequest('Get API Base Url');\r",
-									"    }\r",
-									"    catch(err){\r",
-									"        console.log(err);\r",
-									"        success = false;\r",
-									"        postman.setNextRequest(null);\r",
-									"    }\r",
-									"\r",
-									"    pm.test('Successfully converted provided schema', function(){\r",
-									"        pm.expect(success).to.be.true;\r",
-									"    });    \r",
-									"}"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "9e1c1f12-58f5-4cea-b6c0-58be6133c033",
-								"exec": [
-									"if (pm.environment.get(\"env-openapi-json-url\")){",
-									"    pm.request.url = pm.environment.get(\"env-openapi-json-url\");",
-									"}"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"id": "367b4112-337b-4bc0-821d-4687694559ad",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": "https://postman-echo.com/delay/0"
-					},
-					"response": []
-				},
-				{
-					"name": "Validate API In Workspace",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "c7c74561-6423-4fbe-ab30-bd66746c6cdf",
-								"exec": [
-									"const minApiCount = Number(pm.environment.get('env-minApiCount'));\r",
-									"const maxApiCount = Number(pm.environment.get('env-maxApiCount'));\r",
-									"const jsonData = pm.response.json();\r",
-									"\r",
-									"pm.test(`Workspace API count is between ${minApiCount} and ${maxApiCount}. (Count: ${jsonData.apis.length})`, function () {    \r",
-									"    pm.expect(jsonData.apis.length).to.be.at.least(minApiCount);    \r",
-									"    pm.expect(jsonData.apis.length).to.be.at.most(maxApiCount);\r",
-									"});\r",
-									"\r",
-									"let apiIds = [];\r",
-									"_.forEach(jsonData.apis, function(api){\r",
-									"    apiIds.push(api.id);\r",
-									"});\r",
-									"\r",
-									"pm.collectionVariables.set('coll-apiIds', JSON.stringify(apiIds));"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"id": "1baa5ceb-08b6-47c7-9112-8f54c039805d",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "X-Api-Key",
-								"value": "{{env-apiKey}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "https://api.getpostman.com/apis?workspace={{env-workspaceId}}",
-							"protocol": "https",
-							"host": [
-								"api",
-								"getpostman",
-								"com"
-							],
-							"path": [
-								"apis"
-							],
-							"query": [
-								{
-									"key": "workspace",
-									"value": "{{env-workspaceId}}"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Current API Version",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "683d7e4f-8336-41a1-b14c-5893b3e49fba",
-								"exec": [
-									"const jsonData = pm.response.json();\r",
-									"\r",
-									"pm.test('API has one or more versions', function(){\r",
-									"    pm.expect(jsonData).to.have.property('versions').and.to.be.an('array');\r",
-									"    pm.expect(jsonData.versions.length).to.be.above(0);\r",
-									"});\r",
-									"\r",
-									"const version = jsonData.versions[0];\r",
-									"pm.collectionVariables.set('coll-versionId', version.id);"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "ae6bfbce-aad4-4f31-9b82-ba6f666658a5",
-								"exec": [
-									"let apiIds = pm.collectionVariables.get('coll-apiIds');\r",
-									"if(apiIds){\r",
-									"    apiIds = JSON.parse(apiIds);\r",
-									"    const apiId = apiIds.pop();\r",
-									"\r",
-									"    pm.collectionVariables.set('coll-apiId', apiId);\r",
-									"    pm.collectionVariables.set('coll-apiIds', JSON.stringify(apiIds));\r",
-									"}\r",
-									"else {\r",
-									"    pm.request.url = 'https://postman-echo.com/delay/0'\r",
-									"    pm.request.name = 'No APIs found in the workspace. Skipping execution';\r",
-									"    postman.setNextRequest(null);\r",
-									"}"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"id": "37810e31-7b06-4ca4-a422-d0012834d1e4",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "X-Api-Key",
-								"value": "{{env-apiKey}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "https://api.getpostman.com/apis/:apiId/versions",
-							"protocol": "https",
-							"host": [
-								"api",
-								"getpostman",
-								"com"
-							],
-							"path": [
-								"apis",
-								":apiId",
-								"versions"
-							],
-							"query": [
-								{
-									"key": null,
-									"value": "",
-									"disabled": true
-								}
-							],
-							"variable": [
-								{
-									"id": "66de574b-c196-407e-9be7-ff53c0dac927",
-									"key": "apiId",
-									"value": "{{coll-apiId}}"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Current API Schema",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "38beef82-f213-44cc-9a11-c326fb5b003d",
-								"exec": [
-									"const jsonData = pm.response.json();\r",
-									"\r",
-									"pm.test('Has schema for current version', function(){\r",
-									"    pm.expect(jsonData).to.have.property('version');\r",
-									"    pm.expect(jsonData.version).to.have.property('schema').and.to.be.an('array');\r",
-									"    pm.expect(jsonData.version.schema.length).to.be.above(0);\r",
-									"\r",
-									"    pm.collectionVariables.set('coll-schemaId', jsonData.version.schema[0]);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "00af0146-94da-4674-96cc-9feff4ba493f",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"id": "4ecaeaa0-5908-497b-ae55-045465cb47e4",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "X-Api-Key",
-								"type": "text",
-								"value": "{{env-apiKey}}"
-							}
-						],
-						"url": {
-							"raw": "https://api.getpostman.com/apis/:apiId/versions/:versionId",
-							"protocol": "https",
-							"host": [
-								"api",
-								"getpostman",
-								"com"
-							],
-							"path": [
-								"apis",
-								":apiId",
-								"versions",
-								":versionId"
-							],
-							"query": [
-								{
-									"key": null,
-									"value": "",
-									"disabled": true
-								}
-							],
-							"variable": [
-								{
-									"id": "ab65af1f-47bf-463c-b68b-b2a2f1d70081",
-									"key": "apiId",
-									"value": "{{coll-apiId}}"
-								},
-								{
-									"id": "82912cc7-9ae0-4090-9758-42c81f4b6924",
-									"key": "versionId",
-									"value": "{{coll-versionId}}"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get API Schema",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "6f74f9f2-f92e-4993-b0be-f4181d16e01e",
-								"exec": [
-									"try {\r",
-									"    const jsonData = pm.response.json();\r",
-									"    if(jsonData.schema.language.toLowerCase() == 'json'){\r",
-									"        pm.test('Schema is JSON', function(){\r",
-									"            pm.expect(1).to.equal(1);\r",
-									"            pm.collectionVariables.set('coll-schema', jsonData.schema.schema);\r",
-									"        });\r",
-									"    } else {\r",
-									"        pm.test('Schema translates to JSON', function(){\r",
-									"            try{\r",
-									"                const yaml = pm.environment.get('env-jsonToYaml');\r",
-									"                (new Function(yaml))();\r",
-									"\r",
-									"                const schema = jsyaml.load(jsonData.schema.schema);\r",
-									"                pm.collectionVariables.set('coll-schema', JSON.stringify(schema));\r",
-									"                pm.expect(1).to.equal(1);\r",
-									"            }\r",
-									"            catch(err){\r",
-									"                pm.expect(`${err.name} - ${err.message}`).to.equal(undefined);\r",
-									"            }    \r",
-									"        });\r",
-									"    }\r",
-									"}\r",
-									"catch(err) {\r",
-									"    console.log(err);\r",
-									"    pm.test('Unable to load schema', function(){\r",
-									"        pm.expect(0).to.equal(1);\r",
-									"        postman.setNextRequest(null);\r",
-									"    })\r",
-									"}"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "7fb06c94-c343-47f8-8308-59170e3c56b8",
-								"exec": [
-									"if (pm.environment.get(\"env-openapi-json-url\")){",
-									"    pm.request.url = pm.environment.get(\"env-openapi-json-url\");",
-									"}",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"id": "1b67ec27-0a68-4755-b118-43190677c99d",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "X-Api-Key",
-								"value": "{{env-apiKey}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "https://api.getpostman.com/apis/:apiId/versions/:apiVersionId/schemas/:schemaId",
-							"protocol": "https",
-							"host": [
-								"api",
-								"getpostman",
-								"com"
-							],
-							"path": [
-								"apis",
-								":apiId",
-								"versions",
-								":apiVersionId",
-								"schemas",
-								":schemaId"
-							],
-							"variable": [
-								{
-									"id": "ebe1d781-f0eb-4e96-847e-0f42e2ac15ac",
-									"key": "apiId",
-									"value": "{{coll-apiId}}"
-								},
-								{
-									"id": "3bd638bb-503b-4e2b-8da2-ebd9f5d8a4d4",
-									"key": "apiVersionId",
-									"value": "{{coll-versionId}}"
-								},
-								{
-									"id": "521e1c1e-e161-478c-89ba-1b079435201b",
-									"key": "schemaId",
-									"value": "{{coll-schemaId}}"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get API Base Url",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "5876b636-91d2-405b-a0e6-8bd4e2132969",
-								"exec": [
-									"const schema = JSON.parse(pm.collectionVariables.get('coll-schema'));\r",
-									"const server = pm.environment.get('env-server');\r",
-									"\r",
-									"pm.test('Environment has test server defined', function () {\r",
-									"    pm.expect(server).to.not.be.undefined;\r",
-									"});\r",
-									"\r",
-									"pm.test('Schema has server/baseUrl defined', function () {\r",
-									"    const servers = schema.servers;\r",
-									"    pm.expect(servers).to.not.be.undefined;\r",
-									"    const serverToTest = servers.find(s => s.description.toLowerCase() == server.toLowerCase());\r",
-									"    pm.expect(serverToTest).to.not.be.undefined;\r",
-									"\r",
-									"    pm.expect(serverToTest).to.have.property('url');\r",
-									"    pm.collectionVariables.set('coll-baseUrl', serverToTest.url);\r",
-									"});\r",
-									"\r",
-									"const runComponentTests = pm.environment.get('env-runComponentTests') == 'true';\r",
-									"if(!runComponentTests){   \r",
-									"    const runContractTests = pm.environment.get('env-runContractTests') == 'true';\r",
-									"    if(runContractTests){\r",
-									"        postman.setNextRequest('Build Schema Tests');\r",
-									"    } else {\r",
-									"        postman.setNextRequest('More APIs to Process?');\r",
-									"    }   \r",
-									"}"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"id": "c8711439-c69a-4420-b034-cb58dc21e110",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "GET",
-						"header": [],
-						"url": "https://postman-echo.com/delay/0"
-					},
-					"response": []
-				}
-			],
-			"id": "2778dde1-f785-4aba-84cc-57e1102bff23"
-		},
-		{
-			"name": "Components",
-			"item": [
-				{
-					"name": "Verify Component Adherence",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"const schema = JSON.parse(pm.collectionVariables.get('coll-schema'));\r",
-									"\r",
-									"const requireParamDescription = Boolean(pm.environment.get('env-requireParamDescription'));\r",
-									"const requireParamExample = Boolean(pm.environment.get('env-requireParamExample'));\r",
-									"\r",
-									"let paramDescriptionMinLength = pm.environment.get('env-paramDescriptionMinLength');\r",
-									"if (paramDescriptionMinLength) {\r",
-									"    paramDescriptionMinLength = Number(paramDescriptionMinLength);\r",
-									"}\r",
-									"\r",
-									"let paramDescriptionMaxLength = pm.environment.get('env-paramDesciptionMaxLength');\r",
-									"if (paramDescriptionMaxLength) {\r",
-									"    paramDescriptionMaxLength = Number(paramDescriptionMaxLength);\r",
-									"}\r",
-									"\r",
-									"var testedSchemaRefs = [];\r",
-									"\r",
-									"if (schema.components.parameters) {\r",
-									"    for (let prop in schema.components.parameters) {\r",
-									"        let parameter = schema.components.parameters[prop];\r",
-									"\r",
-									"        pm.test(`Parameter '${prop}' starts with a lowercase letter`, function () {\r",
-									"            pm.expect(prop.charAt(0)).to.equal(prop.charAt(0).toLowerCase());\r",
-									"        });\r",
-									"\r",
-									"        if (requireParamDescription) {\r",
-									"            pm.test(`Parameter '${prop}' has a description between ${paramDescriptionMinLength} and ${paramDescriptionMaxLength} characters`, function () {\r",
-									"                pm.expect(parameter).to.have.property('description').and.to.be.a('string');\r",
-									"                pm.expect(parameter.description.length).to.be.at.least(paramDescriptionMinLength);\r",
-									"                pm.expect(parameter.description.length).to.be.at.most(paramDescriptionMaxLength);\r",
-									"            });\r",
-									"        }\r",
-									"\r",
-									"        if (requireParamExample) {\r",
-									"            pm.test(`Parameter '${prop}' has an example`, function () {\r",
-									"                pm.expect(parameter).to.have.property('schema');\r",
-									"                pm.expect(parameter.schema).to.have.property('example');\r",
-									"            });\r",
-									"        }\r",
-									"    }\r",
-									"}\r",
-									"\r",
-									"if (schema.components.schemas) {\r",
-									"    for (let prop in schema.components.schemas) {\r",
-									"        pm.test(`Schema '${prop}' begins with an uppercase letter`, function () {\r",
-									"            pm.expect(prop.charAt(0)).to.equal(prop.charAt(0).toUpperCase());\r",
-									"        });\r",
-									"\r",
-									"        const testedSchema = testedSchemaRefs.find(tsr => tsr == prop);\r",
-									"        if (!testedSchema) {\r",
-									"            const schemaObject = schema.components.schemas[prop];\r",
-									"            testSchemaObject(schema, schemaObject, prop);\r",
-									"            testedSchemaRefs.push(prop);\r",
-									"        }\r",
-									"    }\r",
-									"}\r",
-									"\r",
-									"if (schema.components.responses) {\r",
-									"    for (let prop in schema.components.responses) {\r",
-									"        pm.test(`Response '${prop}' begins with an uppercase letter`, function () {\r",
-									"            pm.expect(prop.charAt(0)).to.equal(prop.charAt(0).toUpperCase());\r",
-									"        });\r",
-									"\r",
-									"        if (requireParamDescription) {\r",
-									"            const response = schema.components.responses[prop];\r",
-									"            pm.test(`Response '${prop}' has a description between ${paramDescriptionMinLength} and ${paramDescriptionMaxLength} characters`, function () {\r",
-									"                pm.expect(response).to.have.property('description').and.to.be.a('string');\r",
-									"                pm.expect(response.description.length).to.be.at.least(paramDescriptionMinLength);\r",
-									"                pm.expect(response.description.length).to.be.at.most(paramDescriptionMaxLength);\r",
-									"            });\r",
-									"        }\r",
-									"    }\r",
-									"}\r",
-									"\r",
-									"const runContractTests = pm.environment.get('env-runContractTests') == 'true';\r",
-									"if (runContractTests) {\r",
-									"    postman.setNextRequest('Build Schema Tests');\r",
-									"} else {\r",
-									"    postman.setNextRequest('More APIs to Process?');\r",
-									"}\r",
-									"\r",
-									"\r",
-									"function testSchemaObject(schema, object, objectName) {\r",
-									"    if (object.type && object.type.toLowerCase() == 'object') {\r",
-									"        if (object.required) {\r",
-									"            for (let i = 0; i < object.required.length; i++) {\r",
-									"                const requiredProp = object.required[i];\r",
-									"                pm.test(`Schema '${objectName}' has required property '${requiredProp}' defined`, function () {\r",
-									"                    pm.expect(object.properties).to.have.property(requiredProp);\r",
-									"                });\r",
-									"            }\r",
-									"        }\r",
-									"\r",
-									"        let schemaPropertyExceptions = [];\r",
-									"        if (pm.environment.has('env-schemaPropertyExceptions')) {\r",
-									"            schemaPropertyExceptions = JSON.parse(pm.environment.get('env-schemaPropertyExceptions'));\r",
-									"        }\r",
-									"\r",
-									"        for (let prop in object.properties) {\r",
-									"            const property = object.properties[prop];\r",
-									"\r",
-									"            if (!schemaPropertyExceptions.some(pe => pe === prop)) {\r",
-									"                pm.test(`Schema property '${objectName}.${prop}' is lowercase`, function () {\r",
-									"                    pm.expect(prop.charAt(0)).to.equal(prop.charAt(0).toLowerCase());\r",
-									"                });\r",
-									"            }\r",
-									"\r",
-									"            if (property.type && property.type.toLowerCase() == 'object') {\r",
-									"                testSchemaObject(schema, property, `${objectName}.${prop}`);\r",
-									"            }\r",
-									"            else if (property.type && property.type.toLowerCase() == 'array') {\r",
-									"                testSchemaObject(schema, property, `${objectName}.${prop}(list)`);\r",
-									"            }\r",
-									"            else if (property.oneOf) {\r",
-									"                _.forEach(property.oneOf, (oneOf, i) => {\r",
-									"                    testSchemaObject(schema, oneOf, `${objectName}.${prop}(oneOf).${i}`)\r",
-									"                });\r",
-									"            }\r",
-									"            else if (property.allOf) {\r",
-									"                _.forEach(property.allOf, (allOf, i) => {\r",
-									"                    testSchemaObject(schema, allOf, `${objectName}.${prop}(allOf).${i}`)\r",
-									"                });\r",
-									"            }\r",
-									"            else if (property.anyOf) {\r",
-									"                _.forEach(property.anyOf, (anyOf, i) => {\r",
-									"                    testSchemaObject(schema, anyOf, `${objectName}.${prop}(anyOf).${i}`)\r",
-									"                });\r",
-									"            }\r",
-									"            else {\r",
-									"                if (requireParamDescription && !property.$ref) {\r",
-									"                    pm.test(`Schema property '${objectName}.${prop}' has a description between ${paramDescriptionMinLength} and ${paramDescriptionMaxLength} characters`, function () {\r",
-									"                        pm.expect(property).to.have.property('description').and.to.be.a('string');\r",
-									"                        pm.expect(property.description.length).to.be.at.least(paramDescriptionMinLength);\r",
-									"                        pm.expect(property.description.length).to.be.at.most(paramDescriptionMaxLength);\r",
-									"                    });\r",
-									"\r",
-									"                    if (property.description) {\r",
-									"                        pm.test(`Schema property '${objectName}.${prop}' description is not just the name`, function () {\r",
-									"                            pm.expect(prop.toLowerCase()).to.not.equal(property.description.toLowerCase());\r",
-									"                        });\r",
-									"                    }\r",
-									"                }\r",
-									"\r",
-									"                if (requireParamExample && !property.$ref) {\r",
-									"                    pm.test(`Schema property '${objectName}.${prop}' has an example`, function () {\r",
-									"                        pm.expect(property).to.have.property('example');\r",
-									"                    });\r",
-									"                }\r",
-									"            }\r",
-									"        }\r",
-									"    }\r",
-									"    else if (object.type && object.type.toLowerCase() == 'array') {\r",
-									"        pm.test(`Schema '${objectName}' has items defined`, function () {\r",
-									"            pm.expect(object).to.have.property('items');\r",
-									"        });\r",
-									"\r",
-									"        testSchemaObject(schema, object.items, `${objectName}.list`);\r",
-									"    }\r",
-									"    else if (object.oneOf) {\r",
-									"        handleSchemaArray(schema, object, objectName, 'oneOf');\r",
-									"    } else if (object.allOf) {\r",
-									"        handleSchemaArray(schema, object, objectName, 'allOf');\r",
-									"    }\r",
-									"    else if (object.anyOf) {\r",
-									"        handleSchemaArray(schema, object, objectName, 'anyOf');\r",
-									"    }\r",
-									"    else if (object.$ref) {\r",
-									"        const name = getName(object.$ref);\r",
-									"        const testedRef = testedSchemaRefs.find(tsr => tsr == name);\r",
-									"        if (!testedRef) {\r",
-									"            testSchemaObject(schema, schema.components.schemas[name], objectName);\r",
-									"            testedSchemaRefs.push(name);\r",
-									"        }\r",
-									"    }\r",
-									"    else {\r",
-									"        pm.test(`Schema '${objectName}' has a declared type`, function () {\r",
-									"            pm.expect(object).to.have.property('type');\r",
-									"        });\r",
-									"    }\r",
-									"}\r",
-									"\r",
-									"function handleSchemaArray(schema, object, objectName, arrayType) {\r",
-									"    for (let i = 0; i < object[arrayType].length; i++) {\r",
-									"        const arraySchema = object[arrayType][i];\r",
-									"        if (arraySchema.$ref) {\r",
-									"            const name = getName(arraySchema.$ref);\r",
-									"            const testedRef = testedSchemaRefs.find(tsr => tsr == name);\r",
-									"            if (!testedRef) {\r",
-									"                testSchemaObject(schema, schema.components.schemas[name], `${objectName}[${i}](ref ${name})`);\r",
-									"                testedSchemaRefs.push(name);\r",
-									"            }\r",
-									"        }\r",
-									"        else {\r",
-									"            testSchemaObject(schema, arraySchema, `${objectName}[${i}]`);\r",
-									"        }\r",
-									"    }\r",
-									"}\r",
-									"\r",
-									"function getName(ref) {\r",
-									"    let pieces = ref.split('/');\r",
-									"    return pieces[pieces.length - 1];\r",
-									"}\r",
-									""
-								],
-								"type": "text/javascript",
-								"id": "968b2ac8-c423-42d7-ab68-809e0292ab31"
-							}
-						}
-					],
-					"id": "46526b39-701b-4f22-a0a3-03ec53319450",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "GET",
-						"header": [],
-						"url": "https://postman-echo.com/delay/0"
-					},
-					"response": []
-				}
-			],
-			"id": "18e4b0a6-d641-4661-9a29-918247d63f5f"
-		},
-		{
-			"name": "Contract Tests",
-			"item": [
-				{
-					"name": "Build Schema Tests",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									"const schema = JSON.parse(pm.collectionVariables.get('coll-schema'));\r",
-									"\r",
-									"let schemaTests = [];\r",
-									"for (let prop in schema.paths) {\r",
-									"  const pathName = prop;\r",
-									"  let path = {\r",
-									"    path: `${pm.collectionVariables.get('coll-baseUrl')}${pathName}`,\r",
-									"    parameters: schema.paths[prop].parameters,\r",
-									"  };\r",
-									"\r",
-									"  for (let method in schema.paths[prop]) {\r",
-									"    if (method.toLowerCase() == 'parameters' || isMockEndpoint(schema.paths[prop][method])) {\r",
-									"      continue;\r",
-									"    }\r",
-									"\r",
-									"    let currentPath = _.cloneDeep(path);\r",
-									"    currentPath.method = method.toUpperCase();\r",
-									"    let pathMethod = schema.paths[prop][method];\r",
-									"    currentPath.parameters = combineParameters(currentPath.parameters, pathMethod.parameters);\r",
-									"    let securityExtension = pm.environment.get('env-securityExtensionName');\r",
-									"    if (securityExtension && pathMethod[securityExtension] && pathMethod[securityExtension].length > 0) {\r",
-									"      currentPath.allowedRole = pathMethod[securityExtension][0];\r",
-									"    }\r",
-									"\r",
-									"    const expectedResponses = getExpectedResponses(pathMethod);\r",
-									"    currentPath.responses = expectedResponses;\r",
-									"\r",
-									"    if (pathMethod.requestBody) {\r",
-									"      let bodyModel;\r",
-									"      if (pathMethod.requestBody.content['application/json']?.schema?.$ref) {\r",
-									"        bodyModel = getSchemaReference(schema, pathMethod.requestBody.content['application/json'].schema.$ref);\r",
-									"      }\r",
-									"      else if (pathMethod.requestBody.content['application/json']?.schema) {\r",
-									"        bodyModel = pathMethod.requestBody.content['application/json'].schema;\r",
-									"      }\r",
-									"      else {\r",
-									"        continue;\r",
-									"      }\r",
-									"\r",
-									"      const models = buildModels(schema, bodyModel);\r",
-									"      const mutations = buildModelMutations(models);\r",
-									"\r",
-									"      mutations.forEach((mutation) => {\r",
-									"        let schemaTest = _.cloneDeep(currentPath);\r",
-									"        Object.assign(schemaTest, mutation);\r",
-									"        schemaTest.name = `${schemaTest.method} - ${pathName} - ${schemaTest.description} - SUCCESS: ${schemaTest.success}`;\r",
-									"        schemaTests.push(schemaTest);\r",
-									"      });\r",
-									"    }\r",
-									"    else {\r",
-									"      currentPath.name = `${currentPath.method} - ${pathName} - No Request Body - SUCCESS: true`;\r",
-									"      currentPath.success = true;\r",
-									"      schemaTests.push(currentPath);\r",
-									"    }\r",
-									"  }\r",
-									"}\r",
-									"schemaTests = moveDeleteEndpointsToEnd(schemaTests);\r",
-									"pm.collectionVariables.set('coll-schemaTests', JSON.stringify(schemaTests));\r",
-									"\r",
-									"// \r",
-									"// Move delete endpoints to the end for cleanup\r",
-									"//\r",
-									"function moveDeleteEndpointsToEnd(schemaTests) {\r",
-									"  let sortedTests = [...schemaTests];\r",
-									"  try {\r",
-									"    let successfulDeletes = sortedTests.filter(schemaTest => schemaTest.method == 'DELETE' && schemaTest.success);\r",
-									"\r",
-									"    if (successfulDeletes) {\r",
-									"      // order deletes from the deepest entity to highest level entity based on path\r",
-									"      successfulDeletes.sort((a, b) => b.path.split('/').length - a.path.split('/').length);\r",
-									"      sortedTests = sortedTests.filter(schemaTest => !successfulDeletes.find(sd => sd == schemaTest));\r",
-									"      sortedTests = sortedTests.concat(successfulDeletes);\r",
-									"    }\r",
-									"  }\r",
-									"  catch (err) {\r",
-									"    console.log('An error occurred when sorting delete tests', err);\r",
-									"  }\r",
-									"\r",
-									"  return sortedTests;\r",
-									"}\r",
-									"\r",
-									"//\r",
-									"// Supporting Methods Below\r",
-									"//\r",
-									"function buildModels(schema, object) {\r",
-									"  let models = [];\r",
-									"\r",
-									"  if (object['$ref']) {\r",
-									"    object = getSchemaReference(schema, object['$ref']);\r",
-									"  }\r",
-									"\r",
-									"  if (object.type && object.type.toLowerCase() == 'object') {\r",
-									"    if (object.required && object.required.length > 0) {\r",
-									"      models.push({});\r",
-									"      _.forEach(object.required, function (param) {\r",
-									"        const property = object.properties[param];\r",
-									"\r",
-									"        if (property.type && ['string', 'number', 'integer', 'boolean'].includes(property.type.toLowerCase())) {\r",
-									"          for (let modelIndex = 0; modelIndex < models.length; modelIndex++) {\r",
-									"            let model = models[modelIndex];\r",
-									"            model[param] = property.example;\r",
-									"          }\r",
-									"        }\r",
-									"        else {\r",
-									"          const nestedObjects = buildModels(schema, property);\r",
-									"          models = addToModels(models, nestedObjects, param);\r",
-									"        }\r",
-									"      });\r",
-									"    }\r",
-									"\r",
-									"    if (object.minProperties) {\r",
-									"      _.forEach(models, function (model) {\r",
-									"        if (Object.keys(model).length < object.minProperties) {\r",
-									"          for (let i = Object.keys(model).length; i < object.minProperties; i++) {\r",
-									"            for (const [key, value] of Object.entries(object.properties)) {\r",
-									"              if (['string', 'number', 'integer', 'boolean'].includes(value.type.toLowerCase()) && model[key] == undefined) {\r",
-									"                model[key] = value.example;\r",
-									"                break;\r",
-									"              }\r",
-									"            }\r",
-									"          }\r",
-									"        }\r",
-									"      })\r",
-									"    }\r",
-									"  }\r",
-									"  else if (object.type && object.type.toLowerCase() == 'array') {\r",
-									"    let items = buildModels(schema, object.items);\r",
-									"    if (Array.isArray(items)) {\r",
-									"      for (let i = 0; i < items.length; i++) {\r",
-									"        models.push([items[i]]);\r",
-									"      }\r",
-									"    }\r",
-									"    else {\r",
-									"      models.push([items]);\r",
-									"    }\r",
-									"  }\r",
-									"  else if (object.oneOf) {\r",
-									"    _.forEach(object.oneOf, function (component) {\r",
-									"      let items = buildModels(schema, component);\r",
-									"      models = models.concat(items);\r",
-									"    });\r",
-									"  }\r",
-									"  else if (object.allOf) {\r",
-									"    let pieces = [{}];\r",
-									"    _.forEach(object.allOf, function (component) {\r",
-									"      let componentModels = buildModels(schema, component);\r",
-									"      pieces = addToModels(pieces, componentModels);\r",
-									"    });\r",
-									"\r",
-									"    models = pieces;\r",
-									"  }\r",
-									"  else if (object.anyOf) {\r",
-									"    let pieces = [];\r",
-									"    let combinedPieces = [{}];\r",
-									"    _.forEach(object.anyOf, function (component) {\r",
-									"      let componentModels = buildModels(schema, component);\r",
-									"      combinedPieces = addToModels(combinedPieces, componentModels);\r",
-									"      pieces = pieces.concat(componentModels);\r",
-									"    });\r",
-									"\r",
-									"    models = pieces.concat(combinedPieces);\r",
-									"  }\r",
-									"  else {\r",
-									"    // All other options are primitive values\r",
-									"    return object.example;\r",
-									"  }\r",
-									"  return models;\r",
-									"}\r",
-									"\r",
-									"function getSchemaReference(schema, referenceName) {\r",
-									"  const refPieces = referenceName.split('/');\r",
-									"  let reference = schema;\r",
-									"  for (let i = 1; i < refPieces.length; i++) {\r",
-									"    reference = reference[refPieces[i]];\r",
-									"  }\r",
-									"\r",
-									"  return reference;\r",
-									"}\r",
-									"\r",
-									"function addToModels(models, newPieces, name) {\r",
-									"  let newModels = [];\r",
-									"  _.forEach(models, function (model) {\r",
-									"    _.forEach(newPieces, function (newPiece) {\r",
-									"      let newModel = _.cloneDeep(model);\r",
-									"      if (name) {\r",
-									"        newModel[name] = newPiece;\r",
-									"      }\r",
-									"      else {\r",
-									"        Object.assign(newModel, newPiece);\r",
-									"      }\r",
-									"      newModels.push(newModel);\r",
-									"    });\r",
-									"  });\r",
-									"\r",
-									"  return newModels;\r",
-									"}\r",
-									"\r",
-									"function buildModelMutations(models) {\r",
-									"  let modelMutations = [];\r",
-									"  _.forEach(models, function (model) {\r",
-									"    addMutation(true, 'Has all required fields', model, modelMutations);\r",
-									"    let mutations = buildMutation(model);\r",
-									"    modelMutations = modelMutations.concat(mutations);\r",
-									"  });\r",
-									"\r",
-									"  return modelMutations;\r",
-									"}\r",
-									"\r",
-									"function buildMutation(model) {\r",
-									"  let mutations = [];\r",
-									"\r",
-									"  for (const [key, value] of Object.entries(model)) {\r",
-									"    if (typeof value == 'object') {\r",
-									"      let nestedMutations = buildMutation(value);\r",
-									"      nestedMutations.forEach((nestedMutation) => {\r",
-									"        let mutation = _.cloneDeep(model);\r",
-									"        mutation[key] = nestedMutation.body;\r",
-									"        addMutation(false, `${nestedMutation.description} in ${key} object`, mutation, mutations);\r",
-									"      });\r",
-									"\r",
-									"      let mutation = _.cloneDeep(model);\r",
-									"      delete mutation[key];\r",
-									"      addMutation(false, `Missing ${key} object`, mutation, mutations);\r",
-									"\r",
-									"      let emptyMutation = _.cloneDeep(model);\r",
-									"      emptyMutation[key] = {};\r",
-									"      addMutation(false, `Empty ${key} object`, emptyMutation, mutations);\r",
-									"    }\r",
-									"    else {\r",
-									"      if (Array.isArray(value)) {\r",
-									"        console.log('probably an error');\r",
-									"      }\r",
-									"      let mutation = _.cloneDeep(model);\r",
-									"      delete mutation[key];\r",
-									"      addMutation(false, `Missing ${key} property`, mutation, mutations);\r",
-									"\r",
-									"      let blankMutation = _.cloneDeep(model);\r",
-									"      blankMutation[key] = '';\r",
-									"      addMutation(false, `Blank ${key} property`, blankMutation, mutations);\r",
-									"    }\r",
-									"  }\r",
-									"\r",
-									"  return mutations;\r",
-									"}\r",
-									"\r",
-									"function addMutation(isSuccess, description, mutation, mutations) {\r",
-									"  mutations.push({\r",
-									"    success: isSuccess,\r",
-									"    description: description,\r",
-									"    body: mutation\r",
-									"  });\r",
-									"}\r",
-									"\r",
-									"function getExpectedResponses(pathMethod) {\r",
-									"  const responses = [];\r",
-									"  for (const [statusCode, value] of Object.entries(pathMethod.responses)) {\r",
-									"    let response = {\r",
-									"      statusCode: Number(statusCode)\r",
-									"    };\r",
-									"\r",
-									"    if (value['x-postman-variables'] && Array.isArray(value['x-postman-variables'])) {\r",
-									"      response.variables = value['x-postman-variables'].filter(variable => variable.type.toLowerCase() === 'save');\r",
-									"    }\r",
-									"\r",
-									"    if (value.$ref) {\r",
-									"      response.$ref = value.$ref;\r",
-									"    }\r",
-									"    else {\r",
-									"      if (value.content?.['application/json']?.schema) {\r",
-									"        if (value.content['application/json'].schema.$ref) {\r",
-									"          response.$ref = value.content['application/json'].schema.$ref;\r",
-									"        }\r",
-									"        else {\r",
-									"          response.schema = value.content['application/json'].schema;\r",
-									"        }\r",
-									"      }\r",
-									"    }\r",
-									"\r",
-									"    responses.push(response);\r",
-									"  }\r",
-									"  return responses;\r",
-									"}\r",
-									"\r",
-									"function isMockEndpoint(pathMethod) {\r",
-									"  let isMock = false;\r",
-									"  if (pathMethod && pathMethod['x-amazon-apigateway-integration'] && pathMethod['x-amazon-apigateway-integration'].type\r",
-									"    && pathMethod['x-amazon-apigateway-integration'].type.toLowerCase() == 'mock') {\r",
-									"    isMock = true;\r",
-									"  }\r",
-									"\r",
-									"  return isMock;\r",
-									"}\r",
-									"\r",
-									"function combineParameters(endpointParameters, methodParameters) {\r",
-									"  if (!endpointParameters && !methodParameters) {\r",
-									"    return;\r",
-									"  }\r",
-									"  let parameters = [];\r",
-									"  if (endpointParameters && endpointParameters.length) {\r",
-									"    parameters = [...endpointParameters];\r",
-									"  }\r",
-									"\r",
-									"  if (methodParameters && methodParameters.length) {\r",
-									"    parameters = [...parameters, ...methodParameters];\r",
-									"  }\r",
-									"\r",
-									"  return parameters;\r",
-									"}"
-								],
-								"type": "text/javascript",
-								"id": "3017117f-1119-4cda-8de9-f181be051dff"
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"let schemaTests = pm.collectionVariables.get('coll-schemaTests');\r",
-									"if(schemaTests){\r",
-									"    schemaTests = JSON.parse(schemaTests);\r",
-									"    if(!schemaTests || !schemaTests.length){\r",
-									"        postman.setNextRequest('More APIs to Process?');\r",
-									"    }\r",
-									"}"
-								],
-								"type": "text/javascript",
-								"id": "161ed627-1e43-4d10-923c-308e9b039bd9"
-							}
-						}
-					],
-					"id": "bd6e30f9-999f-4ace-91ca-270b0bd1f1a5",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "GET",
-						"header": [],
-						"url": "https://postman-echo.com/delay/0"
-					},
-					"response": []
-				},
-				{
-					"name": "Test Request",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "49ce35ea-de86-4a14-b90e-3d396e2feb2d",
-								"exec": [
-									"const url = require('url');\r",
-									"\r",
-									"const schema = JSON.parse(pm.collectionVariables.get('coll-schema'));\r",
-									"let schemaTests = JSON.parse(pm.collectionVariables.get('coll-schemaTests'));\r",
-									"\r",
-									"const schemaTest = schemaTests.shift();\r",
-									"pm.collectionVariables.set('coll-schemaTests', JSON.stringify(schemaTests));\r",
-									"pm.variables.set('currentSchemaTest', JSON.stringify(schemaTest));\r",
-									"\r",
-									"const path = replacePathParameters(schema, schemaTest.path, schemaTest.parameters);\r",
-									"pm.request.url.update(path);\r",
-									"delete pm.request.url.auth;\r",
-									"delete pm.request.url.port;\r",
-									"delete pm.request.url.hash;\r",
-									"if (pm.request.url.protocol) {\r",
-									"  pm.request.url.protocol = pm.request.url.protocol.replace(/\\:$/, '');\r",
-									"} else {\r",
-									"  pm.request.url.protocol = 'https';\r",
-									"}\r",
-									"pm.request.method = schemaTest.method;\r",
-									"pm.request.name = schemaTest.name;\r",
-									"\r",
-									"pm.variables.set('requestName', schemaTest.name);\r",
-									"pm.variables.set('body', JSON.stringify(schemaTest.body));\r",
-									"\r",
-									"// Add top level parameters from the path\r",
-									"const roleHeaderName = pm.environment.get('env-roleHeaderName');\r",
-									"\r",
-									"if (schemaTest.parameters) {\r",
-									"  for (let i = 0; i < schemaTest.parameters.length; i++) {\r",
-									"    let param = schemaTest.parameters[i];\r",
-									"\r",
-									"    if (param.$ref) {\r",
-									"      let pieces = param.$ref.split('/');\r",
-									"      const name = pieces[pieces.length - 1];\r",
-									"      const schemaParam = schema.components.parameters[name];\r",
-									"      const paramType = schemaParam.in.toLowerCase();\r",
-									"      const paramValue = loadParameterValue(schemaParam);\r",
-									"      if (paramType == 'header' && schemaParam.required == true) {\r",
-									"        if (roleHeaderName && schemaParam.name.toLowerCase() == roleHeaderName.toLowerCase()) {\r",
-									"          pm.request.headers.upsert({ key: schemaParam.name, value: schemaTest.allowedRole });\r",
-									"        }\r",
-									"        else {\r",
-									"          pm.request.headers.upsert({ key: schemaParam.name, value: paramValue });\r",
-									"        }\r",
-									"      } else if (paramType == 'query' && schemaParam.required == true) {\r",
-									"        pm.request.url.query.upsert({ key: schemaParam.name, value: paramValue });\r",
-									"      }\r",
-									"    } else {\r",
-									"      const paramType = param.in.toLowerCase();\r",
-									"      const paramValue = loadParameterValue(param);\r",
-									"      if (paramType == 'header') {\r",
-									"        pm.request.headers.upsert({ key: param.name, value: paramValue });\r",
-									"      } else if (paramType == 'query' && param.required == true) {\r",
-									"        pm.request.url.query.upsert({ key: param.name, value: paramValue });\r",
-									"      }\r",
-									"    }\r",
-									"  }\r",
-									"}\r",
-									"\r",
-									"function loadParameterValue(parameter) {\r",
-									"  let parameterValue;\r",
-									"  if (parameter['x-postman-variables']) {\r",
-									"    let variable = parameter['x-postman-variables'].find(v => v.type.toLowerCase() === 'load');\r",
-									"    if (variable && pm.collectionVariables.has(variable.name)) {\r",
-									"      parameterValue = pm.collectionVariables.get(variable.name);\r",
-									"    }\r",
-									"    else {\r",
-									"      parameterValue = resolveParameterExample(parameter);\r",
-									"    }\r",
-									"  }\r",
-									"  else {\r",
-									"    parameterValue = resolveParameterExample(parameter);\r",
-									"  }\r",
-									"\r",
-									"  return parameterValue;\r",
-									"}\r",
-									"\r",
-									"function resolveParameterExample(parameter) {\r",
-									"  let paramValue = (parameter.schema.example != undefined) ? parameter.schema.example : parameter.example;\r",
-									"  let value = paramValue;\r",
-									"  if (typeof paramValue !== 'number' && typeof paramValue !== 'boolean') {\r",
-									"    let pathVariableRegex = /^{{\\$.*}}$/;\r",
-									"    let matches = paramValue.match(pathVariableRegex);\r",
-									"\r",
-									"    if (matches && matches.length) {\r",
-									"      value = pm.variables.replaceIn(paramValue);\r",
-									"    }\r",
-									"  }\r",
-									"\r",
-									"  return encodeURIComponent(value);\r",
-									"}\r",
-									"\r",
-									"function replacePathParameters(schema, pathName, parameters) {\r",
-									"  let replacedPathName = pathName;\r",
-									"  let pathVariableRegex = /{([^}]*)}/g;\r",
-									"  let matches = pathName.match(pathVariableRegex);\r",
-									"  _.forEach(matches, function (match) {\r",
-									"    let paramName = match.substring(1, match.length - 1);\r",
-									"    _.forEach(parameters, function (param) {\r",
-									"      if (param.$ref) {\r",
-									"        let parameter = getSchemaReference(schema, param.$ref);\r",
-									"        if (parameter.in && parameter.in.toLowerCase() == 'path' && parameter.name && parameter.name == paramName) {\r",
-									"          let parameterValue = loadParameterValue(parameter);\r",
-									"          replacedPathName = replacedPathName.replace(match, parameterValue);\r",
-									"          return false;\r",
-									"        }\r",
-									"      } else {\r",
-									"        if (param.in && param.in.toLowerCase() == 'path' && param.name && param.name == paramName) {\r",
-									"          let parameterValue = loadParameterValue(param);\r",
-									"          replacedPathName = replacedPathName.replace(match, parameterValue);\r",
-									"          return false;\r",
-									"        }\r",
-									"      }\r",
-									"    });\r",
-									"  });\r",
-									"\r",
-									"  return url.parse(replacedPathName);\r",
-									"}\r",
-									"\r",
-									"function getSchemaReference(schema, referenceName) {\r",
-									"  const refPieces = referenceName.split('/');\r",
-									"  let reference = schema;\r",
-									"  for (let i = 1; i < refPieces.length; i++) {\r",
-									"    reference = reference[refPieces[i]];\r",
-									"  }\r",
-									"\r",
-									"  return reference;\r",
-									"}"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"id": "2524e1aa-f349-412f-91eb-b7857f29d495",
-								"exec": [
-									"const schemaTests = JSON.parse(pm.collectionVariables.get('coll-schemaTests'));\r",
-									"if(schemaTests.length > 0){\r",
-									"    postman.setNextRequest('Test Request');\r",
-									"}\r",
-									"\r",
-									"const schemaTest = JSON.parse(pm.variables.get('currentSchemaTest'));\r",
-									"console.log(schemaTest.name);\r",
-									"\r",
-									"pm.test(`${schemaTest.name} - Has expected status code`, function () {\r",
-									"    // const errorOn500 = pm.environment.get('env-errorOn500');\r",
-									"    // if(errorOn500){\r",
-									"    //   pm.response.to.not.have.status(500);\r",
-									"    // }\r",
-									"\r",
-									"    if(schemaTest.success){\r",
-									"        try{\r",
-									"            if(pm.response.code >= 400) {\r",
-									"                const jsonData = pm.response.json();\r",
-									"                if(pm.response.code == 401)         {\r",
-									"                  pm.expect(pm.request.headers.get('Role')).to.equal('role');\r",
-									"                }\r",
-									"                pm.expect('').to.equal(jsonData.message);                \r",
-									"            }\r",
-									"            \r",
-									"            pm.expect(pm.response.code).to.not.equal(400);\r",
-									"        }\r",
-									"        catch(err) {\r",
-									"            console.log(err);\r",
-									"            pm.expect(pm.response.code).to.not.equal(400);\r",
-									"        }        \r",
-									"    }\r",
-									"    else {\r",
-									"        const statusCode = pm.response.code\r",
-									"        pm.expect(statusCode === 400 || statusCode === 422).to.be.true;\r",
-									"    }    \r",
-									"});\r",
-									"\r",
-									"const expectedResponse = schemaTest.responses.find(r => r.statusCode == pm.response.code);\r",
-									"pm.test(`${schemaTest.name} - Status code (${pm.response.code}) is allowed`, function(){\r",
-									"    pm.expect(expectedResponse).to.exist;\r",
-									"});\r",
-									"\r",
-									"if(expectedResponse){\r",
-									"    pm.test(`${schemaTest.name} - Has expected response body schema`, function(){\r",
-									"        const Ajv = require('ajv');\r",
-									"        const ajv = new Ajv({allErrors: true,format: false,nullable: true});\r",
-									"        \r",
-									"        if(pm.response.code == 204 || shouldResponseBeEmpty(expectedResponse)){\r",
-									"            checkForEmptyResponse();\r",
-									"        }\r",
-									"        else if(expectedResponse.$ref){            \r",
-									"            const jsonData = pm.response.json();\r",
-									"            const schema = JSON.parse(pm.collectionVariables.get('coll-schema'));\r",
-									"            ajv.addSchema(schema, 'OAS');\r",
-									"            const valid = ajv.validate({$ref: `OAS${expectedResponse.$ref}`}, jsonData);\r",
-									"            const errors = ajv.errorsText(valid.errors);\r",
-									"            pm.expect(errors).to.equal('No errors');\r",
-									"            if(errors !== 'No errors'){\r",
-									"                console.log(errors);\r",
-									"            }\r",
-									"        }\r",
-									"        else if(expectedResponse.schema){\r",
-									"            const jsonData = pm.response.json();\r",
-									"            const validate = ajv.compile(expectedResponse.schema);\r",
-									"            const valid = validate(jsonData);\r",
-									"            const errors = ajv.errorsText(valid.errors);\r",
-									"            pm.expect(errors).to.equal('No errors');\r",
-									"            if(errors !== 'No errors'){\r",
-									"                console.log(errors);\r",
-									"            }\r",
-									"        }\r",
-									"        else {\r",
-									"            checkForEmptyResponse();\r",
-									"        }\r",
-									"\r",
-									"        if(expectedResponse.variables){\r",
-									"            const jsonData = pm.response.json();\r",
-									"            _.forEach(expectedResponse.variables, function(variable){\r",
-									"                let pathPieces = variable.path.split('.').filter(piece => piece);\r",
-									"                let data = jsonData;\r",
-									"                let found = true;\r",
-									"                _.forEach(pathPieces, function(piece){\r",
-									"                    if(data[piece]){\r",
-									"                        data = data[piece];\r",
-									"                    }\r",
-									"                    else {\r",
-									"                        found = false;\r",
-									"                    }\r",
-									"                });\r",
-									"\r",
-									"                if(found){\r",
-									"                    pm.collectionVariables.set(variable.name, data);\r",
-									"                }\r",
-									"                else {\r",
-									"                    pm.test(`Unable to save dynamic variable ${variable.name} at the provided path.`, function() {\r",
-									"                        pm.expect(true).to.equal(variable.path);\r",
-									"                    });\r",
-									"                }\r",
-									"            });\r",
-									"        }\r",
-									"    });\r",
-									"}\r",
-									"\r",
-									"function checkForEmptyResponse() {\r",
-									"    let emptyBody = true;\r",
-									"    if(pm.response.text()){\r",
-									"        emptyBody = false; \r",
-									"    }\r",
-									"\r",
-									"    pm.expect(emptyBody).to.be.true;\r",
-									"}\r",
-									"\r",
-									"function shouldResponseBeEmpty(expectedResponse){\r",
-									"    let responseSchema = expectedResponse.schema;\r",
-									"    if(expectedResponse.$ref){\r",
-									"        let schema = JSON.parse(pm.collectionVariables.get('coll-schema'));\r",
-									"        responseSchema = getSchemaReference(schema, expectedResponse.$ref);\r",
-									"        if(expectedResponse.$ref.startsWith('#/components/responses')){\r",
-									"            return (!responseSchema || !responseSchema.content || !responseSchema.content['application/json'] \r",
-									"                || !responseSchema.content['application/json'].schema || Object.keys(responseSchema.content['application/json'].schema).length == 0);\r",
-									"        } else {\r",
-									"            return false;\r",
-									"        }\r",
-									"    }\r",
-									"    else {\r",
-									"        return (Object.keys(responseSchema).length == 0);\r",
-									"    }\r",
-									"}\r",
-									"\r",
-									"function getSchemaReference(schema, referenceName){\r",
-									"  const refPieces = referenceName.split('/');\r",
-									"  let reference = schema;\r",
-									"  for(let i = 1; i < refPieces.length; i++){\r",
-									"    reference = reference[refPieces[i]];\r",
-									"  }\r",
-									"\r",
-									"  return reference;\r",
-									"}"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"id": "416eff4d-749b-4b49-9c3c-7e6cfbfb7c2c",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{{body}}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": "https://postman-echo.com/get"
-					},
-					"response": []
-				}
-			],
-			"id": "5710c277-a099-4c7d-a8ab-9bb911918ef9"
-		},
-		{
-			"name": "Finalize",
-			"item": [
-				{
-					"name": "More APIs to Process?",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"let apis = pm.collectionVariables.get('coll-apiIds');\r",
-									"if(apis){\r",
-									"    try{\r",
-									"        apis = JSON.parse(apis);\r",
-									"        if(apis.length > 0){\r",
-									"            postman.setNextRequest('Get Current API Version');\r",
-									"        }\r",
-									"    }\r",
-									"    catch(err){}    \r",
-									"}"
-								],
-								"type": "text/javascript",
-								"id": "c236b1d1-9f04-4502-b754-ee4d6430a3ed"
-							}
-						}
-					],
-					"id": "eafd2509-05d8-42ee-ab2d-dd7f45453f5c",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "GET",
-						"header": [],
-						"url": "https://postman-echo.com/delay/0"
-					},
-					"response": []
-				},
-				{
-					"name": "Remove Test Variables",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									"// See https://blog.postman.com/2019/05/28/pro-tip-dynamically-unset-postman-environment-variables/\r",
-									"// for more details on what we're doing here. \r",
-									"\r",
-									"cleanupCollectionVariables();\r",
-									"\r",
-									"function cleanupCollectionVariables() {\r",
-									"    const clean = _.keys(pm.collectionVariables.toObject());\r",
-									"\r",
-									"    _.each(clean, (arrItem) => {\r",
-									"        pm.collectionVariables.unset(arrItem);\r",
-									"    });\r",
-									"}"
-								],
-								"type": "text/javascript",
-								"id": "168455e5-e394-48df-902d-dbab8352acab"
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript",
-								"id": "ac89d252-3423-481b-9ba5-d0b3f55ca383"
-							}
-						}
-					],
-					"id": "6e4c0ea7-b3c4-4e33-bc13-ac7ab563f57b",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": "https://postman-echo.com/delay/0"
-					},
-					"response": []
-				}
-			],
-			"id": "92035d83-c9a1-425a-8a69-65bc677fbc13"
-		}
-	],
-	"event": [
-		{
-			"listen": "prerequest",
-			"script": {
-				"type": "text/javascript",
-				"exec": [
-					""
-				],
-				"id": "38efdb22-19c6-42a8-aa8b-ef1271ce04ef"
-			}
-		},
-		{
-			"listen": "test",
-			"script": {
-				"type": "text/javascript",
-				"exec": [
-					""
-				],
-				"id": "c48549ed-e6df-407a-8452-ec1db5cc81eb"
-			}
-		}
-	],
-	"variable": [
-		{
-			"key": "coll-schema",
-			"value": ""
-		},
-		{
-			"key": "coll-baseUrl",
-			"value": ""
-		},
-		{
-			"key": "coll-schemaTests",
-			"value": ""
-		}
-	]
+  "info": {
+    "_postman_id": "03c5c4b6-9071-4ab4-b5a1-4bda97a3b3aa",
+    "name": "Contract Test Generator",
+    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "API Validation",
+      "item": [
+        {
+          "name": "Cleanup Previous Run",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "6e0312e1-1276-47b2-92be-b481545de5fb",
+                "exec": [
+                  "// See https://blog.postman.com/2019/05/28/pro-tip-dynamically-unset-postman-environment-variables/\r",
+                  "// for more details on what we're doing here. \r",
+                  "\r",
+                  "cleanupCollectionVariables();\r",
+                  "\r",
+                  "function cleanupCollectionVariables() {\r",
+                  "    const clean = _.keys(pm.collectionVariables.toObject());\r",
+                  "\r",
+                  "    _.each(clean, (arrItem) => {\r",
+                  "        pm.collectionVariables.unset(arrItem);\r",
+                  "    });\r",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "acaabbd4-94fc-4444-8718-b9ca2c087721",
+                "exec": [""],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "30368860-aef9-46d6-ad44-8fac61b8f842",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "https://postman-echo.com/delay/0"
+          },
+          "response": []
+        },
+        {
+          "name": "Initialize",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "d15a1e94-1145-4006-b514-b5300671da90",
+                "exec": [
+                  "var envSchema = null\r",
+                  "if (pm.environment.get(\"env-openapi-json-url\")){\r",
+                  "    envSchema = JSON.stringify(pm.response.json());\r",
+                  "}\r",
+                  "\r",
+                  "const providedSchema = pm.environment.get('env-schema') || envSchema;\r",
+                  "if(providedSchema){\r",
+                  "    let success = true;\r",
+                  "    try{\r",
+                  "        const yaml = pm.environment.get('env-jsonToYaml');\r",
+                  "        (new Function(yaml))();\r",
+                  "\r",
+                  "        const schema = jsyaml.load(providedSchema);\r",
+                  "        pm.collectionVariables.set('coll-schema', JSON.stringify(schema));\r",
+                  "        postman.setNextRequest('Get API Base Url');\r",
+                  "    }\r",
+                  "    catch(err){\r",
+                  "        console.log(err);\r",
+                  "        success = false;\r",
+                  "        postman.setNextRequest(null);\r",
+                  "    }\r",
+                  "\r",
+                  "    pm.test('Successfully converted provided schema', function(){\r",
+                  "        pm.expect(success).to.be.true;\r",
+                  "    });    \r",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "9e1c1f12-58f5-4cea-b6c0-58be6133c033",
+                "exec": [
+                  "if (pm.environment.get(\"env-openapi-json-url\")){",
+                  "    pm.request.url = pm.environment.get(\"env-openapi-json-url\");",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "367b4112-337b-4bc0-821d-4687694559ad",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "https://postman-echo.com/delay/0"
+          },
+          "response": []
+        },
+        {
+          "name": "Validate API In Workspace",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "c7c74561-6423-4fbe-ab30-bd66746c6cdf",
+                "exec": [
+                  "const minApiCount = Number(pm.environment.get('env-minApiCount'));\r",
+                  "const maxApiCount = Number(pm.environment.get('env-maxApiCount'));\r",
+                  "const jsonData = pm.response.json();\r",
+                  "\r",
+                  "pm.test(`Workspace API count is between ${minApiCount} and ${maxApiCount}. (Count: ${jsonData.apis.length})`, function () {    \r",
+                  "    pm.expect(jsonData.apis.length).to.be.at.least(minApiCount);    \r",
+                  "    pm.expect(jsonData.apis.length).to.be.at.most(maxApiCount);\r",
+                  "});\r",
+                  "\r",
+                  "let apiIds = [];\r",
+                  "_.forEach(jsonData.apis, function(api){\r",
+                  "    apiIds.push(api.id);\r",
+                  "});\r",
+                  "\r",
+                  "pm.collectionVariables.set('coll-apiIds', JSON.stringify(apiIds));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "1baa5ceb-08b6-47c7-9112-8f54c039805d",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Api-Key",
+                "value": "{{env-apiKey}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "https://api.getpostman.com/apis?workspace={{env-workspaceId}}",
+              "protocol": "https",
+              "host": ["api", "getpostman", "com"],
+              "path": ["apis"],
+              "query": [
+                {
+                  "key": "workspace",
+                  "value": "{{env-workspaceId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Current API Version",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "683d7e4f-8336-41a1-b14c-5893b3e49fba",
+                "exec": [
+                  "const jsonData = pm.response.json();\r",
+                  "\r",
+                  "pm.test('API has one or more versions', function(){\r",
+                  "    pm.expect(jsonData).to.have.property('versions').and.to.be.an('array');\r",
+                  "    pm.expect(jsonData.versions.length).to.be.above(0);\r",
+                  "});\r",
+                  "\r",
+                  "const version = jsonData.versions[0];\r",
+                  "pm.collectionVariables.set('coll-versionId', version.id);"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "ae6bfbce-aad4-4f31-9b82-ba6f666658a5",
+                "exec": [
+                  "let apiIds = pm.collectionVariables.get('coll-apiIds');\r",
+                  "if(apiIds){\r",
+                  "    apiIds = JSON.parse(apiIds);\r",
+                  "    const apiId = apiIds.pop();\r",
+                  "\r",
+                  "    pm.collectionVariables.set('coll-apiId', apiId);\r",
+                  "    pm.collectionVariables.set('coll-apiIds', JSON.stringify(apiIds));\r",
+                  "}\r",
+                  "else {\r",
+                  "    pm.request.url = 'https://postman-echo.com/delay/0'\r",
+                  "    pm.request.name = 'No APIs found in the workspace. Skipping execution';\r",
+                  "    postman.setNextRequest(null);\r",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "37810e31-7b06-4ca4-a422-d0012834d1e4",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Api-Key",
+                "value": "{{env-apiKey}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "https://api.getpostman.com/apis/:apiId/versions",
+              "protocol": "https",
+              "host": ["api", "getpostman", "com"],
+              "path": ["apis", ":apiId", "versions"],
+              "query": [
+                {
+                  "key": null,
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": [
+                {
+                  "id": "66de574b-c196-407e-9be7-ff53c0dac927",
+                  "key": "apiId",
+                  "value": "{{coll-apiId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Current API Schema",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "38beef82-f213-44cc-9a11-c326fb5b003d",
+                "exec": [
+                  "const jsonData = pm.response.json();\r",
+                  "\r",
+                  "pm.test('Has schema for current version', function(){\r",
+                  "    pm.expect(jsonData).to.have.property('version');\r",
+                  "    pm.expect(jsonData.version).to.have.property('schema').and.to.be.an('array');\r",
+                  "    pm.expect(jsonData.version.schema.length).to.be.above(0);\r",
+                  "\r",
+                  "    pm.collectionVariables.set('coll-schemaId', jsonData.version.schema[0]);\r",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "00af0146-94da-4674-96cc-9feff4ba493f",
+                "exec": [""],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "4ecaeaa0-5908-497b-ae55-045465cb47e4",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Api-Key",
+                "type": "text",
+                "value": "{{env-apiKey}}"
+              }
+            ],
+            "url": {
+              "raw": "https://api.getpostman.com/apis/:apiId/versions/:versionId",
+              "protocol": "https",
+              "host": ["api", "getpostman", "com"],
+              "path": ["apis", ":apiId", "versions", ":versionId"],
+              "query": [
+                {
+                  "key": null,
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": [
+                {
+                  "id": "ab65af1f-47bf-463c-b68b-b2a2f1d70081",
+                  "key": "apiId",
+                  "value": "{{coll-apiId}}"
+                },
+                {
+                  "id": "82912cc7-9ae0-4090-9758-42c81f4b6924",
+                  "key": "versionId",
+                  "value": "{{coll-versionId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get API Schema",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "6f74f9f2-f92e-4993-b0be-f4181d16e01e",
+                "exec": [
+                  "try {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    if(jsonData.schema.language.toLowerCase() == 'json'){\r",
+                  "        pm.test('Schema is JSON', function(){\r",
+                  "            pm.expect(1).to.equal(1);\r",
+                  "            pm.collectionVariables.set('coll-schema', jsonData.schema.schema);\r",
+                  "        });\r",
+                  "    } else {\r",
+                  "        pm.test('Schema translates to JSON', function(){\r",
+                  "            try{\r",
+                  "                const yaml = pm.environment.get('env-jsonToYaml');\r",
+                  "                (new Function(yaml))();\r",
+                  "\r",
+                  "                const schema = jsyaml.load(jsonData.schema.schema);\r",
+                  "                pm.collectionVariables.set('coll-schema', JSON.stringify(schema));\r",
+                  "                pm.expect(1).to.equal(1);\r",
+                  "            }\r",
+                  "            catch(err){\r",
+                  "                pm.expect(`${err.name} - ${err.message}`).to.equal(undefined);\r",
+                  "            }    \r",
+                  "        });\r",
+                  "    }\r",
+                  "}\r",
+                  "catch(err) {\r",
+                  "    console.log(err);\r",
+                  "    pm.test('Unable to load schema', function(){\r",
+                  "        pm.expect(0).to.equal(1);\r",
+                  "        postman.setNextRequest(null);\r",
+                  "    })\r",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "7fb06c94-c343-47f8-8308-59170e3c56b8",
+                "exec": [
+                  "if (pm.environment.get(\"env-openapi-json-url\")){",
+                  "    pm.request.url = pm.environment.get(\"env-openapi-json-url\");",
+                  "}",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "1b67ec27-0a68-4755-b118-43190677c99d",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Api-Key",
+                "value": "{{env-apiKey}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "https://api.getpostman.com/apis/:apiId/versions/:apiVersionId/schemas/:schemaId",
+              "protocol": "https",
+              "host": ["api", "getpostman", "com"],
+              "path": [
+                "apis",
+                ":apiId",
+                "versions",
+                ":apiVersionId",
+                "schemas",
+                ":schemaId"
+              ],
+              "variable": [
+                {
+                  "id": "ebe1d781-f0eb-4e96-847e-0f42e2ac15ac",
+                  "key": "apiId",
+                  "value": "{{coll-apiId}}"
+                },
+                {
+                  "id": "3bd638bb-503b-4e2b-8da2-ebd9f5d8a4d4",
+                  "key": "apiVersionId",
+                  "value": "{{coll-versionId}}"
+                },
+                {
+                  "id": "521e1c1e-e161-478c-89ba-1b079435201b",
+                  "key": "schemaId",
+                  "value": "{{coll-schemaId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get API Base Url",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "5876b636-91d2-405b-a0e6-8bd4e2132969",
+                "exec": [
+                  "const schema = JSON.parse(pm.collectionVariables.get('coll-schema'));\r",
+                  "const server = pm.environment.get('env-server');\r",
+                  "\r",
+                  "pm.test('Environment has test server defined', function () {\r",
+                  "    pm.expect(server).to.not.be.undefined;\r",
+                  "});\r",
+                  "\r",
+                  "pm.test('Schema has server/baseUrl defined', function () {\r",
+                  "    const servers = schema.servers;\r",
+                  "    pm.expect(servers).to.not.be.undefined;\r",
+                  "    const serverToTest = servers.find(s => s.description.toLowerCase() == server.toLowerCase());\r",
+                  "    pm.expect(serverToTest).to.not.be.undefined;\r",
+                  "\r",
+                  "    pm.expect(serverToTest).to.have.property('url');\r",
+                  "    pm.collectionVariables.set('coll-baseUrl', serverToTest.url);\r",
+                  "});\r",
+                  "\r",
+                  "const runComponentTests = pm.environment.get('env-runComponentTests') == 'true';\r",
+                  "if(!runComponentTests){   \r",
+                  "    const runContractTests = pm.environment.get('env-runContractTests') == 'true';\r",
+                  "    if(runContractTests){\r",
+                  "        postman.setNextRequest('Build Schema Tests');\r",
+                  "    } else {\r",
+                  "        postman.setNextRequest('More APIs to Process?');\r",
+                  "    }   \r",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "c8711439-c69a-4420-b034-cb58dc21e110",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": "https://postman-echo.com/delay/0"
+          },
+          "response": []
+        }
+      ],
+      "id": "2778dde1-f785-4aba-84cc-57e1102bff23"
+    },
+    {
+      "name": "Components",
+      "item": [
+        {
+          "name": "Verify Component Adherence",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const schema = JSON.parse(pm.collectionVariables.get('coll-schema'));\r",
+                  "\r",
+                  "const requireParamDescription = Boolean(pm.environment.get('env-requireParamDescription'));\r",
+                  "const requireParamExample = Boolean(pm.environment.get('env-requireParamExample'));\r",
+                  "\r",
+                  "let paramDescriptionMinLength = pm.environment.get('env-paramDescriptionMinLength');\r",
+                  "if (paramDescriptionMinLength) {\r",
+                  "    paramDescriptionMinLength = Number(paramDescriptionMinLength);\r",
+                  "}\r",
+                  "\r",
+                  "let paramDescriptionMaxLength = pm.environment.get('env-paramDesciptionMaxLength');\r",
+                  "if (paramDescriptionMaxLength) {\r",
+                  "    paramDescriptionMaxLength = Number(paramDescriptionMaxLength);\r",
+                  "}\r",
+                  "\r",
+                  "var testedSchemaRefs = [];\r",
+                  "\r",
+                  "if (schema.components.parameters) {\r",
+                  "    for (let prop in schema.components.parameters) {\r",
+                  "        let parameter = schema.components.parameters[prop];\r",
+                  "\r",
+                  "        pm.test(`Parameter '${prop}' starts with a lowercase letter`, function () {\r",
+                  "            pm.expect(prop.charAt(0)).to.equal(prop.charAt(0).toLowerCase());\r",
+                  "        });\r",
+                  "\r",
+                  "        if (requireParamDescription) {\r",
+                  "            pm.test(`Parameter '${prop}' has a description between ${paramDescriptionMinLength} and ${paramDescriptionMaxLength} characters`, function () {\r",
+                  "                pm.expect(parameter).to.have.property('description').and.to.be.a('string');\r",
+                  "                pm.expect(parameter.description.length).to.be.at.least(paramDescriptionMinLength);\r",
+                  "                pm.expect(parameter.description.length).to.be.at.most(paramDescriptionMaxLength);\r",
+                  "            });\r",
+                  "        }\r",
+                  "\r",
+                  "        if (requireParamExample) {\r",
+                  "            pm.test(`Parameter '${prop}' has an example`, function () {\r",
+                  "                pm.expect(parameter).to.have.property('schema');\r",
+                  "                pm.expect(parameter.schema).to.have.property('example');\r",
+                  "            });\r",
+                  "        }\r",
+                  "    }\r",
+                  "}\r",
+                  "\r",
+                  "if (schema.components.schemas) {\r",
+                  "    for (let prop in schema.components.schemas) {\r",
+                  "        pm.test(`Schema '${prop}' begins with an uppercase letter`, function () {\r",
+                  "            pm.expect(prop.charAt(0)).to.equal(prop.charAt(0).toUpperCase());\r",
+                  "        });\r",
+                  "\r",
+                  "        const testedSchema = testedSchemaRefs.find(tsr => tsr == prop);\r",
+                  "        if (!testedSchema) {\r",
+                  "            const schemaObject = schema.components.schemas[prop];\r",
+                  "            testSchemaObject(schema, schemaObject, prop);\r",
+                  "            testedSchemaRefs.push(prop);\r",
+                  "        }\r",
+                  "    }\r",
+                  "}\r",
+                  "\r",
+                  "if (schema.components.responses) {\r",
+                  "    for (let prop in schema.components.responses) {\r",
+                  "        pm.test(`Response '${prop}' begins with an uppercase letter`, function () {\r",
+                  "            pm.expect(prop.charAt(0)).to.equal(prop.charAt(0).toUpperCase());\r",
+                  "        });\r",
+                  "\r",
+                  "        if (requireParamDescription) {\r",
+                  "            const response = schema.components.responses[prop];\r",
+                  "            pm.test(`Response '${prop}' has a description between ${paramDescriptionMinLength} and ${paramDescriptionMaxLength} characters`, function () {\r",
+                  "                pm.expect(response).to.have.property('description').and.to.be.a('string');\r",
+                  "                pm.expect(response.description.length).to.be.at.least(paramDescriptionMinLength);\r",
+                  "                pm.expect(response.description.length).to.be.at.most(paramDescriptionMaxLength);\r",
+                  "            });\r",
+                  "        }\r",
+                  "    }\r",
+                  "}\r",
+                  "\r",
+                  "const runContractTests = pm.environment.get('env-runContractTests') == 'true';\r",
+                  "if (runContractTests) {\r",
+                  "    postman.setNextRequest('Build Schema Tests');\r",
+                  "} else {\r",
+                  "    postman.setNextRequest('More APIs to Process?');\r",
+                  "}\r",
+                  "\r",
+                  "\r",
+                  "function testSchemaObject(schema, object, objectName) {\r",
+                  "    if (object.type && object.type.toLowerCase() == 'object') {\r",
+                  "        if (object.required) {\r",
+                  "            for (let i = 0; i < object.required.length; i++) {\r",
+                  "                const requiredProp = object.required[i];\r",
+                  "                pm.test(`Schema '${objectName}' has required property '${requiredProp}' defined`, function () {\r",
+                  "                    pm.expect(object.properties).to.have.property(requiredProp);\r",
+                  "                });\r",
+                  "            }\r",
+                  "        }\r",
+                  "\r",
+                  "        let schemaPropertyExceptions = [];\r",
+                  "        if (pm.environment.has('env-schemaPropertyExceptions')) {\r",
+                  "            schemaPropertyExceptions = JSON.parse(pm.environment.get('env-schemaPropertyExceptions'));\r",
+                  "        }\r",
+                  "\r",
+                  "        for (let prop in object.properties) {\r",
+                  "            const property = object.properties[prop];\r",
+                  "\r",
+                  "            if (!schemaPropertyExceptions.some(pe => pe === prop)) {\r",
+                  "                pm.test(`Schema property '${objectName}.${prop}' is lowercase`, function () {\r",
+                  "                    pm.expect(prop.charAt(0)).to.equal(prop.charAt(0).toLowerCase());\r",
+                  "                });\r",
+                  "            }\r",
+                  "\r",
+                  "            if (property.type && property.type.toLowerCase() == 'object') {\r",
+                  "                testSchemaObject(schema, property, `${objectName}.${prop}`);\r",
+                  "            }\r",
+                  "            else if (property.type && property.type.toLowerCase() == 'array') {\r",
+                  "                testSchemaObject(schema, property, `${objectName}.${prop}(list)`);\r",
+                  "            }\r",
+                  "            else if (property.oneOf) {\r",
+                  "                _.forEach(property.oneOf, (oneOf, i) => {\r",
+                  "                    testSchemaObject(schema, oneOf, `${objectName}.${prop}(oneOf).${i}`)\r",
+                  "                });\r",
+                  "            }\r",
+                  "            else if (property.allOf) {\r",
+                  "                _.forEach(property.allOf, (allOf, i) => {\r",
+                  "                    testSchemaObject(schema, allOf, `${objectName}.${prop}(allOf).${i}`)\r",
+                  "                });\r",
+                  "            }\r",
+                  "            else if (property.anyOf) {\r",
+                  "                _.forEach(property.anyOf, (anyOf, i) => {\r",
+                  "                    testSchemaObject(schema, anyOf, `${objectName}.${prop}(anyOf).${i}`)\r",
+                  "                });\r",
+                  "            }\r",
+                  "            else {\r",
+                  "                if (requireParamDescription && !property.$ref) {\r",
+                  "                    pm.test(`Schema property '${objectName}.${prop}' has a description between ${paramDescriptionMinLength} and ${paramDescriptionMaxLength} characters`, function () {\r",
+                  "                        pm.expect(property).to.have.property('description').and.to.be.a('string');\r",
+                  "                        pm.expect(property.description.length).to.be.at.least(paramDescriptionMinLength);\r",
+                  "                        pm.expect(property.description.length).to.be.at.most(paramDescriptionMaxLength);\r",
+                  "                    });\r",
+                  "\r",
+                  "                    if (property.description) {\r",
+                  "                        pm.test(`Schema property '${objectName}.${prop}' description is not just the name`, function () {\r",
+                  "                            pm.expect(prop.toLowerCase()).to.not.equal(property.description.toLowerCase());\r",
+                  "                        });\r",
+                  "                    }\r",
+                  "                }\r",
+                  "\r",
+                  "                if (requireParamExample && !property.$ref) {\r",
+                  "                    pm.test(`Schema property '${objectName}.${prop}' has an example`, function () {\r",
+                  "                        pm.expect(property).to.have.property('example');\r",
+                  "                    });\r",
+                  "                }\r",
+                  "            }\r",
+                  "        }\r",
+                  "    }\r",
+                  "    else if (object.type && object.type.toLowerCase() == 'array') {\r",
+                  "        pm.test(`Schema '${objectName}' has items defined`, function () {\r",
+                  "            pm.expect(object).to.have.property('items');\r",
+                  "        });\r",
+                  "\r",
+                  "        testSchemaObject(schema, object.items, `${objectName}.list`);\r",
+                  "    }\r",
+                  "    else if (object.oneOf) {\r",
+                  "        handleSchemaArray(schema, object, objectName, 'oneOf');\r",
+                  "    } else if (object.allOf) {\r",
+                  "        handleSchemaArray(schema, object, objectName, 'allOf');\r",
+                  "    }\r",
+                  "    else if (object.anyOf) {\r",
+                  "        handleSchemaArray(schema, object, objectName, 'anyOf');\r",
+                  "    }\r",
+                  "    else if (object.$ref) {\r",
+                  "        const name = getName(object.$ref);\r",
+                  "        const testedRef = testedSchemaRefs.find(tsr => tsr == name);\r",
+                  "        if (!testedRef) {\r",
+                  "            testSchemaObject(schema, schema.components.schemas[name], objectName);\r",
+                  "            testedSchemaRefs.push(name);\r",
+                  "        }\r",
+                  "    }\r",
+                  "    else {\r",
+                  "        pm.test(`Schema '${objectName}' has a declared type`, function () {\r",
+                  "            pm.expect(object).to.have.property('type');\r",
+                  "        });\r",
+                  "    }\r",
+                  "}\r",
+                  "\r",
+                  "function handleSchemaArray(schema, object, objectName, arrayType) {\r",
+                  "    for (let i = 0; i < object[arrayType].length; i++) {\r",
+                  "        const arraySchema = object[arrayType][i];\r",
+                  "        if (arraySchema.$ref) {\r",
+                  "            const name = getName(arraySchema.$ref);\r",
+                  "            const testedRef = testedSchemaRefs.find(tsr => tsr == name);\r",
+                  "            if (!testedRef) {\r",
+                  "                testSchemaObject(schema, schema.components.schemas[name], `${objectName}[${i}](ref ${name})`);\r",
+                  "                testedSchemaRefs.push(name);\r",
+                  "            }\r",
+                  "        }\r",
+                  "        else {\r",
+                  "            testSchemaObject(schema, arraySchema, `${objectName}[${i}]`);\r",
+                  "        }\r",
+                  "    }\r",
+                  "}\r",
+                  "\r",
+                  "function getName(ref) {\r",
+                  "    let pieces = ref.split('/');\r",
+                  "    return pieces[pieces.length - 1];\r",
+                  "}\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "id": "968b2ac8-c423-42d7-ab68-809e0292ab31"
+              }
+            }
+          ],
+          "id": "46526b39-701b-4f22-a0a3-03ec53319450",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": "https://postman-echo.com/delay/0"
+          },
+          "response": []
+        }
+      ],
+      "id": "18e4b0a6-d641-4661-9a29-918247d63f5f"
+    },
+    {
+      "name": "Contract Tests",
+      "item": [
+        {
+          "name": "Build Schema Tests",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "const schema = JSON.parse(pm.collectionVariables.get('coll-schema'));\r",
+                  "\r",
+                  "let schemaTests = [];\r",
+                  "for (let prop in schema.paths) {\r",
+                  "  const pathName = prop;\r",
+                  "  let path = {\r",
+                  "    path: `${pm.collectionVariables.get('coll-baseUrl')}${pathName}`,\r",
+                  "    parameters: schema.paths[prop].parameters,\r",
+                  "  };\r",
+                  "\r",
+                  "  for (let method in schema.paths[prop]) {\r",
+                  "    if (method.toLowerCase() == 'parameters' || isMockEndpoint(schema.paths[prop][method])) {\r",
+                  "      continue;\r",
+                  "    }\r",
+                  "\r",
+                  "    let currentPath = _.cloneDeep(path);\r",
+                  "    currentPath.method = method.toUpperCase();\r",
+                  "    let pathMethod = schema.paths[prop][method];\r",
+                  "    currentPath.parameters = combineParameters(currentPath.parameters, pathMethod.parameters);\r",
+                  "    let securityExtension = pm.environment.get('env-securityExtensionName');\r",
+                  "    if (securityExtension && pathMethod[securityExtension] && pathMethod[securityExtension].length > 0) {\r",
+                  "      currentPath.allowedRole = pathMethod[securityExtension][0];\r",
+                  "    }\r",
+                  "\r",
+                  "    const expectedResponses = getExpectedResponses(pathMethod);\r",
+                  "    currentPath.responses = expectedResponses;\r",
+                  "\r",
+                  "    if (pathMethod.requestBody) {\r",
+                  "      let bodyModel;\r",
+                  "      if (pathMethod.requestBody.content['application/json']?.schema?.$ref) {\r",
+                  "        bodyModel = getSchemaReference(schema, pathMethod.requestBody.content['application/json'].schema.$ref);\r",
+                  "      }\r",
+                  "      else if (pathMethod.requestBody.content['application/json']?.schema) {\r",
+                  "        bodyModel = pathMethod.requestBody.content['application/json'].schema;\r",
+                  "      }\r",
+                  "      else {\r",
+                  "        continue;\r",
+                  "      }\r",
+                  "\r",
+                  "      const models = buildModels(schema, bodyModel);\r",
+                  "      const mutations = buildModelMutations(models);\r",
+                  "\r",
+                  "      mutations.forEach((mutation) => {\r",
+                  "        let schemaTest = _.cloneDeep(currentPath);\r",
+                  "        Object.assign(schemaTest, mutation);\r",
+                  "        schemaTest.name = `${schemaTest.method} - ${pathName} - ${schemaTest.description} - SUCCESS: ${schemaTest.success}`;\r",
+                  "        schemaTests.push(schemaTest);\r",
+                  "      });\r",
+                  "    }\r",
+                  "    else {\r",
+                  "      currentPath.name = `${currentPath.method} - ${pathName} - No Request Body - SUCCESS: true`;\r",
+                  "      currentPath.success = true;\r",
+                  "      schemaTests.push(currentPath);\r",
+                  "    }\r",
+                  "  }\r",
+                  "}\r",
+                  "schemaTests = moveDeleteEndpointsToEnd(schemaTests);\r",
+                  "pm.collectionVariables.set('coll-schemaTests', JSON.stringify(schemaTests));\r",
+                  "\r",
+                  "// \r",
+                  "// Move delete endpoints to the end for cleanup\r",
+                  "//\r",
+                  "function moveDeleteEndpointsToEnd(schemaTests) {\r",
+                  "  let sortedTests = [...schemaTests];\r",
+                  "  try {\r",
+                  "    let successfulDeletes = sortedTests.filter(schemaTest => schemaTest.method == 'DELETE' && schemaTest.success);\r",
+                  "\r",
+                  "    if (successfulDeletes) {\r",
+                  "      // order deletes from the deepest entity to highest level entity based on path\r",
+                  "      successfulDeletes.sort((a, b) => b.path.split('/').length - a.path.split('/').length);\r",
+                  "      sortedTests = sortedTests.filter(schemaTest => !successfulDeletes.find(sd => sd == schemaTest));\r",
+                  "      sortedTests = sortedTests.concat(successfulDeletes);\r",
+                  "    }\r",
+                  "  }\r",
+                  "  catch (err) {\r",
+                  "    console.log('An error occurred when sorting delete tests', err);\r",
+                  "  }\r",
+                  "\r",
+                  "  return sortedTests;\r",
+                  "}\r",
+                  "\r",
+                  "//\r",
+                  "// Supporting Methods Below\r",
+                  "//\r",
+                  "function buildModels(schema, object) {\r",
+                  "  let models = [];\r",
+                  "\r",
+                  "  if (object['$ref']) {\r",
+                  "    object = getSchemaReference(schema, object['$ref']);\r",
+                  "  }\r",
+                  "\r",
+                  "  if (object.type && object.type.toLowerCase() == 'object') {\r",
+                  "    if (object.required && object.required.length > 0) {\r",
+                  "      models.push({});\r",
+                  "      _.forEach(object.required, function (param) {\r",
+                  "        const property = object.properties[param];\r",
+                  "\r",
+                  "        if (property.type && ['string', 'number', 'integer', 'boolean'].includes(property.type.toLowerCase())) {\r",
+                  "          for (let modelIndex = 0; modelIndex < models.length; modelIndex++) {\r",
+                  "            let model = models[modelIndex];\r",
+                  "            model[param] = property.example;\r",
+                  "          }\r",
+                  "        }\r",
+                  "        else {\r",
+                  "          const nestedObjects = buildModels(schema, property);\r",
+                  "          models = addToModels(models, nestedObjects, param);\r",
+                  "        }\r",
+                  "      });\r",
+                  "    }\r",
+                  "\r",
+                  "    if (object.minProperties) {\r",
+                  "      _.forEach(models, function (model) {\r",
+                  "        if (Object.keys(model).length < object.minProperties) {\r",
+                  "          for (let i = Object.keys(model).length; i < object.minProperties; i++) {\r",
+                  "            for (const [key, value] of Object.entries(object.properties)) {\r",
+                  "              if (['string', 'number', 'integer', 'boolean'].includes(value.type.toLowerCase()) && model[key] == undefined) {\r",
+                  "                model[key] = value.example;\r",
+                  "                break;\r",
+                  "              }\r",
+                  "            }\r",
+                  "          }\r",
+                  "        }\r",
+                  "      })\r",
+                  "    }\r",
+                  "  }\r",
+                  "  else if (object.type && object.type.toLowerCase() == 'array') {\r",
+                  "    let items = buildModels(schema, object.items);\r",
+                  "    if (Array.isArray(items)) {\r",
+                  "      for (let i = 0; i < items.length; i++) {\r",
+                  "        models.push([items[i]]);\r",
+                  "      }\r",
+                  "    }\r",
+                  "    else {\r",
+                  "      models.push([items]);\r",
+                  "    }\r",
+                  "  }\r",
+                  "  else if (object.oneOf) {\r",
+                  "    _.forEach(object.oneOf, function (component) {\r",
+                  "      let items = buildModels(schema, component);\r",
+                  "      models = models.concat(items);\r",
+                  "    });\r",
+                  "  }\r",
+                  "  else if (object.allOf) {\r",
+                  "    let pieces = [{}];\r",
+                  "    _.forEach(object.allOf, function (component) {\r",
+                  "      let componentModels = buildModels(schema, component);\r",
+                  "      pieces = addToModels(pieces, componentModels);\r",
+                  "    });\r",
+                  "\r",
+                  "    models = pieces;\r",
+                  "  }\r",
+                  "  else if (object.anyOf) {\r",
+                  "    let pieces = [];\r",
+                  "    let combinedPieces = [{}];\r",
+                  "    _.forEach(object.anyOf, function (component) {\r",
+                  "      let componentModels = buildModels(schema, component);\r",
+                  "      combinedPieces = addToModels(combinedPieces, componentModels);\r",
+                  "      pieces = pieces.concat(componentModels);\r",
+                  "    });\r",
+                  "\r",
+                  "    models = pieces.concat(combinedPieces);\r",
+                  "  }\r",
+                  "  else {\r",
+                  "    // All other options are primitive values\r",
+                  "    return object.example;\r",
+                  "  }\r",
+                  "  return models;\r",
+                  "}\r",
+                  "\r",
+                  "function getSchemaReference(schema, referenceName) {\r",
+                  "  const refPieces = referenceName.split('/');\r",
+                  "  let reference = schema;\r",
+                  "  for (let i = 1; i < refPieces.length; i++) {\r",
+                  "    reference = reference[refPieces[i]];\r",
+                  "  }\r",
+                  "\r",
+                  "  return reference;\r",
+                  "}\r",
+                  "\r",
+                  "function addToModels(models, newPieces, name) {\r",
+                  "  let newModels = [];\r",
+                  "  _.forEach(models, function (model) {\r",
+                  "    _.forEach(newPieces, function (newPiece) {\r",
+                  "      let newModel = _.cloneDeep(model);\r",
+                  "      if (name) {\r",
+                  "        newModel[name] = newPiece;\r",
+                  "      }\r",
+                  "      else {\r",
+                  "        Object.assign(newModel, newPiece);\r",
+                  "      }\r",
+                  "      newModels.push(newModel);\r",
+                  "    });\r",
+                  "  });\r",
+                  "\r",
+                  "  return newModels;\r",
+                  "}\r",
+                  "\r",
+                  "function buildModelMutations(models) {\r",
+                  "  let modelMutations = [];\r",
+                  "  _.forEach(models, function (model) {\r",
+                  "    addMutation(true, 'Has all required fields', model, modelMutations);\r",
+                  "    let mutations = buildMutation(model);\r",
+                  "    modelMutations = modelMutations.concat(mutations);\r",
+                  "  });\r",
+                  "\r",
+                  "  return modelMutations;\r",
+                  "}\r",
+                  "\r",
+                  "function buildMutation(model) {\r",
+                  "  let mutations = [];\r",
+                  "\r",
+                  "  for (const [key, value] of Object.entries(model)) {\r",
+                  "    if (typeof value == 'object') {\r",
+                  "      let nestedMutations = buildMutation(value);\r",
+                  "      nestedMutations.forEach((nestedMutation) => {\r",
+                  "        let mutation = _.cloneDeep(model);\r",
+                  "        mutation[key] = nestedMutation.body;\r",
+                  "        addMutation(false, `${nestedMutation.description} in ${key} object`, mutation, mutations);\r",
+                  "      });\r",
+                  "\r",
+                  "      let mutation = _.cloneDeep(model);\r",
+                  "      delete mutation[key];\r",
+                  "      addMutation(false, `Missing ${key} object`, mutation, mutations);\r",
+                  "\r",
+                  "      let emptyMutation = _.cloneDeep(model);\r",
+                  "      emptyMutation[key] = {};\r",
+                  "      addMutation(false, `Empty ${key} object`, emptyMutation, mutations);\r",
+                  "    }\r",
+                  "    else {\r",
+                  "      if (Array.isArray(value)) {\r",
+                  "        console.log('probably an error');\r",
+                  "      }\r",
+                  "      let mutation = _.cloneDeep(model);\r",
+                  "      delete mutation[key];\r",
+                  "      addMutation(false, `Missing ${key} property`, mutation, mutations);\r",
+                  "\r",
+                  "      let blankMutation = _.cloneDeep(model);\r",
+                  "      blankMutation[key] = '';\r",
+                  "      addMutation(false, `Blank ${key} property`, blankMutation, mutations);\r",
+                  "    }\r",
+                  "  }\r",
+                  "\r",
+                  "  return mutations;\r",
+                  "}\r",
+                  "\r",
+                  "function addMutation(isSuccess, description, mutation, mutations) {\r",
+                  "  mutations.push({\r",
+                  "    success: isSuccess,\r",
+                  "    description: description,\r",
+                  "    body: mutation\r",
+                  "  });\r",
+                  "}\r",
+                  "\r",
+                  "function getExpectedResponses(pathMethod) {\r",
+                  "  const responses = [];\r",
+                  "  for (const [statusCode, value] of Object.entries(pathMethod.responses)) {\r",
+                  "    let response = {\r",
+                  "      statusCode: Number(statusCode)\r",
+                  "    };\r",
+                  "\r",
+                  "    if (value['x-postman-variables'] && Array.isArray(value['x-postman-variables'])) {\r",
+                  "      response.variables = value['x-postman-variables'].filter(variable => variable.type.toLowerCase() === 'save');\r",
+                  "    }\r",
+                  "\r",
+                  "    if (value.$ref) {\r",
+                  "      response.$ref = value.$ref;\r",
+                  "    }\r",
+                  "    else {\r",
+                  "      if (value.content?.['application/json']?.schema) {\r",
+                  "        if (value.content['application/json'].schema.$ref) {\r",
+                  "          response.$ref = value.content['application/json'].schema.$ref;\r",
+                  "        }\r",
+                  "        else {\r",
+                  "          response.schema = value.content['application/json'].schema;\r",
+                  "        }\r",
+                  "      }\r",
+                  "    }\r",
+                  "\r",
+                  "    responses.push(response);\r",
+                  "  }\r",
+                  "  return responses;\r",
+                  "}\r",
+                  "\r",
+                  "function isMockEndpoint(pathMethod) {\r",
+                  "  let isMock = false;\r",
+                  "  if (pathMethod && pathMethod['x-amazon-apigateway-integration'] && pathMethod['x-amazon-apigateway-integration'].type\r",
+                  "    && pathMethod['x-amazon-apigateway-integration'].type.toLowerCase() == 'mock') {\r",
+                  "    isMock = true;\r",
+                  "  }\r",
+                  "\r",
+                  "  return isMock;\r",
+                  "}\r",
+                  "\r",
+                  "function combineParameters(endpointParameters, methodParameters) {\r",
+                  "  if (!endpointParameters && !methodParameters) {\r",
+                  "    return;\r",
+                  "  }\r",
+                  "  let parameters = [];\r",
+                  "  if (endpointParameters && endpointParameters.length) {\r",
+                  "    parameters = [...endpointParameters];\r",
+                  "  }\r",
+                  "\r",
+                  "  if (methodParameters && methodParameters.length) {\r",
+                  "    parameters = [...parameters, ...methodParameters];\r",
+                  "  }\r",
+                  "\r",
+                  "  return parameters;\r",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "id": "3017117f-1119-4cda-8de9-f181be051dff"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let schemaTests = pm.collectionVariables.get('coll-schemaTests');\r",
+                  "if(schemaTests){\r",
+                  "    schemaTests = JSON.parse(schemaTests);\r",
+                  "    if(!schemaTests || !schemaTests.length){\r",
+                  "        postman.setNextRequest('More APIs to Process?');\r",
+                  "    }\r",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "id": "161ed627-1e43-4d10-923c-308e9b039bd9"
+              }
+            }
+          ],
+          "id": "bd6e30f9-999f-4ace-91ca-270b0bd1f1a5",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": "https://postman-echo.com/delay/0"
+          },
+          "response": []
+        },
+        {
+          "name": "Test Request",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "49ce35ea-de86-4a14-b90e-3d396e2feb2d",
+                "exec": [
+                  "const url = require('url');\r",
+                  "\r",
+                  "const schema = JSON.parse(pm.collectionVariables.get('coll-schema'));\r",
+                  "let schemaTests = JSON.parse(pm.collectionVariables.get('coll-schemaTests'));\r",
+                  "\r",
+                  "const schemaTest = schemaTests.shift();\r",
+                  "pm.collectionVariables.set('coll-schemaTests', JSON.stringify(schemaTests));\r",
+                  "pm.variables.set('currentSchemaTest', JSON.stringify(schemaTest));\r",
+                  "\r",
+                  "const path = replacePathParameters(schema, schemaTest.path, schemaTest.parameters);\r",
+                  "pm.request.url.update(path);\r",
+                  "delete pm.request.url.auth;\r",
+                  "delete pm.request.url.port;\r",
+                  "delete pm.request.url.hash;\r",
+                  "if (pm.request.url.protocol) {\r",
+                  "  pm.request.url.protocol = pm.request.url.protocol.replace(/\\:$/, '');\r",
+                  "} else {\r",
+                  "  pm.request.url.protocol = 'https';\r",
+                  "}\r",
+                  "pm.request.method = schemaTest.method;\r",
+                  "pm.request.name = schemaTest.name;\r",
+                  "\r",
+                  "pm.variables.set('requestName', schemaTest.name);\r",
+                  "pm.variables.set('body', JSON.stringify(schemaTest.body));\r",
+                  "\r",
+                  "// Add top level parameters from the path\r",
+                  "const roleHeaderName = pm.environment.get('env-roleHeaderName');\r",
+                  "\r",
+                  "if (schemaTest.parameters) {\r",
+                  "  for (let i = 0; i < schemaTest.parameters.length; i++) {\r",
+                  "    let param = schemaTest.parameters[i];\r",
+                  "\r",
+                  "    if (param.$ref) {\r",
+                  "      let pieces = param.$ref.split('/');\r",
+                  "      const name = pieces[pieces.length - 1];\r",
+                  "      const schemaParam = schema.components.parameters[name];\r",
+                  "      const paramType = schemaParam.in.toLowerCase();\r",
+                  "      const paramValue = loadParameterValue(schemaParam);\r",
+                  "      if (paramType == 'header' && schemaParam.required == true) {\r",
+                  "        if (roleHeaderName && schemaParam.name.toLowerCase() == roleHeaderName.toLowerCase()) {\r",
+                  "          pm.request.headers.upsert({ key: schemaParam.name, value: schemaTest.allowedRole });\r",
+                  "        }\r",
+                  "        else {\r",
+                  "          pm.request.headers.upsert({ key: schemaParam.name, value: paramValue });\r",
+                  "        }\r",
+                  "      } else if (paramType == 'query' && schemaParam.required == true) {\r",
+                  "        pm.request.url.query.upsert({ key: schemaParam.name, value: paramValue });\r",
+                  "      }\r",
+                  "    } else {\r",
+                  "      const paramType = param.in.toLowerCase();\r",
+                  "      const paramValue = loadParameterValue(param);\r",
+                  "      if (paramType == 'header') {\r",
+                  "        pm.request.headers.upsert({ key: param.name, value: paramValue });\r",
+                  "      } else if (paramType == 'query' && param.required == true) {\r",
+                  "        pm.request.url.query.upsert({ key: param.name, value: paramValue });\r",
+                  "      }\r",
+                  "    }\r",
+                  "  }\r",
+                  "}\r",
+                  "\r",
+                  "function loadParameterValue(parameter) {\r",
+                  "  let parameterValue;\r",
+                  "  if (parameter['x-postman-variables']) {\r",
+                  "    let variable = parameter['x-postman-variables'].find(v => v.type.toLowerCase() === 'load');\r",
+                  "    if (variable && pm.collectionVariables.has(variable.name)) {\r",
+                  "      parameterValue = pm.collectionVariables.get(variable.name);\r",
+                  "    }\r",
+                  "    else {\r",
+                  "      parameterValue = resolveParameterExample(parameter);\r",
+                  "    }\r",
+                  "  }\r",
+                  "  else {\r",
+                  "    parameterValue = resolveParameterExample(parameter);\r",
+                  "  }\r",
+                  "\r",
+                  "  return parameterValue;\r",
+                  "}\r",
+                  "\r",
+                  "function resolveParameterExample(parameter) {\r",
+                  "  let paramValue = (parameter.schema.example != undefined) ? parameter.schema.example : parameter.example;\r",
+                  "  let value = paramValue;\r",
+                  "  if (typeof paramValue !== 'number' && typeof paramValue !== 'boolean') {\r",
+                  "    let pathVariableRegex = /^{{\\$.*}}$/;\r",
+                  "    let matches = paramValue.match(pathVariableRegex);\r",
+                  "\r",
+                  "    if (matches && matches.length) {\r",
+                  "      value = pm.variables.replaceIn(paramValue);\r",
+                  "    }\r",
+                  "  }\r",
+                  "\r",
+                  "  return encodeURIComponent(value);\r",
+                  "}\r",
+                  "\r",
+                  "function replacePathParameters(schema, pathName, parameters) {\r",
+                  "  let replacedPathName = pathName;\r",
+                  "  let pathVariableRegex = /{([^}]*)}/g;\r",
+                  "  let matches = pathName.match(pathVariableRegex);\r",
+                  "  _.forEach(matches, function (match) {\r",
+                  "    let paramName = match.substring(1, match.length - 1);\r",
+                  "    _.forEach(parameters, function (param) {\r",
+                  "      if (param.$ref) {\r",
+                  "        let parameter = getSchemaReference(schema, param.$ref);\r",
+                  "        if (parameter.in && parameter.in.toLowerCase() == 'path' && parameter.name && parameter.name == paramName) {\r",
+                  "          let parameterValue = loadParameterValue(parameter);\r",
+                  "          replacedPathName = replacedPathName.replace(match, parameterValue);\r",
+                  "          return false;\r",
+                  "        }\r",
+                  "      } else {\r",
+                  "        if (param.in && param.in.toLowerCase() == 'path' && param.name && param.name == paramName) {\r",
+                  "          let parameterValue = loadParameterValue(param);\r",
+                  "          replacedPathName = replacedPathName.replace(match, parameterValue);\r",
+                  "          return false;\r",
+                  "        }\r",
+                  "      }\r",
+                  "    });\r",
+                  "  });\r",
+                  "\r",
+                  "  return url.parse(replacedPathName);\r",
+                  "}\r",
+                  "\r",
+                  "function getSchemaReference(schema, referenceName) {\r",
+                  "  const refPieces = referenceName.split('/');\r",
+                  "  let reference = schema;\r",
+                  "  for (let i = 1; i < refPieces.length; i++) {\r",
+                  "    reference = reference[refPieces[i]];\r",
+                  "  }\r",
+                  "\r",
+                  "  return reference;\r",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "2524e1aa-f349-412f-91eb-b7857f29d495",
+                "exec": [
+                  "const schemaTests = JSON.parse(pm.collectionVariables.get('coll-schemaTests'));\r",
+                  "if(schemaTests.length > 0){\r",
+                  "    postman.setNextRequest('Test Request');\r",
+                  "}\r",
+                  "\r",
+                  "const schemaTest = JSON.parse(pm.variables.get('currentSchemaTest'));\r",
+                  "console.log(schemaTest.name);\r",
+                  "\r",
+                  "pm.test(`${schemaTest.name} - Has expected status code`, function () {\r",
+                  "    // const errorOn500 = pm.environment.get('env-errorOn500');\r",
+                  "    // if(errorOn500){\r",
+                  "    //   pm.response.to.not.have.status(500);\r",
+                  "    // }\r",
+                  "\r",
+                  "    if(schemaTest.success){\r",
+                  "        try{\r",
+                  "            if(pm.response.code >= 400) {\r",
+                  "                const jsonData = pm.response.json();\r",
+                  "                if(pm.response.code == 401)         {\r",
+                  "                  pm.expect(pm.request.headers.get('Role')).to.equal('role');\r",
+                  "                }\r",
+                  "                pm.expect('').to.equal(jsonData.message);                \r",
+                  "            }\r",
+                  "            \r",
+                  "            pm.expect(pm.response.code).to.not.equal(400);\r",
+                  "        }\r",
+                  "        catch(err) {\r",
+                  "            console.log(err);\r",
+                  "            pm.expect(pm.response.code).to.not.equal(400);\r",
+                  "        }        \r",
+                  "    }\r",
+                  "    else {\r",
+                  "        const statusCode = pm.response.code\r",
+                  "        pm.expect(statusCode === 400 || statusCode === 422).to.be.true;\r",
+                  "    }    \r",
+                  "});\r",
+                  "\r",
+                  "const expectedResponse = schemaTest.responses.find(r => r.statusCode == pm.response.code);\r",
+                  "pm.test(`${schemaTest.name} - Status code (${pm.response.code}) is allowed`, function(){\r",
+                  "    pm.expect(expectedResponse).to.exist;\r",
+                  "});\r",
+                  "\r",
+                  "if(expectedResponse){\r",
+                  "    pm.test(`${schemaTest.name} - Has expected response body schema`, function(){\r",
+                  "        const Ajv = require('ajv');\r",
+                  "        const ajv = new Ajv({allErrors: true,format: false,nullable: true});\r",
+                  "        \r",
+                  "        if(pm.response.code == 204 || shouldResponseBeEmpty(expectedResponse)){\r",
+                  "            checkForEmptyResponse();\r",
+                  "        }\r",
+                  "        else if(expectedResponse.$ref){            \r",
+                  "            const jsonData = pm.response.json();\r",
+                  "            const schema = JSON.parse(pm.collectionVariables.get('coll-schema'));\r",
+                  "            ajv.addSchema(schema, 'OAS');\r",
+                  "            const valid = ajv.validate({$ref: `OAS${expectedResponse.$ref}`}, jsonData);\r",
+                  "            const errors = ajv.errorsText(valid.errors);\r",
+                  "            pm.expect(errors).to.equal('No errors');\r",
+                  "            if(errors !== 'No errors'){\r",
+                  "                console.log(errors);\r",
+                  "            }\r",
+                  "        }\r",
+                  "        else if(expectedResponse.schema){\r",
+                  "            const jsonData = pm.response.json();\r",
+                  "            const validate = ajv.compile(expectedResponse.schema);\r",
+                  "            const valid = validate(jsonData);\r",
+                  "            const errors = ajv.errorsText(valid.errors);\r",
+                  "            pm.expect(errors).to.equal('No errors');\r",
+                  "            if(errors !== 'No errors'){\r",
+                  "                console.log(errors);\r",
+                  "            }\r",
+                  "        }\r",
+                  "        else {\r",
+                  "            checkForEmptyResponse();\r",
+                  "        }\r",
+                  "\r",
+                  "        if(expectedResponse.variables){\r",
+                  "            const jsonData = pm.response.json();\r",
+                  "            _.forEach(expectedResponse.variables, function(variable){\r",
+                  "                let pathPieces = variable.path.split('.').filter(piece => piece);\r",
+                  "                let data = jsonData;\r",
+                  "                let found = true;\r",
+                  "                _.forEach(pathPieces, function(piece){\r",
+                  "                    if(data[piece]){\r",
+                  "                        data = data[piece];\r",
+                  "                    }\r",
+                  "                    else {\r",
+                  "                        found = false;\r",
+                  "                    }\r",
+                  "                });\r",
+                  "\r",
+                  "                if(found){\r",
+                  "                    pm.collectionVariables.set(variable.name, data);\r",
+                  "                }\r",
+                  "                else {\r",
+                  "                    pm.test(`Unable to save dynamic variable ${variable.name} at the provided path.`, function() {\r",
+                  "                        pm.expect(true).to.equal(variable.path);\r",
+                  "                    });\r",
+                  "                }\r",
+                  "            });\r",
+                  "        }\r",
+                  "    });\r",
+                  "}\r",
+                  "\r",
+                  "function checkForEmptyResponse() {\r",
+                  "    let emptyBody = true;\r",
+                  "    if(pm.response.text()){\r",
+                  "        emptyBody = false; \r",
+                  "    }\r",
+                  "\r",
+                  "    pm.expect(emptyBody).to.be.true;\r",
+                  "}\r",
+                  "\r",
+                  "function shouldResponseBeEmpty(expectedResponse){\r",
+                  "    let responseSchema = expectedResponse.schema;\r",
+                  "    if(expectedResponse.$ref){\r",
+                  "        let schema = JSON.parse(pm.collectionVariables.get('coll-schema'));\r",
+                  "        responseSchema = getSchemaReference(schema, expectedResponse.$ref);\r",
+                  "        if(expectedResponse.$ref.startsWith('#/components/responses')){\r",
+                  "            return (!responseSchema || !responseSchema.content || !responseSchema.content['application/json'] \r",
+                  "                || !responseSchema.content['application/json'].schema || Object.keys(responseSchema.content['application/json'].schema).length == 0);\r",
+                  "        } else {\r",
+                  "            return false;\r",
+                  "        }\r",
+                  "    }\r",
+                  "    else {\r",
+                  "        return (Object.keys(responseSchema).length == 0);\r",
+                  "    }\r",
+                  "}\r",
+                  "\r",
+                  "function getSchemaReference(schema, referenceName){\r",
+                  "  const refPieces = referenceName.split('/');\r",
+                  "  let reference = schema;\r",
+                  "  for(let i = 1; i < refPieces.length; i++){\r",
+                  "    reference = reference[refPieces[i]];\r",
+                  "  }\r",
+                  "\r",
+                  "  return reference;\r",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "416eff4d-749b-4b49-9c3c-7e6cfbfb7c2c",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{{body}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "https://postman-echo.com/get"
+          },
+          "response": []
+        }
+      ],
+      "id": "5710c277-a099-4c7d-a8ab-9bb911918ef9"
+    },
+    {
+      "name": "Finalize",
+      "item": [
+        {
+          "name": "More APIs to Process?",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let apis = pm.collectionVariables.get('coll-apiIds');\r",
+                  "if(apis){\r",
+                  "    try{\r",
+                  "        apis = JSON.parse(apis);\r",
+                  "        if(apis.length > 0){\r",
+                  "            postman.setNextRequest('Get Current API Version');\r",
+                  "        }\r",
+                  "    }\r",
+                  "    catch(err){}    \r",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "id": "c236b1d1-9f04-4502-b754-ee4d6430a3ed"
+              }
+            }
+          ],
+          "id": "eafd2509-05d8-42ee-ab2d-dd7f45453f5c",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": "https://postman-echo.com/delay/0"
+          },
+          "response": []
+        },
+        {
+          "name": "Remove Test Variables",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "// See https://blog.postman.com/2019/05/28/pro-tip-dynamically-unset-postman-environment-variables/\r",
+                  "// for more details on what we're doing here. \r",
+                  "\r",
+                  "cleanupCollectionVariables();\r",
+                  "\r",
+                  "function cleanupCollectionVariables() {\r",
+                  "    const clean = _.keys(pm.collectionVariables.toObject());\r",
+                  "\r",
+                  "    _.each(clean, (arrItem) => {\r",
+                  "        pm.collectionVariables.unset(arrItem);\r",
+                  "    });\r",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "id": "168455e5-e394-48df-902d-dbab8352acab"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [""],
+                "type": "text/javascript",
+                "id": "ac89d252-3423-481b-9ba5-d0b3f55ca383"
+              }
+            }
+          ],
+          "id": "6e4c0ea7-b3c4-4e33-bc13-ac7ab563f57b",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "https://postman-echo.com/delay/0"
+          },
+          "response": []
+        }
+      ],
+      "id": "92035d83-c9a1-425a-8a69-65bc677fbc13"
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""],
+        "id": "38efdb22-19c6-42a8-aa8b-ef1271ce04ef"
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""],
+        "id": "c48549ed-e6df-407a-8452-ec1db5cc81eb"
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "coll-schema",
+      "value": ""
+    },
+    {
+      "key": "coll-baseUrl",
+      "value": ""
+    },
+    {
+      "key": "coll-schemaTests",
+      "value": ""
+    }
+  ]
 }

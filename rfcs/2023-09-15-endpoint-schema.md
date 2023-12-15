@@ -1,10 +1,10 @@
 # Standardized Endpoint Schema
 
-| Feature name  | Example name                                |
-| :------------ | :------------------------------------------ |
-| **Author(s)** | J. Zane Cook (jzanecook@z90.studio)                      |
-| **RFC PR:**   | [PR 66](https://github.com/AI-Engineer-Foundation/agent-protocol/pull/66)                                 |
-| **Updated**   | 2023-09-18                                  |
+| Feature name  | Example name                                                              |
+| :------------ | :------------------------------------------------------------------------ |
+| **Author(s)** | J. Zane Cook (jzanecook@z90.studio)                                       |
+| **RFC PR:**   | [PR 66](https://github.com/AI-Engineer-Foundation/agent-protocol/pull/66) |
+| **Updated**   | 2023-09-18                                                                |
 
 ## Summary
 
@@ -23,6 +23,7 @@ The motivation for the changes is to simplify the protocol for users while makin
 ## Design Proposal
 
 #### Endpoint Schema Update
+
 Change the current `/agent/` endpoint schema to `/ap/v1/agent/`. This brings clarity in versioning and separates the agent-specific endpoints under a versioned umbrella. Additionally, the `ap` solidifies the `agent-protocol` URL for clear identification of its usage.
 
 ### Alternatives Considered
@@ -31,7 +32,9 @@ Change the current `/agent/` endpoint schema to `/ap/v1/agent/`. This brings cla
 - Considered not enforcing the full path, but enforcing the full path not only looks better but also creates a better standard for future improvements.
 
 ### Compatibility
+
 These changes are not backwards compatible for the following reasons:
+
 - The change in the endpoint schema will break existing client implementations tied to the old URL structure.
 
 Clients will need to update their integrations to accomodate these changes, necessitating a major version bump.

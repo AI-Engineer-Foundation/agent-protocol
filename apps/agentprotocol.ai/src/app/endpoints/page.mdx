@@ -9,11 +9,11 @@ export const metadata = {
 The agent exposes the following endpoints (see the [OpenAPI file](https://github.com/AI-Engineer-Foundation/agent-protocol/blob/main/schemas/openapi.yml)):
 
 ## Create Agent Task {{ tag: 'POST', label: '/ap/v1/agent/tasks' }}
+
 <Row>
   <Col>
     Creates a task for the agent.
 
-    
     ### Body attributes
 
   <Properties>
@@ -45,6 +45,7 @@ curl --request POST http://localhost:8000/ap/v1/agent/tasks
 ---
 
 ## List Agent Tasks {{ tag: 'GET', label: '/ap/v1/agent/tasks' }}
+
 <Row>
   <Col>
     List all tasks that have been created for the agent.
@@ -72,7 +73,7 @@ curl --request POST http://localhost:8000/ap/v1/agent/tasks
 ```bash {{ title: 'cURL' }}
 curl  http://localhost:8000/ap/v1/agent/tasks
 
-```
+````
     </CodeGroup>
   </Col>
 </Row>
@@ -87,15 +88,15 @@ curl  http://localhost:8000/ap/v1/agent/tasks
     ### Path attributes
 
   <Properties>
-    
+
     <Property name="task_id" type="string">
         ID of the task
     </Property>
   </Properties>
-    
-   
+
+
     ### Response
-  
+
     Returned details about an agent task.
 
   </Col>
@@ -104,14 +105,17 @@ curl  http://localhost:8000/ap/v1/agent/tasks
 ```bash {{ title: 'cURL' }}
 curl  http://localhost:8000/ap/v1/agent/tasks/[task_id]
 
-```
+````
+
     </CodeGroup>
+
   </Col>
 </Row>
 
 ---
 
 ## List Agent Task Steps {{ tag: 'GET', label: '/ap/v1/agent/tasks/<task_id>/steps' }}
+
 <Row>
   <Col>
     List all steps for the specified task.
@@ -142,7 +146,7 @@ curl  http://localhost:8000/ap/v1/agent/tasks/[task_id]
 ```bash {{ title: 'cURL' }}
 curl  http://localhost:8000/ap/v1/agent/tasks/[task_id]/steps
 
-```
+````
     </CodeGroup>
   </Col>
 </Row>
@@ -157,7 +161,7 @@ curl  http://localhost:8000/ap/v1/agent/tasks/[task_id]/steps
     ### Path attributes
 
   <Properties>
-    
+
     <Property name="task_id" type="string">
         ID of the task
     </Property>
@@ -165,7 +169,7 @@ curl  http://localhost:8000/ap/v1/agent/tasks/[task_id]/steps
     ### Body attributes
 
   <Properties>
-    
+
     <Property name="input" type="string" required="undefined">
         Input prompt for the step.
     </Property>
@@ -173,9 +177,9 @@ curl  http://localhost:8000/ap/v1/agent/tasks/[task_id]/steps
         Input parameters for the task step. Any value is allowed.
     </Property>
   </Properties>
-   
+
     ### Response
-  
+
     Executed step for the agent task.
 
   </Col>
@@ -185,14 +189,17 @@ curl  http://localhost:8000/ap/v1/agent/tasks/[task_id]/steps
 curl --request POST http://localhost:8000/ap/v1/agent/tasks/[task_id]/steps
     -F 'input=[input]'
     -F 'additional_input=[additional_input]'
-```
+````
+
     </CodeGroup>
+
   </Col>
 </Row>
 
 ---
 
 ## Get Agent Task Step {{ tag: 'GET', label: '/ap/v1/agent/tasks/<task_id>/steps/<step_id>' }}
+
 <Row>
   <Col>
     Get details about a specified task step.
@@ -220,7 +227,7 @@ curl --request POST http://localhost:8000/ap/v1/agent/tasks/[task_id]/steps
 ```bash {{ title: 'cURL' }}
 curl  http://localhost:8000/ap/v1/agent/tasks/[task_id]/steps/[step_id]
 
-```
+````
     </CodeGroup>
   </Col>
 </Row>
@@ -235,7 +242,7 @@ curl  http://localhost:8000/ap/v1/agent/tasks/[task_id]/steps/[step_id]
     ### Path attributes
 
   <Properties>
-    
+
     <Property name="task_id" type="string">
         ID of the task
     </Property>
@@ -246,10 +253,10 @@ curl  http://localhost:8000/ap/v1/agent/tasks/[task_id]/steps/[step_id]
         Number of items per page
     </Property>
   </Properties>
-    
-   
+
+
     ### Response
-  
+
     Returned the list of artifacts for the task.
 
   </Col>
@@ -258,14 +265,17 @@ curl  http://localhost:8000/ap/v1/agent/tasks/[task_id]/steps/[step_id]
 ```bash {{ title: 'cURL' }}
 curl  http://localhost:8000/ap/v1/agent/tasks/[task_id]/artifacts
 
-```
+````
+
     </CodeGroup>
+
   </Col>
 </Row>
 
 ---
 
 ## Upload Agent Task Artifacts {{ tag: 'POST', label: '/ap/v1/agent/tasks/<task_id>/artifacts' }}
+
 <Row>
   <Col>
     Upload an artifact for the specified task.
@@ -309,6 +319,7 @@ curl --request POST http://localhost:8000/ap/v1/agent/tasks/[task_id]/artifacts
 ---
 
 ## Download Agent Task Artifact {{ tag: 'GET', label: '/ap/v1/agent/tasks/<task_id>/artifacts/<artifact_id>' }}
+
 <Row>
   <Col>
     Download a specified artifact.
@@ -342,3 +353,4 @@ curl  http://localhost:8000/ap/v1/agent/tasks/[task_id]/artifacts/[artifact_id]
 </Row>
 
 ---
+```
