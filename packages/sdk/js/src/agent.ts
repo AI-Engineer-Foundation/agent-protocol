@@ -188,7 +188,7 @@ export const executeAgentTaskStep = async (
   }
 
   // If there are artifacts in the step, append them to the task's artifacts array (or initialize it if necessary)
-  if ((step.artifacts != null) && step.artifacts.length > 0) {
+  if (step.artifacts != null && step.artifacts.length > 0) {
     task[0].artifacts = task[0].artifacts ?? []
     task[0].artifacts.push(...step.artifacts)
   }
@@ -265,11 +265,17 @@ const registerGetArtifacts: RouteRegisterFn = (router: Router) => {
         }
         let currentPage = 1
         let pageSize = 10
-        if (req.query.current_page !== undefined && !isNaN(Number(req.query.current_page))) {
+        if (
+          req.query.current_page !== undefined &&
+          !isNaN(Number(req.query.current_page))
+        ) {
           currentPage = Number(req.query.current_page)
         }
-        
-        if (req.query.page_size !== undefined && !isNaN(Number(req.query.page_size))) {
+
+        if (
+          req.query.page_size !== undefined &&
+          !isNaN(Number(req.query.page_size))
+        ) {
           pageSize = Number(req.query.page_size)
         }
 
@@ -341,7 +347,7 @@ export const createArtifact = async (
     relative_path: relativePath ?? null,
     created_at: Date.now().toString(),
   }
-  task.artifacts = (task.artifacts != null) ?? []
+  task.artifacts = task.artifacts != null ?? []
   task.artifacts.push(artifact)
 
   const artifactFolderPath = getArtifactPath(task.task_id, workspace, artifact)
@@ -361,7 +367,9 @@ const registerCreateArtifact: RouteRegisterFn = (
         const taskId = req.params.task_id
         const relativePath = req.body.relative_path
 
-        const task = tasks.find(([{ task_id: originalTaskId }]) => originalTaskId === taskId)
+        const task = tasks.find(
+          ([{ task_id: originalTaskId }]) => originalTaskId === taskId
+        )
         if (task === undefined) {
           return res
             .status(404)
@@ -442,7 +450,7 @@ export class Agent {
   constructor(
     public taskHandler: TaskHandler,
     public config: AgentConfig
-  ) { }
+  ) {}
 
   static handleTask(
     _taskHandler: TaskHandler,
