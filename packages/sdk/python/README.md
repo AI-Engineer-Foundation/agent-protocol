@@ -71,6 +71,7 @@ Agent.setup_agent(task_handler, step_handler).start(router=my_router)
 ### Testing
 
 You can test the compliance of your agent using the following script:
+
 ```bash
 URL=http://127.0.0.1:8000 bash -c "$(curl -fsSL https://agentprotocol.ai/test.sh)"
 ```

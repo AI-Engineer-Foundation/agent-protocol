@@ -19,7 +19,11 @@ const url = 'http://localhost:8000'
 const body = JSON.stringify({ input: 'task-input-to-your-agent' })
 
 // Create task
-let response = await fetch(`${url}/ap/v1/agent/tasks`, { method: 'POST' }, { body })
+let response = await fetch(
+  `${url}/ap/v1/agent/tasks`,
+  { method: 'POST' },
+  { body },
+)
 let data = await response.json()
 
 const taskId = data.task_id
