@@ -6,11 +6,9 @@
 | **Relevant Issue:**   | [#39](https://github.com/AI-Engineer-Foundation/agent-protocol/issues/39)                                 |
 | **RFC PR:**   | [TBD](https://github.com/AI-Engineer-Foundation/agent-protocol/pulls)                                 |
 | **Created**   | 2023-12-07                                  |
-| **Updated**   | 2023-12-11                                  |
+| **Updated**   | 2023-12-15                                  |
 
 ## Summary
-
-- **[Remove]** Why do we want to change it? What issue will this fix? What are the objectives? Keep it short; provide more detail below.
 
 We would like to add support for `config_options` to relace most usages of `addtional_input` so that we can provide clear and structured configrations to our agents. This will fix the "unknown unknowns" problem that exsits with many agents today of not knowing what the valid additional inputs are for a given representation of an agent.
 
@@ -24,13 +22,30 @@ Currently, there is no way to know on an agent-by-agent basis the valid options 
 - **[Remove]** Which users are affected by the problem? Why is it a problem? What data supports
 this? What related work exists?
 
+The users most effected by this are consumers of the agent protocol. A client cannot dynamically provide settings, configs or other knobs that can tweak the agents behavior without knowing the knobs that can be turned beforehand. An example of this is AutoGPT's UI. The AutoGPT team would like their UI to be able to read the various settings available for an agent and show those to the consumer but currently those settings must be hard coded into each build of the UI and only work with AutoGPT's own agents. Others who wish to use their agents with the UI and tools AutoGPT build would need to read their code and determine the valid options independently.
+
 ## Agent Builders Benefit
 
 - **[Remove]** How will the builders benefit? What would be the title in the changelog?
 
+The builders who would benefit the most would be consumers of Agent Protocol based apps. Whether its via Discord, CLI, UI or a different UX, there is no way to see what buttons you can press for an agent. That needs to change so that builders can spend less time coding specific things for specifc agents and versions and instead pull the configs and generate UIs dynamically.
+
+This would appear in the changelog as: Rejoice for Config Options save your UX for agents dreams
+
 ## Design Proposal
 
 \*This section of the paper contains most of your proposal's explanation. If you have several options, make sure to break up the concept into smaller portions and discuss the advantages and disadvantages of each approach.
+
+The proposed design is rather simple. We add an addtional field, `config_options` to the existing `/ap/vx/info` endpoint. It will return the available config options broken down by `agent`, `task`, `step`, and `artifacts`. Each will have a dictionary with the key being the config option and the values being the various available configuration options. 
+
+The follow fields for each of the context below is broken out in this table:
+
+| Name | Reason | Required |
+| :--- | :----- | :------- |
+| Type | So that consumers know the valid types to consume it | **Required** |
+| Default | So that when not provided, it has a value and that is conveyed to consumers of the endpoint | **Required** |
+| Description | So that consumers know what this knob does | **Required** |
+| Options | So that consumers know the potential options available to them | **Optional** |
 
 ```json
 
@@ -40,7 +55,7 @@ this? What related work exists?
     "config_options":
     {
         "agent": {
-            "llm.provider":  {
+            "llm.provider":{
                 "type": "string",
                 "default": "openai",
                 "description": "Model Provider for the agent's steps to use.",
@@ -52,24 +67,41 @@ this? What related work exists?
                 "description": "Model for the agent's steps to use.",
                 "options": ["gpt-4", "gpt-3.5-turbo", "gpt-3.5-turbo-16k"]
             },
-        },
-        "task": {
             "image_provider": {
                 "type": "string",
-                "default": "gpt-4",
-                "description": "Model for the agent's steps to use.",
-                "options": ["gpt-4", "gpt-3.5-turbo", "gpt-3.5-turbo-16k"]
+                "default": "huggingface",
+                "description": "Provider for the agent's image generator to use.",
+                "options": ["dalle", "stable_diffusion", "huggingface"]
             },
-            "image_provider.hugging_face.model":  {
+            "image_provider.huggingface.model":  {
                 "type": "string",
-                "default": "gpt-4",
-                "description": "Model for the agent's steps to use.",
-                "options": ["gpt-4", "gpt-3.5-turbo", "gpt-3.5-turbo-16k"]
+                "default": "CompVis/stable-diffusion-v1-4",
+                "description": "Model for the agent's image generator to use.",
             },
+            "image_provider.dalle.model":  {
+                "type": "string",
+                "default": "dalle-3",
+                "description": "Model for the agent's image generator to use.",
+            },
+        },
+        "task": { 
+            "max_steps": {
+                "type": "integer",
+                "default": "10",
+                "description": "The max number of steps a task can take"
+            }
         },
         "steps": {
             ...
         },
+        "artifacts":{
+            "artifact_provider":{
+                "type": "string",
+                "default": "localstorage",
+                "description": "The provider for the storage of artifacts",
+                "options": ["s3","gcp","localstorage"]
+            }
+        }
     }
 }
 
@@ -83,11 +115,13 @@ this? What related work exists?
         },
         "task": {
             "image_provider": "hugging_face",
-            "image_provider.hugging_face.model": "IDK"
         },
         "steps": {
             ...
         },
+        "artifacts":{
+            ...
+        }
     }
 }
 ```
@@ -116,7 +150,7 @@ AgentInfo:
     additionalProperties:
         type: object
         properties:
-            type:
+          type:
             description: The type of the value.
             type: string
             enum:
@@ -126,15 +160,15 @@ AgentInfo:
                 - boolean
                 - list
                 - dict
-            default:
+          default:
             description: The default value of the config option.
             type: string
             description:
-            description: 'A description of the value with type, default value, and description.'
+          description: 'A description of the value with type, default value, and description.'
             type: string
             options:
-            description: A list of options for the config option.
-            type: array
+              description: A list of options for the config option.
+              type: array
             items:
                 oneOf:
                 - type: string
