@@ -44,9 +44,12 @@
   "tailwindCSS.validate": true,
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": "explicit"
   },
-  "eslint.validate": ["javascript", "typescript"],
+  "eslint.validate": [
+    "javascript",
+    "typescript"
+  ],
   "debug.javascript.codelens.npmScripts": "never",
   "editor.codeLens": true,
   "editor.suggest.localityBonus": true,
@@ -68,11 +71,12 @@
   ],
   // Disable Pylint and use just Pylance
   "python.linting.enabled": false,
-  "python.analysis.typeCheckingMode": "basic"
+  "python.analysis.typeCheckingMode": "basic",
   // "python.analysis.pylanceLspClientEnabled": true,
   // "python.analysis.inlayHints.functionReturnTypes": true,
   // "python.analysis.inlayHints.pytestParameters": true,
   // "python.analysis.inlayHints.variableTypes": true,
   // "python.analysis.autoImportCompletions": true,
-  // "python.analysis.completeFunctionParens": true
+  // "python.analysis.completeFunctionParens": true,
+  "files.autoSave": "off"
 }
