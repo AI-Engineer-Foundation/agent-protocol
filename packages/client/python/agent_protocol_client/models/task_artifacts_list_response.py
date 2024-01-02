@@ -18,25 +18,20 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, List, Optional
-from pydantic import BaseModel, Field, StrictStr, conlist
+from typing import List
+from pydantic import BaseModel, Field, conlist
 from agent_protocol_client.models.artifact import Artifact
+from agent_protocol_client.models.pagination import Pagination
 
 
-class Task(BaseModel):
+class TaskArtifactsListResponse(BaseModel):
     """
-    Task
+    TaskArtifactsListResponse
     """
 
-    input: Optional[StrictStr] = Field(None, description="Input prompt for the task.")
-    additional_input: Optional[Dict[str, Any]] = Field(
-        None, description="Input parameters for the task. Any value is allowed."
-    )
-    task_id: StrictStr = Field(..., description="The ID of the task.")
-    artifacts: conlist(Artifact) = Field(
-        ..., description="A list of artifacts that the task has produced."
-    )
-    __properties = ["input", "additional_input", "task_id", "artifacts"]
+    artifacts: conlist(Artifact) = Field(...)
+    pagination: Pagination = Field(...)
+    __properties = ["artifacts", "pagination"]
 
     class Config:
         """Pydantic configuration"""
@@ -53,8 +48,8 @@ class Task(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Task:
-        """Create an instance of Task from a JSON string"""
+    def from_json(cls, json_str: str) -> TaskArtifactsListResponse:
+        """Create an instance of TaskArtifactsListResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -67,31 +62,29 @@ class Task(BaseModel):
                 if _item:
                     _items.append(_item.to_dict())
             _dict["artifacts"] = _items
-        # set to None if input (nullable) is None
-        # and __fields_set__ contains the field
-        if self.input is None and "input" in self.__fields_set__:
-            _dict["input"] = None
-
+        # override the default output from pydantic by calling `to_dict()` of pagination
+        if self.pagination:
+            _dict["pagination"] = self.pagination.to_dict()
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Task:
-        """Create an instance of Task from a dict"""
+    def from_dict(cls, obj: dict) -> TaskArtifactsListResponse:
+        """Create an instance of TaskArtifactsListResponse from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return Task.parse_obj(obj)
+            return TaskArtifactsListResponse.parse_obj(obj)
 
-        _obj = Task.parse_obj(
+        _obj = TaskArtifactsListResponse.parse_obj(
             {
-                "input": obj.get("input"),
-                "additional_input": obj.get("additional_input"),
-                "task_id": obj.get("task_id"),
                 "artifacts": [
                     Artifact.from_dict(_item) for _item in obj.get("artifacts")
                 ]
                 if obj.get("artifacts") is not None
+                else None,
+                "pagination": Pagination.from_dict(obj.get("pagination"))
+                if obj.get("pagination") is not None
                 else None,
             }
         )

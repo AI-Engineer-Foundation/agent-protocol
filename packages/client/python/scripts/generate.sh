@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
-
 set -e
 
+# Ensure we're in the packages/client/python folder
+cd "$(dirname "$0")/.."
 
 if ! command -v npx &> /dev/null
 then
@@ -23,6 +24,16 @@ then
     fi
 fi
 
-npx @openapitools/openapi-generator-cli generate --global-property apis,models,supportingFiles,modelDocs=false -i ../../../../schemas/openapi.yml -g python-nextgen --library asyncio --additional-properties=generateSourceCodeOnly=true,packageName=agent_protocol_client
+# Get the version from pyproject.toml and set it in openapitools.json
+PACKAGE_VERSION=$(grep -oP '(?<=version = ")[^"]*' pyproject.toml)
+sed -i "s/\"packageVersion\": \".*\"/\"packageVersion\": \"$PACKAGE_VERSION\"/" openapitools.json
+
+npx @openapitools/openapi-generator-cli generate \
+  --global-property apis,models,supportingFiles,modelDocs=false \
+  -i ../../../schemas/openapi.yml \
+  -g python-pydantic-v1 \
+  -c openapitools.json \
+  --library asyncio \
+  --additional-properties=generateSourceCodeOnly=true,packageName=agent_protocol_client
 
 black .
