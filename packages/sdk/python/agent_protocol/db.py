@@ -5,7 +5,7 @@ from .models import Task as APITask, Step as APIStep, Artifact, Status, NotFound
 
 
 class Step(APIStep):
-    additional_properties: Optional[Dict[str, str]] = None
+    additional_properties: Optional[Dict[str, Any]] = None
 
 
 class Task(APITask):
