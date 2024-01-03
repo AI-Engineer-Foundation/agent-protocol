@@ -1,0 +1,46 @@
+name: Build and Publish JS SDK Package
+
+on:
+  workflow_call:
+    inputs:
+      should-publish:
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  build:
+    name: Build and optionally publish SDK to NPM
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          registry-url: 'https://registry.npmjs.org'
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        working-directory: ./packages/sdk/js/
+        run: npm ci
+
+      - name: Build package
+        working-directory: ./packages/sdk/js/
+        run: npm run build
+
+      - name: Publish package
+        if: ${{ inputs.should-publish }}
+        run: npm publish --access=public
+        working-directory: ./packages/sdk/js/
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Release
+        if: ${{ inputs.should-publish }}
+        uses: softprops/action-gh-release@v1
+        with:
+          generate_release_notes: true
