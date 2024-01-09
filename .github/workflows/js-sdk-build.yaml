@@ -12,5 +12,6 @@ on:
 jobs:
   build:
     uses: ./.github/workflows/js-sdk-shared.yaml
+    secrets: inherit
     with:
       should-publish: false

@@ -10,5 +10,6 @@ permissions:
 jobs:
   publish:
     uses: ./.github/workflows/js-sdk-shared.yaml
+    secrets: inherit
     with:
       should-publish: true
