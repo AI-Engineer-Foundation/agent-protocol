@@ -347,7 +347,10 @@ export const createArtifact = async (
     relative_path: relativePath ?? null,
     created_at: Date.now().toString(),
   }
-  task.artifacts = task.artifacts != null ?? []
+  task.artifacts =
+    task.artifacts !== null && task.artifacts !== undefined
+      ? task.artifacts
+      : []
   task.artifacts.push(artifact)
 
   const artifactFolderPath = getArtifactPath(task.task_id, workspace, artifact)
