@@ -18,20 +18,19 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import BaseModel, Field, StrictInt
 
 
-class StepRequestBody(BaseModel):
+class Pagination(BaseModel):
     """
-    Body of the task request.  # noqa: E501
+    Pagination
     """
 
-    input: Optional[StrictStr] = Field(None, description="Input prompt for the step.")
-    additional_input: Optional[Dict[str, Any]] = Field(
-        None, description="Input parameters for the task step. Any value is allowed."
-    )
-    __properties = ["input", "additional_input"]
+    total_items: StrictInt = Field(..., description="Total number of items.")
+    total_pages: StrictInt = Field(..., description="Total number of pages.")
+    current_page: StrictInt = Field(..., description="Current_page page number.")
+    page_size: StrictInt = Field(..., description="Number of items per page.")
+    __properties = ["total_items", "total_pages", "current_page", "page_size"]
 
     class Config:
         """Pydantic configuration"""
@@ -48,30 +47,30 @@ class StepRequestBody(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> StepRequestBody:
-        """Create an instance of StepRequestBody from a JSON string"""
+    def from_json(cls, json_str: str) -> Pagination:
+        """Create an instance of Pagination from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
         _dict = self.dict(by_alias=True, exclude={}, exclude_none=True)
-        # set to None if input (nullable) is None
-        # and __fields_set__ contains the field
-        if self.input is None and "input" in self.__fields_set__:
-            _dict["input"] = None
-
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> StepRequestBody:
-        """Create an instance of StepRequestBody from a dict"""
+    def from_dict(cls, obj: dict) -> Pagination:
+        """Create an instance of Pagination from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return StepRequestBody.parse_obj(obj)
+            return Pagination.parse_obj(obj)
 
-        _obj = StepRequestBody.parse_obj(
-            {"input": obj.get("input"), "additional_input": obj.get("additional_input")}
+        _obj = Pagination.parse_obj(
+            {
+                "total_items": obj.get("total_items"),
+                "total_pages": obj.get("total_pages"),
+                "current_page": obj.get("current_page"),
+                "page_size": obj.get("page_size"),
+            }
         )
         return _obj

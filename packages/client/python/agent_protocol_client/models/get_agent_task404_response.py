@@ -18,20 +18,18 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
 from pydantic import BaseModel, Field, StrictStr
 
 
-class StepRequestBody(BaseModel):
+class GetAgentTask404Response(BaseModel):
     """
-    Body of the task request.  # noqa: E501
+    GetAgentTask404Response
     """
 
-    input: Optional[StrictStr] = Field(None, description="Input prompt for the step.")
-    additional_input: Optional[Dict[str, Any]] = Field(
-        None, description="Input parameters for the task step. Any value is allowed."
+    message: StrictStr = Field(
+        ..., description="Message stating the entity was not found"
     )
-    __properties = ["input", "additional_input"]
+    __properties = ["message"]
 
     class Config:
         """Pydantic configuration"""
@@ -48,30 +46,23 @@ class StepRequestBody(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> StepRequestBody:
-        """Create an instance of StepRequestBody from a JSON string"""
+    def from_json(cls, json_str: str) -> GetAgentTask404Response:
+        """Create an instance of GetAgentTask404Response from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
         _dict = self.dict(by_alias=True, exclude={}, exclude_none=True)
-        # set to None if input (nullable) is None
-        # and __fields_set__ contains the field
-        if self.input is None and "input" in self.__fields_set__:
-            _dict["input"] = None
-
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> StepRequestBody:
-        """Create an instance of StepRequestBody from a dict"""
+    def from_dict(cls, obj: dict) -> GetAgentTask404Response:
+        """Create an instance of GetAgentTask404Response from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return StepRequestBody.parse_obj(obj)
+            return GetAgentTask404Response.parse_obj(obj)
 
-        _obj = StepRequestBody.parse_obj(
-            {"input": obj.get("input"), "additional_input": obj.get("additional_input")}
-        )
+        _obj = GetAgentTask404Response.parse_obj({"message": obj.get("message")})
         return _obj
