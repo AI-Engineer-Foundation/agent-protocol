@@ -60,10 +60,6 @@ export interface Step {
    * Current status of step
    */
   status: StepStatus
-   /**
-   * Additional input that the step has.
-   */
-  additional_input?: {[key: string]: any}
 }
 
 export interface StepRequestBody {
@@ -99,10 +95,6 @@ export interface Task {
    * A list of artifacts that the task has produced.
    */
   artifacts?: Artifact[]
-  /**
-   * Additional input that the task has.
-   */
-  additional_input?: {[key: string]: any}
 }
 
 export interface TaskRequestBody {
