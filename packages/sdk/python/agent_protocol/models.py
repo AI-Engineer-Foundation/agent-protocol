@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from enum import Enum
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 
 from pydantic import BaseModel, Field
 
@@ -23,10 +23,6 @@ class Pagination(BaseModel):
     total_pages: int = Field(..., description="Total number of pages.", example=97)
     current_page: int = Field(..., description="Current_page page number.", example=1)
     page_size: int = Field(..., description="Number of items per page.", example=25)
-
-
-class TaskInput(BaseModel):
-    pass
 
 
 class Artifact(BaseModel):
@@ -61,10 +57,6 @@ class ArtifactUpload(BaseModel):
     )
 
 
-class StepInput(BaseModel):
-    pass
-
-
 class StepOutput(BaseModel):
     pass
 
@@ -75,7 +67,7 @@ class TaskRequestBody(BaseModel):
         description="Input prompt for the task.",
         example="Write 'Washington' to the file 'output.txt'.",
     )
-    additional_input: Optional[TaskInput] = None
+    additional_input: Optional[Dict[str, Any]] = None
 
 
 class Task(TaskRequestBody):
@@ -100,7 +92,7 @@ class StepRequestBody(BaseModel):
         description="Input prompt for the step.",
         example="Write the words you receive to the file 'output.txt'.",
     )
-    additional_input: Optional[StepInput] = None
+    additional_input: Optional[Dict[str, Any]] = None
 
 
 class Status(Enum):
