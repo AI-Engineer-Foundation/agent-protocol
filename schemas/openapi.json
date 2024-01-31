@@ -1380,6 +1380,379 @@
         },
         "tags": ["agent"]
       }
+    },
+    "/ap/v1/agent/tasks/{task_id}/secrets": {
+      "get": {
+        "operationId": "listAgentTaskSecrets",
+        "summary": "List all secrets associated with the given task.",
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "description": "ID of the task",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "50da533e-3904-4401-8a07-c49adf88b5eb",
+            "x-postman-variables": [
+              {
+                "type": "load",
+                "name": "task_id"
+              }
+            ]
+          },
+          {
+            "name": "current_page",
+            "in": "query",
+            "description": "Page number",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1,
+              "minimum": 1
+            },
+            "example": 2
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "Number of items per page",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10,
+              "minimum": 1
+            },
+            "example": 25
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returned list of secrets for the task.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "secrets": {
+                      "type": "array",
+                      "items": {
+                        "description": "A Secret associated with a Task, like API keys or OAuth tokens.",
+                        "type": "object",
+                        "properties": {
+                          "secret_id": {
+                            "description": "ID of the secret.",
+                            "type": "string",
+                            "example": "c885e278-8b4c-4f99-a696-8facf19f0e57"
+                          },
+                          "name": {
+                            "description": "Name of the secret.",
+                            "type": "string",
+                            "example": "api_key"
+                          },
+                          "value": {
+                            "description": "The secret value.",
+                            "type": "string",
+                            "format": "password",
+                            "example": "1a2b3c4d5e7f8g9h10i11j12k13l14m"
+                          }
+                        },
+                        "required": [
+                          "secret_id",
+                          "name",
+                          "value"
+                        ]
+                      }
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "total_items": {
+                          "description": "Total number of items.",
+                          "type": "integer",
+                          "example": 42
+                        },
+                        "total_pages": {
+                          "description": "Total number of pages.",
+                          "type": "integer",
+                          "example": 97
+                        },
+                        "current_page": {
+                          "description": "Current_page page number.",
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "page_size": {
+                          "description": "Number of items per page.",
+                          "type": "integer",
+                          "example": 25
+                        }
+                      },
+                      "required": [
+                        "total_items",
+                        "total_pages",
+                        "current_page",
+                        "page_size"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "secrets",
+                    "pagination"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Unable to find entity with a given identifier",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "description": "Message stating the entity was not found",
+                      "type": "string",
+                      "example": "Unable to find entity with the provided id"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Internal Server Error"
+          }
+        },
+        "tags": [
+          "agent"
+        ]
+      },
+      "post": {
+        "operationId": "addAgentTaskSecret",
+        "summary": "Add a secret to the specified task.",
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "description": "ID of the task",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "50da533e-3904-4401-8a07-c49adf88b5eb",
+            "x-postman-variables": [
+              {
+                "type": "load",
+                "name": "task_id"
+              }
+            ]
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "Body for adding a new secret to a task.",
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "description": "Name of the secret.",
+                    "type": "string",
+                    "example": "api_key"
+                  },
+                  "value": {
+                    "description": "The secret value.",
+                    "type": "string",
+                    "format": "password",
+                    "example": "1a2b3c4d5e7f8g9h10i11j12k13l14m"
+                  }
+                },
+                "required": [
+                  "name",
+                  "value"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A new secret was successfully added to the task.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "A Secret associated with a Task, like API keys or OAuth tokens.",
+                  "type": "object",
+                  "properties": {
+                    "secret_id": {
+                      "description": "ID of the secret.",
+                      "type": "string",
+                      "example": "c885e278-8b4c-4f99-a696-8facf19f0e57"
+                    },
+                    "name": {
+                      "description": "Name of the secret.",
+                      "type": "string",
+                      "example": "api_key"
+                    },
+                    "value": {
+                      "description": "The secret value.",
+                      "type": "string",
+                      "format": "password",
+                      "example": "1a2b3c4d5e7f8g9h10i11j12k13l14m"
+                    }
+                  },
+                  "required": [
+                    "secret_id",
+                    "name",
+                    "value"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Unable to find entity with a given identifier",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "description": "Message stating the entity was not found",
+                      "type": "string",
+                      "example": "Unable to find entity with the provided id"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unable to process request. Likely due to improperly formatted request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "A generic JSON object without any specific requirements.",
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Internal Server Error"
+          }
+        },
+        "tags": [
+          "agent"
+        ]
+      }
+    },
+    "/ap/v1/agent/tasks/{task_id}/secrets/{secret_id}": {
+      "get": {
+        "operationId": "getAgentTaskSecret",
+        "summary": "Get a specified secret.",
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "description": "ID of the task",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "50da533e-3904-4401-8a07-c49adf88b5eb",
+            "x-postman-variables": [
+              {
+                "type": "load",
+                "name": "task_id"
+              }
+            ]
+          },
+          {
+            "name": "secret_id",
+            "in": "path",
+            "description": "ID of the secret",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "c885e278-8b4c-4f99-a696-8facf19f0e57"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returned details about a secret.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "A Secret associated with a Task, like API keys or OAuth tokens.",
+                  "type": "object",
+                  "properties": {
+                    "secret_id": {
+                      "description": "ID of the secret.",
+                      "type": "string",
+                      "example": "c885e278-8b4c-4f99-a696-8facf19f0e57"
+                    },
+                    "name": {
+                      "description": "Name of the secret.",
+                      "type": "string",
+                      "example": "api_key"
+                    },
+                    "value": {
+                      "description": "The secret value.",
+                      "type": "string",
+                      "format": "password",
+                      "example": "1a2b3c4d5e7f8g9h10i11j12k13l14m"
+                    }
+                  },
+                  "required": [
+                    "secret_id",
+                    "name",
+                    "value"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Unable to find entity with a given identifier",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "description": "Message stating the entity was not found",
+                      "type": "string",
+                      "example": "Unable to find entity with the provided id"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Internal Server Error"
+          }
+        },
+        "tags": [
+          "agent"
+        ]
+      }
     }
   },
   "components": {
@@ -1740,7 +2113,80 @@
             ]
           }
         },
-        "required": ["artifacts", "pagination"]
+        "required": [
+          "artifacts",
+          "pagination"
+        ]
+      },
+      "TaskSecretsListResponse": {
+        "type": "object",
+        "properties": {
+          "secrets": {
+            "type": "array",
+            "items": {
+              "description": "A Secret associated with a Task, like API keys or OAuth tokens.",
+              "type": "object",
+              "properties": {
+                "secret_id": {
+                  "description": "ID of the secret.",
+                  "type": "string",
+                  "example": "c885e278-8b4c-4f99-a696-8facf19f0e57"
+                },
+                "name": {
+                  "description": "Name of the secret.",
+                  "type": "string",
+                  "example": "api_key"
+                },
+                "value": {
+                  "description": "The secret value.",
+                  "type": "string",
+                  "format": "password",
+                  "example": "1a2b3c4d5e7f8g9h10i11j12k13l14m"
+                }
+              },
+              "required": [
+                "secret_id",
+                "name",
+                "value"
+              ]
+            }
+          },
+          "pagination": {
+            "type": "object",
+            "properties": {
+              "total_items": {
+                "description": "Total number of items.",
+                "type": "integer",
+                "example": 42
+              },
+              "total_pages": {
+                "description": "Total number of pages.",
+                "type": "integer",
+                "example": 97
+              },
+              "current_page": {
+                "description": "Current_page page number.",
+                "type": "integer",
+                "example": 1
+              },
+              "page_size": {
+                "description": "Number of items per page.",
+                "type": "integer",
+                "example": 25
+              }
+            },
+            "required": [
+              "total_items",
+              "total_pages",
+              "current_page",
+              "page_size"
+            ]
+          }
+        },
+        "required": [
+          "secrets",
+          "pagination"
+        ]
       },
       "TaskInput": {
         "description": "Input parameters for the task. Any value is allowed.",
@@ -1792,6 +2238,54 @@
           }
         },
         "required": ["file"]
+      },
+      "Secret": {
+        "description": "A Secret associated with a Task, like API keys or OAuth tokens.",
+        "type": "object",
+        "properties": {
+          "secret_id": {
+            "description": "ID of the secret.",
+            "type": "string",
+            "example": "c885e278-8b4c-4f99-a696-8facf19f0e57"
+          },
+          "name": {
+            "description": "Name of the secret.",
+            "type": "string",
+            "example": "api_key"
+          },
+          "value": {
+            "description": "The secret value.",
+            "type": "string",
+            "format": "password",
+            "example": "1a2b3c4d5e7f8g9h10i11j12k13l14m"
+          }
+        },
+        "required": [
+          "secret_id",
+          "name",
+          "value"
+        ]
+      },
+      "SecretRequestBody": {
+        "description": "Body for adding a new secret to a task.",
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "Name of the secret.",
+            "type": "string",
+            "example": "api_key"
+          },
+          "value": {
+            "description": "The secret value.",
+            "type": "string",
+            "format": "password",
+            "example": "1a2b3c4d5e7f8g9h10i11j12k13l14m"
+          }
+        },
+        "required": [
+          "name",
+          "value"
+        ]
       },
       "StepInput": {
         "description": "Input parameters for the task step. Any value is allowed.",
