@@ -369,7 +369,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TaskSecretKeysListResponse'
+                $ref: '#/components/schemas/SecretKeysListResponse'
         '404':
           $ref: '#/components/responses/NotFound'
         default:
@@ -461,7 +461,7 @@ components:
       required:
         - artifacts
         - pagination
-    TaskSecretKeysListResponse:
+    SecretKeysListResponse:
       type: object
       properties:
         secrets:

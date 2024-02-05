@@ -2064,7 +2064,7 @@
           "pagination"
         ]
       },
-      "TaskSecretKeysListResponse": {
+      "SecretKeysListResponse": {
         "type": "object",
         "properties": {
           "secrets": {
