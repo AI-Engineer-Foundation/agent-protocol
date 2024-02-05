@@ -66,7 +66,10 @@
                     {
                       "type": "object",
                       "description": "Definition of an agent task.",
-                      "required": ["task_id", "artifacts"],
+                      "required": [
+                        "task_id",
+                        "artifacts"
+                      ],
                       "properties": {
                         "task_id": {
                           "description": "The ID of the task.",
@@ -143,7 +146,9 @@
             "description": "Internal Server Error"
           }
         },
-        "tags": ["agent"]
+        "tags": [
+          "agent"
+        ]
       },
       "get": {
         "operationId": "listAgentTasks",
@@ -208,7 +213,10 @@
                           {
                             "type": "object",
                             "description": "Definition of an agent task.",
-                            "required": ["task_id", "artifacts"],
+                            "required": [
+                              "task_id",
+                              "artifacts"
+                            ],
                             "properties": {
                               "task_id": {
                                 "description": "The ID of the task.",
@@ -293,7 +301,10 @@
                       ]
                     }
                   },
-                  "required": ["tasks", "pagination"]
+                  "required": [
+                    "tasks",
+                    "pagination"
+                  ]
                 }
               }
             }
@@ -302,7 +313,9 @@
             "description": "Internal Server Error"
           }
         },
-        "tags": ["agent"]
+        "tags": [
+          "agent"
+        ]
       }
     },
     "/ap/v1/agent/tasks/{task_id}": {
@@ -354,7 +367,10 @@
                     {
                       "type": "object",
                       "description": "Definition of an agent task.",
-                      "required": ["task_id", "artifacts"],
+                      "required": [
+                        "task_id",
+                        "artifacts"
+                      ],
                       "properties": {
                         "task_id": {
                           "description": "The ID of the task.",
@@ -422,7 +438,9 @@
                       "example": "Unable to find entity with the provided id"
                     }
                   },
-                  "required": ["message"]
+                  "required": [
+                    "message"
+                  ]
                 }
               }
             }
@@ -431,7 +449,9 @@
             "description": "Internal Server Error"
           }
         },
-        "tags": ["agent"]
+        "tags": [
+          "agent"
+        ]
       }
     },
     "/ap/v1/agent/tasks/{task_id}/steps": {
@@ -541,7 +561,11 @@
                                 "description": "The status of the task step.",
                                 "type": "string",
                                 "example": "created",
-                                "enum": ["created", "running", "completed"]
+                                "enum": [
+                                  "created",
+                                  "running",
+                                  "completed"
+                                ]
                               },
                               "output": {
                                 "description": "Output of the task step.",
@@ -635,7 +659,10 @@
                       ]
                     }
                   },
-                  "required": ["steps", "pagination"]
+                  "required": [
+                    "steps",
+                    "pagination"
+                  ]
                 }
               }
             }
@@ -653,7 +680,9 @@
                       "example": "Unable to find entity with the provided id"
                     }
                   },
-                  "required": ["message"]
+                  "required": [
+                    "message"
+                  ]
                 }
               }
             }
@@ -662,7 +691,9 @@
             "description": "Internal Server Error"
           }
         },
-        "tags": ["agent"]
+        "tags": [
+          "agent"
+        ]
       },
       "post": {
         "operationId": "executeAgentTaskStep",
@@ -762,7 +793,11 @@
                           "description": "The status of the task step.",
                           "type": "string",
                           "example": "created",
-                          "enum": ["created", "running", "completed"]
+                          "enum": [
+                            "created",
+                            "running",
+                            "completed"
+                          ]
                         },
                         "output": {
                           "description": "Output of the task step.",
@@ -846,7 +881,9 @@
                       "example": "Unable to find entity with the provided id"
                     }
                   },
-                  "required": ["message"]
+                  "required": [
+                    "message"
+                  ]
                 }
               }
             }
@@ -866,7 +903,9 @@
             "description": "Internal Server Error"
           }
         },
-        "tags": ["agent"]
+        "tags": [
+          "agent"
+        ]
       }
     },
     "/ap/v1/agent/tasks/{task_id}/steps/{step_id}": {
@@ -965,7 +1004,11 @@
                           "description": "The status of the task step.",
                           "type": "string",
                           "example": "created",
-                          "enum": ["created", "running", "completed"]
+                          "enum": [
+                            "created",
+                            "running",
+                            "completed"
+                          ]
                         },
                         "output": {
                           "description": "Output of the task step.",
@@ -1042,7 +1085,9 @@
                       "example": "Unable to find entity with the provided id"
                     }
                   },
-                  "required": ["message"]
+                  "required": [
+                    "message"
+                  ]
                 }
               }
             }
@@ -1051,7 +1096,9 @@
             "description": "Internal Server Error"
           }
         },
-        "tags": ["agent"]
+        "tags": [
+          "agent"
+        ]
       }
     },
     "/ap/v1/agent/tasks/{task_id}/artifacts": {
@@ -1177,7 +1224,10 @@
                       ]
                     }
                   },
-                  "required": ["artifacts", "pagination"]
+                  "required": [
+                    "artifacts",
+                    "pagination"
+                  ]
                 }
               }
             }
@@ -1195,7 +1245,9 @@
                       "example": "Unable to find entity with the provided id"
                     }
                   },
-                  "required": ["message"]
+                  "required": [
+                    "message"
+                  ]
                 }
               }
             }
@@ -1204,7 +1256,9 @@
             "description": "Internal Server Error"
           }
         },
-        "tags": ["agent"]
+        "tags": [
+          "agent"
+        ]
       },
       "post": {
         "operationId": "uploadAgentTaskArtifacts",
@@ -1246,7 +1300,9 @@
                     "example": "python/code"
                   }
                 },
-                "required": ["file"]
+                "required": [
+                  "file"
+                ]
               }
             }
           }
@@ -1282,7 +1338,11 @@
                       "nullable": true
                     }
                   },
-                  "required": ["artifact_id", "agent_created", "file_name"]
+                  "required": [
+                    "artifact_id",
+                    "agent_created",
+                    "file_name"
+                  ]
                 }
               }
             }
@@ -1300,7 +1360,9 @@
                       "example": "Unable to find entity with the provided id"
                     }
                   },
-                  "required": ["message"]
+                  "required": [
+                    "message"
+                  ]
                 }
               }
             }
@@ -1309,7 +1371,9 @@
             "description": "Internal Server Error"
           }
         },
-        "tags": ["agent"]
+        "tags": [
+          "agent"
+        ]
       }
     },
     "/ap/v1/agent/tasks/{task_id}/artifacts/{artifact_id}": {
@@ -1369,7 +1433,9 @@
                       "example": "Unable to find entity with the provided id"
                     }
                   },
-                  "required": ["message"]
+                  "required": [
+                    "message"
+                  ]
                 }
               }
             }
@@ -1378,30 +1444,16 @@
             "description": "Internal Server Error"
           }
         },
-        "tags": ["agent"]
+        "tags": [
+          "agent"
+        ]
       }
     },
-    "/ap/v1/agent/tasks/{task_id}/secrets": {
+    "/ap/v1/agent/secrets": {
       "get": {
-        "operationId": "listAgentTaskSecrets",
-        "summary": "List all secrets associated with the given task.",
+        "operationId": "listAgentSecretKeys",
+        "summary": "List all secret keys associated with the agent.",
         "parameters": [
-          {
-            "name": "task_id",
-            "in": "path",
-            "description": "ID of the task",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "50da533e-3904-4401-8a07-c49adf88b5eb",
-            "x-postman-variables": [
-              {
-                "type": "load",
-                "name": "task_id"
-              }
-            ]
-          },
           {
             "name": "current_page",
             "in": "query",
@@ -1431,7 +1483,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Returned list of secrets for the task.",
+            "description": "Returned list of secret keys for the agent.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1440,7 +1492,7 @@
                     "secrets": {
                       "type": "array",
                       "items": {
-                        "description": "A Secret associated with a Task, like API keys or OAuth tokens.",
+                        "description": "A Secret key associated with an agent, excludes its value.",
                         "type": "object",
                         "properties": {
                           "secret_id": {
@@ -1448,22 +1500,15 @@
                             "type": "string",
                             "example": "c885e278-8b4c-4f99-a696-8facf19f0e57"
                           },
-                          "name": {
+                          "secret_key": {
                             "description": "Name of the secret.",
                             "type": "string",
                             "example": "api_key"
-                          },
-                          "value": {
-                            "description": "The secret value.",
-                            "type": "string",
-                            "format": "password",
-                            "example": "1a2b3c4d5e7f8g9h10i11j12k13l14m"
                           }
                         },
                         "required": [
                           "secret_id",
-                          "name",
-                          "value"
+                          "secret_key"
                         ]
                       }
                     },
@@ -1536,39 +1581,21 @@
         ]
       },
       "post": {
-        "operationId": "addAgentTaskSecret",
-        "summary": "Add a secret to the specified task.",
-        "parameters": [
-          {
-            "name": "task_id",
-            "in": "path",
-            "description": "ID of the task",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "50da533e-3904-4401-8a07-c49adf88b5eb",
-            "x-postman-variables": [
-              {
-                "type": "load",
-                "name": "task_id"
-              }
-            ]
-          }
-        ],
+        "operationId": "addAgentSecret",
+        "summary": "Add a secret to the agent.",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "description": "Body for adding a new secret to a task.",
+                "description": "Body for adding a new secret to an agent.",
                 "type": "object",
                 "properties": {
-                  "name": {
-                    "description": "Name of the secret.",
+                  "secret_key": {
+                    "description": "Key of the secret.",
                     "type": "string",
                     "example": "api_key"
                   },
-                  "value": {
+                  "secret_value": {
                     "description": "The secret value.",
                     "type": "string",
                     "format": "password",
@@ -1576,8 +1603,8 @@
                   }
                 },
                 "required": [
-                  "name",
-                  "value"
+                  "secret_key",
+                  "secret_value"
                 ]
               }
             }
@@ -1585,11 +1612,11 @@
         },
         "responses": {
           "200": {
-            "description": "A new secret was successfully added to the task.",
+            "description": "A new secret was successfully added to the agent.",
             "content": {
               "application/json": {
                 "schema": {
-                  "description": "A Secret associated with a Task, like API keys or OAuth tokens.",
+                  "description": "A Secret key associated with an agent, excludes its value.",
                   "type": "object",
                   "properties": {
                     "secret_id": {
@@ -1597,22 +1624,15 @@
                       "type": "string",
                       "example": "c885e278-8b4c-4f99-a696-8facf19f0e57"
                     },
-                    "name": {
+                    "secret_key": {
                       "description": "Name of the secret.",
                       "type": "string",
                       "example": "api_key"
-                    },
-                    "value": {
-                      "description": "The secret value.",
-                      "type": "string",
-                      "format": "password",
-                      "example": "1a2b3c4d5e7f8g9h10i11j12k13l14m"
                     }
                   },
                   "required": [
                     "secret_id",
-                    "name",
-                    "value"
+                    "secret_key"
                   ]
                 }
               }
@@ -1657,102 +1677,6 @@
           "agent"
         ]
       }
-    },
-    "/ap/v1/agent/tasks/{task_id}/secrets/{secret_id}": {
-      "get": {
-        "operationId": "getAgentTaskSecret",
-        "summary": "Get a specified secret.",
-        "parameters": [
-          {
-            "name": "task_id",
-            "in": "path",
-            "description": "ID of the task",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "50da533e-3904-4401-8a07-c49adf88b5eb",
-            "x-postman-variables": [
-              {
-                "type": "load",
-                "name": "task_id"
-              }
-            ]
-          },
-          {
-            "name": "secret_id",
-            "in": "path",
-            "description": "ID of the secret",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "c885e278-8b4c-4f99-a696-8facf19f0e57"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Returned details about a secret.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "description": "A Secret associated with a Task, like API keys or OAuth tokens.",
-                  "type": "object",
-                  "properties": {
-                    "secret_id": {
-                      "description": "ID of the secret.",
-                      "type": "string",
-                      "example": "c885e278-8b4c-4f99-a696-8facf19f0e57"
-                    },
-                    "name": {
-                      "description": "Name of the secret.",
-                      "type": "string",
-                      "example": "api_key"
-                    },
-                    "value": {
-                      "description": "The secret value.",
-                      "type": "string",
-                      "format": "password",
-                      "example": "1a2b3c4d5e7f8g9h10i11j12k13l14m"
-                    }
-                  },
-                  "required": [
-                    "secret_id",
-                    "name",
-                    "value"
-                  ]
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Unable to find entity with a given identifier",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "description": "Message stating the entity was not found",
-                      "type": "string",
-                      "example": "Unable to find entity with the provided id"
-                    }
-                  },
-                  "required": [
-                    "message"
-                  ]
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "Internal Server Error"
-          }
-        },
-        "tags": [
-          "agent"
-        ]
-      }
     }
   },
   "components": {
@@ -1781,7 +1705,12 @@
             "example": 25
           }
         },
-        "required": ["total_items", "total_pages", "current_page", "page_size"]
+        "required": [
+          "total_items",
+          "total_pages",
+          "current_page",
+          "page_size"
+        ]
       },
       "TaskListResponse": {
         "type": "object",
@@ -1810,7 +1739,10 @@
                 {
                   "type": "object",
                   "description": "Definition of an agent task.",
-                  "required": ["task_id", "artifacts"],
+                  "required": [
+                    "task_id",
+                    "artifacts"
+                  ],
                   "properties": {
                     "task_id": {
                       "description": "The ID of the task.",
@@ -1895,7 +1827,10 @@
             ]
           }
         },
-        "required": ["tasks", "pagination"]
+        "required": [
+          "tasks",
+          "pagination"
+        ]
       },
       "TaskStepsListResponse": {
         "type": "object",
@@ -1951,7 +1886,11 @@
                       "description": "The status of the task step.",
                       "type": "string",
                       "example": "created",
-                      "enum": ["created", "running", "completed"]
+                      "enum": [
+                        "created",
+                        "running",
+                        "completed"
+                      ]
                     },
                     "output": {
                       "description": "Output of the task step.",
@@ -2045,7 +1984,10 @@
             ]
           }
         },
-        "required": ["steps", "pagination"]
+        "required": [
+          "steps",
+          "pagination"
+        ]
       },
       "TaskArtifactsListResponse": {
         "type": "object",
@@ -2078,7 +2020,11 @@
                   "nullable": true
                 }
               },
-              "required": ["artifact_id", "agent_created", "file_name"]
+              "required": [
+                "artifact_id",
+                "agent_created",
+                "file_name"
+              ]
             }
           },
           "pagination": {
@@ -2118,13 +2064,13 @@
           "pagination"
         ]
       },
-      "TaskSecretsListResponse": {
+      "TaskSecretKeysListResponse": {
         "type": "object",
         "properties": {
           "secrets": {
             "type": "array",
             "items": {
-              "description": "A Secret associated with a Task, like API keys or OAuth tokens.",
+              "description": "A Secret key associated with an agent, excludes its value.",
               "type": "object",
               "properties": {
                 "secret_id": {
@@ -2132,22 +2078,15 @@
                   "type": "string",
                   "example": "c885e278-8b4c-4f99-a696-8facf19f0e57"
                 },
-                "name": {
+                "secret_key": {
                   "description": "Name of the secret.",
                   "type": "string",
                   "example": "api_key"
-                },
-                "value": {
-                  "description": "The secret value.",
-                  "type": "string",
-                  "format": "password",
-                  "example": "1a2b3c4d5e7f8g9h10i11j12k13l14m"
                 }
               },
               "required": [
                 "secret_id",
-                "name",
-                "value"
+                "secret_key"
               ]
             }
           },
@@ -2219,7 +2158,11 @@
             "nullable": true
           }
         },
-        "required": ["artifact_id", "agent_created", "file_name"]
+        "required": [
+          "artifact_id",
+          "agent_created",
+          "file_name"
+        ]
       },
       "ArtifactUpload": {
         "description": "Artifact to upload to the agent.",
@@ -2237,10 +2180,12 @@
             "example": "python/code"
           }
         },
-        "required": ["file"]
+        "required": [
+          "file"
+        ]
       },
-      "Secret": {
-        "description": "A Secret associated with a Task, like API keys or OAuth tokens.",
+      "SecretKey": {
+        "description": "A Secret key associated with an agent, excludes its value.",
         "type": "object",
         "properties": {
           "secret_id": {
@@ -2248,34 +2193,27 @@
             "type": "string",
             "example": "c885e278-8b4c-4f99-a696-8facf19f0e57"
           },
-          "name": {
+          "secret_key": {
             "description": "Name of the secret.",
             "type": "string",
             "example": "api_key"
-          },
-          "value": {
-            "description": "The secret value.",
-            "type": "string",
-            "format": "password",
-            "example": "1a2b3c4d5e7f8g9h10i11j12k13l14m"
           }
         },
         "required": [
           "secret_id",
-          "name",
-          "value"
+          "secret_key"
         ]
       },
       "SecretRequestBody": {
-        "description": "Body for adding a new secret to a task.",
+        "description": "Body for adding a new secret to an agent.",
         "type": "object",
         "properties": {
-          "name": {
-            "description": "Name of the secret.",
+          "secret_key": {
+            "description": "Key of the secret.",
             "type": "string",
             "example": "api_key"
           },
-          "value": {
+          "secret_value": {
             "description": "The secret value.",
             "type": "string",
             "format": "password",
@@ -2283,8 +2221,8 @@
           }
         },
         "required": [
-          "name",
-          "value"
+          "secret_key",
+          "secret_value"
         ]
       },
       "StepInput": {
@@ -2337,7 +2275,10 @@
           {
             "type": "object",
             "description": "Definition of an agent task.",
-            "required": ["task_id", "artifacts"],
+            "required": [
+              "task_id",
+              "artifacts"
+            ],
             "properties": {
               "task_id": {
                 "description": "The ID of the task.",
@@ -2373,7 +2314,11 @@
                       "nullable": true
                     }
                   },
-                  "required": ["artifact_id", "agent_created", "file_name"]
+                  "required": [
+                    "artifact_id",
+                    "agent_created",
+                    "file_name"
+                  ]
                 },
                 "example": [
                   "7a49f31c-f9c6-4346-a22c-e32bc5af4d8e",
@@ -2451,7 +2396,11 @@
                 "description": "The status of the task step.",
                 "type": "string",
                 "example": "created",
-                "enum": ["created", "running", "completed"]
+                "enum": [
+                  "created",
+                  "running",
+                  "completed"
+                ]
               },
               "output": {
                 "description": "Output of the task step.",
@@ -2494,7 +2443,11 @@
                       "nullable": true
                     }
                   },
-                  "required": ["artifact_id", "agent_created", "file_name"]
+                  "required": [
+                    "artifact_id",
+                    "agent_created",
+                    "file_name"
+                  ]
                 },
                 "default": []
               },
@@ -2534,7 +2487,9 @@
                   "example": "Unable to find entity with the provided id"
                 }
               },
-              "required": ["message"]
+              "required": [
+                "message"
+              ]
             }
           }
         }
