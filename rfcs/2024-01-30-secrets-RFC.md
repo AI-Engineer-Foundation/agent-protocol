@@ -24,17 +24,134 @@ Title in Changelog: Introduction of Secrets Management
 
 The proposal involves extending the Agent Protocol schema to include new paths and components.
 
-**paths**
+| Path                               | Method | Description                                | Optionality  | Type   |
+| :--------------------------------- | :----- | :----------------------------------------- | :----------- | :----- |
+| `/ap/v1/agent/secrets`             | GET    | Lists all secret keys for an agent.        | **Required** | String |
+|                                    | POST   | Adds a new secret to the agent.            | **Required** | String |
+| `/ap/v1/agent/secrets/{secret_id}` | DELETE | Deletes a specified secret from the agent. | **Required** | String |
 
-- `'/ap/v1/agent/secrets'`
-- GET: `listAgentSecretKeys`
-- POST: `addAgentSecret`
+### Listing Secrets
 
-**components**
+This example shows what a response might look like when a client calls the endpoint to list all secret keys associated with the agent:
 
-- `TaskSecretKeysListResponse`
-- `SecretKey`
-- `SecretRequestBody`
+```json
+{
+  "secrets": [
+    {
+      "secret_id": "1a2b3c4d5e6f",
+      "secret_key": "api_key"
+    },
+    {
+      "secret_id": "6f5e4d3c2b1a",
+      "secret_key": "db_password"
+    }
+  ]
+}
+```
+
+### Adding a Secret
+
+Here's an example of what a request body might look like when a client adds a new secret to the agent:
+
+```json
+{
+  "secret_key": "new_service_api_key",
+  "secret_value": "1a2b3c4d5e7f8g9h10i11j"
+}
+```
+
+### Deleting a Secret
+
+A client wishing to delete a secret would use an HTTP DELETE request to the following URL:
+
+```
+DELETE /ap/v1/agent/secrets/{secret_id}
+```
+
+### OpenAPI Schema
+
+The OpenAPI schema for the relevant fields would be the following:
+
+```yml
+paths:
+  /ap/v1/agent/secrets:
+    get:
+      operationId: listAgentSecretKeys
+      summary: Lists all secret keys for an agent.
+      responses:
+        '200':
+          description: Returned list of secret keys for the agent.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecretKeysListResponse'
+    post:
+      operationId: addAgentSecret
+      summary: Adds a new secret to the agent.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SecretRequestBody'
+      responses:
+        '200':
+          description: A new secret was successfully added to the agent.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecretKey'
+  /ap/v1/agent/secrets/{secret_id}:
+    delete:
+      operationId: deleteAgentSecret
+      summary: Deletes a specified secret from the agent.
+      parameters:
+        - name: secret_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The secret was successfully deleted.
+components:
+  schemas:
+    SecretKeysListResponse:
+      type: object
+      properties:
+        secrets:
+          type: array
+          items:
+            $ref: '#/components/schemas/SecretKey'
+      required:
+        - secrets
+    SecretKey:
+      type: object
+      properties:
+        secret_id:
+          type: string
+        secret_key:
+          type: string
+      required:
+        - secret_id
+        - secret_key
+    SecretRequestBody:
+      type: object
+      properties:
+        secret_key:
+          type: string
+        secret_value:
+          type: string
+      required:
+        - secret_key
+        - secret_value
+```
+
+**Components**
+
+- `SecretKeysListResponse`: Defines the structure for the response when listing secret keys.
+- `SecretKey`: Represents a single secret key, excluding its value.
+- `SecretRequestBody`: Specifies the required body structure for adding a new secret.
 
 ### Alternatives Considered
 
