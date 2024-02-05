@@ -399,6 +399,26 @@ paths:
           description: Internal Server Error
       tags:
         - agent
+  '/ap/v1/agent/secrets/{secret_id}':
+    delete:
+      operationId: deleteAgentSecret
+      summary: Deletes a specified secret from the agent.
+      parameters:
+        - name: secret_id
+          in: path
+          description: ID of the secret to delete.
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The secret was successfully deleted.
+        '404':
+          $ref: '#/components/responses/NotFound'
+        default:
+          description: Internal Server Error
+      tags:
+        - agent
 components:
   schemas:
     Pagination:

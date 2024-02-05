@@ -1677,6 +1677,54 @@
           "agent"
         ]
       }
+    },
+    "/ap/v1/agent/secrets/{secret_id}": {
+      "delete": {
+        "operationId": "deleteAgentSecret",
+        "summary": "Deletes a specified secret from the agent.",
+        "parameters": [
+          {
+            "name": "secret_id",
+            "in": "path",
+            "description": "ID of the secret to delete.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The secret was successfully deleted."
+          },
+          "404": {
+            "description": "Unable to find entity with a given identifier",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "description": "Message stating the entity was not found",
+                      "type": "string",
+                      "example": "Unable to find entity with the provided id"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Internal Server Error"
+          }
+        },
+        "tags": [
+          "agent"
+        ]
+      }
     }
   },
   "components": {
