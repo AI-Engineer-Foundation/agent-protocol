@@ -1489,7 +1489,7 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "secrets": {
+                    "secret_keys": {
                       "type": "array",
                       "items": {
                         "description": "A Secret key associated with an agent, excludes its value.",
@@ -1545,7 +1545,7 @@
                     }
                   },
                   "required": [
-                    "secrets",
+                    "secret_keys",
                     "pagination"
                   ]
                 }
@@ -2115,7 +2115,7 @@
       "SecretKeysListResponse": {
         "type": "object",
         "properties": {
-          "secrets": {
+          "secret_keys": {
             "type": "array",
             "items": {
               "description": "A Secret key associated with an agent, excludes its value.",
@@ -2171,7 +2171,7 @@
           }
         },
         "required": [
-          "secrets",
+          "secret_keys",
           "pagination"
         ]
       },

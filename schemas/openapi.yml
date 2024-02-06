@@ -484,14 +484,14 @@ components:
     SecretKeysListResponse:
       type: object
       properties:
-        secrets:
+        secret_keys:
           type: array
           items:
             $ref: '#/components/schemas/SecretKey'
         pagination:
           $ref: '#/components/schemas/Pagination'
       required:
-        - secrets
+        - secret_keys
         - pagination
     TaskInput:
       description: Input parameters for the task. Any value is allowed.

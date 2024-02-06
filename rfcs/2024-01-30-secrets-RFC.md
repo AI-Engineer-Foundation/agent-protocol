@@ -36,7 +36,7 @@ This example shows what a response might look like when a client calls the endpo
 
 ```json
 {
-  "secrets": [
+  "secret_keys": [
     {
       "secret_id": "1a2b3c4d5e6f",
       "secret_key": "api_key"
