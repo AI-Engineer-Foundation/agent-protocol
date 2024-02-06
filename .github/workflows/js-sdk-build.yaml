@@ -1,0 +1,17 @@
+name: Build JS SDK
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+    paths:
+      - 'packages/sdk/js/**'
+
+jobs:
+  build:
+    uses: ./.github/workflows/js-sdk-shared.yaml
+    secrets: inherit
+    with:
+      should-publish: false

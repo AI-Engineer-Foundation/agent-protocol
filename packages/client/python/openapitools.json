@@ -1,0 +1,10 @@
+{
+  "$schema": "./node_modules/@openapitools/openapi-generator-cli/config.schema.json",
+  "spaces": 4,
+  "generator-cli": {
+    "version": "7.2.0"
+  },
+  "projectName": "agent-protocol-client",
+  "packageUrl": "https://pypi.org/project/agent-protocol-client",
+  "packageVersion": "1.1.0"
+}

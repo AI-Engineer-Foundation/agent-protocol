@@ -1,21 +1,21 @@
 # agent_protocol_client.AgentApi
 
-All URIs are relative to _http://localhost_
+All URIs are relative to *http://0.0.0.0:8000*
 
-| Method                                                                       | HTTP request                                           | Description                                                   |
-| ---------------------------------------------------------------------------- | ------------------------------------------------------ | ------------------------------------------------------------- |
-| [**create_agent_task**](AgentApi.md#create_agent_task)                       | **POST** /ap/v1/agent/tasks                                  | Creates a task for the agent.                                 |
-| [**download_agent_task_artifact**](AgentApi.md#download_agent_task_artifact) | **GET** /ap/v1/agent/tasks/{task_id}/artifacts/{artifact_id} | Download a specified artifact.                                |
-| [**execute_agent_task_step**](AgentApi.md#execute_agent_task_step)           | **POST** /ap/v1/agent/tasks/{task_id}/steps                  | Execute a step in the specified agent task.                   |
-| [**get_agent_task**](AgentApi.md#get_agent_task)                             | **GET** /ap/v1/agent/tasks/{task_id}                         | Get details about a specified agent task.                     |
-| [**get_agent_task_step**](AgentApi.md#get_agent_task_step)                   | **GET** /ap/v1/agent/tasks/{task_id}/steps/{step_id}         | Get details about a specified task step.                      |
-| [**list_agent_task_artifacts**](AgentApi.md#list_agent_task_artifacts)       | **GET** /ap/v1/agent/tasks/{task_id}/artifacts               | List all artifacts that have been created for the given task. |
-| [**list_agent_task_steps**](AgentApi.md#list_agent_task_steps)               | **GET** /ap/v1/agent/tasks/{task_id}/steps                   | List all steps for the specified task.                        |
-| [**list_agent_tasks_ids**](AgentApi.md#list_agent_tasks_ids)                 | **GET** /ap/v1/agent/tasks                                   | List all tasks that have been created for the agent.          |
-| [**upload_agent_task_artifacts**](AgentApi.md#upload_agent_task_artifacts)   | **POST** /ap/v1/agent/tasks/{task_id}/artifacts              | Upload an artifact for the specified task.                    |
+Method | HTTP request | Description
+------------- | ------------- | -------------
+[**create_agent_task**](AgentApi.md#create_agent_task) | **POST** /ap/v1/agent/tasks | Creates a task for the agent.
+[**download_agent_task_artifact**](AgentApi.md#download_agent_task_artifact) | **GET** /ap/v1/agent/tasks/{task_id}/artifacts/{artifact_id} | Download a specified artifact.
+[**execute_agent_task_step**](AgentApi.md#execute_agent_task_step) | **POST** /ap/v1/agent/tasks/{task_id}/steps | Execute a step in the specified agent task.
+[**get_agent_task**](AgentApi.md#get_agent_task) | **GET** /ap/v1/agent/tasks/{task_id} | Get details about a specified agent task.
+[**get_agent_task_step**](AgentApi.md#get_agent_task_step) | **GET** /ap/v1/agent/tasks/{task_id}/steps/{step_id} | Get details about a specified task step.
+[**list_agent_task_artifacts**](AgentApi.md#list_agent_task_artifacts) | **GET** /ap/v1/agent/tasks/{task_id}/artifacts | List all artifacts that have been created for the given task.
+[**list_agent_task_steps**](AgentApi.md#list_agent_task_steps) | **GET** /ap/v1/agent/tasks/{task_id}/steps | List all steps for the specified task.
+[**list_agent_tasks**](AgentApi.md#list_agent_tasks) | **GET** /ap/v1/agent/tasks | List all tasks that have been created for the agent.
+[**upload_agent_task_artifacts**](AgentApi.md#upload_agent_task_artifacts) | **POST** /ap/v1/agent/tasks/{task_id}/artifacts | Upload an artifact for the specified task.
+
 
 # **create_agent_task**
-
 > Task create_agent_task(task_request_body=task_request_body)
 
 Creates a task for the agent.
@@ -31,10 +31,10 @@ from agent_protocol_client.models.task_request_body import TaskRequestBody
 from agent_protocol_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to http://0.0.0.0:8000
 # See configuration.py for a list of all supported configuration parameters.
 configuration = agent_protocol_client.Configuration(
-    host = "http://localhost"
+    host = "http://0.0.0.0:8000"
 )
 
 
@@ -53,11 +53,13 @@ async with agent_protocol_client.ApiClient(configuration) as api_client:
         print("Exception when calling AgentApi->create_agent_task: %s\n" % e)
 ```
 
+
+
 ### Parameters
 
-| Name                  | Type                                      | Description | Notes      |
-| --------------------- | ----------------------------------------- | ----------- | ---------- |
-| **task_request_body** | [**TaskRequestBody**](TaskRequestBody.md) |             | [optional] |
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **task_request_body** | [**TaskRequestBody**](TaskRequestBody.md)|  | [optional] 
 
 ### Return type
 
@@ -69,20 +71,19 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
 ### HTTP response details
-
-| Status code | Description                                | Response headers |
-| ----------- | ------------------------------------------ | ---------------- |
-| **200**     | A new agent task was successfully created. | -                |
-| **0**       | Internal Server Error                      | -                |
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | A new agent task was successfully created. |  -  |
+**422** | Unable to process request. Likely due to improperly formatted request. |  -  |
+**0** | Internal Server Error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **download_agent_task_artifact**
-
 > bytearray download_agent_task_artifact(task_id, artifact_id)
 
 Download a specified artifact.
@@ -96,10 +97,10 @@ import agent_protocol_client
 from agent_protocol_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to http://0.0.0.0:8000
 # See configuration.py for a list of all supported configuration parameters.
 configuration = agent_protocol_client.Configuration(
-    host = "http://localhost"
+    host = "http://0.0.0.0:8000"
 )
 
 
@@ -107,8 +108,8 @@ configuration = agent_protocol_client.Configuration(
 async with agent_protocol_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = agent_protocol_client.AgentApi(api_client)
-    task_id = 'task_id_example' # str | ID of the task
-    artifact_id = 'artifact_id_example' # str | ID of the artifact
+    task_id = '50da533e-3904-4401-8a07-c49adf88b5eb' # str | ID of the task
+    artifact_id = '1e41533e-3904-4401-8a07-c49adf8893de' # str | ID of the artifact
 
     try:
         # Download a specified artifact.
@@ -119,12 +120,14 @@ async with agent_protocol_client.ApiClient(configuration) as api_client:
         print("Exception when calling AgentApi->download_agent_task_artifact: %s\n" % e)
 ```
 
+
+
 ### Parameters
 
-| Name            | Type    | Description        | Notes |
-| --------------- | ------- | ------------------ | ----- |
-| **task_id**     | **str** | ID of the task     |
-| **artifact_id** | **str** | ID of the artifact |
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **task_id** | **str**| ID of the task | 
+ **artifact_id** | **str**| ID of the artifact | 
 
 ### Return type
 
@@ -136,20 +139,19 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/octet-stream
+ - **Content-Type**: Not defined
+ - **Accept**: application/octet-stream, application/json
 
 ### HTTP response details
-
-| Status code | Description                           | Response headers |
-| ----------- | ------------------------------------- | ---------------- |
-| **200**     | Returned the content of the artifact. | -                |
-| **0**       | Internal Server Error                 | -                |
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Returned the content of the artifact. |  -  |
+**404** | Unable to find entity with a given identifier |  -  |
+**0** | Internal Server Error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **execute_agent_task_step**
-
 > Step execute_agent_task_step(task_id, step_request_body=step_request_body)
 
 Execute a step in the specified agent task.
@@ -165,10 +167,10 @@ from agent_protocol_client.models.step_request_body import StepRequestBody
 from agent_protocol_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to http://0.0.0.0:8000
 # See configuration.py for a list of all supported configuration parameters.
 configuration = agent_protocol_client.Configuration(
-    host = "http://localhost"
+    host = "http://0.0.0.0:8000"
 )
 
 
@@ -176,7 +178,7 @@ configuration = agent_protocol_client.Configuration(
 async with agent_protocol_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = agent_protocol_client.AgentApi(api_client)
-    task_id = 'task_id_example' # str | ID of the task
+    task_id = '50da533e-3904-4401-8a07-c49adf88b5eb' # str | ID of the task
     step_request_body = agent_protocol_client.StepRequestBody() # StepRequestBody |  (optional)
 
     try:
@@ -188,12 +190,14 @@ async with agent_protocol_client.ApiClient(configuration) as api_client:
         print("Exception when calling AgentApi->execute_agent_task_step: %s\n" % e)
 ```
 
+
+
 ### Parameters
 
-| Name                  | Type                                      | Description    | Notes      |
-| --------------------- | ----------------------------------------- | -------------- | ---------- |
-| **task_id**           | **str**                                   | ID of the task |
-| **step_request_body** | [**StepRequestBody**](StepRequestBody.md) |                | [optional] |
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **task_id** | **str**| ID of the task | 
+ **step_request_body** | [**StepRequestBody**](StepRequestBody.md)|  | [optional] 
 
 ### Return type
 
@@ -205,20 +209,20 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
 ### HTTP response details
-
-| Status code | Description                       | Response headers |
-| ----------- | --------------------------------- | ---------------- |
-| **200**     | Executed step for the agent task. | -                |
-| **0**       | Internal Server Error             | -                |
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Executed step for the agent task. |  -  |
+**404** | Unable to find entity with a given identifier |  -  |
+**422** | Unable to process request. Likely due to improperly formatted request. |  -  |
+**0** | Internal Server Error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_agent_task**
-
 > Task get_agent_task(task_id)
 
 Get details about a specified agent task.
@@ -233,10 +237,10 @@ from agent_protocol_client.models.task import Task
 from agent_protocol_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to http://0.0.0.0:8000
 # See configuration.py for a list of all supported configuration parameters.
 configuration = agent_protocol_client.Configuration(
-    host = "http://localhost"
+    host = "http://0.0.0.0:8000"
 )
 
 
@@ -244,7 +248,7 @@ configuration = agent_protocol_client.Configuration(
 async with agent_protocol_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = agent_protocol_client.AgentApi(api_client)
-    task_id = 'task_id_example' # str | ID of the task
+    task_id = '1d5a533e-3904-4401-8a07-c49adf88b981' # str | ID of the task
 
     try:
         # Get details about a specified agent task.
@@ -255,11 +259,13 @@ async with agent_protocol_client.ApiClient(configuration) as api_client:
         print("Exception when calling AgentApi->get_agent_task: %s\n" % e)
 ```
 
+
+
 ### Parameters
 
-| Name        | Type    | Description    | Notes |
-| ----------- | ------- | -------------- | ----- |
-| **task_id** | **str** | ID of the task |
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **task_id** | **str**| ID of the task | 
 
 ### Return type
 
@@ -271,20 +277,19 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
-
-| Status code | Description                           | Response headers |
-| ----------- | ------------------------------------- | ---------------- |
-| **200**     | Returned details about an agent task. | -                |
-| **0**       | Internal Server Error                 | -                |
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Returned details about an agent task. |  -  |
+**404** | Unable to find entity with a given identifier |  -  |
+**0** | Internal Server Error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_agent_task_step**
-
 > Step get_agent_task_step(task_id, step_id)
 
 Get details about a specified task step.
@@ -299,10 +304,10 @@ from agent_protocol_client.models.step import Step
 from agent_protocol_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to http://0.0.0.0:8000
 # See configuration.py for a list of all supported configuration parameters.
 configuration = agent_protocol_client.Configuration(
-    host = "http://localhost"
+    host = "http://0.0.0.0:8000"
 )
 
 
@@ -310,8 +315,8 @@ configuration = agent_protocol_client.Configuration(
 async with agent_protocol_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = agent_protocol_client.AgentApi(api_client)
-    task_id = 'task_id_example' # str | ID of the task
-    step_id = 'step_id_example' # str | ID of the step
+    task_id = '50da533e-3904-4401-8a07-c49adf88b5eb' # str | ID of the task
+    step_id = '28ca533e-3904-4401-8a07-c49adf8891c2' # str | ID of the step
 
     try:
         # Get details about a specified task step.
@@ -322,12 +327,14 @@ async with agent_protocol_client.ApiClient(configuration) as api_client:
         print("Exception when calling AgentApi->get_agent_task_step: %s\n" % e)
 ```
 
+
+
 ### Parameters
 
-| Name        | Type    | Description    | Notes |
-| ----------- | ------- | -------------- | ----- |
-| **task_id** | **str** | ID of the task |
-| **step_id** | **str** | ID of the step |
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **task_id** | **str**| ID of the task | 
+ **step_id** | **str**| ID of the step | 
 
 ### Return type
 
@@ -339,21 +346,20 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
-
-| Status code | Description                                | Response headers |
-| ----------- | ------------------------------------------ | ---------------- |
-| **200**     | Returned details about an agent task step. | -                |
-| **0**       | Internal Server Error                      | -                |
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Returned details about an agent task step. |  -  |
+**404** | Unable to find entity with a given identifier |  -  |
+**0** | Internal Server Error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_agent_task_artifacts**
-
-> List[Artifact] list_agent_task_artifacts(task_id)
+> TaskArtifactsListResponse list_agent_task_artifacts(task_id, current_page=current_page, page_size=page_size)
 
 List all artifacts that have been created for the given task.
 
@@ -363,14 +369,14 @@ List all artifacts that have been created for the given task.
 import time
 import os
 import agent_protocol_client
-from agent_protocol_client.models.artifact import Artifact
+from agent_protocol_client.models.task_artifacts_list_response import TaskArtifactsListResponse
 from agent_protocol_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to http://0.0.0.0:8000
 # See configuration.py for a list of all supported configuration parameters.
 configuration = agent_protocol_client.Configuration(
-    host = "http://localhost"
+    host = "http://0.0.0.0:8000"
 )
 
 
@@ -378,26 +384,32 @@ configuration = agent_protocol_client.Configuration(
 async with agent_protocol_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = agent_protocol_client.AgentApi(api_client)
-    task_id = 'task_id_example' # str | ID of the task
+    task_id = '50da533e-3904-4401-8a07-c49adf88b5eb' # str | ID of the task
+    current_page = 1 # int | Page number (optional) (default to 1)
+    page_size = 10 # int | Number of items per page (optional) (default to 10)
 
     try:
         # List all artifacts that have been created for the given task.
-        api_response = await api_instance.list_agent_task_artifacts(task_id)
+        api_response = await api_instance.list_agent_task_artifacts(task_id, current_page=current_page, page_size=page_size)
         print("The response of AgentApi->list_agent_task_artifacts:\n")
         pprint(api_response)
     except Exception as e:
         print("Exception when calling AgentApi->list_agent_task_artifacts: %s\n" % e)
 ```
 
+
+
 ### Parameters
 
-| Name        | Type    | Description    | Notes |
-| ----------- | ------- | -------------- | ----- |
-| **task_id** | **str** | ID of the task |
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **task_id** | **str**| ID of the task | 
+ **current_page** | **int**| Page number | [optional] [default to 1]
+ **page_size** | **int**| Number of items per page | [optional] [default to 10]
 
 ### Return type
 
-[**List[Artifact]**](Artifact.md)
+[**TaskArtifactsListResponse**](TaskArtifactsListResponse.md)
 
 ### Authorization
 
@@ -405,21 +417,20 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
-
-| Status code | Description                           | Response headers |
-| ----------- | ------------------------------------- | ---------------- |
-| **200**     | Returned the content of the artifact. | -                |
-| **0**       | Internal Server Error                 | -                |
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Returned the list of artifacts for the task. |  -  |
+**404** | Unable to find entity with a given identifier |  -  |
+**0** | Internal Server Error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_agent_task_steps**
-
-> List[str] list_agent_task_steps(task_id)
+> TaskStepsListResponse list_agent_task_steps(task_id, current_page=current_page, page_size=page_size)
 
 List all steps for the specified task.
 
@@ -429,13 +440,14 @@ List all steps for the specified task.
 import time
 import os
 import agent_protocol_client
+from agent_protocol_client.models.task_steps_list_response import TaskStepsListResponse
 from agent_protocol_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to http://0.0.0.0:8000
 # See configuration.py for a list of all supported configuration parameters.
 configuration = agent_protocol_client.Configuration(
-    host = "http://localhost"
+    host = "http://0.0.0.0:8000"
 )
 
 
@@ -443,26 +455,32 @@ configuration = agent_protocol_client.Configuration(
 async with agent_protocol_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = agent_protocol_client.AgentApi(api_client)
-    task_id = 'task_id_example' # str | ID of the task
+    task_id = '50da533e-3904-4401-8a07-c49adf88b5eb' # str | ID of the task.
+    current_page = 1 # int | Page number (optional) (default to 1)
+    page_size = 10 # int | Number of items per page (optional) (default to 10)
 
     try:
         # List all steps for the specified task.
-        api_response = await api_instance.list_agent_task_steps(task_id)
+        api_response = await api_instance.list_agent_task_steps(task_id, current_page=current_page, page_size=page_size)
         print("The response of AgentApi->list_agent_task_steps:\n")
         pprint(api_response)
     except Exception as e:
         print("Exception when calling AgentApi->list_agent_task_steps: %s\n" % e)
 ```
 
+
+
 ### Parameters
 
-| Name        | Type    | Description    | Notes |
-| ----------- | ------- | -------------- | ----- |
-| **task_id** | **str** | ID of the task |
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **task_id** | **str**| ID of the task. | 
+ **current_page** | **int**| Page number | [optional] [default to 1]
+ **page_size** | **int**| Number of items per page | [optional] [default to 10]
 
 ### Return type
 
-**List[str]**
+[**TaskStepsListResponse**](TaskStepsListResponse.md)
 
 ### Authorization
 
@@ -470,21 +488,20 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
-
-| Status code | Description                                                   | Response headers |
-| ----------- | ------------------------------------------------------------- | ---------------- |
-| **200**     | Returned list of agent&#39;s step IDs for the specified task. | -                |
-| **0**       | Internal Server Error                                         | -                |
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Returned list of agent&#39;s steps for the specified task. |  -  |
+**404** | Unable to find entity with a given identifier |  -  |
+**0** | Internal Server Error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **list_agent_tasks_ids**
-
-> List[str] list_agent_tasks_ids()
+# **list_agent_tasks**
+> TaskListResponse list_agent_tasks(current_page=current_page, page_size=page_size)
 
 List all tasks that have been created for the agent.
 
@@ -494,13 +511,14 @@ List all tasks that have been created for the agent.
 import time
 import os
 import agent_protocol_client
+from agent_protocol_client.models.task_list_response import TaskListResponse
 from agent_protocol_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to http://0.0.0.0:8000
 # See configuration.py for a list of all supported configuration parameters.
 configuration = agent_protocol_client.Configuration(
-    host = "http://localhost"
+    host = "http://0.0.0.0:8000"
 )
 
 
@@ -508,23 +526,30 @@ configuration = agent_protocol_client.Configuration(
 async with agent_protocol_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = agent_protocol_client.AgentApi(api_client)
+    current_page = 1 # int | Page number (optional) (default to 1)
+    page_size = 10 # int | Number of items per page (optional) (default to 10)
 
     try:
         # List all tasks that have been created for the agent.
-        api_response = await api_instance.list_agent_tasks_ids()
-        print("The response of AgentApi->list_agent_tasks_ids:\n")
+        api_response = await api_instance.list_agent_tasks(current_page=current_page, page_size=page_size)
+        print("The response of AgentApi->list_agent_tasks:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling AgentApi->list_agent_tasks_ids: %s\n" % e)
+        print("Exception when calling AgentApi->list_agent_tasks: %s\n" % e)
 ```
+
+
 
 ### Parameters
 
-This endpoint does not need any parameter.
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **current_page** | **int**| Page number | [optional] [default to 1]
+ **page_size** | **int**| Number of items per page | [optional] [default to 10]
 
 ### Return type
 
-**List[str]**
+[**TaskListResponse**](TaskListResponse.md)
 
 ### Authorization
 
@@ -532,20 +557,18 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
-
-| Status code | Description                            | Response headers |
-| ----------- | -------------------------------------- | ---------------- |
-| **200**     | Returned list of agent&#39;s task IDs. | -                |
-| **0**       | Internal Server Error                  | -                |
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Returned list of agent&#39;s tasks. |  -  |
+**0** | Internal Server Error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **upload_agent_task_artifacts**
-
 > Artifact upload_agent_task_artifacts(task_id, file, relative_path=relative_path)
 
 Upload an artifact for the specified task.
@@ -560,10 +583,10 @@ from agent_protocol_client.models.artifact import Artifact
 from agent_protocol_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to http://0.0.0.0:8000
 # See configuration.py for a list of all supported configuration parameters.
 configuration = agent_protocol_client.Configuration(
-    host = "http://localhost"
+    host = "http://0.0.0.0:8000"
 )
 
 
@@ -571,7 +594,7 @@ configuration = agent_protocol_client.Configuration(
 async with agent_protocol_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = agent_protocol_client.AgentApi(api_client)
-    task_id = 'task_id_example' # str | ID of the task
+    task_id = '50da533e-3904-4401-8a07-c49adf88b5eb' # str | ID of the task
     file = None # bytearray | File to upload.
     relative_path = 'relative_path_example' # str | Relative path of the artifact in the agent's workspace. (optional)
 
@@ -584,13 +607,15 @@ async with agent_protocol_client.ApiClient(configuration) as api_client:
         print("Exception when calling AgentApi->upload_agent_task_artifacts: %s\n" % e)
 ```
 
+
+
 ### Parameters
 
-| Name              | Type          | Description                                                 | Notes      |
-| ----------------- | ------------- | ----------------------------------------------------------- | ---------- |
-| **task_id**       | **str**       | ID of the task                                              |
-| **file**          | **bytearray** | File to upload.                                             |
-| **relative_path** | **str**       | Relative path of the artifact in the agent&#39;s workspace. | [optional] |
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **task_id** | **str**| ID of the task | 
+ **file** | **bytearray**| File to upload. | 
+ **relative_path** | **str**| Relative path of the artifact in the agent&#39;s workspace. | [optional] 
 
 ### Return type
 
@@ -602,14 +627,15 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: multipart/form-data
-- **Accept**: application/json
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
 
 ### HTTP response details
-
-| Status code | Description                           | Response headers |
-| ----------- | ------------------------------------- | ---------------- |
-| **200**     | Returned the content of the artifact. | -                |
-| **0**       | Internal Server Error                 | -                |
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Returned the content of the artifact. |  -  |
+**404** | Unable to find entity with a given identifier |  -  |
+**0** | Internal Server Error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+

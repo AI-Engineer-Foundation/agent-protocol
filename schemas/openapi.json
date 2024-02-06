@@ -66,10 +66,7 @@
                     {
                       "type": "object",
                       "description": "Definition of an agent task.",
-                      "required": [
-                        "task_id",
-                        "artifacts"
-                      ],
+                      "required": ["task_id", "artifacts"],
                       "properties": {
                         "task_id": {
                           "description": "The ID of the task.",
@@ -146,9 +143,7 @@
             "description": "Internal Server Error"
           }
         },
-        "tags": [
-          "agent"
-        ]
+        "tags": ["agent"]
       },
       "get": {
         "operationId": "listAgentTasks",
@@ -213,10 +208,7 @@
                           {
                             "type": "object",
                             "description": "Definition of an agent task.",
-                            "required": [
-                              "task_id",
-                              "artifacts"
-                            ],
+                            "required": ["task_id", "artifacts"],
                             "properties": {
                               "task_id": {
                                 "description": "The ID of the task.",
@@ -301,10 +293,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "tasks",
-                    "pagination"
-                  ]
+                  "required": ["tasks", "pagination"]
                 }
               }
             }
@@ -313,9 +302,7 @@
             "description": "Internal Server Error"
           }
         },
-        "tags": [
-          "agent"
-        ]
+        "tags": ["agent"]
       }
     },
     "/ap/v1/agent/tasks/{task_id}": {
@@ -367,10 +354,7 @@
                     {
                       "type": "object",
                       "description": "Definition of an agent task.",
-                      "required": [
-                        "task_id",
-                        "artifacts"
-                      ],
+                      "required": ["task_id", "artifacts"],
                       "properties": {
                         "task_id": {
                           "description": "The ID of the task.",
@@ -438,9 +422,7 @@
                       "example": "Unable to find entity with the provided id"
                     }
                   },
-                  "required": [
-                    "message"
-                  ]
+                  "required": ["message"]
                 }
               }
             }
@@ -449,9 +431,7 @@
             "description": "Internal Server Error"
           }
         },
-        "tags": [
-          "agent"
-        ]
+        "tags": ["agent"]
       }
     },
     "/ap/v1/agent/tasks/{task_id}/steps": {
@@ -561,11 +541,7 @@
                                 "description": "The status of the task step.",
                                 "type": "string",
                                 "example": "created",
-                                "enum": [
-                                  "created",
-                                  "running",
-                                  "completed"
-                                ]
+                                "enum": ["created", "running", "completed"]
                               },
                               "output": {
                                 "description": "Output of the task step.",
@@ -659,10 +635,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "steps",
-                    "pagination"
-                  ]
+                  "required": ["steps", "pagination"]
                 }
               }
             }
@@ -680,9 +653,7 @@
                       "example": "Unable to find entity with the provided id"
                     }
                   },
-                  "required": [
-                    "message"
-                  ]
+                  "required": ["message"]
                 }
               }
             }
@@ -691,9 +662,7 @@
             "description": "Internal Server Error"
           }
         },
-        "tags": [
-          "agent"
-        ]
+        "tags": ["agent"]
       },
       "post": {
         "operationId": "executeAgentTaskStep",
@@ -793,11 +762,7 @@
                           "description": "The status of the task step.",
                           "type": "string",
                           "example": "created",
-                          "enum": [
-                            "created",
-                            "running",
-                            "completed"
-                          ]
+                          "enum": ["created", "running", "completed"]
                         },
                         "output": {
                           "description": "Output of the task step.",
@@ -881,9 +846,7 @@
                       "example": "Unable to find entity with the provided id"
                     }
                   },
-                  "required": [
-                    "message"
-                  ]
+                  "required": ["message"]
                 }
               }
             }
@@ -903,9 +866,7 @@
             "description": "Internal Server Error"
           }
         },
-        "tags": [
-          "agent"
-        ]
+        "tags": ["agent"]
       }
     },
     "/ap/v1/agent/tasks/{task_id}/steps/{step_id}": {
@@ -1004,11 +965,7 @@
                           "description": "The status of the task step.",
                           "type": "string",
                           "example": "created",
-                          "enum": [
-                            "created",
-                            "running",
-                            "completed"
-                          ]
+                          "enum": ["created", "running", "completed"]
                         },
                         "output": {
                           "description": "Output of the task step.",
@@ -1085,9 +1042,7 @@
                       "example": "Unable to find entity with the provided id"
                     }
                   },
-                  "required": [
-                    "message"
-                  ]
+                  "required": ["message"]
                 }
               }
             }
@@ -1096,9 +1051,7 @@
             "description": "Internal Server Error"
           }
         },
-        "tags": [
-          "agent"
-        ]
+        "tags": ["agent"]
       }
     },
     "/ap/v1/agent/tasks/{task_id}/artifacts": {
@@ -1224,10 +1177,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "artifacts",
-                    "pagination"
-                  ]
+                  "required": ["artifacts", "pagination"]
                 }
               }
             }
@@ -1245,9 +1195,7 @@
                       "example": "Unable to find entity with the provided id"
                     }
                   },
-                  "required": [
-                    "message"
-                  ]
+                  "required": ["message"]
                 }
               }
             }
@@ -1256,9 +1204,7 @@
             "description": "Internal Server Error"
           }
         },
-        "tags": [
-          "agent"
-        ]
+        "tags": ["agent"]
       },
       "post": {
         "operationId": "uploadAgentTaskArtifacts",
@@ -1300,9 +1246,7 @@
                     "example": "python/code"
                   }
                 },
-                "required": [
-                  "file"
-                ]
+                "required": ["file"]
               }
             }
           }
@@ -1338,11 +1282,7 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "artifact_id",
-                    "agent_created",
-                    "file_name"
-                  ]
+                  "required": ["artifact_id", "agent_created", "file_name"]
                 }
               }
             }
@@ -1360,9 +1300,7 @@
                       "example": "Unable to find entity with the provided id"
                     }
                   },
-                  "required": [
-                    "message"
-                  ]
+                  "required": ["message"]
                 }
               }
             }
@@ -1371,9 +1309,7 @@
             "description": "Internal Server Error"
           }
         },
-        "tags": [
-          "agent"
-        ]
+        "tags": ["agent"]
       }
     },
     "/ap/v1/agent/tasks/{task_id}/artifacts/{artifact_id}": {
@@ -1433,9 +1369,7 @@
                       "example": "Unable to find entity with the provided id"
                     }
                   },
-                  "required": [
-                    "message"
-                  ]
+                  "required": ["message"]
                 }
               }
             }
@@ -1444,9 +1378,7 @@
             "description": "Internal Server Error"
           }
         },
-        "tags": [
-          "agent"
-        ]
+        "tags": ["agent"]
       }
     }
   },
@@ -1476,12 +1408,7 @@
             "example": 25
           }
         },
-        "required": [
-          "total_items",
-          "total_pages",
-          "current_page",
-          "page_size"
-        ]
+        "required": ["total_items", "total_pages", "current_page", "page_size"]
       },
       "TaskListResponse": {
         "type": "object",
@@ -1510,10 +1437,7 @@
                 {
                   "type": "object",
                   "description": "Definition of an agent task.",
-                  "required": [
-                    "task_id",
-                    "artifacts"
-                  ],
+                  "required": ["task_id", "artifacts"],
                   "properties": {
                     "task_id": {
                       "description": "The ID of the task.",
@@ -1598,10 +1522,7 @@
             ]
           }
         },
-        "required": [
-          "tasks",
-          "pagination"
-        ]
+        "required": ["tasks", "pagination"]
       },
       "TaskStepsListResponse": {
         "type": "object",
@@ -1657,11 +1578,7 @@
                       "description": "The status of the task step.",
                       "type": "string",
                       "example": "created",
-                      "enum": [
-                        "created",
-                        "running",
-                        "completed"
-                      ]
+                      "enum": ["created", "running", "completed"]
                     },
                     "output": {
                       "description": "Output of the task step.",
@@ -1755,10 +1672,7 @@
             ]
           }
         },
-        "required": [
-          "steps",
-          "pagination"
-        ]
+        "required": ["steps", "pagination"]
       },
       "TaskArtifactsListResponse": {
         "type": "object",
@@ -1791,11 +1705,7 @@
                   "nullable": true
                 }
               },
-              "required": [
-                "artifact_id",
-                "agent_created",
-                "file_name"
-              ]
+              "required": ["artifact_id", "agent_created", "file_name"]
             }
           },
           "pagination": {
@@ -1830,10 +1740,7 @@
             ]
           }
         },
-        "required": [
-          "artifacts",
-          "pagination"
-        ]
+        "required": ["artifacts", "pagination"]
       },
       "TaskInput": {
         "description": "Input parameters for the task. Any value is allowed.",
@@ -1866,11 +1773,7 @@
             "nullable": true
           }
         },
-        "required": [
-          "artifact_id",
-          "agent_created",
-          "file_name"
-        ]
+        "required": ["artifact_id", "agent_created", "file_name"]
       },
       "ArtifactUpload": {
         "description": "Artifact to upload to the agent.",
@@ -1888,9 +1791,7 @@
             "example": "python/code"
           }
         },
-        "required": [
-          "file"
-        ]
+        "required": ["file"]
       },
       "StepInput": {
         "description": "Input parameters for the task step. Any value is allowed.",
@@ -1942,10 +1843,7 @@
           {
             "type": "object",
             "description": "Definition of an agent task.",
-            "required": [
-              "task_id",
-              "artifacts"
-            ],
+            "required": ["task_id", "artifacts"],
             "properties": {
               "task_id": {
                 "description": "The ID of the task.",
@@ -1981,11 +1879,7 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "artifact_id",
-                    "agent_created",
-                    "file_name"
-                  ]
+                  "required": ["artifact_id", "agent_created", "file_name"]
                 },
                 "example": [
                   "7a49f31c-f9c6-4346-a22c-e32bc5af4d8e",
@@ -2063,11 +1957,7 @@
                 "description": "The status of the task step.",
                 "type": "string",
                 "example": "created",
-                "enum": [
-                  "created",
-                  "running",
-                  "completed"
-                ]
+                "enum": ["created", "running", "completed"]
               },
               "output": {
                 "description": "Output of the task step.",
@@ -2110,11 +2000,7 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "artifact_id",
-                    "agent_created",
-                    "file_name"
-                  ]
+                  "required": ["artifact_id", "agent_created", "file_name"]
                 },
                 "default": []
               },
@@ -2154,9 +2040,7 @@
                   "example": "Unable to find entity with the provided id"
                 }
               },
-              "required": [
-                "message"
-              ]
+              "required": ["message"]
             }
           }
         }

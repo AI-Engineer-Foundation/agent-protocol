@@ -1,1513 +1,1484 @@
 {
-	"info": {
-		"_postman_id": "84d6bd70-4a9f-4470-be02-f2f9089ec69b",
-		"name": "Agent Protocol - REST v1",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "Basic User Experience",
-			"item": [
-				{
-					"name": "Cleanup Previous Run Copy",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "6e0312e1-1276-47b2-92be-b481545de5fb",
-								"exec": [
-									"// See https://blog.postman.com/2019/05/28/pro-tip-dynamically-unset-postman-environment-variables/\r",
-									"// for more details on what we're doing here. \r",
-									"\r",
-									"cleanupCollectionVariables();\r",
-									"\r",
-									"function cleanupCollectionVariables() {\r",
-									"    const clean = _.keys(pm.collectionVariables.toObject());\r",
-									"\r",
-									"    _.each(clean, (arrItem) => {\r",
-									"        pm.collectionVariables.unset(arrItem);\r",
-									"    });\r",
-									"}"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"id": "acaabbd4-94fc-4444-8718-b9ca2c087721",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"id": "5da26248-515e-4feb-b7b5-c7de25a03857",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": "https://postman-echo.com/delay/0"
-					},
-					"response": []
-				},
-				{
-					"name": "Get all the tasks",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "32b75035-2164-4ec1-b61c-a86515847037",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "98c48159-7553-4f9b-a1e7-dd66b961ec11",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"id": "52fdb36d-66c1-41e9-b81a-1084ae813a2d",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "mock-match",
-								"value": "19",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": "{{url}}/ap/v1/agent/tasks"
-					},
-					"response": [
-						{
-							"id": "98f96c46-c680-4377-a681-27b93d8425cf",
-							"name": "mock response",
-							"originalRequest": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "mock-match",
-										"value": "19",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": "{{url}}/ap/v1/agent/tasks"
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Date",
-									"value": "Thu, 17 Aug 2023 18:03:12 GMT",
-									"enabled": true
-								},
-								{
-									"key": "Content-Type",
-									"name": "Content-Type",
-									"value": "application/json",
-									"description": "",
-									"type": "text"
-								},
-								{
-									"key": "Content-Length",
-									"value": "150",
-									"enabled": true
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive",
-									"enabled": true
-								},
-								{
-									"key": "x-srv-trace",
-									"value": "v=1;t=1c95cd08c248d38f",
-									"enabled": true
-								},
-								{
-									"key": "x-srv-span",
-									"value": "v=1;s=2527ca982b2b7c75",
-									"enabled": true
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*",
-									"enabled": true
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "120",
-									"enabled": true
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "117",
-									"enabled": true
-								},
-								{
-									"key": "X-RateLimit-Reset",
-									"value": "1692295416",
-									"enabled": true
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"96-S/5iQ2y1qqIInh5BwoPc+chvDJU\"",
-									"enabled": true
-								},
-								{
-									"key": "Vary",
-									"value": "Accept-Encoding",
-									"enabled": true
-								}
-							],
-							"cookie": [],
-							"responseTime": null,
-							"body": "[\n    {\n        \"task_id\": \"fde559f8-3ab8-11ee-be56-0242ac120002\",\n        \"step_id\": \"1a379290-3abc-11ee-be56-0242ac120002\",\n        \"status\": \"completed\",\n        \"output\": \"I am going to use the write_to_file method to write the word 'Washington' to a .txt file\",\n        \"artifacts\": [],\n        \"is_last\": false\n    }\n]"
-						}
-					]
-				},
-				{
-					"name": "Create a new task",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "c5e90382-a818-4e98-9f9b-4a2877e0f129",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"id": "683fd614-1610-4dab-bf88-6ae830186dac",
-								"exec": [
-									"var jsonData = pm.response.json();",
-									"pm.globals.set(\"task_id\", jsonData.task_id);",
-									"",
-									"pm.globals.set(",
-									"    \"step_body\",",
-									"    JSON.stringify(",
-									"        {",
-									"            \"input\": JSON.parse(pm.request.body.raw).input",
-									"        } ",
-									"    )",
-									");"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"id": "090b65b7-80e6-4a20-81d7-2a6f72644ad5",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "mock-match",
-								"value": "34",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"input\": \"Write the word 'Washington' to a .txt file\",\n    \"additional_input\": {\"test_run_id\": \"123\"}\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": "{{url}}/ap/v1/agent/tasks"
-					},
-					"response": [
-						{
-							"id": "5aa13fc7-8099-43ac-81d4-87af8cdbb6fe",
-							"name": "mock response",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "mock-match",
-										"value": "34"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"input\": \"Write the word 'Washington' to a .txt file\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": "{{url}}/ap/v1/agent/tasks"
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Date",
-									"value": "Sun, 13 Aug 2023 23:23:05 GMT",
-									"enabled": true
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8",
-									"enabled": true
-								},
-								{
-									"key": "Content-Length",
-									"value": "28",
-									"enabled": true
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive",
-									"enabled": true
-								},
-								{
-									"key": "x-srv-trace",
-									"value": "v=1;t=daef761e243c402b",
-									"enabled": true
-								},
-								{
-									"key": "x-srv-span",
-									"value": "v=1;s=2c0bd88502372360",
-									"enabled": true
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*",
-									"enabled": true
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "120",
-									"enabled": true
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "115",
-									"enabled": true
-								},
-								{
-									"key": "X-RateLimit-Reset",
-									"value": "1691968334",
-									"enabled": true
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"96-S/5iQ2y1qqIInh5BwoPc+chvDJU\"",
-									"enabled": true
-								},
-								{
-									"key": "Vary",
-									"value": "Accept-Encoding",
-									"enabled": true
-								}
-							],
-							"cookie": [],
-							"responseTime": null,
-							"body": "{\n    \"input\": \"Write the word 'Washington' to a .txt file\",\n    \"additional_input\": {},\n    \"task_id\": \"fde559f8-3ab8-11ee-be56-0242ac120002\",\n    \"artifacts\": []\n}"
-						}
-					]
-				},
-				{
-					"name": "Execute a step",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "26426e07-115e-4841-9887-24fd9dccca2a",
-								"exec": [
-									"if (pm.request.url.path[0] == \"agent\" && pm.response.headers.has(\"Content-Type\",`application/json`)) {",
-									"    var artifacts = pm.response.json().artifacts;",
-									"",
-									"    if (artifacts && artifacts.length > 0) {",
-									"        pm.globals.set(\"artifactId\", artifacts[0].artifact_id);",
-									"    }",
-									"",
-									"    var artifacts = pm.response.json().artifacts;",
-									"    var existingArtifactId = pm.globals.get(\"artifactId\");",
-									"/*  Commented out artifact checking code and max step code because the SDK doesn't implement simple agents",
-									"    if (artifacts && artifacts.length > 0) {",
-									"        if (artifacts.length > 1) {",
-									"            pm.test(\"This task should only create 1 artifact\", function () {",
-									"                pm.expect.fail(\"More than one artifact was created.\");",
-									"            });",
-									"        } else {",
-									"            pm.globals.set(\"artifactId\", artifacts[0].artifact_id);",
-									"        }",
-									"    }*/",
-									"    stepNumber = pm.collectionVariables.get(\"step-number\") ?? 1",
-									"    const maxSteps = 10",
-									"    if(!pm.response.json().is_last) {",
-									"        /*if (stepNumber > maxSteps) {",
-									"            console.log(`Max steps reached (${maxSteps})`);",
-									"            pm.test(`This task should be completed after ${maxSteps} steps`, function () {",
-									"                pm.expect.fail(`is_last should be true before max steps reached (${maxSteps})`);",
-									"            });",
-									"        } else {",
-									"            console.log(`Steps reached (${stepNumber})`);",
-									"",
-									"            pm.collectionVariables.set('step-number', stepNumber + 1);",
-									"            pm.globals.set(",
-									"                \"step_body\",",
-									"                JSON.stringify(",
-									"                    {",
-									"                        \"input\": \"y\"",
-									"                    }",
-									"                )",
-									"            );",
-									"",
-									"            pm.collectionVariables.set('previous-step', pm.response.json().step_id)",
-									"            postman.setNextRequest('Execute the steps until completion');",
-									"        }*/",
-									"        ",
-									"    }",
-									"}"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "3bdd2e35-1745-439e-9ef1-ea2e003ddc42",
-								"exec": [
-									"stepNumber = pm.collectionVariables.get(\"step-number\") ?? 1",
-									"console.log(\"Step number:\" + stepNumber)",
-									"console.log(\"Task Input:\" + pm.globals.get(\"taskInput\"))",
-									"if (stepNumber) {",
-									"    pm.request.headers.upsert({ key: 'mock-match', value: stepNumber.toString() });",
-									"    console.log(pm.request)",
-									"}"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"id": "c001b340-752c-45ea-aaa2-22cb52e47297",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{{step_body}}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": "{{url}}/ap/v1/agent/tasks/{{task_id}}/steps"
-					},
-					"response": [
-						{
-							"id": "1def41e7-04a8-41d6-bcef-b0149882510d",
-							"name": "mock response",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "mock-match",
-										"value": "1",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"input\": \"Write the word 'Washington' to a .txt file\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": "{{url}}/ap/v1/agent/tasks/{{task_id}}/steps"
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Date",
-									"value": "Mon, 14 Aug 2023 16:28:55 GMT",
-									"enabled": true
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8",
-									"enabled": true
-								},
-								{
-									"key": "Content-Length",
-									"value": "275",
-									"enabled": true
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive",
-									"enabled": true
-								},
-								{
-									"key": "x-srv-trace",
-									"value": "v=1;t=daef761e243c402b",
-									"enabled": true
-								},
-								{
-									"key": "x-srv-span",
-									"value": "v=1;s=2c0bd88502372360",
-									"enabled": true
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*",
-									"enabled": true
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "120",
-									"enabled": true
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "115",
-									"enabled": true
-								},
-								{
-									"key": "X-RateLimit-Reset",
-									"value": "1691968334",
-									"enabled": true
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"96-S/5iQ2y1qqIInh5BwoPc+chvDJU\"",
-									"enabled": true
-								},
-								{
-									"key": "Vary",
-									"value": "Accept-Encoding",
-									"enabled": true
-								}
-							],
-							"cookie": [],
-							"responseTime": null,
-							"body": "{\n    \"task_id\": \"fde559f8-3ab8-11ee-be56-0242ac120002\",\n    \"step_id\": \"1a379290-3abc-11ee-be56-0242ac120002\",\n    \"input\": \"y\",\n    \"status\": \"completed\",\n    \"output\": \"I am going to use the write_to_file method to write the word 'Washington' to a .txt file\",\n    \"artifacts\": [\n    ],\n    \"is_last\": false\n}"
-						},
-						{
-							"id": "0bca46fd-7401-48fa-b413-6357e53ae19d",
-							"name": "mock response",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "mock-match",
-										"value": "2",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"input\": \"y\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": "{{url}}/ap/v1/agent/tasks/{{task_id}}/steps"
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Date",
-									"value": "Mon, 14 Aug 2023 16:28:55 GMT",
-									"enabled": true
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8",
-									"enabled": true
-								},
-								{
-									"key": "Content-Length",
-									"value": "275",
-									"enabled": true
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive",
-									"enabled": true
-								},
-								{
-									"key": "x-srv-trace",
-									"value": "v=1;t=daef761e243c402b",
-									"enabled": true
-								},
-								{
-									"key": "x-srv-span",
-									"value": "v=1;s=2c0bd88502372360",
-									"enabled": true
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*",
-									"enabled": true
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "120",
-									"enabled": true
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "115",
-									"enabled": true
-								},
-								{
-									"key": "X-RateLimit-Reset",
-									"value": "1691968334",
-									"enabled": true
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"96-S/5iQ2y1qqIInh5BwoPc+chvDJU\"",
-									"enabled": true
-								},
-								{
-									"key": "Vary",
-									"value": "Accept-Encoding",
-									"enabled": true
-								}
-							],
-							"cookie": [],
-							"responseTime": null,
-							"body": "{\n    \"task_id\": \"fde559f8-3ab8-11ee-be56-0242ac120002\",\n    \"step_id\": \"2a479290-3abc-11ee-be56-0242ac1209c1\",\n    \"input\": \"y\",\n    \"status\": \"completed\",\n    \"output\": \"I used the write_to_file method to write the file test_output.txt\",\n    \"artifacts\": [\n                {\n          \"artifact_id\": \"2ba79290-3abc-11ee-be56-0242ac1209d3\",\n          \"agent_created\": true,\n          \"uri\": \"file://test_output.txt\"\n        }\n    ],\n    \"is_last\": true\n}"
-						}
-					]
-				},
-				{
-					"name": "Execute step after completion",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "26426e07-115e-4841-9887-24fd9dccca2a",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "3bdd2e35-1745-439e-9ef1-ea2e003ddc42",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"id": "2db71ce6-f370-4e1e-83de-1990be2026ee",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "mock-match",
-								"value": "34",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"input\": \"y\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": "{{url}}/ap/v1/agent/tasks/{{task_id}}/steps"
-					},
-					"response": [
-						{
-							"id": "768252c5-a6aa-4ae5-91a1-253e653a287d",
-							"name": "mock response",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "mock-match",
-										"value": "34",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"input\": \"y\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": "{{url}}/ap/v1/agent/tasks/{{task_id}}/steps"
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Date",
-									"value": "Mon, 14 Aug 2023 16:28:55 GMT",
-									"enabled": true
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8",
-									"enabled": true
-								},
-								{
-									"key": "Content-Length",
-									"value": "275",
-									"enabled": true
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive",
-									"enabled": true
-								},
-								{
-									"key": "x-srv-trace",
-									"value": "v=1;t=daef761e243c402b",
-									"enabled": true
-								},
-								{
-									"key": "x-srv-span",
-									"value": "v=1;s=2c0bd88502372360",
-									"enabled": true
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*",
-									"enabled": true
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "120",
-									"enabled": true
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "115",
-									"enabled": true
-								},
-								{
-									"key": "X-RateLimit-Reset",
-									"value": "1691968334",
-									"enabled": true
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"96-S/5iQ2y1qqIInh5BwoPc+chvDJU\"",
-									"enabled": true
-								},
-								{
-									"key": "Vary",
-									"value": "Accept-Encoding",
-									"enabled": true
-								}
-							],
-							"cookie": [],
-							"responseTime": null,
-							"body": "{\n    \"task_id\": \"fde559f8-3ab8-11ee-be56-0242ac120002\",\n    \"step_id\": \"2d479290-3abc-11ee-be56-0242ac120b95\",\n    \"status\": \"completed\",\n    \"output\": \"I am already done with my work.\",\n    \"artifacts\": [\n    ],\n    \"is_last\": true\n}"
-						}
-					]
-				}
-			],
-			"id": "5ba23d82-afe2-41a2-b782-f41c903d45d6",
-			"description": "We ask the agent to write a file in his workspace.",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "1f74f7f2-ed1c-43d4-88ee-e9688e6caf45",
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "fbbe4b1f-0708-452d-99b7-fe8ad882a7ba",
-						"type": "text/javascript",
-						"exec": [
-							"pm.test(\"Response status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});"
-						]
-					}
-				}
-			]
-		},
-		{
-			"name": "Tasks",
-			"item": [
-				{
-					"name": "Create a new task",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "46ca258a-c625-4c17-b413-0c86023e705e",
-								"exec": [
-									"var jsonData = pm.response.json();",
-									"pm.globals.set(\"taskId\", jsonData.task_id);",
-									"pm.globals.set(\"taskInput\", JSON.parse(pm.request.body.raw).input);"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"id": "eb9d0c96-18a1-4e95-8948-9c1894d56409",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true,
-						"disabledSystemHeaders": {}
-					},
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "mock-match",
-								"value": "34"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"input\": \"Write the word 'Washington' to a .txt file\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": "{{url}}/ap/v1/agent/tasks"
-					},
-					"response": []
-				},
-				{
-					"name": "Get the task",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "dae8e511-e80d-478b-81ab-2d66dd6fd5b3",
-								"exec": [
-									"pm.test(\"Response time is less than 500ms\", function () {\r",
-									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Content-Type is present\", function () {\r",
-									"    pm.response.to.have.header(\"Content-Type\");\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Content-Type is application/json\", function () {\r",
-									"    var contentType = pm.response.headers.get('Content-Type');\r",
-									"    pm.expect(contentType).to.include('application/json');\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Response has all required properties\", function () {\r",
-									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData).to.have.property('task_id');\r",
-									"    pm.expect(jsonData).to.have.property('input');\r",
-									"    pm.expect(jsonData).to.have.property('additional_input');\r",
-									"    pm.expect(jsonData).to.have.property('artifacts');\r",
-									"});\r",
-									"\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"id": "f84ed7b1-c97a-4968-a14c-88c231b187fa",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"input\": \"Write the word 'Washington' to a .txt file\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": "{{url}}/ap/v1/agent/tasks/{{task_id}}"
-					},
-					"response": [
-						{
-							"id": "ea9d8d69-ed12-4d2c-85d9-f56028bbc628",
-							"name": "mock response",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"input\": \"Write the word 'Washington' to a .txt file\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": "{{url}}/ap/v1/agent/tasks/{{taskId}}"
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Date",
-									"value": "Sun, 13 Aug 2023 23:23:05 GMT",
-									"enabled": true
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8",
-									"enabled": true
-								},
-								{
-									"key": "Content-Length",
-									"value": "28",
-									"enabled": true
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive",
-									"enabled": true
-								},
-								{
-									"key": "x-srv-trace",
-									"value": "v=1;t=daef761e243c402b",
-									"enabled": true
-								},
-								{
-									"key": "x-srv-span",
-									"value": "v=1;s=2c0bd88502372360",
-									"enabled": true
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*",
-									"enabled": true
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "120",
-									"enabled": true
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "115",
-									"enabled": true
-								},
-								{
-									"key": "X-RateLimit-Reset",
-									"value": "1691968334",
-									"enabled": true
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"96-S/5iQ2y1qqIInh5BwoPc+chvDJU\"",
-									"enabled": true
-								},
-								{
-									"key": "Vary",
-									"value": "Accept-Encoding",
-									"enabled": true
-								}
-							],
-							"cookie": [],
-							"responseTime": null,
-							"body": "{\n    \"input\": \"Write the word 'Washington' to a .txt file\",\n    \"additional_input\": null,\n    \"task_id\": \"121\",\n    \"artifacts\": []\n}"
-						}
-					]
-				},
-				{
-					"name": "Get all the tasks",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "2e4ee6d8-e5d8-4112-be5c-ec8404f38ef0",
-								"exec": [
-									"pm.test(\"Response time is less than 500ms\", function () {",
-									"    pm.expect(pm.response.responseTime).to.be.below(500);",
-									"});",
-									"",
-									"pm.test(\"Content-Type is present\", function () {",
-									"    pm.response.to.have.header(\"Content-Type\");",
-									"});",
-									"",
-									"pm.test(\"Content-Type is application/json\", function () {",
-									"    var contentType = pm.response.headers.get('Content-Type');",
-									"    pm.expect(contentType).to.include('application/json');",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"id": "ca583fa3-bec4-4c73-b989-47f3414a8d51",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"input\": \"Write the word 'Washington' to a .txt file\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": "{{url}}/ap/v1/agent/tasks"
-					},
-					"response": []
-				},
-				{
-					"name": "Create a second task",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "2c8c047b-eec5-4015-86a8-0640f3315ce3",
-								"exec": [
-									"var jsonData = pm.response.json();",
-									"pm.globals.set(\"lastTaskId\", jsonData.task_id);"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"id": "0de5f275-995e-4eb5-b63c-0f2e8996fab1",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "mock-match",
-								"value": "34"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"input\": \"Write the word 'Washington' to a .txt file\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": "{{url}}/ap/v1/agent/tasks"
-					},
-					"response": []
-				},
-				{
-					"name": "Get all the tasks with Pagination",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "697349ba-26c9-431c-a68d-a1c0efeeaeae",
-								"exec": [
-									"var jsonData = pm.response.json();",
-									"",
-									"pm.test(\"Response time is less than 500ms\", function () {",
-									"    pm.expect(pm.response.responseTime).to.be.below(500);",
-									"});",
-									"",
-									"pm.test(\"Content-Type is present\", function () {",
-									"    pm.response.to.have.header(\"Content-Type\");",
-									"});",
-									"",
-									"pm.test(\"Content-Type is application/json\", function () {",
-									"    var contentType = pm.response.headers.get('Content-Type');",
-									"    pm.expect(contentType).to.include('application/json');",
-									"});",
-									"",
-									"pm.test(\"Pagination is set\", function () {",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.pagination).to.be.an('object');",
-									"});",
-									"",
-									"pm.test(\"Page size is 1\", function () {",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.pagination.page_size).to.eql(1);",
-									"});",
-									"",
-									"pm.test(\"Items is an array with one item\", function () {",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.tasks).to.be.an('array').that.has.lengthOf(1);",
-									"});",
-									"",
-									"",
-									"pm.test(\"Response length respects page_size\", function() {",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.tasks.length).to.be.at.most(1);",
-									"});",
-									"",
-									"if (jsonData.items && jsonData.items.length > 0) {",
-									"    if (pm.variables.has(\"lastTaskId\") && pm.variables.get(\"page\") > 1) {",
-									"        pm.test(\"First task of page \" + pm.variables.get(\"page\") + \" is not the last task of page \" + (pm.variables.get(\"page\") - 1), function() {",
-									"            var jsonData = pm.response.json();",
-									"            pm.expect(jsonData.items[0].task_id).to.not.equal(pm.variables.get(\"lastTaskId\"));",
-									"        });",
-									"    }",
-									"    if (jsonData.items.length > 0) {",
-									"        pm.variables.set(\"lastTaskId\", jsonData.items[jsonData.items.length - 1].task_id);",
-									"    }",
-									"}"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"id": "f41e04c1-b266-4e90-909e-ebb0657958d9",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"input\": \"Write the word 'Washington' to a .txt file\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}/ap/v1/agent/tasks?page_size=1&current_page=1",
-							"host": [
-								"{{url}}/ap/v1"
-							],
-							"path": [
-								"agent",
-								"tasks"
-							],
-							"query": [
-								{
-									"key": "page_size",
-									"value": "1"
-								},
-								{
-									"key": "current_page",
-									"value": "1"
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			],
-			"id": "4b743f46-e582-4565-ac7d-c6446a710ee1",
-			"description": "Create tasks and consumes them.",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "7f174c78-2068-4351-a64c-bd4c115470e8",
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "ef296737-8c06-47ed-90c3-bfe882c1aa40",
-						"type": "text/javascript",
-						"exec": [
-							"pm.test(\"Response status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});"
-						]
-					}
-				}
-			]
-		},
-		{
-			"name": "Artifacts",
-			"item": [
-				{
-					"name": "Create a new task",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "65ad57a3-b776-4d7c-86f9-be6fbf17cac6",
-								"exec": [
-									"var jsonData = pm.response.json();",
-									"pm.globals.set(\"task_id\", jsonData.task_id);"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"id": "1ee1eee8-cc2d-43a2-a6e1-7168b0559c45",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"input\": \"Write the word 'Washington' to a .txt file\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": "{{url}}/ap/v1/agent/tasks"
-					},
-					"response": []
-				},
-				{
-					"name": "Upload Artifact",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "6cf7a2c4-1b8a-4c11-8c1a-6b56b2eb80e6",
-								"exec": [
-									"var jsonData = pm.response.json();",
-									"pm.globals.set(\"artifact_id\", jsonData.artifact_id);"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"id": "e71fee13-11cb-4b08-a4bb-c9c0f971efed",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "multipart/form-data"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "file",
-									"type": "file",
-									"src": "test_output.txt"
-								}
-							]
-						},
-						"url": "{{url}}/ap/v1/agent/tasks/{{task_id}}/artifacts"
-					},
-					"response": []
-				},
-				{
-					"name": "Download Artifact",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "82829e0a-f8c7-4925-b28c-0513b018e83e",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"id": "b002580c-0d48-42c9-83e0-5fb5eaed38ce",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "mock-match",
-								"value": "11",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": "{{url}}/ap/v1/agent/tasks/{{task_id}}/artifacts/{{artifact_id}}"
-					},
-					"response": [
-						{
-							"id": "ade2dd37-0f84-45f0-881e-2224636a4956",
-							"name": "mock response",
-							"originalRequest": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "mock-match",
-										"value": "11",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": "{{url}}/ap/v1/agent/tasks/{{taskId}}/artifacts/{{artifactId}}"
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "text",
-							"header": [
-								{
-									"key": "Date",
-									"value": "Mon, 14 Aug 2023 16:28:55 GMT",
-									"enabled": true
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8",
-									"enabled": true
-								},
-								{
-									"key": "Content-Length",
-									"value": "275",
-									"enabled": true
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive",
-									"enabled": true
-								},
-								{
-									"key": "x-srv-trace",
-									"value": "v=1;t=daef761e243c402b",
-									"enabled": true
-								},
-								{
-									"key": "x-srv-span",
-									"value": "v=1;s=2c0bd88502372360",
-									"enabled": true
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*",
-									"enabled": true
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "120",
-									"enabled": true
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "115",
-									"enabled": true
-								},
-								{
-									"key": "X-RateLimit-Reset",
-									"value": "1691968334",
-									"enabled": true
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"96-S/5iQ2y1qqIInh5BwoPc+chvDJU\"",
-									"enabled": true
-								},
-								{
-									"key": "Vary",
-									"value": "Accept-Encoding",
-									"enabled": true
-								}
-							],
-							"cookie": [],
-							"responseTime": null,
-							"body": "Washington"
-						}
-					]
-				}
-			],
-			"id": "48e93b55-d463-452f-9d56-f59ee5e95060",
-			"description": "Create Artifacts and consumes them.",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "61be92ef-c1cd-4f2a-a77c-78e5913ea299",
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "7dcedb1e-4f42-48b1-ac9b-fd3b842b428b",
-						"type": "text/javascript",
-						"exec": [
-							"pm.test(\"Response status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});"
-						]
-					}
-				}
-			]
-		}
-	],
-	"event": [
-		{
-			"listen": "prerequest",
-			"script": {
-				"id": "7dd8bbee-357a-44fd-b891-46bcc3a8a41c",
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
-		},
-		{
-			"listen": "test",
-			"script": {
-				"id": "b5f22749-138a-45fe-b6c7-79fe5cf06017",
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
-		}
-	]
+  "info": {
+    "_postman_id": "84d6bd70-4a9f-4470-be02-f2f9089ec69b",
+    "name": "Agent Protocol - REST v1",
+    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Basic User Experience",
+      "item": [
+        {
+          "name": "Cleanup Previous Run Copy",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "6e0312e1-1276-47b2-92be-b481545de5fb",
+                "exec": [
+                  "// See https://blog.postman.com/2019/05/28/pro-tip-dynamically-unset-postman-environment-variables/\r",
+                  "// for more details on what we're doing here. \r",
+                  "\r",
+                  "cleanupCollectionVariables();\r",
+                  "\r",
+                  "function cleanupCollectionVariables() {\r",
+                  "    const clean = _.keys(pm.collectionVariables.toObject());\r",
+                  "\r",
+                  "    _.each(clean, (arrItem) => {\r",
+                  "        pm.collectionVariables.unset(arrItem);\r",
+                  "    });\r",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "acaabbd4-94fc-4444-8718-b9ca2c087721",
+                "exec": [""],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "5da26248-515e-4feb-b7b5-c7de25a03857",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "https://postman-echo.com/delay/0"
+          },
+          "response": []
+        },
+        {
+          "name": "Get all the tasks",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "32b75035-2164-4ec1-b61c-a86515847037",
+                "exec": [""],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "98c48159-7553-4f9b-a1e7-dd66b961ec11",
+                "exec": [""],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "52fdb36d-66c1-41e9-b81a-1084ae813a2d",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "mock-match",
+                "value": "19",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{url}}/ap/v1/agent/tasks"
+          },
+          "response": [
+            {
+              "id": "98f96c46-c680-4377-a681-27b93d8425cf",
+              "name": "mock response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "mock-match",
+                    "value": "19",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "{{url}}/ap/v1/agent/tasks"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Date",
+                  "value": "Thu, 17 Aug 2023 18:03:12 GMT",
+                  "enabled": true
+                },
+                {
+                  "key": "Content-Type",
+                  "name": "Content-Type",
+                  "value": "application/json",
+                  "description": "",
+                  "type": "text"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "150",
+                  "enabled": true
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive",
+                  "enabled": true
+                },
+                {
+                  "key": "x-srv-trace",
+                  "value": "v=1;t=1c95cd08c248d38f",
+                  "enabled": true
+                },
+                {
+                  "key": "x-srv-span",
+                  "value": "v=1;s=2527ca982b2b7c75",
+                  "enabled": true
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*",
+                  "enabled": true
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "120",
+                  "enabled": true
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "117",
+                  "enabled": true
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1692295416",
+                  "enabled": true
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"96-S/5iQ2y1qqIInh5BwoPc+chvDJU\"",
+                  "enabled": true
+                },
+                {
+                  "key": "Vary",
+                  "value": "Accept-Encoding",
+                  "enabled": true
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "[\n    {\n        \"task_id\": \"fde559f8-3ab8-11ee-be56-0242ac120002\",\n        \"step_id\": \"1a379290-3abc-11ee-be56-0242ac120002\",\n        \"status\": \"completed\",\n        \"output\": \"I am going to use the write_to_file method to write the word 'Washington' to a .txt file\",\n        \"artifacts\": [],\n        \"is_last\": false\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Create a new task",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "c5e90382-a818-4e98-9f9b-4a2877e0f129",
+                "exec": [""],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "683fd614-1610-4dab-bf88-6ae830186dac",
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "pm.globals.set(\"task_id\", jsonData.task_id);",
+                  "",
+                  "pm.globals.set(",
+                  "    \"step_body\",",
+                  "    JSON.stringify(",
+                  "        {",
+                  "            \"input\": JSON.parse(pm.request.body.raw).input",
+                  "        } ",
+                  "    )",
+                  ");"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "090b65b7-80e6-4a20-81d7-2a6f72644ad5",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "mock-match",
+                "value": "34",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"input\": \"Write the word 'Washington' to a .txt file\",\n    \"additional_input\": {\"test_run_id\": \"123\"}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{url}}/ap/v1/agent/tasks"
+          },
+          "response": [
+            {
+              "id": "5aa13fc7-8099-43ac-81d4-87af8cdbb6fe",
+              "name": "mock response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "mock-match",
+                    "value": "34"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"input\": \"Write the word 'Washington' to a .txt file\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "{{url}}/ap/v1/agent/tasks"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Date",
+                  "value": "Sun, 13 Aug 2023 23:23:05 GMT",
+                  "enabled": true
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8",
+                  "enabled": true
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "28",
+                  "enabled": true
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive",
+                  "enabled": true
+                },
+                {
+                  "key": "x-srv-trace",
+                  "value": "v=1;t=daef761e243c402b",
+                  "enabled": true
+                },
+                {
+                  "key": "x-srv-span",
+                  "value": "v=1;s=2c0bd88502372360",
+                  "enabled": true
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*",
+                  "enabled": true
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "120",
+                  "enabled": true
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "115",
+                  "enabled": true
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1691968334",
+                  "enabled": true
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"96-S/5iQ2y1qqIInh5BwoPc+chvDJU\"",
+                  "enabled": true
+                },
+                {
+                  "key": "Vary",
+                  "value": "Accept-Encoding",
+                  "enabled": true
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n    \"input\": \"Write the word 'Washington' to a .txt file\",\n    \"additional_input\": {},\n    \"task_id\": \"fde559f8-3ab8-11ee-be56-0242ac120002\",\n    \"artifacts\": []\n}"
+            }
+          ]
+        },
+        {
+          "name": "Execute a step",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "26426e07-115e-4841-9887-24fd9dccca2a",
+                "exec": [
+                  "if (pm.request.url.path[0] == \"agent\" && pm.response.headers.has(\"Content-Type\",`application/json`)) {",
+                  "    var artifacts = pm.response.json().artifacts;",
+                  "",
+                  "    if (artifacts && artifacts.length > 0) {",
+                  "        pm.globals.set(\"artifactId\", artifacts[0].artifact_id);",
+                  "    }",
+                  "",
+                  "    var artifacts = pm.response.json().artifacts;",
+                  "    var existingArtifactId = pm.globals.get(\"artifactId\");",
+                  "/*  Commented out artifact checking code and max step code because the SDK doesn't implement simple agents",
+                  "    if (artifacts && artifacts.length > 0) {",
+                  "        if (artifacts.length > 1) {",
+                  "            pm.test(\"This task should only create 1 artifact\", function () {",
+                  "                pm.expect.fail(\"More than one artifact was created.\");",
+                  "            });",
+                  "        } else {",
+                  "            pm.globals.set(\"artifactId\", artifacts[0].artifact_id);",
+                  "        }",
+                  "    }*/",
+                  "    stepNumber = pm.collectionVariables.get(\"step-number\") ?? 1",
+                  "    const maxSteps = 10",
+                  "    if(!pm.response.json().is_last) {",
+                  "        /*if (stepNumber > maxSteps) {",
+                  "            console.log(`Max steps reached (${maxSteps})`);",
+                  "            pm.test(`This task should be completed after ${maxSteps} steps`, function () {",
+                  "                pm.expect.fail(`is_last should be true before max steps reached (${maxSteps})`);",
+                  "            });",
+                  "        } else {",
+                  "            console.log(`Steps reached (${stepNumber})`);",
+                  "",
+                  "            pm.collectionVariables.set('step-number', stepNumber + 1);",
+                  "            pm.globals.set(",
+                  "                \"step_body\",",
+                  "                JSON.stringify(",
+                  "                    {",
+                  "                        \"input\": \"y\"",
+                  "                    }",
+                  "                )",
+                  "            );",
+                  "",
+                  "            pm.collectionVariables.set('previous-step', pm.response.json().step_id)",
+                  "            postman.setNextRequest('Execute the steps until completion');",
+                  "        }*/",
+                  "        ",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "3bdd2e35-1745-439e-9ef1-ea2e003ddc42",
+                "exec": [
+                  "stepNumber = pm.collectionVariables.get(\"step-number\") ?? 1",
+                  "console.log(\"Step number:\" + stepNumber)",
+                  "console.log(\"Task Input:\" + pm.globals.get(\"taskInput\"))",
+                  "if (stepNumber) {",
+                  "    pm.request.headers.upsert({ key: 'mock-match', value: stepNumber.toString() });",
+                  "    console.log(pm.request)",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "c001b340-752c-45ea-aaa2-22cb52e47297",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{{step_body}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{url}}/ap/v1/agent/tasks/{{task_id}}/steps"
+          },
+          "response": [
+            {
+              "id": "1def41e7-04a8-41d6-bcef-b0149882510d",
+              "name": "mock response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "mock-match",
+                    "value": "1",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"input\": \"Write the word 'Washington' to a .txt file\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "{{url}}/ap/v1/agent/tasks/{{task_id}}/steps"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Date",
+                  "value": "Mon, 14 Aug 2023 16:28:55 GMT",
+                  "enabled": true
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8",
+                  "enabled": true
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "275",
+                  "enabled": true
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive",
+                  "enabled": true
+                },
+                {
+                  "key": "x-srv-trace",
+                  "value": "v=1;t=daef761e243c402b",
+                  "enabled": true
+                },
+                {
+                  "key": "x-srv-span",
+                  "value": "v=1;s=2c0bd88502372360",
+                  "enabled": true
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*",
+                  "enabled": true
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "120",
+                  "enabled": true
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "115",
+                  "enabled": true
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1691968334",
+                  "enabled": true
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"96-S/5iQ2y1qqIInh5BwoPc+chvDJU\"",
+                  "enabled": true
+                },
+                {
+                  "key": "Vary",
+                  "value": "Accept-Encoding",
+                  "enabled": true
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n    \"task_id\": \"fde559f8-3ab8-11ee-be56-0242ac120002\",\n    \"step_id\": \"1a379290-3abc-11ee-be56-0242ac120002\",\n    \"input\": \"y\",\n    \"status\": \"completed\",\n    \"output\": \"I am going to use the write_to_file method to write the word 'Washington' to a .txt file\",\n    \"artifacts\": [\n    ],\n    \"is_last\": false\n}"
+            },
+            {
+              "id": "0bca46fd-7401-48fa-b413-6357e53ae19d",
+              "name": "mock response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "mock-match",
+                    "value": "2",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"input\": \"y\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "{{url}}/ap/v1/agent/tasks/{{task_id}}/steps"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Date",
+                  "value": "Mon, 14 Aug 2023 16:28:55 GMT",
+                  "enabled": true
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8",
+                  "enabled": true
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "275",
+                  "enabled": true
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive",
+                  "enabled": true
+                },
+                {
+                  "key": "x-srv-trace",
+                  "value": "v=1;t=daef761e243c402b",
+                  "enabled": true
+                },
+                {
+                  "key": "x-srv-span",
+                  "value": "v=1;s=2c0bd88502372360",
+                  "enabled": true
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*",
+                  "enabled": true
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "120",
+                  "enabled": true
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "115",
+                  "enabled": true
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1691968334",
+                  "enabled": true
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"96-S/5iQ2y1qqIInh5BwoPc+chvDJU\"",
+                  "enabled": true
+                },
+                {
+                  "key": "Vary",
+                  "value": "Accept-Encoding",
+                  "enabled": true
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n    \"task_id\": \"fde559f8-3ab8-11ee-be56-0242ac120002\",\n    \"step_id\": \"2a479290-3abc-11ee-be56-0242ac1209c1\",\n    \"input\": \"y\",\n    \"status\": \"completed\",\n    \"output\": \"I used the write_to_file method to write the file test_output.txt\",\n    \"artifacts\": [\n                {\n          \"artifact_id\": \"2ba79290-3abc-11ee-be56-0242ac1209d3\",\n          \"agent_created\": true,\n          \"uri\": \"file://test_output.txt\"\n        }\n    ],\n    \"is_last\": true\n}"
+            }
+          ]
+        },
+        {
+          "name": "Execute step after completion",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "26426e07-115e-4841-9887-24fd9dccca2a",
+                "exec": [""],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "3bdd2e35-1745-439e-9ef1-ea2e003ddc42",
+                "exec": [""],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "2db71ce6-f370-4e1e-83de-1990be2026ee",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "mock-match",
+                "value": "34",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"input\": \"y\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{url}}/ap/v1/agent/tasks/{{task_id}}/steps"
+          },
+          "response": [
+            {
+              "id": "768252c5-a6aa-4ae5-91a1-253e653a287d",
+              "name": "mock response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "mock-match",
+                    "value": "34",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"input\": \"y\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "{{url}}/ap/v1/agent/tasks/{{task_id}}/steps"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Date",
+                  "value": "Mon, 14 Aug 2023 16:28:55 GMT",
+                  "enabled": true
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8",
+                  "enabled": true
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "275",
+                  "enabled": true
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive",
+                  "enabled": true
+                },
+                {
+                  "key": "x-srv-trace",
+                  "value": "v=1;t=daef761e243c402b",
+                  "enabled": true
+                },
+                {
+                  "key": "x-srv-span",
+                  "value": "v=1;s=2c0bd88502372360",
+                  "enabled": true
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*",
+                  "enabled": true
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "120",
+                  "enabled": true
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "115",
+                  "enabled": true
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1691968334",
+                  "enabled": true
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"96-S/5iQ2y1qqIInh5BwoPc+chvDJU\"",
+                  "enabled": true
+                },
+                {
+                  "key": "Vary",
+                  "value": "Accept-Encoding",
+                  "enabled": true
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n    \"task_id\": \"fde559f8-3ab8-11ee-be56-0242ac120002\",\n    \"step_id\": \"2d479290-3abc-11ee-be56-0242ac120b95\",\n    \"status\": \"completed\",\n    \"output\": \"I am already done with my work.\",\n    \"artifacts\": [\n    ],\n    \"is_last\": true\n}"
+            }
+          ]
+        }
+      ],
+      "id": "5ba23d82-afe2-41a2-b782-f41c903d45d6",
+      "description": "We ask the agent to write a file in his workspace.",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "1f74f7f2-ed1c-43d4-88ee-e9688e6caf45",
+            "type": "text/javascript",
+            "exec": [""]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "id": "fbbe4b1f-0708-452d-99b7-fe8ad882a7ba",
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Response status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tasks",
+      "item": [
+        {
+          "name": "Create a new task",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "46ca258a-c625-4c17-b413-0c86023e705e",
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "pm.globals.set(\"taskId\", jsonData.task_id);",
+                  "pm.globals.set(\"taskInput\", JSON.parse(pm.request.body.raw).input);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "eb9d0c96-18a1-4e95-8948-9c1894d56409",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true,
+            "disabledSystemHeaders": {}
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "mock-match",
+                "value": "34"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"input\": \"Write the word 'Washington' to a .txt file\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{url}}/ap/v1/agent/tasks"
+          },
+          "response": []
+        },
+        {
+          "name": "Get the task",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "dae8e511-e80d-478b-81ab-2d66dd6fd5b3",
+                "exec": [
+                  "pm.test(\"Response time is less than 500ms\", function () {\r",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Content-Type is present\", function () {\r",
+                  "    pm.response.to.have.header(\"Content-Type\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Content-Type is application/json\", function () {\r",
+                  "    var contentType = pm.response.headers.get('Content-Type');\r",
+                  "    pm.expect(contentType).to.include('application/json');\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response has all required properties\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData).to.have.property('task_id');\r",
+                  "    pm.expect(jsonData).to.have.property('input');\r",
+                  "    pm.expect(jsonData).to.have.property('additional_input');\r",
+                  "    pm.expect(jsonData).to.have.property('artifacts');\r",
+                  "});\r",
+                  "\r",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "f84ed7b1-c97a-4968-a14c-88c231b187fa",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"input\": \"Write the word 'Washington' to a .txt file\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{url}}/ap/v1/agent/tasks/{{task_id}}"
+          },
+          "response": [
+            {
+              "id": "ea9d8d69-ed12-4d2c-85d9-f56028bbc628",
+              "name": "mock response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"input\": \"Write the word 'Washington' to a .txt file\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "{{url}}/ap/v1/agent/tasks/{{taskId}}"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Date",
+                  "value": "Sun, 13 Aug 2023 23:23:05 GMT",
+                  "enabled": true
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8",
+                  "enabled": true
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "28",
+                  "enabled": true
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive",
+                  "enabled": true
+                },
+                {
+                  "key": "x-srv-trace",
+                  "value": "v=1;t=daef761e243c402b",
+                  "enabled": true
+                },
+                {
+                  "key": "x-srv-span",
+                  "value": "v=1;s=2c0bd88502372360",
+                  "enabled": true
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*",
+                  "enabled": true
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "120",
+                  "enabled": true
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "115",
+                  "enabled": true
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1691968334",
+                  "enabled": true
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"96-S/5iQ2y1qqIInh5BwoPc+chvDJU\"",
+                  "enabled": true
+                },
+                {
+                  "key": "Vary",
+                  "value": "Accept-Encoding",
+                  "enabled": true
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n    \"input\": \"Write the word 'Washington' to a .txt file\",\n    \"additional_input\": null,\n    \"task_id\": \"121\",\n    \"artifacts\": []\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get all the tasks",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "2e4ee6d8-e5d8-4112-be5c-ec8404f38ef0",
+                "exec": [
+                  "pm.test(\"Response time is less than 500ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});",
+                  "",
+                  "pm.test(\"Content-Type is present\", function () {",
+                  "    pm.response.to.have.header(\"Content-Type\");",
+                  "});",
+                  "",
+                  "pm.test(\"Content-Type is application/json\", function () {",
+                  "    var contentType = pm.response.headers.get('Content-Type');",
+                  "    pm.expect(contentType).to.include('application/json');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "ca583fa3-bec4-4c73-b989-47f3414a8d51",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"input\": \"Write the word 'Washington' to a .txt file\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{url}}/ap/v1/agent/tasks"
+          },
+          "response": []
+        },
+        {
+          "name": "Create a second task",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "2c8c047b-eec5-4015-86a8-0640f3315ce3",
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "pm.globals.set(\"lastTaskId\", jsonData.task_id);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "0de5f275-995e-4eb5-b63c-0f2e8996fab1",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "mock-match",
+                "value": "34"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"input\": \"Write the word 'Washington' to a .txt file\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{url}}/ap/v1/agent/tasks"
+          },
+          "response": []
+        },
+        {
+          "name": "Get all the tasks with Pagination",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "697349ba-26c9-431c-a68d-a1c0efeeaeae",
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "",
+                  "pm.test(\"Response time is less than 500ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});",
+                  "",
+                  "pm.test(\"Content-Type is present\", function () {",
+                  "    pm.response.to.have.header(\"Content-Type\");",
+                  "});",
+                  "",
+                  "pm.test(\"Content-Type is application/json\", function () {",
+                  "    var contentType = pm.response.headers.get('Content-Type');",
+                  "    pm.expect(contentType).to.include('application/json');",
+                  "});",
+                  "",
+                  "pm.test(\"Pagination is set\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.pagination).to.be.an('object');",
+                  "});",
+                  "",
+                  "pm.test(\"Page size is 1\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.pagination.page_size).to.eql(1);",
+                  "});",
+                  "",
+                  "pm.test(\"Items is an array with one item\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.tasks).to.be.an('array').that.has.lengthOf(1);",
+                  "});",
+                  "",
+                  "",
+                  "pm.test(\"Response length respects page_size\", function() {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.tasks.length).to.be.at.most(1);",
+                  "});",
+                  "",
+                  "if (jsonData.items && jsonData.items.length > 0) {",
+                  "    if (pm.variables.has(\"lastTaskId\") && pm.variables.get(\"page\") > 1) {",
+                  "        pm.test(\"First task of page \" + pm.variables.get(\"page\") + \" is not the last task of page \" + (pm.variables.get(\"page\") - 1), function() {",
+                  "            var jsonData = pm.response.json();",
+                  "            pm.expect(jsonData.items[0].task_id).to.not.equal(pm.variables.get(\"lastTaskId\"));",
+                  "        });",
+                  "    }",
+                  "    if (jsonData.items.length > 0) {",
+                  "        pm.variables.set(\"lastTaskId\", jsonData.items[jsonData.items.length - 1].task_id);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "f41e04c1-b266-4e90-909e-ebb0657958d9",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"input\": \"Write the word 'Washington' to a .txt file\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/ap/v1/agent/tasks?page_size=1&current_page=1",
+              "host": ["{{url}}/ap/v1"],
+              "path": ["agent", "tasks"],
+              "query": [
+                {
+                  "key": "page_size",
+                  "value": "1"
+                },
+                {
+                  "key": "current_page",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "4b743f46-e582-4565-ac7d-c6446a710ee1",
+      "description": "Create tasks and consumes them.",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "7f174c78-2068-4351-a64c-bd4c115470e8",
+            "type": "text/javascript",
+            "exec": [""]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "id": "ef296737-8c06-47ed-90c3-bfe882c1aa40",
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Response status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Artifacts",
+      "item": [
+        {
+          "name": "Create a new task",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "65ad57a3-b776-4d7c-86f9-be6fbf17cac6",
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "pm.globals.set(\"task_id\", jsonData.task_id);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "1ee1eee8-cc2d-43a2-a6e1-7168b0559c45",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"input\": \"Write the word 'Washington' to a .txt file\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{url}}/ap/v1/agent/tasks"
+          },
+          "response": []
+        },
+        {
+          "name": "Upload Artifact",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "6cf7a2c4-1b8a-4c11-8c1a-6b56b2eb80e6",
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "pm.globals.set(\"artifact_id\", jsonData.artifact_id);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "e71fee13-11cb-4b08-a4bb-c9c0f971efed",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": "test_output.txt"
+                }
+              ]
+            },
+            "url": "{{url}}/ap/v1/agent/tasks/{{task_id}}/artifacts"
+          },
+          "response": []
+        },
+        {
+          "name": "Download Artifact",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "82829e0a-f8c7-4925-b28c-0513b018e83e",
+                "exec": [""],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "b002580c-0d48-42c9-83e0-5fb5eaed38ce",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "mock-match",
+                "value": "11",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{url}}/ap/v1/agent/tasks/{{task_id}}/artifacts/{{artifact_id}}"
+          },
+          "response": [
+            {
+              "id": "ade2dd37-0f84-45f0-881e-2224636a4956",
+              "name": "mock response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "mock-match",
+                    "value": "11",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "{{url}}/ap/v1/agent/tasks/{{taskId}}/artifacts/{{artifactId}}"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [
+                {
+                  "key": "Date",
+                  "value": "Mon, 14 Aug 2023 16:28:55 GMT",
+                  "enabled": true
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8",
+                  "enabled": true
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "275",
+                  "enabled": true
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive",
+                  "enabled": true
+                },
+                {
+                  "key": "x-srv-trace",
+                  "value": "v=1;t=daef761e243c402b",
+                  "enabled": true
+                },
+                {
+                  "key": "x-srv-span",
+                  "value": "v=1;s=2c0bd88502372360",
+                  "enabled": true
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*",
+                  "enabled": true
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "120",
+                  "enabled": true
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "115",
+                  "enabled": true
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1691968334",
+                  "enabled": true
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"96-S/5iQ2y1qqIInh5BwoPc+chvDJU\"",
+                  "enabled": true
+                },
+                {
+                  "key": "Vary",
+                  "value": "Accept-Encoding",
+                  "enabled": true
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "Washington"
+            }
+          ]
+        }
+      ],
+      "id": "48e93b55-d463-452f-9d56-f59ee5e95060",
+      "description": "Create Artifacts and consumes them.",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "61be92ef-c1cd-4f2a-a77c-78e5913ea299",
+            "type": "text/javascript",
+            "exec": [""]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "id": "7dcedb1e-4f42-48b1-ac9b-fd3b842b428b",
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Response status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "id": "7dd8bbee-357a-44fd-b891-46bcc3a8a41c",
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "id": "b5f22749-138a-45fe-b6c7-79fe5cf06017",
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ]
 }
