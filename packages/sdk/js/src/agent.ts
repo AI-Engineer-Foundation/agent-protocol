@@ -12,14 +12,13 @@ import {
   type TaskRequestBody,
   StepStatus,
 } from './models'
-import {
-  createApi,
-  type ApiConfig,
-  type RouteRegisterFn,
-  type RouteContext,
-} from './api'
+import { createApi, type ApiConfig, type RouteRegisterFn } from './api'
 import { type Router, type Express } from 'express'
-import { FileStorage, type ArtifactStorage } from './storage'
+import { FileStorage, type ArtifactStorage } from './artifacts'
+
+export interface RouteContext {
+  agent: Agent
+}
 
 /**
  * A function that handles a step in a task.
@@ -310,9 +309,8 @@ const registerGetArtifacts: RouteRegisterFn = (router: Router) => {
  * @param relativePath Relative path where the artifact might be stored. Can be undefined
  */
 export const createArtifact = async (
-  storage: ArtifactStorage,
-  workspace: string,
   task: Task,
+  agent: Agent,
   file: Express.Multer.File,
   relativePath?: string
 ): Promise<Artifact> => {
@@ -331,12 +329,15 @@ export const createArtifact = async (
   task.artifacts.push(artifact)
 
   // Save the file
+  const [storage, workspace] = agent.getArtifactStorageAndWorkspace(
+    task.task_id
+  )
   await storage.writeArtifact(task.task_id, workspace, artifact, file)
   return artifact
 }
 const registerCreateArtifact: RouteRegisterFn = (
   router: Router,
-  context: RouteContext
+  agent: Agent
 ) => {
   router.post('/agent/tasks/:task_id/artifacts', (req, res) => {
     void (async () => {
@@ -360,9 +361,8 @@ const registerCreateArtifact: RouteRegisterFn = (
           res.status(400).json({ message: 'No file found in the request' })
         } else {
           const artifact = await createArtifact(
-            context.artifactStorage,
-            context.workspace,
             task[0],
+            agent,
             file,
             relativePath
           )
@@ -397,7 +397,7 @@ export const getTaskArtifact = async (
 }
 const registerGetTaskArtifact: RouteRegisterFn = (
   router: Router,
-  context: RouteContext
+  agent: Agent
 ) => {
   router.get('/agent/tasks/:task_id/artifacts/:artifact_id', (req, res) => {
     void (async () => {
@@ -405,9 +405,11 @@ const registerGetTaskArtifact: RouteRegisterFn = (
       const artifactId = req.params.artifact_id
       try {
         const artifact = await getTaskArtifact(taskId, artifactId)
-        const artifactPath = context.artifactStorage.getArtifactPath(
+        const [storage, workspace] =
+          agent.getArtifactStorageAndWorkspace(taskId)
+        const artifactPath = storage.getArtifactPath(
           taskId,
-          context.workspace,
+          workspace,
           artifact
         )
         res.status(200).sendFile(artifactPath)
@@ -432,10 +434,16 @@ export const defaultAgentConfig: AgentConfig = {
 }
 
 export class Agent {
+  private workspace: string
+  private artifactStorage: ArtifactStorage
+
   constructor(
     public taskHandler: TaskHandler,
     public config: AgentConfig
-  ) {}
+  ) {
+    this.artifactStorage = config.artifactStorage
+    this.workspace = config.workspace
+  }
 
   static handleTask(
     _taskHandler: TaskHandler,
@@ -468,11 +476,26 @@ export class Agent {
         console.log(`Agent listening at http://localhost:${this.config.port}`)
       },
       context: {
-        workspace: this.config.workspace,
-        artifactStorage: this.config.artifactStorage,
+        agent: this,
       },
     }
 
     createApi(config)
+  }
+
+  /**
+   * @param taskId (potentially) POST /agent/tasks { additional_input } could configure the artifactStorage and/or workspace for a Task
+   */
+  getArtifactStorageAndWorkspace(taskId: string): [ArtifactStorage, string] {
+    return [this.artifactStorage, this.workspace]
+  }
+
+  /** It's easier for Serverless apps to configure artifactStorage after the app has been created */
+  setArtifactStorage(storage: ArtifactStorage): void {
+    this.artifactStorage = storage
+  }
+
+  setWorkspace(workspace: string): void {
+    this.workspace = workspace
   }
 }
