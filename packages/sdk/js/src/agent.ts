@@ -21,7 +21,7 @@ import {
   RouteRegisterFn,
   RouteContext,
 } from "./api";
-import { type Router } from 'express';
+import { Router } from 'express';
 
 /**
  * A function that handles a step in a task.
