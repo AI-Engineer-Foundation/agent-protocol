@@ -4,11 +4,13 @@ import express, { Router } from 'express' // <-- Import Router
 import type * as core from 'express-serve-static-core'
 
 import spec from '../../../../schemas/openapi.yml'
+import { type ArtifactStorage } from './storage'
 
 export type ApiApp = core.Express
 
 export interface RouteContext {
   workspace: string
+  artifactStorage: ArtifactStorage
 }
 
 export type RouteRegisterFn = (app: Router, context: RouteContext) => void

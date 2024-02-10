@@ -1,6 +1,4 @@
 import { v4 as uuid } from 'uuid'
-import * as fs from 'fs'
-import * as path from 'path'
 
 import {
   type TaskInput,
@@ -20,7 +18,8 @@ import {
   type RouteRegisterFn,
   type RouteContext,
 } from './api'
-import { type Router } from 'express'
+import { type Router, type Express } from 'express'
+import { FileStorage, type ArtifactStorage } from './storage'
 
 /**
  * A function that handles a step in a task.
@@ -305,38 +304,16 @@ const registerGetArtifacts: RouteRegisterFn = (router: Router) => {
 }
 
 /**
- * Get path of an artifact associated to a task
- * @param taskId Task associated with artifact
- * @param artifact Artifact associated with the path returned
- * @returns Absolute path of the artifact
- */
-export const getArtifactPath = (
-  taskId: string,
-  workspace: string,
-  artifact: Artifact
-): string => {
-  const rootDir = path.isAbsolute(workspace)
-    ? workspace
-    : path.join(process.cwd(), workspace)
-
-  return path.join(
-    rootDir,
-    taskId,
-    artifact.relative_path ?? '',
-    artifact.file_name
-  )
-}
-
-/**
  * Creates an artifact for a task
  * @param task Task associated with new artifact
  * @param file File that will be added as artifact
  * @param relativePath Relative path where the artifact might be stored. Can be undefined
  */
 export const createArtifact = async (
+  storage: ArtifactStorage,
   workspace: string,
   task: Task,
-  file: any,
+  file: Express.Multer.File,
   relativePath?: string
 ): Promise<Artifact> => {
   const artifactId = uuid()
@@ -353,11 +330,8 @@ export const createArtifact = async (
       : []
   task.artifacts.push(artifact)
 
-  const artifactFolderPath = getArtifactPath(task.task_id, workspace, artifact)
-
-  // Save file to server's file system
-  fs.mkdirSync(path.join(artifactFolderPath, '..'), { recursive: true })
-  fs.writeFileSync(artifactFolderPath, file.buffer)
+  // Save the file
+  await storage.writeArtifact(task.task_id, workspace, artifact, file)
   return artifact
 }
 const registerCreateArtifact: RouteRegisterFn = (
@@ -381,13 +355,19 @@ const registerCreateArtifact: RouteRegisterFn = (
 
         const files = req.files as Express.Multer.File[]
         const file = files.find(({ fieldname }) => fieldname === 'file')
-        const artifact = await createArtifact(
-          context.workspace,
-          task[0],
-          file,
-          relativePath
-        )
-        res.status(200).json(artifact)
+
+        if (file == null) {
+          res.status(400).json({ message: 'No file found in the request' })
+        } else {
+          const artifact = await createArtifact(
+            context.artifactStorage,
+            context.workspace,
+            task[0],
+            file,
+            relativePath
+          )
+          res.status(200).json(artifact)
+        }
       } catch (err: Error | any) {
         console.error(err)
         res.status(500).json({ error: err.message })
@@ -425,7 +405,7 @@ const registerGetTaskArtifact: RouteRegisterFn = (
       const artifactId = req.params.artifact_id
       try {
         const artifact = await getTaskArtifact(taskId, artifactId)
-        const artifactPath = getArtifactPath(
+        const artifactPath = context.artifactStorage.getArtifactPath(
           taskId,
           context.workspace,
           artifact
@@ -442,11 +422,13 @@ const registerGetTaskArtifact: RouteRegisterFn = (
 export interface AgentConfig {
   port: number
   workspace: string
+  artifactStorage: ArtifactStorage
 }
 
 export const defaultAgentConfig: AgentConfig = {
   port: 8000,
   workspace: './workspace',
+  artifactStorage: new FileStorage(),
 }
 
 export class Agent {
@@ -463,6 +445,8 @@ export class Agent {
     return new Agent(_taskHandler, {
       workspace: config.workspace ?? defaultAgentConfig.workspace,
       port: config.port ?? defaultAgentConfig.port,
+      artifactStorage:
+        config.artifactStorage ?? defaultAgentConfig.artifactStorage,
     })
   }
 
@@ -485,6 +469,7 @@ export class Agent {
       },
       context: {
         workspace: this.config.workspace,
+        artifactStorage: this.config.artifactStorage,
       },
     }
 
