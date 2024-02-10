@@ -1,11 +1,11 @@
 # List tasks, artifacts and steps in a paginated way.
 
-| Feature name  | Support Pagination                                                            |
-| :------------ | :---------------------------------------------------------------------------- |
-| **Author(s)** | Merwane Hamadi (merwanehamadi@gmail.com) Craig Swift (craigswift13@gmail.com) |
-| **RFC PR:**   |                                                                               |
-| **Updated**   | 2023-08-28                                                                    |
-| **Obsoletes** |                                                                               |
+| Feature name  | Support Pagination                       |
+| :------------ |:-----------------------------------------|
+| **Author(s)** | Merwane Hamadi (merwanehamadi@gmail.com)  Craig Swift (craigswift13@gmail.com)|
+| **RFC PR:**   |                                          |
+| **Updated**   | 2023-08-28                               |
+| **Obsoletes** | |
 
 ## Summary
 
