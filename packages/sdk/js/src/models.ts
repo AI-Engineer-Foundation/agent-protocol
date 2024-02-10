@@ -27,7 +27,7 @@ export type StepOutput = any
 export enum StepStatus {
   CREATED = "created",
   RUNNING = "running",
-  COMPLETED = "completed",
+  COMPLETED = "completed"
 }
 
 export interface Step {

@@ -17,11 +17,11 @@ import {
 import {
   createApi,
   ApiApp,
-  type ApiConfig,
-  type RouteRegisterFn,
-  type RouteContext,
-} from './api'
-import { type Router } from 'express'
+  ApiConfig,
+  RouteRegisterFn,
+  RouteContext,
+} from "./api";
+import { type Router } from 'express';
 
 /**
  * A function that handles a step in a task.
@@ -83,7 +83,7 @@ const registerCreateAgentTask: RouteRegisterFn = (router: Router) => {
         res.status(500).json({ error: err.message })
       }
     })()
-  })
+  });
 }
 
 /**
@@ -189,7 +189,7 @@ export const executeAgentTaskStep = async (
   }
 
   // If there are artifacts in the step, append them to the task's artifacts array (or initialize it if necessary)
-  if (step.artifacts != null && step.artifacts.length > 0) {
+  if (step.artifacts && step.artifacts.length > 0) {
     task[0].artifacts = task[0].artifacts ?? []
     task[0].artifacts.push(...step.artifacts)
   }
@@ -250,7 +250,7 @@ const registerGetAgentTaskStep: RouteRegisterFn = (router: Router) => {
 export const getArtifacts = async (
   taskId: string
 ): Promise<Artifact[] | undefined> => {
-  const task = await getAgentTask(taskId)
+  const task = await getAgentTask(taskId);
   return task.artifacts;
 }
 const registerGetArtifacts: RouteRegisterFn = (router: Router) => {
@@ -259,10 +259,10 @@ const registerGetArtifacts: RouteRegisterFn = (router: Router) => {
       const taskId = req.params.task_id
       try {
         const artifacts = await getArtifacts(taskId)
-        const current_page = Number(req.query.current_page) || 1
-        const page_size = Number(req.query.page_size) || 10
+        const current_page = Number(req.query['current_page']) || 1
+        const page_size = Number(req.query['page_size']) || 10
 
-        if (artifacts == null) {
+        if (!artifacts) {
           res.status(200).send({
             artifacts: [],
             pagination: {
@@ -311,7 +311,7 @@ export const getArtifactPath = (
 ): string => {
   const rootDir = path.isAbsolute(workspace) ?
     workspace :
-    path.join(process.cwd(), workspace)
+    path.join(process.cwd(), workspace);
 
   return path.join(
     rootDir,
@@ -341,7 +341,7 @@ export const createArtifact = async (
     relative_path: relativePath || null,
     created_at: Date.now().toString(),
   }
-  task.artifacts = task.artifacts != null || []
+  task.artifacts = task.artifacts || []
   task.artifacts.push(artifact)
 
   const artifactFolderPath = getArtifactPath(
@@ -363,14 +363,14 @@ const registerCreateArtifact: RouteRegisterFn = (router: Router, context: RouteC
         const relativePath = req.body.relative_path
 
         const task = tasks.find(([{ task_id }]) => task_id == taskId)
-        if (task == null) {
+        if (!task) {
           res
             .status(404)
             .json({ message: 'Unable to find task with the provided id' })
         }
 
-        const files = req.files as Express.Multer.File[]
-        const file = files.find(({ fieldname }) => fieldname == 'file')
+        const files = req.files as Array<Express.Multer.File>
+        let file = files.find(({ fieldname }) => fieldname == 'file')
         const artifact = await createArtifact(
           context.workspace,
           task[0],
@@ -398,7 +398,7 @@ export const getTaskArtifact = async (
 ): Promise<Artifact> => {
   const task = await getAgentTask(taskId)
   const artifact = task.artifacts?.find((a) => a.artifact_id === artifactId)
-  if (artifact == null) {
+  if (!artifact) {
     throw new Error(
       `Artifact with id ${artifactId} in task with id ${taskId} was not found`
     )
@@ -430,7 +430,7 @@ export interface AgentConfig {
 export const defaultAgentConfig: AgentConfig = {
   port: 8000,
   workspace: "./workspace",
-}
+};
 
 export class Agent {
   constructor(
@@ -445,7 +445,7 @@ export class Agent {
     taskHandler = _taskHandler
     return new Agent(_taskHandler, {
       workspace: config.workspace || defaultAgentConfig.workspace,
-      port: config.port || defaultAgentConfig.port,
+      port: config.port || defaultAgentConfig.port
     });
   }
 

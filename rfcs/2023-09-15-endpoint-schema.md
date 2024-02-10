@@ -32,7 +32,6 @@ Change the current `/agent/` endpoint schema to `/ap/v1/agent/`. This brings cla
 
 ### Compatibility
 These changes are not backwards compatible for the following reasons:
-
 - The change in the endpoint schema will break existing client implementations tied to the old URL structure.
 
 Clients will need to update their integrations to accomodate these changes, necessitating a major version bump.

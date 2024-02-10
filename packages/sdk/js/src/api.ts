@@ -1,6 +1,6 @@
 import * as OpenApiValidator from "express-openapi-validator";
 import yaml from "js-yaml";
-import express, { Router } from "express"; // <-- Import Router
+import express, { Router } from "express";  // <-- Import Router
 import * as core from "express-serve-static-core";
 
 import spec from "../agent-protocol/schemas/openapi.yml";

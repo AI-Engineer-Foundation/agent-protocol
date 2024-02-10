@@ -379,7 +379,10 @@
                     {
                       "type": "object",
                       "description": "Definition of an agent task.",
-                      "required": ["task_id", "artifacts"],
+                      "required": [
+                        "task_id",
+                        "artifacts"
+                      ],
                       "properties": {
                         "task_id": {
                           "description": "The ID of the task.",
@@ -447,7 +450,9 @@
                       "example": "Unable to find entity with the provided id"
                     }
                   },
-                  "required": ["message"]
+                  "required": [
+                    "message"
+                  ]
                 }
               }
             }
@@ -456,7 +461,9 @@
             "description": "Internal Server Error"
           }
         },
-        "tags": ["agent"],
+        "tags": [
+          "agent"
+        ],
         "security": [
           {
             "HTTPBearer": []
@@ -702,7 +709,9 @@
             "description": "Internal Server Error"
           }
         },
-        "tags": ["agent"],
+        "tags": [
+          "agent"
+        ],
         "security": [
           {
             "HTTPBearer": []
@@ -918,7 +927,9 @@
             "description": "Internal Server Error"
           }
         },
-        "tags": ["agent"],
+        "tags": [
+          "agent"
+        ],
         "security": [
           {
             "HTTPBearer": []
@@ -1331,7 +1342,9 @@
                     "example": "python/code"
                   }
                 },
-                "required": ["file"]
+                "required": [
+                  "file"
+                ]
               }
             }
           }
@@ -1479,7 +1492,9 @@
             "description": "Internal Server Error"
           }
         },
-        "tags": ["agent"],
+        "tags": [
+          "agent"
+        ],
         "security": [
           {
             "HTTPBearer": []
@@ -1696,7 +1711,11 @@
                       "description": "The status of the task step.",
                       "type": "string",
                       "example": "created",
-                      "enum": ["created", "running", "completed"]
+                      "enum": [
+                        "created",
+                        "running",
+                        "completed"
+                      ]
                     },
                     "output": {
                       "description": "Output of the task step.",
@@ -1923,7 +1942,9 @@
             "example": "python/code"
           }
         },
-        "required": ["file"]
+        "required": [
+          "file"
+        ]
       },
       "StepInput": {
         "description": "Input parameters for the task step. Any value is allowed.",
@@ -1975,7 +1996,10 @@
           {
             "type": "object",
             "description": "Definition of an agent task.",
-            "required": ["task_id", "artifacts"],
+            "required": [
+              "task_id",
+              "artifacts"
+            ],
             "properties": {
               "task_id": {
                 "description": "The ID of the task.",
@@ -2011,7 +2035,11 @@
                       "nullable": true
                     }
                   },
-                  "required": ["artifact_id", "agent_created", "file_name"]
+                  "required": [
+                    "artifact_id",
+                    "agent_created",
+                    "file_name"
+                  ]
                 },
                 "example": [
                   "7a49f31c-f9c6-4346-a22c-e32bc5af4d8e",
@@ -2089,7 +2117,11 @@
                 "description": "The status of the task step.",
                 "type": "string",
                 "example": "created",
-                "enum": ["created", "running", "completed"]
+                "enum": [
+                  "created",
+                  "running",
+                  "completed"
+                ]
               },
               "output": {
                 "description": "Output of the task step.",
@@ -2132,7 +2164,11 @@
                       "nullable": true
                     }
                   },
-                  "required": ["artifact_id", "agent_created", "file_name"]
+                  "required": [
+                    "artifact_id",
+                    "agent_created",
+                    "file_name"
+                  ]
                 },
                 "default": []
               },
@@ -2172,7 +2208,9 @@
                   "example": "Unable to find entity with the provided id"
                 }
               },
-              "required": ["message"]
+              "required": [
+                "message"
+              ]
             }
           }
         }
