@@ -1,0 +1,51 @@
+export const metadata = {
+  title: 'Test your agent',
+  description:
+    'In this guide, we’ll look at how test your agent for Agent Protocol compliance.',
+}
+
+# Test your agent
+
+To check if your agent is compliant with the Agent Protocol, you can use the [Agent Protocol Testing Suite](https://github.com/AI-Engineer-Foundation/agent-protocol/tree/main/testing_suite). The testing suite uses `npm` and `newman` to run a Postman routine against the agent. {{ className: 'lead' }}
+
+You can test your agent's compliance by running the following command:
+
+```shell
+URL=http://localhost:8000 bash -c "$(curl -fsSL https://agentprotocol.ai/test.sh)"
+```
+
+The command will run a series of tests against your agent endpoints and check if the responses are compliant with the Agent Protocol.
+
+## CI Pipeline
+
+We advise you to add the validator as a part of your CI pipeline. It’s very
+minimal and the setup is simple.
+
+```yaml
+jobs:
+  publish:
+    name: Validate agent protocol compliance
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install agent requirements
+        run: pip install -r requirements.txt
+
+      - name: Run agent and validate compliance
+        run: |
+          <command to run your agent> & # Make sure to use the ampersand to detach your agent
+          URL=<your-agent-url> bash -c "$(curl -fsSL https://agentprotocol.ai/test.sh)"
+```
+
+You can then add a badge to your agent to show it is agent protocol compliant.
+
+```markdown
+![Agent protocol](https://github.com/<OWNER>/<REPOSITORY>/actions/workflows/<WORKFLOW_FILENAME>/badge.svg)
+```

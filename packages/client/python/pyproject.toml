@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "agent-protocol-client"
-version = "1.0.1"
+version = "1.1.0"
 description = "Agent Communication Protocol Client"
 authors = ["AI Engineers Foundation <aiengineersfoundation@gmail.com>"]
 license = "MIT"
@@ -10,13 +10,12 @@ repository = "https://github.com/AI-Engineers-Foundation/agent-protocol/tree/mai
 packages = [{ include = "agent_protocol_client" }]
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.7"
 
-urllib3 = ">= 1.25.3"
-python-dateutil = ">=2.8.2"
-aiohttp = ">= 3.8.4"
-pydantic = "^1.10.5, <2"
-aenum = ">=3.1.11"
+urllib3 = "^1.25.3"
+aiohttp = "^3.8.4"
+pydantic = "^1.10.5"
+python-dateutil = "^2.8.2"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.7.0"

@@ -1,0 +1,356 @@
+export const metadata = {
+  title: 'Agent Protocol Description',
+  description:
+    'Description of the Agent Protocol, its functionality and how to use it.',
+}
+
+# Endpoints
+
+The agent exposes the following endpoints (see the [OpenAPI file](https://github.com/AI-Engineer-Foundation/agent-protocol/blob/main/schemas/openapi.yml)):
+
+## Create Agent Task {{ tag: 'POST', label: '/ap/v1/agent/tasks' }}
+
+<Row>
+  <Col>
+    Creates a task for the agent.
+
+    ### Body attributes
+
+  <Properties>
+    
+    <Property name="input" type="string" required="undefined">
+        Input prompt for the task.
+    </Property>
+    <Property name="additional_input" type="object" required="undefined">
+        Input parameters for the task. Any value is allowed.
+    </Property>
+  </Properties>
+   
+    ### Response
+  
+    A new agent task was successfully created.
+
+  </Col>
+  <Col sticky>
+    <CodeGroup title="Request" tag="POST" label="/ap/v1/agent/tasks">
+```bash {{ title: 'cURL' }}
+curl --request POST http://localhost:8000/ap/v1/agent/tasks
+    -F 'input=[input]'
+    -F 'additional_input=[additional_input]'
+```
+    </CodeGroup>
+  </Col>
+</Row>
+
+---
+
+## List Agent Tasks {{ tag: 'GET', label: '/ap/v1/agent/tasks' }}
+
+<Row>
+  <Col>
+    List all tasks that have been created for the agent.
+
+    ### Path attributes
+
+  <Properties>
+    
+    <Property name="current_page" type="integer">
+        Page number
+    </Property>
+    <Property name="page_size" type="integer">
+        Number of items per page
+    </Property>
+  </Properties>
+    
+   
+    ### Response
+  
+    Returned list of agent's tasks.
+
+  </Col>
+  <Col sticky>
+    <CodeGroup title="Request" tag="GET" label="/ap/v1/agent/tasks">
+```bash {{ title: 'cURL' }}
+curl  http://localhost:8000/ap/v1/agent/tasks
+
+````
+    </CodeGroup>
+  </Col>
+</Row>
+
+---
+
+## Get Agent Task {{ tag: 'GET', label: '/ap/v1/agent/tasks/<task_id>' }}
+<Row>
+  <Col>
+    Get details about a specified agent task.
+
+    ### Path attributes
+
+  <Properties>
+
+    <Property name="task_id" type="string">
+        ID of the task
+    </Property>
+  </Properties>
+
+
+    ### Response
+
+    Returned details about an agent task.
+
+  </Col>
+  <Col sticky>
+    <CodeGroup title="Request" tag="GET" label="/ap/v1/agent/tasks/<task_id>">
+```bash {{ title: 'cURL' }}
+curl  http://localhost:8000/ap/v1/agent/tasks/[task_id]
+
+````
+
+    </CodeGroup>
+
+  </Col>
+</Row>
+
+---
+
+## List Agent Task Steps {{ tag: 'GET', label: '/ap/v1/agent/tasks/<task_id>/steps' }}
+
+<Row>
+  <Col>
+    List all steps for the specified task.
+
+    ### Path attributes
+
+  <Properties>
+    
+    <Property name="task_id" type="string">
+        ID of the task.
+    </Property>
+    <Property name="current_page" type="integer">
+        Page number
+    </Property>
+    <Property name="page_size" type="integer">
+        Number of items per page
+    </Property>
+  </Properties>
+    
+   
+    ### Response
+  
+    Returned list of agent's steps for the specified task.
+
+  </Col>
+  <Col sticky>
+    <CodeGroup title="Request" tag="GET" label="/ap/v1/agent/tasks/<task_id>/steps">
+```bash {{ title: 'cURL' }}
+curl  http://localhost:8000/ap/v1/agent/tasks/[task_id]/steps
+
+````
+    </CodeGroup>
+  </Col>
+</Row>
+
+---
+
+## Execute Agent Task Step {{ tag: 'POST', label: '/ap/v1/agent/tasks/<task_id>/steps' }}
+<Row>
+  <Col>
+    Execute a step in the specified agent task.
+
+    ### Path attributes
+
+  <Properties>
+
+    <Property name="task_id" type="string">
+        ID of the task
+    </Property>
+  </Properties>
+    ### Body attributes
+
+  <Properties>
+
+    <Property name="input" type="string" required="undefined">
+        Input prompt for the step.
+    </Property>
+    <Property name="additional_input" type="object" required="undefined">
+        Input parameters for the task step. Any value is allowed.
+    </Property>
+  </Properties>
+
+    ### Response
+
+    Executed step for the agent task.
+
+  </Col>
+  <Col sticky>
+    <CodeGroup title="Request" tag="POST" label="/ap/v1/agent/tasks/<task_id>/steps">
+```bash {{ title: 'cURL' }}
+curl --request POST http://localhost:8000/ap/v1/agent/tasks/[task_id]/steps
+    -F 'input=[input]'
+    -F 'additional_input=[additional_input]'
+````
+
+    </CodeGroup>
+
+  </Col>
+</Row>
+
+---
+
+## Get Agent Task Step {{ tag: 'GET', label: '/ap/v1/agent/tasks/<task_id>/steps/<step_id>' }}
+
+<Row>
+  <Col>
+    Get details about a specified task step.
+
+    ### Path attributes
+
+  <Properties>
+    
+    <Property name="task_id" type="string">
+        ID of the task
+    </Property>
+    <Property name="step_id" type="string">
+        ID of the step
+    </Property>
+  </Properties>
+    
+   
+    ### Response
+  
+    Returned details about an agent task step.
+
+  </Col>
+  <Col sticky>
+    <CodeGroup title="Request" tag="GET" label="/ap/v1/agent/tasks/<task_id>/steps/<step_id>">
+```bash {{ title: 'cURL' }}
+curl  http://localhost:8000/ap/v1/agent/tasks/[task_id]/steps/[step_id]
+
+````
+    </CodeGroup>
+  </Col>
+</Row>
+
+---
+
+## List Agent Task Artifacts {{ tag: 'GET', label: '/ap/v1/agent/tasks/<task_id>/artifacts' }}
+<Row>
+  <Col>
+    List all artifacts that have been created for the given task.
+
+    ### Path attributes
+
+  <Properties>
+
+    <Property name="task_id" type="string">
+        ID of the task
+    </Property>
+    <Property name="current_page" type="integer">
+        Page number
+    </Property>
+    <Property name="page_size" type="integer">
+        Number of items per page
+    </Property>
+  </Properties>
+
+
+    ### Response
+
+    Returned the list of artifacts for the task.
+
+  </Col>
+  <Col sticky>
+    <CodeGroup title="Request" tag="GET" label="/ap/v1/agent/tasks/<task_id>/artifacts">
+```bash {{ title: 'cURL' }}
+curl  http://localhost:8000/ap/v1/agent/tasks/[task_id]/artifacts
+
+````
+
+    </CodeGroup>
+
+  </Col>
+</Row>
+
+---
+
+## Upload Agent Task Artifacts {{ tag: 'POST', label: '/ap/v1/agent/tasks/<task_id>/artifacts' }}
+
+<Row>
+  <Col>
+    Upload an artifact for the specified task.
+
+    ### Path attributes
+
+  <Properties>
+    
+    <Property name="task_id" type="string">
+        ID of the task
+    </Property>
+  </Properties>
+    ### Body attributes
+
+  <Properties>
+    
+    <Property name="file" type="string" required="true">
+        File to upload.
+    </Property>
+    <Property name="relative_path" type="string" required="false">
+        Relative path of the artifact in the agent's workspace.
+    </Property>
+  </Properties>
+   
+    ### Response
+  
+    Returned the content of the artifact.
+
+  </Col>
+  <Col sticky>
+    <CodeGroup title="Request" tag="POST" label="/ap/v1/agent/tasks/<task_id>/artifacts">
+```bash {{ title: 'cURL' }}
+curl --request POST http://localhost:8000/ap/v1/agent/tasks/[task_id]/artifacts
+    -F '@file=[file-path]'
+    -F 'relative_path=[relative_path]'
+```
+    </CodeGroup>
+  </Col>
+</Row>
+
+---
+
+## Download Agent Task Artifact {{ tag: 'GET', label: '/ap/v1/agent/tasks/<task_id>/artifacts/<artifact_id>' }}
+
+<Row>
+  <Col>
+    Download a specified artifact.
+
+    ### Path attributes
+
+  <Properties>
+    
+    <Property name="task_id" type="string">
+        ID of the task
+    </Property>
+    <Property name="artifact_id" type="string">
+        ID of the artifact
+    </Property>
+  </Properties>
+    
+   
+    ### Response
+  
+    Returned the content of the artifact.
+
+  </Col>
+  <Col sticky>
+    <CodeGroup title="Request" tag="GET" label="/ap/v1/agent/tasks/<task_id>/artifacts/<artifact_id>">
+```bash {{ title: 'cURL' }}
+curl  http://localhost:8000/ap/v1/agent/tasks/[task_id]/artifacts/[artifact_id]
+
+```
+    </CodeGroup>
+  </Col>
+</Row>
+
+---
+```

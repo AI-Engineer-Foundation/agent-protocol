@@ -1,0 +1,90 @@
+export const metadata = {
+  title: 'Agent Protocol Client',
+  description: 'Other possibilities.',
+}
+
+export const sections = []
+
+# How to interact with the agent compliant with Agent Protocol
+
+To interact with the agent you don't need to use the dedicated client.
+You can just call the endpoints directly. {{ className:'lead' }}
+
+## JS
+
+Here's interaction with the agent in JS:
+
+```js
+const url = 'http://localhost:8000'
+const body = JSON.stringify({ input: 'task-input-to-your-agent' })
+
+// Create task
+let response = await fetch(
+  `${url}/ap/v1/agent/tasks`,
+  { method: 'POST' },
+  { body },
+)
+let data = await response.json()
+
+const taskId = data.task_id
+let isLast = false
+
+// Execute steps until the completion
+while (!isLast) {
+  response = await fetch(`${url}/ap/v1/agent/tasks/${taskId}/steps`, {
+    method: 'POST',
+  })
+  data = await response.json()
+  isLast = data.is_last
+}
+
+// Print output
+console.log('Done!', data.output)
+```
+
+### cURL
+
+Or you can use just cURL:
+
+To **create a task** run
+
+```sh
+curl --request POST \
+  --url http://localhost:8000/ap/v1/agent/tasks \
+  --header 'Content-Type: application/json' \
+  --data '{
+	"input": "task-input-to-your-agent"
+}'
+```
+
+You will get a response like this:
+
+```json
+{
+  "input": "task-input-to-your-agent",
+  "task_id": "e6d768bb-4c50-4007-9853-aeffb46c77be",
+  "artifacts": []
+}
+```
+
+Then to **execute one step of the task** copy the `task_id` you got from the
+previous request and run:
+
+```sh
+curl --request POST \
+  --url http://localhost:8000/ap/v1/agent/tasks/<task-id>/steps \
+  --header 'Content-Type: application/json'
+```
+
+To get response like this:
+
+```json
+{
+  "output": "output-from-the-agent",
+  "artifacts": [],
+  "is_last": false,
+  "input": null,
+  "task_id": "e6d768bb-4c50-4007-9853-aeffb46c77be",
+  "step_id": "8ff8ba39-2c3e-4246-8086-fbd2a897240b"
+}
+```
