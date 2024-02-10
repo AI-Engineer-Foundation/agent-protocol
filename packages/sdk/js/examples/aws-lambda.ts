@@ -19,7 +19,7 @@ async function taskHandler(taskInput: TaskInput | null): Promise<StepHandler> {
   return stepHandler
 }
 
-const app = Agent.handleTask(taskHandler, {}).build()
+const app = Agent.handleTask(taskHandler).build()
 const server = awsServerlessExpress.createServer(app)
 
 exports.handler = (event, context) => {

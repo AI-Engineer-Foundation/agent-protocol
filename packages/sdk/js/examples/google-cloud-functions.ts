@@ -19,5 +19,5 @@ async function taskHandler(taskInput: TaskInput | null): Promise<StepHandler> {
   return stepHandler
 }
 
-const app = Agent.handleTask(taskHandler, {}).build()
+const app = Agent.handleTask(taskHandler).build()
 functions.http('agentprotocol', app)
