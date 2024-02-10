@@ -39,7 +39,7 @@ async function taskHandler(taskInput: TaskInput | null): Promise<StepHandler> {
 const config = {
   // port: 8000,
   // workspace: './workspace',
-  // Defaults to FileStorage, but other options are available
+  // Defaults to FileStorage, but other options are available, see also ArtifactStorageFactory
   // artifactStorage: new S3Storage(s3, 'my-agent-artifacts'),
 }
 Agent.handleTask(taskHandler, config).start()
