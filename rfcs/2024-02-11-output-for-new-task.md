@@ -1,10 +1,10 @@
 # Output for New Task
 
-| Feature name  | Output for New Task                 |
-| :------------ | :---------------------------------- |
-| **Author(s)** | Nicholas Albion (nalbion@yahoo.com) |
-| **RFC PR:**   | Leave blank                         |
-| **Updated**   | 2024-02-11                          |
+| Feature name  | Output for New Task                                                      |
+| :------------ | :----------------------------------------------------------------------- |
+| **Author(s)** | Nicholas Albion (nalbion@yahoo.com)                                      |
+| **RFC PR:**   | [102](https://github.com/AI-Engineer-Foundation/agent-protocol/pull/102) |
+| **Updated**   | 2024-02-11                                                               |
 
 ## Summary
 
