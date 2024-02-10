@@ -3,6 +3,7 @@
   "scripts": {
     "ci": "prettier . -c && eslint . --ext .ts,.tsx",
     "prettier": "prettier . -w",
+    "prettier:fix": "prettier --write .",
     "lint": "eslint .  --ext .ts,.tsx --fix",
     "prepare": "husky install"
   },
