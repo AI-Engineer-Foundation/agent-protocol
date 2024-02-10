@@ -35,6 +35,7 @@ paths:
         - agent
       security:
         - HTTPBearer: []
+        - ApiKeyAuth: []
         - {}
     get:
       operationId: listAgentTasks
@@ -73,6 +74,7 @@ paths:
         - agent
       security:
         - HTTPBearer: []
+        - ApiKeyAuth: []
         - {}
   '/ap/v1/agent/tasks/{task_id}':
     get:
@@ -104,6 +106,7 @@ paths:
         - agent
       security:
         - HTTPBearer: []
+        - ApiKeyAuth: []
         - {}
   '/ap/v1/agent/tasks/{task_id}/steps':
     get:
@@ -155,6 +158,7 @@ paths:
         - agent
       security:
         - HTTPBearer: []
+        - ApiKeyAuth: []
         - {}
     post:
       operationId: executeAgentTaskStep
@@ -196,6 +200,7 @@ paths:
         - agent
       security:
         - HTTPBearer: []
+        - ApiKeyAuth: []
         - {}
   '/ap/v1/agent/tasks/{task_id}/steps/{step_id}':
     get:
@@ -239,6 +244,7 @@ paths:
         - agent
       security:
         - HTTPBearer: []
+        - ApiKeyAuth: []
         - {}
   '/ap/v1/agent/tasks/{task_id}/artifacts':
     get:
@@ -290,6 +296,7 @@ paths:
         - agent
       security:
         - HTTPBearer: []
+        - ApiKeyAuth: []
         - {}
     post:
       operationId: uploadAgentTaskArtifacts
@@ -325,6 +332,7 @@ paths:
         - agent
       security:
         - HTTPBearer: []
+        - ApiKeyAuth: []
         - {}
   '/ap/v1/agent/tasks/{task_id}/artifacts/{artifact_id}':
     get:
@@ -364,6 +372,7 @@ paths:
         - agent
       security:
         - HTTPBearer: []
+        - ApiKeyAuth: []
         - {}
 components:
   schemas:
@@ -610,3 +619,7 @@ components:
     HTTPBearer:
       type: http
       scheme: bearer
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY

@@ -153,6 +153,9 @@
           {
             "HTTPBearer": []
           },
+          {
+            "ApiKeyAuth": []
+          },
           {}
         ]
       },
@@ -326,6 +329,9 @@
           {
             "HTTPBearer": []
           },
+          {
+            "ApiKeyAuth": []
+          },
           {}
         ]
       }
@@ -467,6 +473,9 @@
         "security": [
           {
             "HTTPBearer": []
+          },
+          {
+            "ApiKeyAuth": []
           },
           {}
         ]
@@ -716,6 +725,9 @@
           {
             "HTTPBearer": []
           },
+          {
+            "ApiKeyAuth": []
+          },
           {}
         ]
       },
@@ -934,6 +946,9 @@
           {
             "HTTPBearer": []
           },
+          {
+            "ApiKeyAuth": []
+          },
           {}
         ]
       }
@@ -1133,6 +1148,9 @@
           {
             "HTTPBearer": []
           },
+          {
+            "ApiKeyAuth": []
+          },
           {}
         ]
       }
@@ -1299,6 +1317,9 @@
           {
             "HTTPBearer": []
           },
+          {
+            "ApiKeyAuth": []
+          },
           {}
         ]
       },
@@ -1420,6 +1441,9 @@
           {
             "HTTPBearer": []
           },
+          {
+            "ApiKeyAuth": []
+          },
           {}
         ]
       }
@@ -1498,6 +1522,9 @@
         "security": [
           {
             "HTTPBearer": []
+          },
+          {
+            "ApiKeyAuth": []
           },
           {}
         ]
@@ -2220,6 +2247,11 @@
       "HTTPBearer": {
         "type": "http",
         "scheme": "bearer"
+      },
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-KEY"
       }
     }
   }

@@ -423,8 +423,10 @@ const registerGetTaskArtifact: RouteRegisterFn = (router: Router, context: Route
 }
 
 export interface AgentConfig {
-  port: number;
-  workspace: string;
+  port: number
+  workspace: string
+  apiKeys?: string[]
+  jwtSecret?: string
 }
 
 export const defaultAgentConfig: AgentConfig = {
@@ -469,6 +471,8 @@ export class Agent {
       context: {
         workspace: this.config.workspace
       },
+      apiKeys: this.config.apiKeys,
+      jwtSecret: this.config.jwtSecret,
     }
 
     createApi(config)

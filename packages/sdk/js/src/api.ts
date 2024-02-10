@@ -3,7 +3,8 @@ import yaml from "js-yaml";
 import express, { Router } from "express";  // <-- Import Router
 import * as core from "express-serve-static-core";
 
-import spec from "../agent-protocol/schemas/openapi.yml";
+import spec from '../agent-protocol/schemas/openapi.yml'
+import authMiddleware from '../authMiddleware'
 
 export type ApiApp = core.Express;
 
@@ -17,10 +18,12 @@ export type RouteRegisterFn = (
 ) => void;
 
 export interface ApiConfig {
-  context: RouteContext;
-  port: number;
-  callback?: () => void;
-  routes: RouteRegisterFn[];
+  context: RouteContext
+  port: number
+  apiKeys?: string[]
+  jwtSecret?: string
+  callback?: () => void
+  routes: RouteRegisterFn[]
 }
 
 export const createApi = (config: ApiConfig) => {
@@ -44,7 +47,9 @@ export const createApi = (config: ApiConfig) => {
     res.setHeader("Content-Type", "text/yaml").status(200).send(spec);
   });
 
-  const router = Router();
+  const router = Router()
+
+  router.use(authMiddleware(config))
 
   config.routes.map((route) => {
     route(router, config.context);
