@@ -13,6 +13,7 @@ import {
   type Task,
   type TaskRequestBody,
   StepStatus,
+  type AdditionalInput,
 } from './models'
 import {
   createApi,
@@ -26,14 +27,18 @@ import { type Router } from 'express'
  * A function that handles a step in a task.
  * Returns a step result.
  */
-export type StepHandler = (input: StepInput | null) => Promise<StepResult>
+export type StepHandler = (
+  input: StepInput | null,
+  additionalInput: AdditionalInput | null
+) => Promise<StepResult>
 /**
  * A function that handles a task.
  * Returns a step handler.
  */
 export type TaskHandler = (
   taskId: string,
-  input: TaskInput | null
+  input: TaskInput | null,
+  additionalInput: AdditionalInput | null
 ) => Promise<StepHandler>
 
 const tasks: Array<[Task, StepHandler]> = []
@@ -67,7 +72,11 @@ export const createAgentTask = async (
     input: body?.input ?? null,
     artifacts: [],
   }
-  const stepHandler = await taskHandler(task.task_id, body?.input ?? null)
+  const stepHandler = await taskHandler(
+    task.task_id,
+    body?.input ?? null,
+    body?.additional_input ?? null
+  )
   tasks.push([task, stepHandler])
   return task
 }
@@ -175,7 +184,10 @@ export const executeAgentTaskStep = async (
     throw new Error(`Task with id ${taskId} not found`)
   }
   const handler = task[1]
-  const stepResult = await handler(body?.input ?? null)
+  const stepResult = await handler(
+    body?.input ?? null,
+    body?.additional_input ?? null
+  )
   const step: Step = {
     task_id: taskId,
     step_id: uuid(),
