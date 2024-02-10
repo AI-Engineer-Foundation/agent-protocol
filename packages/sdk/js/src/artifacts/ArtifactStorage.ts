@@ -1,6 +1,9 @@
 import path from 'path'
 import { type Artifact } from '../models'
 
+/**
+ * @see ArtifactStorageFactory
+ */
 export default abstract class ArtifactStorage {
   /**
    * Save an artifact associated to a task

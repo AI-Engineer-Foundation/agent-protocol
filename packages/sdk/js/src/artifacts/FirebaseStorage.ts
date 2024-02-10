@@ -1,8 +1,15 @@
-import { ref, uploadBytes } from 'firebase/storage'
+import {
+  type StorageReference,
+  type FirebaseStorage as ActualFirebaseStorage,
+  ref,
+  uploadBytes,
+} from 'firebase/storage'
 import ArtifactStorage from './ArtifactStorage'
 
 export default class FirebaseStorage extends ArtifactStorage {
-  constructor(private readonly storage: any) {
+  constructor(
+    private readonly storage: ActualFirebaseStorage | StorageReference
+  ) {
     super()
   }
 
