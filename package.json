@@ -26,6 +26,7 @@
   "optionalDependencies": {
     "@azure/storage-blob": "^12.17.0",
     "@google-cloud/storage": "^7.7.0",
+    "@supabase/supabase-js": "^2.39.3",
     "aws-sdk": "^2.1555.0",
     "firebase": "^10.8.0",
     "redis": "^4.6.13",
