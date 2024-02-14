@@ -21,7 +21,6 @@ import Agent, {
   type StepResult,
   type TaskInput,
 } from 'agent-protocol'
-// import S3Storage from 'agent-protocol/storage/S3Storage'
 
 async function taskHandler(taskInput: TaskInput | null): Promise<StepHandler> {
   console.log(`task: ${taskInput}`)
@@ -38,10 +37,23 @@ async function taskHandler(taskInput: TaskInput | null): Promise<StepHandler> {
 
 const config = {
   // port: 8000,
-  // workspace: './workspace',
-  // Defaults to FileStorage, but other options are available, see also ArtifactStorageFactory
-  // artifactStorage: new S3Storage(s3, 'my-agent-artifacts'),
+  // workspace: './workspace'
 }
+Agent.handleTask(taskHandler, config).start()
+```
+
+Note: By default, artifacts will be saved/read from disk, but you can configure other options using the [any-cloud-storage](https://github.com/nalbion/any-cloud-storage) library:
+
+```typescript
+import { ArtifactStorageFactory } from 'agent-protocol/artifacts'
+artifactStorage = ArtifactStorageFactory.create({
+  type: 's3',
+  bucket: 'my-bucket',
+  region: 'us-west-2',
+  // other AWS S3 configuration options...
+})
+
+const config = { artifactStorage }
 Agent.handleTask(taskHandler, config).start()
 ```
 

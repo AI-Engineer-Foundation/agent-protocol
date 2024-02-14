@@ -17,7 +17,11 @@ export default abstract class ArtifactStorage {
     artifact: Artifact,
     file: Express.Multer.File
   ): Promise<void> {
-    const artifactFolderPath = this.getArtifactPath(taskId, workspace, artifact)
+    const artifactFolderPath = await this.getArtifactPath(
+      taskId,
+      workspace,
+      artifact
+    )
     await this.saveFile(artifactFolderPath, file.buffer)
   }
 
@@ -28,14 +32,12 @@ export default abstract class ArtifactStorage {
    * @param artifact Artifact associated with the path returned
    * @returns Absolute path of the artifact
    */
-  getArtifactPath(
+  async getArtifactPath(
     taskId: string,
     workspace: string,
     artifact: Artifact
-  ): string {
-    const rootDir = path.isAbsolute(workspace)
-      ? workspace
-      : path.join(process.cwd(), workspace)
+  ): Promise<string> {
+    const rootDir = await this.getAbsolutePath(workspace)
 
     return path.join(
       rootDir,
@@ -43,6 +45,12 @@ export default abstract class ArtifactStorage {
       artifact.relative_path ?? '',
       artifact.file_name
     )
+  }
+
+  protected getAbsolutePath(filePath: string): string | Promise<string> {
+    return path.isAbsolute(filePath)
+      ? filePath
+      : path.join(process.cwd(), filePath)
   }
 
   protected async saveFile(artifactPath: string, data: Buffer): Promise<void> {}
