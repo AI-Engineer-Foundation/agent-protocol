@@ -258,6 +258,7 @@ const registerGetArtifacts: RouteRegisterFn = (router: Router) => {
       const taskId = req.params.task_id
       try {
         const artifacts = await getArtifacts(taskId)
+
         if (artifacts === undefined) {
           return res
             .status(404)
@@ -442,6 +443,8 @@ const registerGetTaskArtifact: RouteRegisterFn = (
 export interface AgentConfig {
   port: number
   workspace: string
+  apiKeys?: string[]
+  jwtSecret?: string
 }
 
 export const defaultAgentConfig: AgentConfig = {
@@ -486,6 +489,8 @@ export class Agent {
       context: {
         workspace: this.config.workspace,
       },
+      apiKeys: this.config.apiKeys,
+      jwtSecret: this.config.jwtSecret,
     }
 
     createApi(config)

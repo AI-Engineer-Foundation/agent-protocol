@@ -33,6 +33,10 @@ paths:
           description: Internal Server Error
       tags:
         - agent
+      security:
+        - HTTPBearer: []
+        - ApiKeyAuth: []
+        - {}
     get:
       operationId: listAgentTasks
       summary: List all tasks that have been created for the agent.
@@ -68,6 +72,10 @@ paths:
           description: Internal Server Error
       tags:
         - agent
+      security:
+        - HTTPBearer: []
+        - ApiKeyAuth: []
+        - {}
   '/ap/v1/agent/tasks/{task_id}':
     get:
       operationId: getAgentTask
@@ -96,6 +104,10 @@ paths:
           description: Internal Server Error
       tags:
         - agent
+      security:
+        - HTTPBearer: []
+        - ApiKeyAuth: []
+        - {}
   '/ap/v1/agent/tasks/{task_id}/steps':
     get:
       operationId: listAgentTaskSteps
@@ -144,6 +156,10 @@ paths:
           description: Internal Server Error
       tags:
         - agent
+      security:
+        - HTTPBearer: []
+        - ApiKeyAuth: []
+        - {}
     post:
       operationId: executeAgentTaskStep
       summary: Execute a step in the specified agent task.
@@ -182,6 +198,10 @@ paths:
           description: Internal Server Error
       tags:
         - agent
+      security:
+        - HTTPBearer: []
+        - ApiKeyAuth: []
+        - {}
   '/ap/v1/agent/tasks/{task_id}/steps/{step_id}':
     get:
       operationId: getAgentTaskStep
@@ -222,6 +242,10 @@ paths:
           description: Internal Server Error
       tags:
         - agent
+      security:
+        - HTTPBearer: []
+        - ApiKeyAuth: []
+        - {}
   '/ap/v1/agent/tasks/{task_id}/artifacts':
     get:
       operationId: listAgentTaskArtifacts
@@ -270,6 +294,10 @@ paths:
           description: Internal Server Error
       tags:
         - agent
+      security:
+        - HTTPBearer: []
+        - ApiKeyAuth: []
+        - {}
     post:
       operationId: uploadAgentTaskArtifacts
       summary: Upload an artifact for the specified task.
@@ -302,6 +330,10 @@ paths:
           description: Internal Server Error
       tags:
         - agent
+      security:
+        - HTTPBearer: []
+        - ApiKeyAuth: []
+        - {}
   '/ap/v1/agent/tasks/{task_id}/artifacts/{artifact_id}':
     get:
       operationId: downloadAgentTaskArtifact
@@ -338,6 +370,10 @@ paths:
           description: Internal Server Error
       tags:
         - agent
+      security:
+        - HTTPBearer: []
+        - ApiKeyAuth: []
+        - {}
 components:
   schemas:
     Pagination:
@@ -579,3 +615,11 @@ components:
                 example: Unable to find entity with the provided id
             required:
               - message
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY

@@ -3,6 +3,7 @@ import yaml from 'js-yaml'
 import express, { Router } from 'express' // <-- Import Router
 import type * as core from 'express-serve-static-core'
 
+import authMiddleware from '../authMiddleware'
 import spec from '../../../../schemas/openapi.yml'
 
 export type ApiApp = core.Express
@@ -16,6 +17,8 @@ export type RouteRegisterFn = (app: Router, context: RouteContext) => void
 export interface ApiConfig {
   context: RouteContext
   port: number
+  apiKeys?: string[]
+  jwtSecret?: string
   callback?: () => void
   routes: RouteRegisterFn[]
 }
@@ -42,6 +45,8 @@ export const createApi = (config: ApiConfig): void => {
   })
 
   const router = Router()
+
+  router.use(authMiddleware(config))
 
   config.routes.forEach((route) => {
     route(router, config.context)
