@@ -56,7 +56,7 @@ from agent_protocol import Agent, Step, Task
 
 async def plan(step: Step) -> Step:
     task = await Agent.db.get_task(step.task_id)
-    steps = generete_steps(task.input)
+    steps = generate_steps(task.input)
 
     last_step = steps[-1]
     for step in steps[:-1]:
