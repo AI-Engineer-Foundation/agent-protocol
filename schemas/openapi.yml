@@ -400,8 +400,8 @@ components:
       required:
         - artifacts
         - pagination
-    TaskInput:
-      description: Input parameters for the task. Any value is allowed.
+    AdditionalInput:
+      description: Additional input parameters for the task. Any value is allowed.
       type: object
       example: |-
         {
@@ -448,14 +448,7 @@ components:
           example: python/code
       required:
         - file
-    StepInput:
-      description: Input parameters for the task step. Any value is allowed.
-      type: object
-      example: |-
-        {
-        "file_to_refactor": "models.py"
-        }
-    StepOutput:
+    AdditionalOutput:
       description: Output that the task step has produced. Any value is allowed.
       type: object
       example: |-
@@ -474,7 +467,7 @@ components:
           example: Write 'Washington' to the file 'output.txt'.
           nullable: true
         additional_input:
-          $ref: '#/components/schemas/TaskInput'
+          $ref: '#/components/schemas/AdditionalInput'
     Task:
       allOf:
         - $ref: '#/components/schemas/TaskRequestBody'
@@ -507,14 +500,14 @@ components:
           example: Write the words you receive to the file 'output.txt'.
           nullable: true
         additional_input:
-          $ref: '#/components/schemas/StepInput'
+          $ref: '#/components/schemas/AdditionalInput'
     Step:
       allOf:
         - $ref: '#/components/schemas/StepRequestBody'
         - type: object
           required:
-            - step_id
             - task_id
+            - step_id
             - status
             - is_last
             - artifacts
@@ -527,11 +520,6 @@ components:
               description: The ID of the task step.
               type: string
               example: 6bb1801a-fd80-45e8-899a-4dd723cc602e
-            name:
-              description: The name of the task step.
-              type: string
-              example: Write to file
-              nullable: true
             status:
               description: The status of the task step.
               type: string
@@ -540,13 +528,18 @@ components:
                 - created
                 - running
                 - completed
+            name:
+              description: The name of the task step.
+              type: string
+              example: Write to file
+              nullable: true
             output:
               description: Output of the task step.
               type: string
               example: "I am going to use the write_to_file command and write Washington to a file called output.txt <write_to_file('output.txt', 'Washington')"
               nullable: true
             additional_output:
-              $ref: '#/components/schemas/StepOutput'
+              $ref: '#/components/schemas/AdditionalOutput'
             artifacts:
               description: A list of artifacts that the step has produced.
               type: array
