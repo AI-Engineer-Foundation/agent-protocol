@@ -35,7 +35,26 @@ async function taskHandler(taskInput: TaskInput | null): Promise<StepHandler> {
   return stepHandler
 }
 
-Agent.handleTask(taskHandler).start()
+const config = {
+  // port: 8000,
+  // workspace: './workspace'
+}
+Agent.handleTask(taskHandler, config).start()
+```
+
+Note: By default, artifacts will be saved/read from disk, but you can configure other options using the [any-cloud-storage](https://github.com/nalbion/any-cloud-storage) library:
+
+```typescript
+import { ArtifactStorageFactory } from 'agent-protocol/artifacts'
+artifactStorage = ArtifactStorageFactory.create({
+  type: 's3',
+  bucket: 'my-bucket',
+  region: 'us-west-2',
+  // other AWS S3 configuration options...
+})
+
+const config = { artifactStorage }
+Agent.handleTask(taskHandler, config).start()
 ```
 
 ## Docs

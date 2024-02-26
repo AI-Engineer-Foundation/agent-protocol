@@ -12,6 +12,9 @@
     }
   },
   "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/firebase": "^3.2.1",
+    "@types/redis": "^4.0.11",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "eslint": "^8.45.0",
     "eslint-config-prettier": "^8.8.0",
@@ -19,5 +22,12 @@
     "husky": "^7.0.0",
     "prettier": "^3.0.0",
     "typescript": "^5.1.6"
+  },
+  "optionalDependencies": {
+    "any-cloud-storage": "^1.0.3"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-openapi-validator": "^5.1.5"
   }
 }

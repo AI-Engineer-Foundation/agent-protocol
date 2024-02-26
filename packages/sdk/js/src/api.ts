@@ -4,14 +4,11 @@ import express, { Router } from 'express' // <-- Import Router
 import type * as core from 'express-serve-static-core'
 
 import spec from '../../../../schemas/openapi.yml'
+import { type Agent, type RouteContext } from './agent'
 
 export type ApiApp = core.Express
 
-export interface RouteContext {
-  workspace: string
-}
-
-export type RouteRegisterFn = (app: Router, context: RouteContext) => void
+export type RouteRegisterFn = (app: Router, agent: Agent) => void
 
 export interface ApiConfig {
   context: RouteContext
@@ -44,7 +41,7 @@ export const createApi = (config: ApiConfig): void => {
   const router = Router()
 
   config.routes.forEach((route) => {
-    route(router, config.context)
+    route(router, config.context.agent)
   })
 
   app.use('/ap/v1', router)
