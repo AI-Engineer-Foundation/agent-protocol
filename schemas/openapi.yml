@@ -417,10 +417,85 @@ components:
           description: Link to the issues of the agent.
           type: string
           example: "https://github.com/myagent/myagent/issues"
+        config_options:
+          description: List of configuration options for the agent's tasks and steps. The config is a user-defined set of key/value pairs where the values are standard but the keys are not.
+          type: object
+          example: |-
+            {
+              "debug": {
+                "type": "boolean",
+                "default": false,
+                "description": "Whether to run the agent in debug mode."
+              },
+              "model": {
+                "type": "string",
+                "default": "gpt-4",
+                "description": "The model the agent should use",
+                "scope": ["task", "step"]
+              },
+            }
+          additionalProperties:
+            type: object
+            properties:
+              type:
+                description: The type of the value
+                type: string
+                enum:
+                  - string
+                  - integer
+                  - float
+                  - boolean
+                  - list
+                  - dict
+              default:
+                description: The default value of the config option.
+                oneOf:
+                  - type: string
+                  - type: integer
+                  - type: number
+                  - type: boolean
+                  - type: object
+                  - type: array
+              description:
+                type: string
+                description: A description of the config option.
+              options:
+                description: An array of applicable options. If specified, a consumer of the agent should use the one of the specified options.
+                type: array
+                items:
+                  oneOf:
+                    - type: string
+                    - type: integer
+                    - type: number
+                    - type: boolean
+                    - type: object
+                    - type: array
+                      items:
+                        oneOf:
+                          - type: string
+                          - type: integer
+                          - type: number
+                          - type: boolean
+                          - type: object
+              scope:
+                description: An optional array of strings that scope the config option to the specified routes. If empty, assume all.
+                type: array
+                items:
+                  oneOf:
+                    - type: string
+                      enum:
+                        - task
+                        - step
+                        - artifact
+            required:
+              - type
+              - default
+              - description
       required:
         - name
         - protocol
         - version
+        - config_options
     TaskListResponse:
       type: object
       properties:
@@ -458,7 +533,7 @@ components:
         - artifacts
         - pagination
     TaskInput:
-      description: Input parameters for the task. Any value is allowed.
+      description: Input parameters for the task. Reference the config_options to see what is valid.
       type: object
       example: |-
         {
@@ -506,7 +581,7 @@ components:
       required:
         - file
     StepInput:
-      description: Input parameters for the task step. Any value is allowed.
+      description: Input parameters for the task step. Reference the config_options to see what is valid.
       type: object
       example: |-
         {

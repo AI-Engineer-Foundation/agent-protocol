@@ -78,5 +78,7 @@
   // "python.analysis.inlayHints.variableTypes": true,
   // "python.analysis.autoImportCompletions": true,
   // "python.analysis.completeFunctionParens": true,
-  "files.autoSave": "off"
+  "files.autoSave": "off",
+  "cSpell.words": [
+  ]
 }
