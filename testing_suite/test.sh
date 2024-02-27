@@ -45,7 +45,7 @@ EOF
 
 echo "Washington" >> test_output.txt
 
-newman run https://raw.githubusercontent.com/AI-Engineer-Foundation/agent-protocol/main/testing_suite/agent_protocol_v1.json \
+newman run https://raw.githubusercontent.com/AI-Engineer-Foundation/agent-protocol/main/testing_suite/agent_protocol_latest.json \
 --env-var "url=$URL"
 
 agent_protocol_tests_results=$?

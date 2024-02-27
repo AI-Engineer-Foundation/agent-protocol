@@ -213,6 +213,7 @@ required:
 
 Other changes to the spec are:
 - Descriptions for additional_input on tasks and steps, to replace "Any value is allowed" with "Reference the config_options"
+- Addition of `additional_input` field to the Artifacts to make it compatible with the `config_options` schema scoping.
 
 ## Questions and Discussion Topics
 

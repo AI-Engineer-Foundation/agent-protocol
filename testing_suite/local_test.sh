@@ -45,7 +45,7 @@ EOF
 
 echo "Washington" >> test_output.txt
 
-newman run ./agent_protocol_v1.json \
+newman run ./agent_protocol_latest.json \
 --env-var "url=$URL"
 
 agent_protocol_tests_results=$?

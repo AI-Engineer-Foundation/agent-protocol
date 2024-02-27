@@ -3,7 +3,7 @@
   "info": {
     "title": "Agent Protocol",
     "description": "Specification of the API protocol for communication with an agent.",
-    "version": "v1"
+    "version": "v2"
   },
   "servers": [
     {
@@ -12,7 +12,7 @@
     }
   ],
   "paths": {
-    "/ap/v1/agent/info": {
+    "/ap/v2/agent/info": {
       "get": {
         "operationId": "getAgentInfo",
         "summary": "Get the info data for the agent.",
@@ -39,7 +39,7 @@
         ]
       }
     },
-    "/ap/v1/agent/tasks": {
+    "/ap/v2/agent/tasks": {
       "post": {
         "operationId": "createAgentTask",
         "summary": "Creates a task for the agent.",
@@ -132,7 +132,7 @@
         ]
       }
     },
-    "/ap/v1/agent/tasks/{task_id}": {
+    "/ap/v2/agent/tasks/{task_id}": {
       "get": {
         "operationId": "getAgentTask",
         "summary": "Get details about a specified agent task.",
@@ -177,7 +177,7 @@
         ]
       }
     },
-    "/ap/v1/agent/tasks/{task_id}/steps": {
+    "/ap/v2/agent/tasks/{task_id}/steps": {
       "get": {
         "operationId": "listAgentTaskSteps",
         "summary": "List all steps for the specified task.",
@@ -310,7 +310,7 @@
         ]
       }
     },
-    "/ap/v1/agent/tasks/{task_id}/steps/{step_id}": {
+    "/ap/v2/agent/tasks/{task_id}/steps/{step_id}": {
       "get": {
         "operationId": "getAgentTaskStep",
         "summary": "Get details about a specified task step.",
@@ -375,7 +375,7 @@
         ]
       }
     },
-    "/ap/v1/agent/tasks/{task_id}/artifacts": {
+    "/ap/v2/agent/tasks/{task_id}/artifacts": {
       "get": {
         "operationId": "listAgentTaskArtifacts",
         "summary": "List all artifacts that have been created for the given task.",
@@ -498,7 +498,7 @@
         ]
       }
     },
-    "/ap/v1/agent/tasks/{task_id}/artifacts/{artifact_id}": {
+    "/ap/v2/agent/tasks/{task_id}/artifacts/{artifact_id}": {
       "get": {
         "operationId": "downloadAgentTaskArtifact",
         "summary": "Download a specified artifact.",
@@ -860,6 +860,11 @@
             "description": "Relative path of the artifact in the agent's workspace.",
             "type": "string",
             "example": "python/code"
+          },
+          "additional_input": {
+            "description": "Input parameters for the artifact. Reference the config_options to see what is valid.",
+            "type": "object",
+            "example": "{\n\"artifact_provider\": \"s3\"\n}"
           }
         },
         "required": [
