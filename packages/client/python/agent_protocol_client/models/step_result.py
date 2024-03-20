@@ -19,7 +19,7 @@ import json
 
 
 from typing import Any, List, Optional
-from pydantic import BaseModel, Field, StrictBool, conlist
+from agent_protocol_client.pydantic_v1 import BaseModel, Field, StrictBool, conlist
 
 
 class StepResult(BaseModel):

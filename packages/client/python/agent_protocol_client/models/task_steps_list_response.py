@@ -19,7 +19,7 @@ import json
 
 
 from typing import List
-from pydantic import BaseModel, Field, conlist
+from agent_protocol_client.pydantic_v1 import BaseModel, Field, conlist
 from agent_protocol_client.models.pagination import Pagination
 from agent_protocol_client.models.step import Step
 
