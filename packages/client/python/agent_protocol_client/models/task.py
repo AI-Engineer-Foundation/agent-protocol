@@ -19,7 +19,7 @@ import json
 
 
 from typing import Any, Dict, List, Optional
-from pydantic import BaseModel, Field, StrictStr, conlist
+from agent_protocol_client.pydantic_v1 import BaseModel, Field, StrictStr, conlist
 from agent_protocol_client.models.artifact import Artifact
 
 

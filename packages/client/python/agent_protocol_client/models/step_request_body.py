@@ -19,7 +19,7 @@ import json
 
 
 from typing import Any, Dict, Optional
-from pydantic import BaseModel, Field, StrictStr
+from agent_protocol_client.pydantic_v1 import BaseModel, Field, StrictStr
 
 
 class StepRequestBody(BaseModel):

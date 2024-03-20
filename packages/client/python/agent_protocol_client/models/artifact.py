@@ -19,7 +19,7 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictBool, StrictStr
+from agent_protocol_client.pydantic_v1 import BaseModel, Field, StrictBool, StrictStr
 
 
 class Artifact(BaseModel):

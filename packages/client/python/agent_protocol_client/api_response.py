@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 from typing import Any, Dict, Optional
-from pydantic import Field, StrictInt, StrictStr
+from agent_protocol_client.pydantic_v1 import Field, StrictInt, StrictStr
 
 
 class ApiResponse:

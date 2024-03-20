@@ -7,7 +7,7 @@ from __future__ import annotations
 from enum import Enum
 from typing import List, Optional, Dict, Any
 
-from pydantic import BaseModel, Field
+from agent_protocol_client.pydantic_v1 import BaseModel, Field
 
 
 class NotFoundResponse(BaseModel):

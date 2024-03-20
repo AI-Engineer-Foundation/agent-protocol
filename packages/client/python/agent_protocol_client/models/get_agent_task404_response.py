@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from pydantic import BaseModel, Field, StrictStr
+from agent_protocol_client.pydantic_v1 import BaseModel, Field, StrictStr
 
 
 class GetAgentTask404Response(BaseModel):
