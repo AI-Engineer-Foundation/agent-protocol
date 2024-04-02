@@ -20,7 +20,7 @@ import {
   type RouteRegisterFn,
   type RouteContext,
 } from './api'
-import { type Router } from 'express'
+import { type Router, type Express } from 'express'
 
 /**
  * A function that handles a step in a task.
@@ -499,8 +499,18 @@ export class Agent {
     })
   }
 
+  build(port?: number): Express {
+    const config = this.buildApiConfig(port)
+    return createApi(config, false)
+  }
+
   start(port?: number): void {
-    const config: ApiConfig = {
+    const config = this.buildApiConfig(port)
+    createApi(config)
+  }
+
+  private buildApiConfig(port?: number): ApiConfig {
+    return {
       port: port ?? this.config.port ?? defaultAgentConfig.port,
       routes: [
         registerCreateAgentTask,
@@ -520,7 +530,5 @@ export class Agent {
         workspace: this.config.workspace,
       },
     }
-
-    createApi(config)
   }
 }
