@@ -18,4 +18,4 @@ async function taskHandler(taskInput: TaskInput | null): Promise<StepHandler> {
   return stepHandler
 }
 
-Agent.handleTask(taskHandler).start()
+Agent.handleTask(taskHandler, {}).start()
