@@ -35,7 +35,7 @@ async function taskHandler(taskInput: TaskInput | null): Promise<StepHandler> {
   return stepHandler
 }
 
-Agent.handleTask(taskHandler).start()
+Agent.handleTask(taskHandler, {}).start()
 ```
 
 See the [https://github.com/AI-Engineer-Foundation/agent-protocol/tree/main/packages/sdk/js/examples](examples folder) for running in serverless environments.
