@@ -2,6 +2,7 @@
  * Input parameters for the task. Any value is allowed.
  */
 export type TaskInput = any
+export type AdditionalInput = any
 
 /**
  * Artifact that the task has produced. Any value is allowed.
@@ -87,6 +88,7 @@ export interface StepResult {
 
 export interface Task {
   input?: TaskInput
+  additional_input?: AdditionalInput
   /**
    * The ID of the task.
    */
@@ -99,4 +101,5 @@ export interface Task {
 
 export interface TaskRequestBody {
   input?: TaskInput
+  additional_input?: AdditionalInput
 }
