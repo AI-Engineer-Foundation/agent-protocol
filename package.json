@@ -4,7 +4,8 @@
     "ci": "prettier . -c && eslint . --ext .ts,.tsx",
     "prettier": "prettier . -w",
     "lint": "eslint .  --ext .ts,.tsx --fix",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "generate:client:js": "openapi-generator-cli generate --global-property apis,models,supportingFiles,modelDocs=false -i schemas/openapi.yml -g typescript-fetch -c packages/client/js/openapitools.json -o packages/client/js --additional-properties=generateSourceCodeOnly=true"
   },
   "husky": {
     "hooks": {
@@ -12,6 +13,7 @@
     }
   },
   "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.9.0",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "eslint": "^8.45.0",
     "eslint-config-prettier": "^8.8.0",
