@@ -5,8 +5,7 @@
     "prettier": "prettier . -w",
     "lint": "eslint .  --ext .ts,.tsx --fix",
     "prepare": "husky install",
-    "generate:client:js": "openapi-generator-cli generate --global-property apis,models,supportingFiles,modelDocs=false -i schemas/openapi.yml -g typescript-fetch -c packages/client/js/openapitools.json -o packages/client/js --additional-properties=generateSourceCodeOnly=true",
-    "generate:client:python": "openapi-generator-cli generate --global-property apis,models,supportingFiles,modelDocs=false -i schemas/openapi.yml -g python-pydantic-v1 -c packages/client/python/openapitools.json -o packages/client/python --library asyncio --additional-properties=generateSourceCodeOnly=true,packageName=agent_protocol_client"
+    "generate:client:js": "openapi-generator-cli generate --global-property apis,models,supportingFiles,modelDocs=false -i schemas/openapi.yml -g typescript-fetch -c packages/client/js/openapitools.json -o packages/client/js --additional-properties=generateSourceCodeOnly=true"
   },
   "husky": {
     "hooks": {
