@@ -1,11 +1,11 @@
 {
   "name": "agent-protocol-client",
-  "version": "v1",
+  "version": "v1.0.0",
   "description": "OpenAPI client for agent-protocol-client",
   "author": "OpenAPI-Generator",
   "repository": {
     "type": "git",
-    "url": "https://github.com/GIT_USER_ID/GIT_REPO_ID.git"
+    "url": "https://github.com/AI-Engineer-Foundation/agent-protocol.git"
   },
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
