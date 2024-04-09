@@ -1,3 +1,4 @@
+import { onRequest } from 'firebase-functions/v2/https'
 import Agent, {
   type StepResult,
   type StepHandler,
@@ -18,4 +19,6 @@ async function taskHandler(taskInput: TaskInput | null): Promise<StepHandler> {
   return stepHandler
 }
 
-Agent.handleTask(taskHandler, {}).start()
+const app = Agent.handleTask(taskHandler, {}).build()
+
+export const agentprotocol = onRequest(app)

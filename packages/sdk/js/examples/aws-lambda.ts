@@ -1,3 +1,4 @@
+import awsServerlessExpress from 'aws-serverless-express'
 import Agent, {
   type StepResult,
   type StepHandler,
@@ -18,4 +19,9 @@ async function taskHandler(taskInput: TaskInput | null): Promise<StepHandler> {
   return stepHandler
 }
 
-Agent.handleTask(taskHandler, {}).start()
+const app = Agent.handleTask(taskHandler, {}).build()
+const server = awsServerlessExpress.createServer(app)
+
+exports.handler = (event, context) => {
+  awsServerlessExpress.proxy(server, event, context)
+}

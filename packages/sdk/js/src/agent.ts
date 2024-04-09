@@ -20,7 +20,7 @@ import {
   type RouteRegisterFn,
   type RouteContext,
 } from './api'
-import { type Router } from 'express'
+import { type Router, type Express } from 'express'
 
 /**
  * A function that handles a step in a task.
@@ -65,6 +65,7 @@ export const createAgentTask = async (
   const task: Task = {
     task_id: uuid(),
     input: body?.input ?? null,
+    additional_input: body?.additional_input ?? {},
     artifacts: [],
   }
   const stepHandler = await taskHandler(task.task_id, body?.input ?? null)
@@ -89,15 +90,47 @@ const registerCreateAgentTask: RouteRegisterFn = (router: Router) => {
  * Lists all tasks that have been created for the agent.
  * @returns Promise<string[]>
  */
-export const listAgentTaskIDs = async (): Promise<string[]> => {
-  return tasks.map(([task, _]) => task.task_id)
+export const listAgentTasks = async (): Promise<Task[]> => {
+  return tasks.map(([task, _]) => task)
 }
-const registerListAgentTaskIDs: RouteRegisterFn = (router: Router) => {
+const registerListAgentTasks: RouteRegisterFn = (router: Router) => {
   router.get('/agent/tasks', (req, res) => {
     void (async () => {
       try {
-        const ids = await listAgentTaskIDs()
-        res.status(200).json(ids)
+        const tasks = await listAgentTasks()
+
+        let currentPage = 1
+        let pageSize = 10
+        if (
+          req.query.current_page !== undefined &&
+          !isNaN(Number(req.query.current_page))
+        ) {
+          currentPage = Number(req.query.current_page)
+        }
+
+        if (
+          req.query.page_size !== undefined &&
+          !isNaN(Number(req.query.page_size))
+        ) {
+          pageSize = Number(req.query.page_size)
+        }
+
+        const totalItems = tasks.length
+        const totalPages = Math.ceil(totalItems / pageSize)
+
+        const start = (currentPage - 1) * pageSize
+        const end = start + pageSize
+        const pagedTasks = tasks.slice(start, end)
+
+        res.status(200).json({
+          tasks: pagedTasks,
+          pagination: {
+            total_items: totalItems,
+            total_pages: totalPages,
+            current_page: currentPage,
+            page_size: pageSize,
+          }
+        })
       } catch (err: Error | any) {
         console.error(err)
         res.status(500).json({ error: err.message })
@@ -466,12 +499,22 @@ export class Agent {
     })
   }
 
+  build(port?: number): Express {
+    const config = this.buildApiConfig(port)
+    return createApi(config, false)
+  }
+
   start(port?: number): void {
-    const config: ApiConfig = {
+    const config = this.buildApiConfig(port)
+    createApi(config)
+  }
+
+  private buildApiConfig(port?: number): ApiConfig {
+    return {
       port: port ?? this.config.port ?? defaultAgentConfig.port,
       routes: [
         registerCreateAgentTask,
-        registerListAgentTaskIDs,
+        registerListAgentTasks,
         registerGetAgentTask,
         registerListAgentTaskSteps,
         registerExecuteAgentTaskStep,
@@ -487,7 +530,5 @@ export class Agent {
         workspace: this.config.workspace,
       },
     }
-
-    createApi(config)
   }
 }

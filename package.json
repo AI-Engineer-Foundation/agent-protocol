@@ -20,6 +20,12 @@
     "eslint-config-standard-with-typescript": "^36.1.0",
     "husky": "^7.0.0",
     "prettier": "^3.0.0",
+    "prettier-plugin-tailwindcss": "^0.5.11",
     "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-openapi-validator": "^5.1.5",
+    "express-serve-static-core": "^0.1.1"
   }
 }
