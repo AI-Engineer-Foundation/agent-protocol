@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { Pagination } from './Pagination';
 import {
     PaginationFromJSON,
@@ -50,11 +50,9 @@ export interface TaskStepsListResponse {
  * Check if a given object implements the TaskStepsListResponse interface.
  */
 export function instanceOfTaskStepsListResponse(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "steps" in value;
-    isInstance = isInstance && "pagination" in value;
-
-    return isInstance;
+    if (!('steps' in value)) return false;
+    if (!('pagination' in value)) return false;
+    return true;
 }
 
 export function TaskStepsListResponseFromJSON(json: any): TaskStepsListResponse {
@@ -62,7 +60,7 @@ export function TaskStepsListResponseFromJSON(json: any): TaskStepsListResponse 
 }
 
 export function TaskStepsListResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): TaskStepsListResponse {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
@@ -73,16 +71,13 @@ export function TaskStepsListResponseFromJSONTyped(json: any, ignoreDiscriminato
 }
 
 export function TaskStepsListResponseToJSON(value?: TaskStepsListResponse | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'steps': ((value.steps as Array<any>).map(StepToJSON)),
-        'pagination': PaginationToJSON(value.pagination),
+        'steps': ((value['steps'] as Array<any>).map(StepToJSON)),
+        'pagination': PaginationToJSON(value['pagination']),
     };
 }
 

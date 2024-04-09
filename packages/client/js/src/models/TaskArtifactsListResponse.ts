@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { Artifact } from './Artifact';
 import {
     ArtifactFromJSON,
@@ -50,11 +50,9 @@ export interface TaskArtifactsListResponse {
  * Check if a given object implements the TaskArtifactsListResponse interface.
  */
 export function instanceOfTaskArtifactsListResponse(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "artifacts" in value;
-    isInstance = isInstance && "pagination" in value;
-
-    return isInstance;
+    if (!('artifacts' in value)) return false;
+    if (!('pagination' in value)) return false;
+    return true;
 }
 
 export function TaskArtifactsListResponseFromJSON(json: any): TaskArtifactsListResponse {
@@ -62,7 +60,7 @@ export function TaskArtifactsListResponseFromJSON(json: any): TaskArtifactsListR
 }
 
 export function TaskArtifactsListResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): TaskArtifactsListResponse {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
@@ -73,16 +71,13 @@ export function TaskArtifactsListResponseFromJSONTyped(json: any, ignoreDiscrimi
 }
 
 export function TaskArtifactsListResponseToJSON(value?: TaskArtifactsListResponse | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'artifacts': ((value.artifacts as Array<any>).map(ArtifactToJSON)),
-        'pagination': PaginationToJSON(value.pagination),
+        'artifacts': ((value['artifacts'] as Array<any>).map(ArtifactToJSON)),
+        'pagination': PaginationToJSON(value['pagination']),
     };
 }
 

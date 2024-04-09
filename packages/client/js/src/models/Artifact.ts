@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * An Artifact either created by or submitted to the agent.
  * @export
@@ -42,19 +42,17 @@ export interface Artifact {
      * @type {string}
      * @memberof Artifact
      */
-    relativePath?: string | null;
+    relativePath?: string;
 }
 
 /**
  * Check if a given object implements the Artifact interface.
  */
 export function instanceOfArtifact(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "artifactId" in value;
-    isInstance = isInstance && "agentCreated" in value;
-    isInstance = isInstance && "fileName" in value;
-
-    return isInstance;
+    if (!('artifactId' in value)) return false;
+    if (!('agentCreated' in value)) return false;
+    if (!('fileName' in value)) return false;
+    return true;
 }
 
 export function ArtifactFromJSON(json: any): Artifact {
@@ -62,7 +60,7 @@ export function ArtifactFromJSON(json: any): Artifact {
 }
 
 export function ArtifactFromJSONTyped(json: any, ignoreDiscriminator: boolean): Artifact {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
@@ -70,23 +68,20 @@ export function ArtifactFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         'artifactId': json['artifact_id'],
         'agentCreated': json['agent_created'],
         'fileName': json['file_name'],
-        'relativePath': !exists(json, 'relative_path') ? undefined : json['relative_path'],
+        'relativePath': json['relative_path'] == null ? undefined : json['relative_path'],
     };
 }
 
 export function ArtifactToJSON(value?: Artifact | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'artifact_id': value.artifactId,
-        'agent_created': value.agentCreated,
-        'file_name': value.fileName,
-        'relative_path': value.relativePath,
+        'artifact_id': value['artifactId'],
+        'agent_created': value['agentCreated'],
+        'file_name': value['fileName'],
+        'relative_path': value['relativePath'],
     };
 }
 

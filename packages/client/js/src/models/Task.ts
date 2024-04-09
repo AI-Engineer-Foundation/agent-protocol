@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { Artifact } from './Artifact';
 import {
     ArtifactFromJSON,
@@ -31,7 +31,7 @@ export interface Task {
      * @type {string}
      * @memberof Task
      */
-    input?: string | null;
+    input?: string;
     /**
      * Input parameters for the task. Any value is allowed.
      * @type {object}
@@ -56,11 +56,9 @@ export interface Task {
  * Check if a given object implements the Task interface.
  */
 export function instanceOfTask(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "taskId" in value;
-    isInstance = isInstance && "artifacts" in value;
-
-    return isInstance;
+    if (!('taskId' in value)) return false;
+    if (!('artifacts' in value)) return false;
+    return true;
 }
 
 export function TaskFromJSON(json: any): Task {
@@ -68,31 +66,28 @@ export function TaskFromJSON(json: any): Task {
 }
 
 export function TaskFromJSONTyped(json: any, ignoreDiscriminator: boolean): Task {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'input': !exists(json, 'input') ? undefined : json['input'],
-        'additionalInput': !exists(json, 'additional_input') ? undefined : json['additional_input'],
+        'input': json['input'] == null ? undefined : json['input'],
+        'additionalInput': json['additional_input'] == null ? undefined : json['additional_input'],
         'taskId': json['task_id'],
         'artifacts': ((json['artifacts'] as Array<any>).map(ArtifactFromJSON)),
     };
 }
 
 export function TaskToJSON(value?: Task | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'input': value.input,
-        'additional_input': value.additionalInput,
-        'task_id': value.taskId,
-        'artifacts': ((value.artifacts as Array<any>).map(ArtifactToJSON)),
+        'input': value['input'],
+        'additional_input': value['additionalInput'],
+        'task_id': value['taskId'],
+        'artifacts': ((value['artifacts'] as Array<any>).map(ArtifactToJSON)),
     };
 }
 

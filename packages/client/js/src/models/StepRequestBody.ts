@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * Body of the task request.
  * @export
@@ -24,7 +24,7 @@ export interface StepRequestBody {
      * @type {string}
      * @memberof StepRequestBody
      */
-    input?: string | null;
+    input?: string;
     /**
      * Input parameters for the task step. Any value is allowed.
      * @type {object}
@@ -37,9 +37,7 @@ export interface StepRequestBody {
  * Check if a given object implements the StepRequestBody interface.
  */
 export function instanceOfStepRequestBody(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+    return true;
 }
 
 export function StepRequestBodyFromJSON(json: any): StepRequestBody {
@@ -47,27 +45,24 @@ export function StepRequestBodyFromJSON(json: any): StepRequestBody {
 }
 
 export function StepRequestBodyFromJSONTyped(json: any, ignoreDiscriminator: boolean): StepRequestBody {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'input': !exists(json, 'input') ? undefined : json['input'],
-        'additionalInput': !exists(json, 'additional_input') ? undefined : json['additional_input'],
+        'input': json['input'] == null ? undefined : json['input'],
+        'additionalInput': json['additional_input'] == null ? undefined : json['additional_input'],
     };
 }
 
 export function StepRequestBodyToJSON(value?: StepRequestBody | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'input': value.input,
-        'additional_input': value.additionalInput,
+        'input': value['input'],
+        'additional_input': value['additionalInput'],
     };
 }
 

@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { Artifact } from './Artifact';
 import {
     ArtifactFromJSON,
@@ -31,7 +31,7 @@ export interface Step {
      * @type {string}
      * @memberof Step
      */
-    input?: string | null;
+    input?: string;
     /**
      * Input parameters for the task step. Any value is allowed.
      * @type {object}
@@ -55,7 +55,7 @@ export interface Step {
      * @type {string}
      * @memberof Step
      */
-    name?: string | null;
+    name?: string;
     /**
      * The status of the task step.
      * @type {string}
@@ -67,13 +67,13 @@ export interface Step {
      * @type {string}
      * @memberof Step
      */
-    output?: string | null;
+    output?: string;
     /**
      * Output that the task step has produced. Any value is allowed.
      * @type {object}
      * @memberof Step
      */
-    additionalOutput?: object | null;
+    additionalOutput?: object;
     /**
      * A list of artifacts that the step has produced.
      * @type {Array<Artifact>}
@@ -104,14 +104,12 @@ export type StepStatusEnum = typeof StepStatusEnum[keyof typeof StepStatusEnum];
  * Check if a given object implements the Step interface.
  */
 export function instanceOfStep(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "taskId" in value;
-    isInstance = isInstance && "stepId" in value;
-    isInstance = isInstance && "status" in value;
-    isInstance = isInstance && "artifacts" in value;
-    isInstance = isInstance && "isLast" in value;
-
-    return isInstance;
+    if (!('taskId' in value)) return false;
+    if (!('stepId' in value)) return false;
+    if (!('status' in value)) return false;
+    if (!('artifacts' in value)) return false;
+    if (!('isLast' in value)) return false;
+    return true;
 }
 
 export function StepFromJSON(json: any): Step {
@@ -119,43 +117,40 @@ export function StepFromJSON(json: any): Step {
 }
 
 export function StepFromJSONTyped(json: any, ignoreDiscriminator: boolean): Step {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'input': !exists(json, 'input') ? undefined : json['input'],
-        'additionalInput': !exists(json, 'additional_input') ? undefined : json['additional_input'],
+        'input': json['input'] == null ? undefined : json['input'],
+        'additionalInput': json['additional_input'] == null ? undefined : json['additional_input'],
         'taskId': json['task_id'],
         'stepId': json['step_id'],
-        'name': !exists(json, 'name') ? undefined : json['name'],
+        'name': json['name'] == null ? undefined : json['name'],
         'status': json['status'],
-        'output': !exists(json, 'output') ? undefined : json['output'],
-        'additionalOutput': !exists(json, 'additional_output') ? undefined : json['additional_output'],
+        'output': json['output'] == null ? undefined : json['output'],
+        'additionalOutput': json['additional_output'] == null ? undefined : json['additional_output'],
         'artifacts': ((json['artifacts'] as Array<any>).map(ArtifactFromJSON)),
         'isLast': json['is_last'],
     };
 }
 
 export function StepToJSON(value?: Step | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'input': value.input,
-        'additional_input': value.additionalInput,
-        'task_id': value.taskId,
-        'step_id': value.stepId,
-        'name': value.name,
-        'status': value.status,
-        'output': value.output,
-        'additional_output': value.additionalOutput,
-        'artifacts': ((value.artifacts as Array<any>).map(ArtifactToJSON)),
-        'is_last': value.isLast,
+        'input': value['input'],
+        'additional_input': value['additionalInput'],
+        'task_id': value['taskId'],
+        'step_id': value['stepId'],
+        'name': value['name'],
+        'status': value['status'],
+        'output': value['output'],
+        'additional_output': value['additionalOutput'],
+        'artifacts': ((value['artifacts'] as Array<any>).map(ArtifactToJSON)),
+        'is_last': value['isLast'],
     };
 }
 

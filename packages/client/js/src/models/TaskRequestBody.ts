@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * Body of the task request.
  * @export
@@ -24,7 +24,7 @@ export interface TaskRequestBody {
      * @type {string}
      * @memberof TaskRequestBody
      */
-    input?: string | null;
+    input?: string;
     /**
      * Input parameters for the task. Any value is allowed.
      * @type {object}
@@ -37,9 +37,7 @@ export interface TaskRequestBody {
  * Check if a given object implements the TaskRequestBody interface.
  */
 export function instanceOfTaskRequestBody(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+    return true;
 }
 
 export function TaskRequestBodyFromJSON(json: any): TaskRequestBody {
@@ -47,27 +45,24 @@ export function TaskRequestBodyFromJSON(json: any): TaskRequestBody {
 }
 
 export function TaskRequestBodyFromJSONTyped(json: any, ignoreDiscriminator: boolean): TaskRequestBody {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'input': !exists(json, 'input') ? undefined : json['input'],
-        'additionalInput': !exists(json, 'additional_input') ? undefined : json['additional_input'],
+        'input': json['input'] == null ? undefined : json['input'],
+        'additionalInput': json['additional_input'] == null ? undefined : json['additional_input'],
     };
 }
 
 export function TaskRequestBodyToJSON(value?: TaskRequestBody | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'input': value.input,
-        'additional_input': value.additionalInput,
+        'input': value['input'],
+        'additional_input': value['additionalInput'],
     };
 }
 

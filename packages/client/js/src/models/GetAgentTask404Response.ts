@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -31,10 +31,8 @@ export interface GetAgentTask404Response {
  * Check if a given object implements the GetAgentTask404Response interface.
  */
 export function instanceOfGetAgentTask404Response(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "message" in value;
-
-    return isInstance;
+    if (!('message' in value)) return false;
+    return true;
 }
 
 export function GetAgentTask404ResponseFromJSON(json: any): GetAgentTask404Response {
@@ -42,7 +40,7 @@ export function GetAgentTask404ResponseFromJSON(json: any): GetAgentTask404Respo
 }
 
 export function GetAgentTask404ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetAgentTask404Response {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
@@ -52,15 +50,12 @@ export function GetAgentTask404ResponseFromJSONTyped(json: any, ignoreDiscrimina
 }
 
 export function GetAgentTask404ResponseToJSON(value?: GetAgentTask404Response | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'message': value.message,
+        'message': value['message'],
     };
 }
 

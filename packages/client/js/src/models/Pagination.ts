@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -49,13 +49,11 @@ export interface Pagination {
  * Check if a given object implements the Pagination interface.
  */
 export function instanceOfPagination(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "totalItems" in value;
-    isInstance = isInstance && "totalPages" in value;
-    isInstance = isInstance && "currentPage" in value;
-    isInstance = isInstance && "pageSize" in value;
-
-    return isInstance;
+    if (!('totalItems' in value)) return false;
+    if (!('totalPages' in value)) return false;
+    if (!('currentPage' in value)) return false;
+    if (!('pageSize' in value)) return false;
+    return true;
 }
 
 export function PaginationFromJSON(json: any): Pagination {
@@ -63,7 +61,7 @@ export function PaginationFromJSON(json: any): Pagination {
 }
 
 export function PaginationFromJSONTyped(json: any, ignoreDiscriminator: boolean): Pagination {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
@@ -76,18 +74,15 @@ export function PaginationFromJSONTyped(json: any, ignoreDiscriminator: boolean)
 }
 
 export function PaginationToJSON(value?: Pagination | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'total_items': value.totalItems,
-        'total_pages': value.totalPages,
-        'current_page': value.currentPage,
-        'page_size': value.pageSize,
+        'total_items': value['totalItems'],
+        'total_pages': value['totalPages'],
+        'current_page': value['currentPage'],
+        'page_size': value['pageSize'],
     };
 }
 

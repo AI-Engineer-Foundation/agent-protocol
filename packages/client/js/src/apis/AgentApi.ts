@@ -112,7 +112,7 @@ export class AgentApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: TaskRequestBodyToJSON(requestParameters.taskRequestBody),
+            body: TaskRequestBodyToJSON(requestParameters['taskRequestBody']),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => TaskFromJSON(jsonValue));
@@ -130,12 +130,18 @@ export class AgentApi extends runtime.BaseAPI {
      * Download a specified artifact.
      */
     async downloadAgentTaskArtifactRaw(requestParameters: DownloadAgentTaskArtifactRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Blob>> {
-        if (requestParameters.taskId === null || requestParameters.taskId === undefined) {
-            throw new runtime.RequiredError('taskId','Required parameter requestParameters.taskId was null or undefined when calling downloadAgentTaskArtifact.');
+        if (requestParameters['taskId'] == null) {
+            throw new runtime.RequiredError(
+                'taskId',
+                'Required parameter "taskId" was null or undefined when calling downloadAgentTaskArtifact().'
+            );
         }
 
-        if (requestParameters.artifactId === null || requestParameters.artifactId === undefined) {
-            throw new runtime.RequiredError('artifactId','Required parameter requestParameters.artifactId was null or undefined when calling downloadAgentTaskArtifact.');
+        if (requestParameters['artifactId'] == null) {
+            throw new runtime.RequiredError(
+                'artifactId',
+                'Required parameter "artifactId" was null or undefined when calling downloadAgentTaskArtifact().'
+            );
         }
 
         const queryParameters: any = {};
@@ -143,7 +149,7 @@ export class AgentApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/ap/v1/agent/tasks/{task_id}/artifacts/{artifact_id}`.replace(`{${"task_id"}}`, encodeURIComponent(String(requestParameters.taskId))).replace(`{${"artifact_id"}}`, encodeURIComponent(String(requestParameters.artifactId))),
+            path: `/ap/v1/agent/tasks/{task_id}/artifacts/{artifact_id}`.replace(`{${"task_id"}}`, encodeURIComponent(String(requestParameters['taskId']))).replace(`{${"artifact_id"}}`, encodeURIComponent(String(requestParameters['artifactId']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -164,8 +170,11 @@ export class AgentApi extends runtime.BaseAPI {
      * Execute a step in the specified agent task.
      */
     async executeAgentTaskStepRaw(requestParameters: ExecuteAgentTaskStepRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Step>> {
-        if (requestParameters.taskId === null || requestParameters.taskId === undefined) {
-            throw new runtime.RequiredError('taskId','Required parameter requestParameters.taskId was null or undefined when calling executeAgentTaskStep.');
+        if (requestParameters['taskId'] == null) {
+            throw new runtime.RequiredError(
+                'taskId',
+                'Required parameter "taskId" was null or undefined when calling executeAgentTaskStep().'
+            );
         }
 
         const queryParameters: any = {};
@@ -175,11 +184,11 @@ export class AgentApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/ap/v1/agent/tasks/{task_id}/steps`.replace(`{${"task_id"}}`, encodeURIComponent(String(requestParameters.taskId))),
+            path: `/ap/v1/agent/tasks/{task_id}/steps`.replace(`{${"task_id"}}`, encodeURIComponent(String(requestParameters['taskId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: StepRequestBodyToJSON(requestParameters.stepRequestBody),
+            body: StepRequestBodyToJSON(requestParameters['stepRequestBody']),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => StepFromJSON(jsonValue));
@@ -197,8 +206,11 @@ export class AgentApi extends runtime.BaseAPI {
      * Get details about a specified agent task.
      */
     async getAgentTaskRaw(requestParameters: GetAgentTaskRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Task>> {
-        if (requestParameters.taskId === null || requestParameters.taskId === undefined) {
-            throw new runtime.RequiredError('taskId','Required parameter requestParameters.taskId was null or undefined when calling getAgentTask.');
+        if (requestParameters['taskId'] == null) {
+            throw new runtime.RequiredError(
+                'taskId',
+                'Required parameter "taskId" was null or undefined when calling getAgentTask().'
+            );
         }
 
         const queryParameters: any = {};
@@ -206,7 +218,7 @@ export class AgentApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/ap/v1/agent/tasks/{task_id}`.replace(`{${"task_id"}}`, encodeURIComponent(String(requestParameters.taskId))),
+            path: `/ap/v1/agent/tasks/{task_id}`.replace(`{${"task_id"}}`, encodeURIComponent(String(requestParameters['taskId']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -227,12 +239,18 @@ export class AgentApi extends runtime.BaseAPI {
      * Get details about a specified task step.
      */
     async getAgentTaskStepRaw(requestParameters: GetAgentTaskStepRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Step>> {
-        if (requestParameters.taskId === null || requestParameters.taskId === undefined) {
-            throw new runtime.RequiredError('taskId','Required parameter requestParameters.taskId was null or undefined when calling getAgentTaskStep.');
+        if (requestParameters['taskId'] == null) {
+            throw new runtime.RequiredError(
+                'taskId',
+                'Required parameter "taskId" was null or undefined when calling getAgentTaskStep().'
+            );
         }
 
-        if (requestParameters.stepId === null || requestParameters.stepId === undefined) {
-            throw new runtime.RequiredError('stepId','Required parameter requestParameters.stepId was null or undefined when calling getAgentTaskStep.');
+        if (requestParameters['stepId'] == null) {
+            throw new runtime.RequiredError(
+                'stepId',
+                'Required parameter "stepId" was null or undefined when calling getAgentTaskStep().'
+            );
         }
 
         const queryParameters: any = {};
@@ -240,7 +258,7 @@ export class AgentApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/ap/v1/agent/tasks/{task_id}/steps/{step_id}`.replace(`{${"task_id"}}`, encodeURIComponent(String(requestParameters.taskId))).replace(`{${"step_id"}}`, encodeURIComponent(String(requestParameters.stepId))),
+            path: `/ap/v1/agent/tasks/{task_id}/steps/{step_id}`.replace(`{${"task_id"}}`, encodeURIComponent(String(requestParameters['taskId']))).replace(`{${"step_id"}}`, encodeURIComponent(String(requestParameters['stepId']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -261,24 +279,27 @@ export class AgentApi extends runtime.BaseAPI {
      * List all artifacts that have been created for the given task.
      */
     async listAgentTaskArtifactsRaw(requestParameters: ListAgentTaskArtifactsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TaskArtifactsListResponse>> {
-        if (requestParameters.taskId === null || requestParameters.taskId === undefined) {
-            throw new runtime.RequiredError('taskId','Required parameter requestParameters.taskId was null or undefined when calling listAgentTaskArtifacts.');
+        if (requestParameters['taskId'] == null) {
+            throw new runtime.RequiredError(
+                'taskId',
+                'Required parameter "taskId" was null or undefined when calling listAgentTaskArtifacts().'
+            );
         }
 
         const queryParameters: any = {};
 
-        if (requestParameters.currentPage !== undefined) {
-            queryParameters['current_page'] = requestParameters.currentPage;
+        if (requestParameters['currentPage'] != null) {
+            queryParameters['current_page'] = requestParameters['currentPage'];
         }
 
-        if (requestParameters.pageSize !== undefined) {
-            queryParameters['page_size'] = requestParameters.pageSize;
+        if (requestParameters['pageSize'] != null) {
+            queryParameters['page_size'] = requestParameters['pageSize'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/ap/v1/agent/tasks/{task_id}/artifacts`.replace(`{${"task_id"}}`, encodeURIComponent(String(requestParameters.taskId))),
+            path: `/ap/v1/agent/tasks/{task_id}/artifacts`.replace(`{${"task_id"}}`, encodeURIComponent(String(requestParameters['taskId']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -299,24 +320,27 @@ export class AgentApi extends runtime.BaseAPI {
      * List all steps for the specified task.
      */
     async listAgentTaskStepsRaw(requestParameters: ListAgentTaskStepsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TaskStepsListResponse>> {
-        if (requestParameters.taskId === null || requestParameters.taskId === undefined) {
-            throw new runtime.RequiredError('taskId','Required parameter requestParameters.taskId was null or undefined when calling listAgentTaskSteps.');
+        if (requestParameters['taskId'] == null) {
+            throw new runtime.RequiredError(
+                'taskId',
+                'Required parameter "taskId" was null or undefined when calling listAgentTaskSteps().'
+            );
         }
 
         const queryParameters: any = {};
 
-        if (requestParameters.currentPage !== undefined) {
-            queryParameters['current_page'] = requestParameters.currentPage;
+        if (requestParameters['currentPage'] != null) {
+            queryParameters['current_page'] = requestParameters['currentPage'];
         }
 
-        if (requestParameters.pageSize !== undefined) {
-            queryParameters['page_size'] = requestParameters.pageSize;
+        if (requestParameters['pageSize'] != null) {
+            queryParameters['page_size'] = requestParameters['pageSize'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/ap/v1/agent/tasks/{task_id}/steps`.replace(`{${"task_id"}}`, encodeURIComponent(String(requestParameters.taskId))),
+            path: `/ap/v1/agent/tasks/{task_id}/steps`.replace(`{${"task_id"}}`, encodeURIComponent(String(requestParameters['taskId']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -339,12 +363,12 @@ export class AgentApi extends runtime.BaseAPI {
     async listAgentTasksRaw(requestParameters: ListAgentTasksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TaskListResponse>> {
         const queryParameters: any = {};
 
-        if (requestParameters.currentPage !== undefined) {
-            queryParameters['current_page'] = requestParameters.currentPage;
+        if (requestParameters['currentPage'] != null) {
+            queryParameters['current_page'] = requestParameters['currentPage'];
         }
 
-        if (requestParameters.pageSize !== undefined) {
-            queryParameters['page_size'] = requestParameters.pageSize;
+        if (requestParameters['pageSize'] != null) {
+            queryParameters['page_size'] = requestParameters['pageSize'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -371,12 +395,18 @@ export class AgentApi extends runtime.BaseAPI {
      * Upload an artifact for the specified task.
      */
     async uploadAgentTaskArtifactsRaw(requestParameters: UploadAgentTaskArtifactsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Artifact>> {
-        if (requestParameters.taskId === null || requestParameters.taskId === undefined) {
-            throw new runtime.RequiredError('taskId','Required parameter requestParameters.taskId was null or undefined when calling uploadAgentTaskArtifacts.');
+        if (requestParameters['taskId'] == null) {
+            throw new runtime.RequiredError(
+                'taskId',
+                'Required parameter "taskId" was null or undefined when calling uploadAgentTaskArtifacts().'
+            );
         }
 
-        if (requestParameters.file === null || requestParameters.file === undefined) {
-            throw new runtime.RequiredError('file','Required parameter requestParameters.file was null or undefined when calling uploadAgentTaskArtifacts.');
+        if (requestParameters['file'] == null) {
+            throw new runtime.RequiredError(
+                'file',
+                'Required parameter "file" was null or undefined when calling uploadAgentTaskArtifacts().'
+            );
         }
 
         const queryParameters: any = {};
@@ -399,16 +429,16 @@ export class AgentApi extends runtime.BaseAPI {
             formParams = new URLSearchParams();
         }
 
-        if (requestParameters.file !== undefined) {
-            formParams.append('file', requestParameters.file as any);
+        if (requestParameters['file'] != null) {
+            formParams.append('file', requestParameters['file'] as any);
         }
 
-        if (requestParameters.relativePath !== undefined) {
-            formParams.append('relative_path', requestParameters.relativePath as any);
+        if (requestParameters['relativePath'] != null) {
+            formParams.append('relative_path', requestParameters['relativePath'] as any);
         }
 
         const response = await this.request({
-            path: `/ap/v1/agent/tasks/{task_id}/artifacts`.replace(`{${"task_id"}}`, encodeURIComponent(String(requestParameters.taskId))),
+            path: `/ap/v1/agent/tasks/{task_id}/artifacts`.replace(`{${"task_id"}}`, encodeURIComponent(String(requestParameters['taskId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
