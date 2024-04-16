@@ -45,6 +45,8 @@ const config = {
 Agent.handleTask(taskHandler, config).start()
 ```
 
+See the [https://github.com/AI-Engineer-Foundation/agent-protocol/tree/main/packages/sdk/js/examples](examples folder) for running in serverless environments.
+
 ## Docs
 
 You can find more info and examples in the [docs](https://agentprotocol.ai/sdks/js).

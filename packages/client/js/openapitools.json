@@ -1,0 +1,14 @@
+{
+  "$schema": "./node_modules/@openapitools/openapi-generator-cli/config.schema.json",
+  "spaces": 2,
+  "generator-cli": {
+    "version": "7.2.0",
+    "useDocker": true
+  },
+  "projectName": "agent-protocol-client",
+  "packageVersion": "1.0.0",
+  "additionalProperties": {
+    "npmName": "agent-protocol-client",
+    "typescriptThreePlus": true
+  }
+}

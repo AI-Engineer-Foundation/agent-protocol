@@ -1,3 +1,4 @@
+import functions from '@google-cloud/functions-framework'
 import Agent, {
   type StepResult,
   type StepHandler,
@@ -18,4 +19,5 @@ async function taskHandler(taskInput: TaskInput | null): Promise<StepHandler> {
   return stepHandler
 }
 
-Agent.handleTask(taskHandler, {}).start()
+const app = Agent.handleTask(taskHandler, {}).build()
+functions.http('agentprotocol', app)

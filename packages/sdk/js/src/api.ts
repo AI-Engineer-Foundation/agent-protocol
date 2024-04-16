@@ -1,6 +1,6 @@
 import * as OpenApiValidator from 'express-openapi-validator'
 import yaml from 'js-yaml'
-import express, { Router } from 'express' // <-- Import Router
+import express, { type Express, Router } from 'express' // <-- Import Router
 import type * as core from 'express-serve-static-core'
 
 import spec from '../../../../schemas/openapi.yml'
@@ -17,7 +17,7 @@ export interface ApiConfig {
   routes: RouteRegisterFn[]
 }
 
-export const createApi = (config: ApiConfig): void => {
+export const createApi = (config: ApiConfig, start = true): Express => {
   const app = express()
 
   app.use(express.json())
@@ -45,5 +45,10 @@ export const createApi = (config: ApiConfig): void => {
   })
 
   app.use('/ap/v1', router)
-  app.listen(config.port, config.callback)
+
+  if (start) {
+    app.listen(config.port, config.callback)
+  }
+
+  return app
 }

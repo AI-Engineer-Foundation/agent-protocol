@@ -264,3 +264,5 @@ cython_debug/
 
 # Testing Suite HTML Reports
 report.html
+
+**/.openapi-generator

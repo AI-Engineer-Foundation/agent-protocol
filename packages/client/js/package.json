@@ -1,0 +1,19 @@
+{
+  "name": "agent-protocol-client",
+  "version": "v1",
+  "description": "OpenAPI client for agent-protocol-client",
+  "author": "OpenAPI-Generator",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GIT_USER_ID/GIT_REPO_ID.git"
+  },
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "prepare": "npm run build"
+  },
+  "devDependencies": {
+    "typescript": "^4.0"
+  }
+}
