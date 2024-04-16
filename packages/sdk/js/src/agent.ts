@@ -348,9 +348,8 @@ export const getArtifactPath = (
   workspace: string,
   artifact: Artifact
 ): string => {
-  const rootDir = path.isAbsolute(workspace)
-    ? workspace
-    : path.join(process.cwd(), workspace)
+  const isAbsolute: boolean = path.isAbsolute(workspace)
+  const rootDir = isAbsolute ? workspace : path.join(process.cwd(), workspace)
 
   return path.join(
     rootDir,
