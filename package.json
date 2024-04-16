@@ -13,6 +13,9 @@
     }
   },
   "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/firebase": "^3.2.1",
+    "@types/redis": "^4.0.11",
     "@openapitools/openapi-generator-cli": "^2.9.0",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "eslint": "^8.45.0",
@@ -22,6 +25,15 @@
     "prettier": "^3.0.0",
     "prettier-plugin-tailwindcss": "^0.5.11",
     "typescript": "^5.1.6"
+  },
+  "optionalDependencies": {
+    "@azure/storage-blob": "^12.17.0",
+    "@google-cloud/storage": "^7.7.0",
+    "@supabase/supabase-js": "^2.39.3",
+    "aws-sdk": "^2.1555.0",
+    "firebase": "^10.8.0",
+    "redis": "^4.6.13",
+    "simple-git": "^3.22.0"
   },
   "dependencies": {
     "express": "^4.18.2",

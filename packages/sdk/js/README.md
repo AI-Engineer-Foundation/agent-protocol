@@ -21,6 +21,7 @@ import Agent, {
   type StepResult,
   type TaskInput,
 } from 'agent-protocol'
+// import S3Storage from 'agent-protocol/storage/S3Storage'
 
 async function taskHandler(taskInput: TaskInput | null): Promise<StepHandler> {
   console.log(`task: ${taskInput}`)
@@ -35,7 +36,13 @@ async function taskHandler(taskInput: TaskInput | null): Promise<StepHandler> {
   return stepHandler
 }
 
-Agent.handleTask(taskHandler, {}).start()
+const config = {
+  // port: 8000,
+  // workspace: './workspace',
+  // Defaults to FileStorage, but other options are available, see also ArtifactStorageFactory
+  // artifactStorage: new S3Storage(s3, 'my-agent-artifacts'),
+}
+Agent.handleTask(taskHandler, config).start()
 ```
 
 See the [https://github.com/AI-Engineer-Foundation/agent-protocol/tree/main/packages/sdk/js/examples](examples folder) for running in serverless environments.
